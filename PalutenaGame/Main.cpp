@@ -115,7 +115,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// ジャンプボタンを押していて、地面についていたらジャンプ
 		if (CheckHitKey(KEY_INPUT_A) && PlayerY == Ground)
 		{
-			JumpPower = 10;
+			JumpPower = 20;
 			push = 1;
 		}
 
