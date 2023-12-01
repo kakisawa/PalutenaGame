@@ -9,45 +9,43 @@ namespace
 	int nowPad = 0;
 }
 
-namespace Pad
+void KeyProcess::Update()
 {
-	void Update()
-	{
-		// 前のフレームに取得したパッド情報を一つ古い情報にする
-		lastPad = nowPad;
-		// 現在のパッドの情報を取得する
-		nowPad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-	}
+	// 前のフレームに取得したパッド情報を一つ古い情報にする
+	lastPad = nowPad;
+	// 現在のパッドの情報を取得する
+	nowPad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+}
 
+bool KeyProcess::IsPress(int key)
+{
+	return (nowPad & key);
+}
 
-	bool IsPress(int key)
-	{
-		return (nowPad & key);
-	}
-	bool IsTrigger(int key)
-	{
-		bool isNow = (nowPad & key);	// このフレーム
-		bool isLast = (lastPad & key);	// 前のフレーム
-		// return !isLast && isNow;	// これでいいけど理解しにくいので↓に分かりやすく
+bool KeyProcess::IsTrigger(int key)
+{
+	bool isNow = (nowPad & key);	// このフレーム
+	bool isLast = (lastPad & key);	// 前のフレーム
+	// return !isLast && isNow;	// これでいいけど理解しにくいので↓に分かりやすく
 
-		if (isNow &&	// このフレームに押されていて
-			!isLast)	// 前回のフレームに押されていない
-		{
-			return true;
-		}
-		return false;
-	}
-	bool IsRelase(int key)
+	if (isNow &&	// このフレームに押されていて
+		!isLast)	// 前回のフレームに押されていない
 	{
-		bool isNow = (nowPad & key);	// このフレーム
-		bool isLast = (lastPad & key);	// 前のフレーム
-		// return !isLast && isNow;	// これでいいけど理解しにくいので↓に分かりやすく
-
-		if (!isNow &&	// このフレームは押されていなくて
-			isLast)		// 前回のフレームは押されていた
-		{
-			return true;
-		}
-		return false;
+		return true;
 	}
+	return false;
+}
+
+bool KeyProcess::IsRelase(int key)
+{
+	bool isNow = (nowPad & key);	// このフレーム
+	bool isLast = (lastPad & key);	// 前のフレーム
+	// return !isLast && isNow;	// これでいいけど理解しにくいので↓に分かりやすく
+
+	if (!isNow &&	// このフレームは押されていなくて
+		isLast)		// 前回のフレームは押されていた
+	{
+		return true;
+	}
+	return false;
 }

@@ -11,7 +11,6 @@ void InitPlayer(Player& player)
 	player.Graph = LoadGraph("data/Fairy.png");
 	player.X = kScreenWidth / 2;
 	player.Y = 400;
-
 	// プレイヤーの縦横幅
 	GetGraphSize(player.Graph, &player.W, &player.H);
 
@@ -20,60 +19,48 @@ void InitPlayer(Player& player)
 	// 落下速度
 	player.FallPowor = 0.0f;
 	// ジャンプ移動量
-	player.JumpPowor = 40.0f;
+	player.JumpPowor = 20.0f;
 
 	// ジャンプ中かどうかのフラグフラグ(押されていないのfalseを挿入)
 	player.PushFlag = false;
+	// 移動中かどうかのフラグ(移動していないのfalseを挿入)
+	player.isMove = false;
 	// ショットボタンが前のフレームで押されたかどうかを保存する変数にfalse(押されていない)を代入
 	player.PrevshotFlag = false;
 }
 
+// プレイヤーの更新
 void UpdatePlayer(Player& player, Shot shotArray[], int shotArraySize)
 {
 	// パッドの十字キーを使用してプレイヤーを移動させる
 	int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-	bool isMove = false;	// 移動中かどうか
-
-
+	
 	// 矢印キーを押していたらプレイヤーを移動させる
 	// ジャンプ
-	if (pad && CheckHitKey(KEY_INPUT_UP) == 1)
+	if (pad && CheckHitKey(KEY_INPUT_UP))
 	{
-		//player.Y -= player.JumpPowor;
-
-		player.Y -= 20.0f;
+		//pad && CheckHitKey
+		player.Y -= player.JumpPowor;
 		player.PushFlag = true;
-		isMove = true;
+		player.isMove = true;
 	}
 	// 屈むが、下移動はしない
 	if (pad && CheckHitKey(KEY_INPUT_DOWN) == 1)
 	{
-		player.Y += player.kSpeed;
-		isMove = true;
+		player.isMove = true;
 	}
 	// 左移動
 	if (pad && CheckHitKey(KEY_INPUT_LEFT) == 1)
 	{
 		player.X -= player.kSpeed;
-		isMove = true;
+		player.isMove = true;
 	}
 	// 右移動
 	if (pad && CheckHitKey(KEY_INPUT_RIGHT) == 1)
 	{
 		player.X += player.kSpeed;
-		isMove = true;
+		player.isMove = true;
 	}
-
-	//// ジャンプボタンを押していて、地面についていたらジャンプ
-	//if (player.Y == Ground) {
-	//	if (Pad::IsTrigger(CheckHitKey(KEY_INPUT_RIGHT) == 1))
-	//	{
-	//		player.Y -= player.JumpPowor;
-
-	//		player.PushFlag = true;
-	//		isMove = true;
-	//	}
-	//}
 
 	// 落下加速度を加える
 	player.FallPowor += 0.5f;
@@ -118,7 +105,6 @@ void UpdatePlayer(Player& player, Shot shotArray[], int shotArraySize)
 				}
 			}
 		}
-
 		// 前フレームでショットボタンを押されていたかを保存する変数にtrue(おされていた)を代入
 		player.PrevshotFlag = true;
 	}
@@ -129,15 +115,15 @@ void UpdatePlayer(Player& player, Shot shotArray[], int shotArraySize)
 		player.PrevshotFlag = false;
 	}
 
-
-	// プレイヤーが画面からはみ出そうになっていたら画面内の座標に戻してあげる
-	if (player.X < 0)
-	{
-		player.X = 0;
-	}
-	if (player.X > kScreenWidth - player.W)
+	// x座標...プレイヤーが左右画面外に出ると、反対側からプレイヤーが出てくる
+	// y座標...プレイヤーが画面外に出ようとすると止まる
+	if (player.X < 0 -player.W)
 	{
 		player.X = kScreenWidth - player.W;
+	}
+	if (player.X > kScreenWidth)
+	{
+		player.X = 0;
 	}
 	if (player.Y < 0)
 	{
@@ -147,12 +133,10 @@ void UpdatePlayer(Player& player, Shot shotArray[], int shotArraySize)
 	{
 		player.Y = Ground;
 	}
-
 }
 
-
+// プレイヤーの描画
 void DrawPlayer(Player& player)
 {
-	// プレイヤーの描画
 	DrawGraph(player.X, player.Y, player.Graph, false);
 }

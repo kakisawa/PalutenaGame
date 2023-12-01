@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2023-10-16" view-index="0" gantt-divider-location="285" resource-divider-location="300" version="3.2.3247" locale="ja_JP">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="名前" width="162" order="0"/>
+        <field id="tpd4" name="開始日" width="61" order="1"/>
+        <field id="tpd5" name="終了日" width="61" order="2"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="color.recent">
+            <![CDATA[#cccccc #000000 #ccffff #ccffcc #ffffcc #f4f4f4]]>
+        </option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="名前" width="210" order="0"/>
+        <field id="1" name="デフォルトの役割" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="0" mon="0" tue="0" wed="0" thu="0" fri="0" sat="0"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="予定プロトタイプ期間" color="#cccc00" meeting="false" start="2023-09-04" duration="35" complete="0" expand="true"/>
+        <task id="43" name="実プロトタイプ期間" meeting="false" start="2023-09-06" duration="27" complete="100" expand="false">
+            <task id="34" name="足場の上下移動" color="#ffffcc" meeting="false" start="2023-09-06" duration="1" complete="100" thirdDate="2023-08-29" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+9/6実装完了確認済]]>
+                </notes>
+            </task>
+            <task id="35" name="足場の左右移動" color="#ffffcc" meeting="false" start="2023-09-09" duration="1" complete="100" thirdDate="2023-08-28" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+9/9実装完了確認済]]>
+                </notes>
+            </task>
+            <task id="36" name="足場の削除処理" color="#ffffcc" meeting="false" start="2023-09-10" duration="1" complete="100" thirdDate="2023-08-28" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+9/10実装完了確認済]]>
+                </notes>
+            </task>
+            <task id="37" name="振り子の配置*4" color="#ffffcc" meeting="false" start="2023-09-14" duration="1" complete="100" thirdDate="2023-08-28" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+9/14実装完了確認済]]>
+                </notes>
+            </task>
+            <task id="38" name="振り子の移動プログラム" color="#ffffcc" meeting="false" start="2023-09-18" duration="1" complete="100" thirdDate="2023-08-28" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+9/18実装完了確認済]]>
+                </notes>
+            </task>
+            <task id="33" name="足場の配置" color="#ffffcc" meeting="false" start="2023-09-20" duration="1" complete="100" thirdDate="2023-08-29" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+9/20実装完了確認済]]>
+                </notes>
+            </task>
+            <task id="39" name="ピストンの配置*2" color="#ffffcc" meeting="false" start="2023-09-20" duration="1" complete="100" thirdDate="2023-08-28" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+9/20実装完了確認済]]>
+                </notes>
+            </task>
+            <task id="40" name="ピストンのプログラム" color="#ffffcc" meeting="false" start="2023-09-27" duration="1" complete="100" thirdDate="2023-08-28" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+9/27実装完了確認済]]>
+                </notes>
+            </task>
+            <task id="41" name="ボックスの接触判定" color="#ffffcc" meeting="false" start="2023-09-30" duration="1" complete="100" thirdDate="2023-08-28" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3
+9/30実装完了確認済
+]]>
+                </notes>
+            </task>
+            <task id="42" name="各ボックスのクリア判定" color="#ffffcc" meeting="false" start="2023-10-02" duration="1" complete="100" thirdDate="2023-09-14" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3
+10/2実装完了確認済]]>
+                </notes>
+            </task>
+        </task>
+        <task id="1" name="予定アルファ期間" color="#009933" meeting="false" start="2023-10-09" duration="28" complete="0" expand="true"/>
+        <task id="49" name="実アルファ期間" color="#000000" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-08-29" thirdDate-constraint="0" expand="false">
+            <task id="44" name="振り子の当たり判定の改善" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2]]>
+                </notes>
+            </task>
+            <task id="45" name="ピストンの当たり判定の改善" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2]]>
+                </notes>
+            </task>
+            <task id="46" name="2ステージ目の作成" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2]]>
+                </notes>
+            </task>
+            <task id="47" name="カメラの作成" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3]]>
+                </notes>
+            </task>
+            <task id="48" name="ブロックの配置" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3]]>
+                </notes>
+            </task>
+            <task id="52" name="届いたグラフィクスに入れ替え" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-09" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3]]>
+                </notes>
+            </task>
+            <task id="53" name="ステージクリア判定の作成" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-09" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2]]>
+                </notes>
+            </task>
+            <task id="54" name="1-4仮BGM追加" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-09" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2]]>
+                </notes>
+            </task>
+            <task id="55" name="1-4仮BGM追加" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-09" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3]]>
+                </notes>
+            </task>
+            <task id="56" name="エフェクト" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-09" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2]]>
+                </notes>
+            </task>
+        </task>
+        <task id="2" name="予定ベータ期間" color="#00ccff" meeting="false" start="2023-11-06" duration="14" complete="0" expand="true"/>
+        <task id="57" name="実ベータ期間" color="#000000" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-08-29" thirdDate-constraint="0" expand="false">
+            <task id="58" name="1-4本BGM実装" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-10-16" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+本BGM実装]]>
+                </notes>
+            </task>
+            <task id="59" name="1-4本BGM実装" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-11-06" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3
+本BGM実装]]>
+                </notes>
+            </task>
+            <task id="61" name="1-4本データ" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-11-06" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+本データ実装]]>
+                </notes>
+            </task>
+            <task id="62" name="1-4本データ" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-11-06" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3
+本データ実装]]>
+                </notes>
+            </task>
+            <task id="64" name="1-4エフェクト" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-11-06" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+細かいエフェクト実装と調整]]>
+                </notes>
+            </task>
+            <task id="65" name="1-4エフェクト" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-11-06" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3
+細かいエフェクト実装と調整]]>
+                </notes>
+            </task>
+        </task>
+        <task id="3" name="予定マスター期間" color="#666666" meeting="false" start="2023-11-20" duration="14" complete="0" expand="true"/>
+        <task id="66" name="実マスター期間" color="#000000" meeting="false" start="2023-11-20" duration="1" complete="0" thirdDate="2023-10-16" thirdDate-constraint="0" expand="false">
+            <task id="67" name="1-4バグ取" color="#cccccc" meeting="false" start="2023-11-20" duration="1" complete="0" thirdDate="2023-10-16" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック2
+バグ取]]>
+                </notes>
+            </task>
+            <task id="68" name="1-4バグ取" color="#cccccc" meeting="false" start="2023-11-20" duration="1" complete="0" thirdDate="2023-11-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-4ギミック3
+バグ取]]>
+                </notes>
+            </task>
+        </task>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>

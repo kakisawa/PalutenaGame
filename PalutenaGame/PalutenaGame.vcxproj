@@ -136,6 +136,7 @@
     <ClCompile Include="KeyProcess.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Shot.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="KeyProcess.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Rect.h" />
     <ClInclude Include="Shot.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>

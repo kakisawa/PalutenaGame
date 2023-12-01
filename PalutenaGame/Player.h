@@ -22,6 +22,8 @@ struct Player
 	// ジャンプ移動量
 	float JumpPowor;
 
+	// 移動中のフラグ
+	bool isMove;
 	// ジャンプ中かどうかのフラグ
 	int PushFlag;
 	// ショットボタンが前フレームで押されたかどうかのフラグ

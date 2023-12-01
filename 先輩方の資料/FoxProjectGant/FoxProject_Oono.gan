@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2023-10-08" view-index="0" gantt-divider-location="285" resource-divider-location="300" version="3.2.3247" locale="ja_JP">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="名前" width="162" order="0"/>
+        <field id="tpd4" name="開始日" width="61" order="1"/>
+        <field id="tpd5" name="終了日" width="61" order="2"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="color.recent">
+            <![CDATA[#cccccc #000000 #ccffff #ccffcc #ffffcc]]>
+        </option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="名前" width="210" order="0"/>
+        <field id="1" name="デフォルトの役割" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="0" mon="0" tue="0" wed="0" thu="0" fri="0" sat="0"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="予定プロトタイプ期間" color="#cccc00" meeting="false" start="2023-09-04" duration="35" complete="0" expand="true"/>
+        <task id="22" name="実プロトタイプ期間" color="#000000" meeting="false" start="2023-09-08" duration="18" complete="100" thirdDate="2023-10-03" thirdDate-constraint="0" expand="false">
+            <task id="4" name="部屋のスケール作成" color="#ffffcc" meeting="false" start="2023-09-08" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-1ギミック2]]>
+                </notes>
+            </task>
+            <task id="5" name="部屋の配置" color="#ffffcc" meeting="false" start="2023-09-09" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-1ギミック2]]>
+                </notes>
+            </task>
+            <task id="6" name="迷路の作成" color="#ffffcc" meeting="false" start="2023-09-24" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-1ギミック2]]>
+                </notes>
+            </task>
+            <task id="7" name="オブジェクトの回転処理" color="#ffffcc" meeting="false" start="2023-09-12" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-1ギミック2]]>
+                </notes>
+            </task>
+            <task id="8" name="部屋のスケール作成" color="#ffffcc" meeting="false" start="2023-09-13" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="9" name="部屋の配置" color="#ffffcc" meeting="false" start="2023-09-13" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="10" name="部屋の配置" color="#ffffcc" meeting="false" start="2023-09-13" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="11" name="カメラの追加(モニター前)" color="#ffffcc" meeting="false" start="2023-09-14" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="12" name="ボタンを押したらカメラを変更する処理" color="#ffffcc" meeting="false" start="2023-09-15" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="13" name="ボタンを押せるようにする処理" color="#ffffcc" meeting="false" start="2023-09-16" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="14" name="ボタンを押したら色が変わる処理" color="#ffffcc" meeting="false" start="2023-09-17" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="15" name="ボタンを押した順番を記憶する処理" color="#ffffcc" meeting="false" start="2023-09-18" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="16" name="一度押したボタンは押せないようにする処理" color="#ffffcc" meeting="false" start="2023-09-19" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="17" name="ボタンを押した順番が正しいか判定処理" color="#ffffcc" meeting="false" start="2023-09-20" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="18" name="正しくなかったらボタンの色をもとの色にする処理" color="#ffffcc" meeting="false" start="2023-09-21" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="19" name="正しくなかったら取得したボタンの情報をリセットする処理" color="#ffffcc" meeting="false" start="2023-09-24" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="20" name="正解だったらゲームのクリア判定を出す処理" color="#ffffcc" meeting="false" start="2023-09-25" duration="1" complete="100" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+        </task>
+        <task id="1" name="予定アルファ期間" color="#009933" meeting="false" start="2023-10-09" duration="28" complete="0" expand="true"/>
+        <task id="30" name="実アルファ期間" color="#000000" meeting="false" start="2023-10-09" duration="1" complete="16" thirdDate="2023-08-30" thirdDate-constraint="0" expand="false">
+            <task id="21" name="SE・BGM探し" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-08-31" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-1ギミック2]]>
+                </notes>
+            </task>
+            <task id="26" name="回転処理の修正" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="33" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-1ギミック2]]>
+                </notes>
+            </task>
+            <task id="23" name="ボタンを押した演出を入れる処理" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="100" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="24" name="SE・BGM探し" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="25" name="ボタンの色が得の処理をもう少しきれいに" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="27" name="ボタンを増やす" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="28" name="ボタンの順番の処理" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+            <task id="29" name="カメラの切り替えの処理" color="#ccffcc" meeting="false" start="2023-10-09" duration="1" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+        </task>
+        <task id="2" name="予定ベータ期間" color="#00ccff" meeting="false" start="2023-11-06" duration="14" complete="0" expand="true"/>
+        <task id="32" name="実ベータ期間" color="#000000" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-10-04" thirdDate-constraint="0" expand="false">
+            <task id="33" name="1-1仮じゃない音を入れる" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-10-04" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-1ギミック2
+]]>
+                </notes>
+            </task>
+            <task id="34" name="1-2仮じゃない音を入れる" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-10-04" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1
+]]>
+                </notes>
+            </task>
+            <task id="35" name="演出＆演出用サウンド" color="#ccffff" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-10-04" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1
+間違ったときに音が鳴るエフェクトを出す？]]>
+                </notes>
+            </task>
+        </task>
+        <task id="3" name="予定マスター期間" color="#666666" meeting="false" start="2023-11-20" duration="14" complete="0" expand="true"/>
+        <task id="36" name="実マスター期間" color="#000000" meeting="false" start="2023-11-20" duration="1" complete="0" thirdDate="2023-10-04" thirdDate-constraint="0" expand="false">
+            <task id="37" name="1-1バグ探し" color="#cccccc" meeting="false" start="2023-11-20" duration="1" complete="0" thirdDate="2023-11-05" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-1ギミック2]]>
+                </notes>
+            </task>
+            <task id="38" name="1-2バグ探し" color="#cccccc" meeting="false" start="2023-11-20" duration="1" complete="0" thirdDate="2023-11-20" thirdDate-constraint="0" expand="true">
+                <notes>
+                    <![CDATA[1-2ギミック1]]>
+                </notes>
+            </task>
+        </task>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>

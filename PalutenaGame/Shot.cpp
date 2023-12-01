@@ -38,7 +38,7 @@ void DrawShot(Shot& shot)
 	// 自機の弾iの移動ルーチン( 存在状態を保持している変数の内容がtrue(存在する)の場合のみ行う )
 	if (shot.Flag == true)
 	{
-		// 弾iを１６ドット上に移動させる
+		// 弾iを１６ドット横に移動させる
 		shot.X += 16;
 
 		// 画面外に出てしまった場合は存在状態を保持している変数にfalse(存在しない)を代入する
@@ -46,7 +46,6 @@ void DrawShot(Shot& shot)
 		{
 			shot.Flag = false;
 		}
-
 		// 画面に弾iを描画する
 		DrawGraph(shot.X, shot.Y, shot.Graph, FALSE);
 	}
