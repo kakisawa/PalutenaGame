@@ -12,7 +12,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 画面モード変更(解像度・ビット数)
 	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
 
-
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
 
@@ -21,7 +20,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
-
 
 	// グラフィックの描画先を裏画面にセット
 	SetDrawScreen(DX_SCREEN_BACK);
@@ -57,8 +55,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// ショットの描画・更新
 		for (int i = 0; i < SHOT; i++)
 		{
-			UpdateShot(shot[i]);
-			DrawShot(shot[i]);
+			UpdateShot(shot[i], player);
+			DrawShot(shot[i],player);
 		}
 
 		// 画面が切り替わるのを待つ

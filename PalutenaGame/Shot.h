@@ -1,4 +1,6 @@
 #pragma once
+#include "Rect.h"
+#include "Vec2.h"
 
 // ショットの数
 #define SHOT 20
@@ -18,13 +20,21 @@ struct Shot {
 	// ショットの画像サイズ
 	int W;
 	int H;
+
+	// 弾の左方向フラグ
+	bool LeftDir;
+	// 弾の上方向フラグ
+	bool TopDir;
+
+	// 当たり判定の矩形を取得する
+	Rect GetColRect() const { return m_colRect; }
+
+	// 表示位置
+	Vec2 m_pos;
+	// 当たり判定の矩形
+	Rect m_colRect;
 };
 
 void InitShot(Shot& shot);
-void UpdateShot(Shot& shot);
-void DrawShot(Shot& shot);
-
-
-
-// x=16
-// y=8
+void UpdateShot(Shot& shot,Player& player);
+void DrawShot(Shot& shot, Player& player);

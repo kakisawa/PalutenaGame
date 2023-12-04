@@ -1,6 +1,19 @@
 #include "DxLib.h"
+#include "Player.h"
 #include "Shot.h"
 #include "Game.h"
+
+#define PI    3.1415926535897932384626433832795f
+
+namespace
+{
+	// ’e‚ÌˆÚ“®‘¬“x
+	constexpr int kSpeed = 16;
+
+	// ’e‚ÌƒTƒCƒY
+	constexpr int kWidth = 16;
+	constexpr int kHeight = 8;
+}
 
 // ƒVƒ‡ƒbƒg‚Ì‰Šú‰»
 void InitShot(Shot& shot)
@@ -13,12 +26,19 @@ void InitShot(Shot& shot)
 
 	// ’e‚ÌƒOƒ‰ƒtƒBƒbƒN‚ÌƒTƒCƒY‚ð“¾‚é
 	GetGraphSize(shot.Graph, &shot.W, &shot.H);
+
+	//// ’e‚Ì¶•ûŒüƒtƒ‰ƒO‚É”Û’è‚Ìfalse‚ð‘ã“ü‚·‚é
+	//shot.LeftDir = false;
+	//// ’e‚Ìã•ûŒüƒtƒ‰ƒO‚É”Û’è‚Ìfalse‚ð‘ã“ü‚·‚é
+	//shot.TopDir = false;
 }
 
 // ƒVƒ‡ƒbƒg‚ÌXV
-void UpdateShot(Shot& shot)
+void UpdateShot(Shot& shot, Player& player)
 {
-	// ’e‚Ì“–‚½‚è”»’è
+	// “–‚½‚è”»’è‚ÌXV
+	shot.m_colRect.SetCenter(shot.m_pos.x + kWidth / 2, shot.m_pos.y + kHeight / 2, kWidth, kHeight);
+
 		// ’e‚ª‘¶Ý‚µ‚Ä‚¢‚éê‡‚Ì‚ÝŽŸ‚Ìˆ—‚ÉˆÚ‚é
 
 	// ƒGƒlƒ~[‚Æ‚Ì“–‚½‚è”»’è
@@ -31,22 +51,64 @@ void UpdateShot(Shot& shot)
 		//shot.Flag = false;
 	//}
 
-}
 
-void DrawShot(Shot& shot)
-{
 	// Ž©‹@‚Ì’ei‚ÌˆÚ“®ƒ‹[ƒ`ƒ“( ‘¶Ýó‘Ô‚ð•ÛŽ‚µ‚Ä‚¢‚é•Ï”‚Ì“à—e‚ªtrue(‘¶Ý‚·‚é)‚Ìê‡‚Ì‚Ýs‚¤ )
 	if (shot.Flag == true)
 	{
-		// ’ei‚ð‚P‚Uƒhƒbƒg‰¡‚ÉˆÚ“®‚³‚¹‚é
-		shot.X += 16;
-
 		// ‰æ–ÊŠO‚Éo‚Ä‚µ‚Ü‚Á‚½ê‡‚Í‘¶Ýó‘Ô‚ð•ÛŽ‚µ‚Ä‚¢‚é•Ï”‚Éfalse(‘¶Ý‚µ‚È‚¢)‚ð‘ã“ü‚·‚é
 		if (shot.X > kScreenWidth || shot.X < 0)
 		{
 			shot.Flag = false;
 		}
-		// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
-		DrawGraph(shot.X, shot.Y, shot.Graph, FALSE);
+
+		if (player.LeftDir)
+		{
+			// ’ei‚ð‚P‚Uƒhƒbƒg‰¡‚ÉˆÚ“®‚³‚¹‚é
+			shot.X -= kSpeed;
+		}
+		else if (player.TopDir)
+		{
+			// ’ei‚ð‚P‚Uƒhƒbƒgã‚ÉˆÚ“®‚³‚¹‚é
+			shot.Y -= kSpeed;
+		}
+		else
+		{
+			// ’ei‚ð‚P‚Uƒhƒbƒg‰¡‚ÉˆÚ“®‚³‚¹‚é
+			shot.X += kSpeed;
+		}
 	}
+}
+
+void DrawShot(Shot& shot, Player& player)
+{
+	// Ž©‹@‚Ì’ei‚ÌˆÚ“®ƒ‹[ƒ`ƒ“( ‘¶Ýó‘Ô‚ð•ÛŽ‚µ‚Ä‚¢‚é•Ï”‚Ì“à—e‚ªtrue(‘¶Ý‚·‚é)‚Ìê‡‚Ì‚Ýs‚¤ )
+	if (shot.Flag == true)
+	{
+		// ‰æ–ÊŠO‚Éo‚Ä‚µ‚Ü‚Á‚½ê‡‚Í‘¶Ýó‘Ô‚ð•ÛŽ‚µ‚Ä‚¢‚é•Ï”‚Éfalse(‘¶Ý‚µ‚È‚¢)‚ð‘ã“ü‚·‚é
+		if (shot.X > kScreenWidth || shot.X < 0)
+		{
+			shot.Flag = false;
+		}
+
+		if (player.isTurn)
+		{
+			// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
+			DrawTurnGraph(shot.X, shot.Y, shot.Graph, FALSE);
+
+		}
+		else if (player.isLookUp)
+		{
+			// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
+			DrawRotaGraph(shot.X, shot.Y, 1.0f, PI * 1.5f, shot.Graph, FALSE);
+		}
+		else
+		{
+			// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
+			DrawGraph(shot.X, shot.Y, shot.Graph, FALSE);
+		}
+	}
+#ifdef _DEBUG
+	// ’e‚Ì“–‚½‚è”»’èƒfƒoƒbƒO•\Ž¦
+	shot.m_colRect.Draw(GetColor(0, 0, 255), false);
+#endif
 }

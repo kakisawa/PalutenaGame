@@ -1,4 +1,6 @@
 #pragma once
+#include "Rect.h"
+#include "Vec2.h"
 
 // プロトタイプ宣言
 struct Shot;
@@ -15,19 +17,36 @@ struct Player
 	int W;
 	int H;
 
-	// 移動速度
-	float kSpeed;
 	// 落下移動量
 	float FallPowor;
-	// ジャンプ移動量
-	float JumpPowor;
 
-	// 移動中のフラグ
+	// グラフィックのハンドル
+	int m_handle;
+	// 表示位置
+	Vec2 m_pos;
+	// 当たり判定用の矩形
+	Rect m_colRect;
+
+	// プレイヤー反転フラグ
+	bool isTurn;
+	// プレイヤーが上を向いているかのフラグ
+	bool isLookUp;
+	// 移動中かどうかのフラグ
 	bool isMove;
 	// ジャンプ中かどうかのフラグ
-	int PushFlag;
+	int isPushFlag;
 	// ショットボタンが前フレームで押されたかどうかのフラグ
-	bool PrevshotFlag;
+	bool isPrevshotFlag;
+
+	// 弾の左方向フラグ
+	bool LeftDir;
+	// 弾の上方向フラグ
+	bool TopDir;
+
+	// プレイヤーの現在位置を取得する
+	Vec2 GetPos() const { return m_pos; }
+	// プレイヤーの当たり判定を取得する
+	Rect GetColRect() const { return m_colRect; }
 };
 
 // プロトタイプ宣言
