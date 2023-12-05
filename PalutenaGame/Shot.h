@@ -40,4 +40,6 @@ public:
 	void Init();
 	void Update(Player& player);
 	void Draw(Player& player);
+
+	//void SetDirection(bool playerTurn, bool playerLookUp);
 };

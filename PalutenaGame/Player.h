@@ -59,6 +59,4 @@ public:
 	bool LeftDir;
 	// ’e‚Ìã•ûŒüƒtƒ‰ƒO
 	bool TopDir;
-
-
 };

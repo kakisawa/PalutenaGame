@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-namespace 
+namespace
 {
 	// キャラクターのサイズ
 	constexpr int kWidth = 32;
@@ -19,7 +19,7 @@ namespace
 }
 
 
-Player::Player():
+Player::Player() :
 	FallPowor(0.0f),			// 落下速度
 	JumpPower(0.0f),			// ジャンプ移動量
 	m_handle(-1),
@@ -54,10 +54,9 @@ void Player::Init()
 	isMove = false;
 	// ショットボタンが前のフレームで押されたかどうかを保存する変数にfalse(押されていない)を代入
 	isPrevshotFlag = false;
-
-	// 弾の左方向フラグ(左を向いていないのfalseを挿入)
+	// 弾の左方向フラグ(否定のfalseを挿入)
 	LeftDir = false;
-	// 弾の上方向フラグ(上を向いていないのfalseを挿入)
+	// 弾の上方向フラグ(否定のfalseを挿入)
 	TopDir = false;
 }
 
@@ -120,17 +119,6 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 	// 落下加速度を加える
 	JumpPower -= 0.5f;
 
-	//// ジャンプ
-	//if (Key && CheckHitKey(KEY_INPUT_A) == 1) {
-	//	m_pos.y -= player.JumpPower;
-	//	player.isPushFlag = true;
-	//	isMove = true;
-	//}
-	//// 落下加速度を加える
-	//player.FallPowor += 0.5f;
-	//// 落下処理
-	//m_pos.y += player.FallPowor;
-
 	// もし地面についていたら止まる
 	if (m_pos.y > Ground)
 	{
@@ -153,6 +141,7 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 
 	// 当たり判定の更新
 	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
+
 
 
 	// 弾の発射処理
@@ -215,7 +204,6 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 		// 前フレームでショットボタンが押されていたかを保存する変数にfalse(おされていない)を代入
 		isPrevshotFlag = false;
 	}
-
 	// x座標...プレイヤーが左右画面外に出ると、反対側からプレイヤーが出てくる
 	// y座標...プレイヤーが画面外に出ようとすると止まる
 	if (m_pos.x < 0 - W)
@@ -235,6 +223,18 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 		m_pos.y = Ground;
 	}
 }
+
+
+//// ジャンプ
+	//if (Key && CheckHitKey(KEY_INPUT_A) == 1) {
+	//	m_pos.y -= player.JumpPower;
+	//	player.isPushFlag = true;
+	//	isMove = true;
+	//}
+	//// 落下加速度を加える
+	//player.FallPowor += 0.5f;
+	//// 落下処理
+	//m_pos.y += player.FallPowor;
 
 void Player::Draw()
 {

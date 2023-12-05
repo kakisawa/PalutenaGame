@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2023-11-24" view-index="0" gantt-divider-location="405" resource-divider-location="300" version="3.2.3247" locale="ja_JP">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2023-11-24" view-index="0" gantt-divider-location="390" resource-divider-location="300" version="3.2.3247" locale="ja_JP">
     <description/>
     <view zooming-state="default:2" id="gantt-chart">
-        <field id="tpd3" name="名前" width="220" order="0"/>
-        <field id="tpd4" name="開始日" width="83" order="1"/>
-        <field id="tpd5" name="終了日" width="86" order="2"/>
+        <field id="tpd3" name="名前" width="212" order="0"/>
+        <field id="tpd4" name="開始日" width="80" order="1"/>
+        <field id="tpd5" name="終了日" width="83" order="2"/>
         <option id="filter.completedTasks" value="false"/>
         <option id="color.recent">
             <![CDATA[#000000 #99ccff #66ccff #ff0000]]>

@@ -8,7 +8,7 @@
 namespace
 {
 	// ’e‚ÌˆÚ“®‘¬“x
-	constexpr int kSpeed =5;
+	constexpr int kSpeed =10;
 
 	// ’e‚ÌƒTƒCƒY
 	constexpr int kWidth = 16;
@@ -55,12 +55,12 @@ void Shot::Update(Player& player)
 		}
 
 		// ’e‚ÌˆÚ“®ˆ—
-		if (LeftDir)
+		if (player.LeftDir)
 		{
 			// ’e‚ð¶‚ÉˆÚ“®‚³‚¹‚é
 			X -= kSpeed;
 		}
-		else if (TopDir)
+		else if (player.TopDir)
 		{
 			// ’e‚ðã‚ÉˆÚ“®‚³‚¹‚é
 			Y -= kSpeed;
@@ -72,8 +72,6 @@ void Shot::Update(Player& player)
 		}
 	}
 }
-
-
 
 // ƒGƒlƒ~[‚Æ‚Ì“–‚½‚è”»’è
 //if (((shot.X > enemy.X && shot.X < enemy.X + enemy.W) ||
@@ -97,13 +95,13 @@ void Shot::Draw(Player& player)
 			Flag = false;
 		}
 
-		if (LeftDir)
+		if (player.isTurn)
 		{
 			// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
 			DrawTurnGraph(X, Y, Graph, FALSE);
 
 		}
-		else if (TopDir)
+		else if (player.isLookUp)
 		{
 			// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
 			DrawRotaGraph(X, Y, 1.0f, PI * 1.5f, Graph, FALSE);
@@ -119,3 +117,10 @@ void Shot::Draw(Player& player)
 	m_colRect.Draw(GetColor(0, 0, 255), false);
 #endif
 }
+
+//void Shot::SetDirection(bool playerTurn, bool playerLookUp)
+//{
+//	// ’e‚Ì•ûŒü‚ðƒvƒŒƒCƒ„[‚Ì•ûŒü‚ÉÝ’è
+//	LeftDir = playerTurn;
+//	TopDir = playerLookUp;
+//}
