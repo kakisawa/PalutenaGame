@@ -2,11 +2,9 @@
 #include "Rect.h"
 #include "Vec2.h"
 
-// ショットの数
-#define SHOT 20
-
-struct Shot {
-
+class Shot
+{
+public:
 	// ショットの座標
 	int X;
 	int Y;
@@ -26,6 +24,7 @@ struct Shot {
 	// 弾の上方向フラグ
 	bool TopDir;
 
+public:
 	// 当たり判定の矩形を取得する
 	Rect GetColRect() const { return m_colRect; }
 
@@ -33,8 +32,12 @@ struct Shot {
 	Vec2 m_pos;
 	// 当たり判定の矩形
 	Rect m_colRect;
-};
 
-void InitShot(Shot& shot);
-void UpdateShot(Shot& shot,Player& player);
-void DrawShot(Shot& shot, Player& player);
+public:
+
+	Shot();
+	~Shot();
+	void Init();
+	void Update(Player& player);
+	void Draw(Player& player);
+};

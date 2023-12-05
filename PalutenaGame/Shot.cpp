@@ -8,107 +8,114 @@
 namespace
 {
 	// 弾の移動速度
-	constexpr int kSpeed = 16;
+	constexpr int kSpeed =5;
 
 	// 弾のサイズ
 	constexpr int kWidth = 16;
 	constexpr int kHeight = 8;
 }
 
-// ショットの初期化
-void InitShot(Shot& shot)
+Shot::Shot()
 {
-	// ショットのグラフィックをメモリにロード
-	shot.Graph = LoadGraph("data/Shot.png");
-
-	// 弾が画面上に存在しているか保持する変数に『存在していない』を意味するfalseを代入しておく
-	shot.Flag = false;
-
-	// 弾のグラフィックのサイズを得る
-	GetGraphSize(shot.Graph, &shot.W, &shot.H);
-
-	//// 弾の左方向フラグに否定のfalseを代入する
-	//shot.LeftDir = false;
-	//// 弾の上方向フラグに否定のfalseを代入する
-	//shot.TopDir = false;
 }
 
-// ショットの更新
-void UpdateShot(Shot& shot, Player& player)
+Shot::~Shot()
+{
+}
+
+void Shot::Init()
+{
+	// ショットのグラフィックをメモリにロード
+	Graph = LoadGraph("data/Shot.png");
+
+	// 弾が画面上に存在しているか保持する変数に『存在していない』を意味するfalseを代入しておく
+	Flag = false;
+
+	// 弾のグラフィックのサイズを得る
+	GetGraphSize(Graph, &W, &H);
+
+	// 弾の左方向フラグに否定のfalseを代入する
+	LeftDir = false;
+	// 弾の上方向フラグに否定のfalseを代入する
+	TopDir = false;
+}
+
+void Shot::Update(Player& player)
 {
 	// 当たり判定の更新
-	shot.m_colRect.SetCenter(shot.m_pos.x + kWidth / 2, shot.m_pos.y + kHeight / 2, kWidth, kHeight);
+	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
 
-		// 弾が存在している場合のみ次の処理に移る
-
-	// エネミーとの当たり判定
-	//if (((shot.X > enemy.X && shot.X < enemy.X + enemy.W) ||
-	//	(enemy.X > shot.X && enemy.X < shot.X + shot.W)) &&
-	//	((shot.Y > enemy.Y && shot.Y < enemy.Y + enemy.H) ||
-	//		(enemy.Y > shot.Y && enemy.Y < shot.Y + shot.H)))
-	//{
-	//	// 接触している場合は当たった弾の存在を消す
-		//shot.Flag = false;
-	//}
-
-
-	// 自機の弾iの移動ルーチン( 存在状態を保持している変数の内容がtrue(存在する)の場合のみ行う )
-	if (shot.Flag == true)
+	// 弾が存在している場合のみ次の処理に移る
+	if (Flag == true)
 	{
 		// 画面外に出てしまった場合は存在状態を保持している変数にfalse(存在しない)を代入する
-		if (shot.X > kScreenWidth || shot.X < 0)
+		if (X > kScreenWidth || X < 0)
 		{
-			shot.Flag = false;
+			Flag = false;
 		}
 
-		if (player.LeftDir)
+		// 弾の移動処理
+		if (LeftDir)
 		{
-			// 弾iを１６ドット横に移動させる
-			shot.X -= kSpeed;
+			// 弾を左に移動させる
+			X -= kSpeed;
 		}
-		else if (player.TopDir)
+		else if (TopDir)
 		{
-			// 弾iを１６ドット上に移動させる
-			shot.Y -= kSpeed;
+			// 弾を上に移動させる
+			Y -= kSpeed;
 		}
 		else
 		{
-			// 弾iを１６ドット横に移動させる
-			shot.X += kSpeed;
+			// 弾を右に移動させる
+			X += kSpeed;
 		}
 	}
 }
 
-void DrawShot(Shot& shot, Player& player)
+
+
+// エネミーとの当たり判定
+//if (((shot.X > enemy.X && shot.X < enemy.X + enemy.W) ||
+//	(enemy.X > shot.X && enemy.X < shot.X + shot.W)) &&
+//	((shot.Y > enemy.Y && shot.Y < enemy.Y + enemy.H) ||
+//		(enemy.Y > shot.Y && enemy.Y < shot.Y + shot.H)))
+//{
+//	// 接触している場合は当たった弾の存在を消す
+	//shot.Flag = false;
+//}
+
+
+void Shot::Draw(Player& player)
 {
 	// 自機の弾iの移動ルーチン( 存在状態を保持している変数の内容がtrue(存在する)の場合のみ行う )
-	if (shot.Flag == true)
+	if (Flag == true)
 	{
 		// 画面外に出てしまった場合は存在状態を保持している変数にfalse(存在しない)を代入する
-		if (shot.X > kScreenWidth || shot.X < 0)
+		if (X > kScreenWidth || X < 0)
 		{
-			shot.Flag = false;
+			Flag = false;
 		}
 
-		if (player.isTurn)
+		if (LeftDir)
 		{
 			// 画面に弾iを描画する
-			DrawTurnGraph(shot.X, shot.Y, shot.Graph, FALSE);
+			DrawTurnGraph(X, Y, Graph, FALSE);
 
 		}
-		else if (player.isLookUp)
+		else if (TopDir)
 		{
 			// 画面に弾iを描画する
-			DrawRotaGraph(shot.X, shot.Y, 1.0f, PI * 1.5f, shot.Graph, FALSE);
+			DrawRotaGraph(X, Y, 1.0f, PI * 1.5f, Graph, FALSE);
 		}
 		else
 		{
 			// 画面に弾iを描画する
-			DrawGraph(shot.X, shot.Y, shot.Graph, FALSE);
+			DrawGraph(X, Y, Graph, FALSE);
 		}
 	}
 #ifdef _DEBUG
 	// 弾の当たり判定デバッグ表示
-	shot.m_colRect.Draw(GetColor(0, 0, 255), false);
+	m_colRect.Draw(GetColor(0, 0, 255), false);
 #endif
 }

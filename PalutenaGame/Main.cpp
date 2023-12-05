@@ -28,13 +28,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Player player;
 	Shot shot[SHOT];
 
+
 	// プレイヤーの初期化
-	InitPlayer(player);
+	player.Init();
 
 	// ショットの初期化
 	for (int i = 0; i < SHOT; i++)
 	{
-		InitShot(shot[i]);
+		shot[i].Init();
 	}
 
 	// ゲームループ
@@ -47,16 +48,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		// プレイヤーの更新
-		UpdatePlayer(player, shot, SHOT);
+		player.Update(shot, SHOT);
 
 		// プレイヤーの描画
-		DrawPlayer(player);
+		player.Draw();
 
 		// ショットの描画・更新
 		for (int i = 0; i < SHOT; i++)
 		{
-			UpdateShot(shot[i], player);
-			DrawShot(shot[i],player);
+			shot[i].Update(player);
+			shot[i].Draw(player);
 		}
 
 		// 画面が切り替わるのを待つ

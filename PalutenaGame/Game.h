@@ -11,4 +11,8 @@ namespace
 
 	// 地面の高さ
 	constexpr int Ground = 400;
+
+	// ショットの数
+#define SHOT 20
+
 }

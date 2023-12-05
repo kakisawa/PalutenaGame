@@ -1,16 +1,29 @@
 #pragma once
 #include "Rect.h"
 #include "Vec2.h"
+#include "Game.h"
 
 // プロトタイプ宣言
 struct Shot;
 
-struct Player 
+class Player 
 {
-	// プレイヤーの初期位置
-	int X;
-	int Y;
+public:
+	Player();
+	~Player();
 
+	void Init();
+	void Update(Shot shotArray[], int shotArraySize);
+	void Draw();
+
+	// 当たり判定用の矩形
+	Rect m_colRect;
+	// プレイヤーの現在位置を取得する
+	Vec2 GetPos() const { return m_pos; }
+	// プレイヤーの当たり判定を取得する
+	Rect GetColRect() const { return m_colRect; }
+
+private:
 	// プレイヤーの画像
 	int Graph;
 	// プレイヤーの画像サイズ
@@ -19,18 +32,22 @@ struct Player
 
 	// 落下移動量
 	float FallPowor;
+	// ジャンプ移動量
+	float JumpPower;
 
 	// グラフィックのハンドル
 	int m_handle;
 	// 表示位置
 	Vec2 m_pos;
-	// 当たり判定用の矩形
-	Rect m_colRect;
+
+public:
 
 	// プレイヤー反転フラグ
 	bool isTurn;
 	// プレイヤーが上を向いているかのフラグ
 	bool isLookUp;
+	// プレイヤーがしゃがんでいるかのフラグ
+	bool isSquat;
 	// 移動中かどうかのフラグ
 	bool isMove;
 	// ジャンプ中かどうかのフラグ
@@ -43,13 +60,5 @@ struct Player
 	// 弾の上方向フラグ
 	bool TopDir;
 
-	// プレイヤーの現在位置を取得する
-	Vec2 GetPos() const { return m_pos; }
-	// プレイヤーの当たり判定を取得する
-	Rect GetColRect() const { return m_colRect; }
-};
 
-// プロトタイプ宣言
-void InitPlayer(Player& player);
-void UpdatePlayer(Player& player, Shot shot[], int shotArraySize);
-void DrawPlayer(Player& player);
+};
