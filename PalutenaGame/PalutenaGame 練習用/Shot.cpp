@@ -35,9 +35,9 @@ void Shot::Init()
 	GetGraphSize(Graph, &W, &H);
 
 	// ’e‚Ì¶•ûŒüƒtƒ‰ƒO‚É”Û’è‚Ìfalse‚ð‘ã“ü‚·‚é
-	LeftDir = false;
+	LeftDir[SHOT] = false;
 	// ’e‚Ìã•ûŒüƒtƒ‰ƒO‚É”Û’è‚Ìfalse‚ð‘ã“ü‚·‚é
-	TopDir = false;
+	TopDir[SHOT] = false;
 }
 
 void Shot::Update(Player& player)
@@ -49,7 +49,7 @@ void Shot::Update(Player& player)
 	if (Flag == true)
 	{
 		// ‰æ–ÊŠO‚Éo‚Ä‚µ‚Ü‚Á‚½ê‡‚Í‘¶Ýó‘Ô‚ð•ÛŽ‚µ‚Ä‚¢‚é•Ï”‚Éfalse(‘¶Ý‚µ‚È‚¢)‚ð‘ã“ü‚·‚é
-		if (X > kScreenWidth || X < 0)
+		if (X[SHOT] > kScreenWidth || X[SHOT] < 0)
 		{
 			Flag = false;
 		}
@@ -58,17 +58,17 @@ void Shot::Update(Player& player)
 		if (player.LeftDir)
 		{
 			// ’e‚ð¶‚ÉˆÚ“®‚³‚¹‚é
-			X -= kSpeed;
+			X[SHOT] -= kSpeed;
 		}
 		else if (player.TopDir)
 		{
 			// ’e‚ðã‚ÉˆÚ“®‚³‚¹‚é
-			Y -= kSpeed;
+			Y[SHOT] -= kSpeed;
 		}
 		else
 		{
 			// ’e‚ð‰E‚ÉˆÚ“®‚³‚¹‚é
-			X += kSpeed;
+			X[SHOT] += kSpeed;
 		}
 	}
 }
@@ -90,7 +90,7 @@ void Shot::Draw(Player& player)
 	if (Flag == true)
 	{
 		// ‰æ–ÊŠO‚Éo‚Ä‚µ‚Ü‚Á‚½ê‡‚Í‘¶Ýó‘Ô‚ð•ÛŽ‚µ‚Ä‚¢‚é•Ï”‚Éfalse(‘¶Ý‚µ‚È‚¢)‚ð‘ã“ü‚·‚é
-		if (X > kScreenWidth || X < 0)
+		if (X[SHOT] > kScreenWidth || X < 0)
 		{
 			Flag = false;
 		}
@@ -98,18 +98,18 @@ void Shot::Draw(Player& player)
 		if (player.isTurn)
 		{
 			// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
-			DrawTurnGraph(X, Y, Graph, FALSE);
+			DrawTurnGraph(X[SHOT], Y[SHOT], Graph, FALSE);
 
 		}
 		else if (player.isLookUp)
 		{
 			// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
-			DrawRotaGraph(X, Y, 1.0f, PI * 1.5f, Graph, FALSE);
+			DrawRotaGraph(X[SHOT], Y[SHOT], 1.0f, PI * 1.5f, Graph, FALSE);
 		}
 		else
 		{
 			// ‰æ–Ê‚É’ei‚ð•`‰æ‚·‚é
-			DrawGraph(X, Y, Graph, FALSE);
+			DrawGraph(X[SHOT], Y[SHOT], Graph, FALSE);
 		}
 	}
 #ifdef _DEBUG

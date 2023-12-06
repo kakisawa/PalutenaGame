@@ -55,9 +55,12 @@ void Player::Init()
 	LeftDir = false;
 	// 弾の上方向フラグ(否定のfalseを挿入)
 	TopDir = false;
+
+	// 画面上に出ている弾の数
+	shotArraySize = SHOT;
 }
 
-void Player::Update(Shot shotArray[], int shotArraySize)
+void Player::Update(Shot shotArray[])
 {
 	// キー入力取得
 	int Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
@@ -156,7 +159,7 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 					// 弾iの位置をセット、位置はプレイヤーの中心にする
 					if (isTurn)
 					{
-						shotArray[i].X = m_pos.x;
+						shotArray[i].X[SHOT] = m_pos.x;
 						LeftDir = true;
 						TopDir = false;
 
@@ -165,7 +168,7 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 					}
 					else if (isLookUp)
 					{
-						shotArray[i].X = m_pos.x + kWidth / 2;
+						shotArray[i].X[SHOT] = m_pos.x + kWidth / 2;
 						LeftDir = false;
 						TopDir = true;
 
@@ -174,7 +177,7 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 					}
 					else
 					{
-						shotArray[i].X = (kWidth - shotArray[i].W) / 2 + m_pos.x;
+						shotArray[i].X[SHOT] = (kWidth - shotArray[i].W) / 2 + m_pos.x;
 						LeftDir = false;
 						TopDir = false;
 
@@ -182,7 +185,7 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 						shotArray[i].TopDir = false;*/
 					}
 
-					shotArray[i].Y = (kHeight - shotArray[i].H) / 2 + m_pos.y;
+					shotArray[i].Y[SHOT] = (kHeight - shotArray[i].H) / 2 + m_pos.y;
 
 					// 弾iは現時点を持って存在するので、存在状態を保持する変数にtrueを代入する
 					shotArray[i].Flag = true;

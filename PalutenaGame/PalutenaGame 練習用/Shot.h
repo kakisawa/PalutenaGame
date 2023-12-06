@@ -6,8 +6,8 @@ class Shot
 {
 public:
 	// ショットの座標
-	int X;
-	int Y;
+	int X[SHOT];
+	int Y[SHOT];
 
 	// ショットの画像
 	int Graph;
@@ -19,10 +19,11 @@ public:
 	int W;
 	int H;
 
+
 	// 弾の左方向フラグ
-	bool LeftDir;
+	bool LeftDir[SHOT];
 	// 弾の上方向フラグ
-	bool TopDir;
+	bool TopDir[SHOT];
 
 public:
 	// 当たり判定の矩形を取得する
