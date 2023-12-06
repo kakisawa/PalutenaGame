@@ -90,7 +90,7 @@ void Shot::Draw(Player& player)
 	if (Flag == true)
 	{
 		// ‰æ–ÊŠO‚Éo‚Ä‚µ‚Ü‚Á‚½ê‡‚Í‘¶Ýó‘Ô‚ð•ÛŽ‚µ‚Ä‚¢‚é•Ï”‚Éfalse(‘¶Ý‚µ‚È‚¢)‚ð‘ã“ü‚·‚é
-		if (X[SHOT] > kScreenWidth || X < 0)
+		if (X[SHOT] > kScreenWidth || X[SHOT] < 0)
 		{
 			Flag = false;
 		}
