@@ -88,7 +88,7 @@ void Player::Update(Shot shotArray[])
 	// ç∂à⁄ìÆ
 	if (Key && CheckHitKey(KEY_INPUT_LEFT) == 1)
 	{
-		m_pos.x -= kSpeed;
+		move.x -= kSpeed;
 		isMove = true;
 		isLookUp = false;
 		isTurn = true;
@@ -97,7 +97,7 @@ void Player::Update(Shot shotArray[])
 	// âEà⁄ìÆ
 	if (Key && CheckHitKey(KEY_INPUT_RIGHT) == 1)
 	{
-		m_pos.x += kSpeed;
+		move.x += kSpeed;
 		isMove = true;
 		isLookUp = false;
 		isTurn = false;
