@@ -16,6 +16,8 @@ public:
 	void Update(Shot shotArray[], int shotArraySize);
 	void Draw();
 
+	void Crate(Shot& shot);
+
 	// 当たり判定用の矩形
 	Rect m_colRect;
 	// プレイヤーの現在位置を取得する
@@ -29,6 +31,9 @@ private:
 	// プレイヤーの画像サイズ
 	int W;
 	int H;
+
+	// プレイヤーのHP管理
+	int Hp;
 
 	// 落下移動量
 	float FallPowor;

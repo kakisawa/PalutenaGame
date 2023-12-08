@@ -121,7 +121,7 @@ void Player::Update(Shot shotArray[], int shotArraySize)
 	{
 		m_pos.y = Ground;
 
-		if (m_pos.y = Ground)
+		if (m_pos.y == Ground)
 		{
 			FallPowor = 0;
 
@@ -250,4 +250,11 @@ void Player::Draw()
 	// “–‚½‚è”»’è‚Ì•\Ž¦
 	m_colRect.Draw(GetColor(0, 0, 255), false);
 #endif
+}
+
+void Player::Crate(Shot& shot)
+{
+
+
+
 }
