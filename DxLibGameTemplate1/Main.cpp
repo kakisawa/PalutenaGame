@@ -1,11 +1,14 @@
 #include "DxLib.h"
 #include "Vec2.h"
+#include "Game.h"
 
 #include "Player.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	// 画面モード変更(解像度・ビット数)
+	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
 

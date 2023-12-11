@@ -3,7 +3,7 @@
 namespace
 {
 	// 画面幅(横)
-	constexpr int kScreenWidth = 720;
+	constexpr int kScreenWidth = 720;	// 640
 	// 画面幅(縦)
 	constexpr int kScreenHeight = 480;
 	// カラービット数

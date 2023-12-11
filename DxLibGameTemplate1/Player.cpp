@@ -15,12 +15,12 @@ namespace
 	constexpr float kJump = 13.0f;
 }
 
-
 Player::Player():
-	m_pos(kScreenWidth / 2, 100),
-	m_dir(kDirRight),
-	JumpPower(0.0f),
-	Gravity(0.0f)
+	HP(100),						// プレイヤーの初期HP
+	m_pos(kScreenWidth / 2, 100),	// プレイヤーの初期位置
+	m_dir(kDirRight),				// プレイヤーの初期方向
+	JumpPower(0.0f),				// プレイヤーの初期ジャンプ
+	Gravity(0.0f)					// プレイヤーの初期重力
 {
 }
 
@@ -49,7 +49,6 @@ void Player::Update()
 	m_pos.y += Gravity;
 	// 落下加速度を加える
 	Gravity += 0.3f;
-
 
 	// もし地面についていたら止まる
 	if (m_pos.y > Ground)
@@ -120,6 +119,19 @@ void Player::Update()
 
 	// 座標とベクトルの足し算
 	m_pos += move;
+
+	// 当たり判定の更新
+	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
+
+	// x座標...プレイヤーが左右画面外に出ると、反対側からプレイヤーが出てくる
+	if (m_pos.x > kScreenWidth - kWidth)
+	{
+		m_pos.x = 0;
+	}
+	if (m_pos.x < 0)
+	{
+		m_pos.x = kScreenWidth - kWidth;
+	}
 }
 
 void Player::Draw()
@@ -134,16 +146,24 @@ void Player::Draw()
 		// プレイヤー描画(右向き)
 		DrawGraph(m_pos.x, m_pos.y, Graph, false);
 	}
+
+	// プレイヤーの現在座標表示
+	DrawFormatString(0,0,GetColor( 255 , 255 , 255 ),
+		"現在座標:(%.2f,%.2f)",m_pos.x, m_pos.y);
+	// プレイヤーの現在体力表示
+	DrawFormatString(0, 19, GetColor(255, 255, 255),
+		"HP:(%d)", HP);
+
+#ifdef _DEBUG
+	// 当たり判定の表示
+	m_colRect.Draw(GetColor(255, 0, 0), false);
+#endif
 }
 
-
-
 // 地面処理まで終わってるはず
-// 1,プレイヤーのアニメーション(左右ジャンプ)
-// 2,重力加速度
-// 3,ジャンプ量を大きく
+// 1,プレイヤーのアニメーション
 // 4,単押しでジャンプ(優先度低)
-// 5,当たり判定
+// 〇5,当たり判定
 // HP管理・表示
 
 // 背景表示

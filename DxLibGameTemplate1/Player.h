@@ -1,5 +1,6 @@
 #pragma once
 #include "Vec2.h"
+#include "Rect.h"
 class Player
 {
 public:
@@ -26,16 +27,21 @@ private:
 	int Graph;
 	// プレイヤーの画像サイズ
 	int W, H;
+	// プレイヤーの体力
+	int HP;
 
-	// 重力
-	float Gravity;
-	// ジャンプ移動量
-	float JumpPower;
 	// 表示位置
 	Vec2 m_pos;
 	// 向いている方向
 	Dir m_dir;
 
+	// 重力
+	float Gravity;
+	// ジャンプ移動量
+	float JumpPower;
+	
+	// 当たり判定用の矩形
+	Rect m_colRect;
 public:
 	// プレイヤー反転フラグ
 	bool isTurn;
