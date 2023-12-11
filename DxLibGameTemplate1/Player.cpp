@@ -11,14 +11,16 @@ namespace
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
+	// ジャンプ距離
+	constexpr float kJump = 13.0f;
 }
 
 
 Player::Player():
 	m_pos(kScreenWidth / 2, 100),
 	m_dir(kDirRight),
-	JumpPower(8.0f),
-	Gravity(8.0f)
+	JumpPower(0.0f),
+	Gravity(0.0f)
 {
 }
 
@@ -44,7 +46,10 @@ void Player::Update()
 	Vec2 move{ 0.0f,0.0f };
 
 	// 重力処理
-	m_pos.y += JumpPower;
+	m_pos.y += Gravity;
+	// 落下加速度を加える
+	Gravity += 0.3f;
+
 
 	// もし地面についていたら止まる
 	if (m_pos.y > Ground)
@@ -53,12 +58,12 @@ void Player::Update()
 
 		if (m_pos.y == Ground)
 		{
-			FallPowor = 0;
+			Gravity = 0;
+			JumpPower = 0;
 
-			isPushFlag = false;
+			isJumpFlag = false;
 		}
 	}
-
 
 	// 矢印キーを押していたらプレイヤーを移動させる
 	// 上向き
@@ -93,12 +98,19 @@ void Player::Update()
 	}
 
 	// ジャンプボタンを押していて、地面についていたらジャンプ
-	if ((Key & PAD_INPUT_A) && m_pos.y == 400)
+	if ((Key & PAD_INPUT_A) && m_pos.y == Ground)
 	{
-		m_pos.y -= JumpPower;
-		isPushFlag = true;
+		// ジャンプ加速度
+		for (int i = 0; i < kJump; i++) {
+			JumpPower += 0.5f;
+		}
+		isJumpFlag = true;
 		isMove = true;
 	}
+
+	// ジャンプ処理
+	m_pos.y -= JumpPower;
+
 
 	// ベクトルの正規化
 	move.normalize();

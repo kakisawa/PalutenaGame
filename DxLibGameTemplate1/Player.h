@@ -29,8 +29,6 @@ private:
 
 	// 重力
 	float Gravity;
-	// 落下移動量
-	float FallPowor;
 	// ジャンプ移動量
 	float JumpPower;
 	// 表示位置
@@ -44,6 +42,6 @@ public:
 	// 移動中かどうかのフラグ
 	bool isMove;
 	// ジャンプ中かどうかのフラグ
-	int isPushFlag;
+	int isJumpFlag;
 };
 
