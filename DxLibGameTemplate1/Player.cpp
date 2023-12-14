@@ -13,14 +13,22 @@ namespace
 	constexpr float kSpeed = 3.0f;
 	// ジャンプ距離
 	constexpr float kJump = 13.0f;
+
+	// キャラクターのアニメーション
+	constexpr int kUseFrame[] = { 0,1,2,3,4,5,4,3,2,1 };
+	// アニメーションの1コマのフレーム数
+	constexpr int kAnimFrameNum = 8;
+	// アニメーション1サイクルのフレーム数
+	constexpr int kAnimFrameCycle = _countof(kUseFrame) * kAnimFrameNum;
 }
 
 Player::Player():
 	HP(100),						// プレイヤーの初期HP
 	m_pos(kScreenWidth / 2, 100),	// プレイヤーの初期位置
-	m_dir(kDirRight),				// プレイヤーの初期方向
+	m_dir(kDirFront),				// プレイヤーの初期方向
 	JumpPower(0.0f),				// プレイヤーの初期ジャンプ
-	Gravity(0.0f)					// プレイヤーの初期重力
+	Gravity(0.0f),					// プレイヤーの初期重力
+	IdleAnimation(0)				// 待機状態アニメーションの初期化
 {
 }
 
@@ -31,14 +39,16 @@ Player::~Player()
 void Player::Init()
 {
 	// プレイヤーの画像読み込み&座標の初期化
-	Graph = LoadGraph("data/Fairy.png");
-
-	// プレイヤーの縦横幅
-	GetGraphSize(Graph, &W, &H);
+	Graph = LoadGraph("data/Player.png");
 }
 
 void Player::Update()
 {
+	// プレイヤーが移動中かどうか
+	isMove = false;				// 移動していないのfalse
+	// プレイヤーがどの方向を向いているか
+	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
+
 	// キー入力取得
 	int Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
@@ -132,20 +142,61 @@ void Player::Update()
 	{
 		m_pos.x = kScreenWidth - kWidth;
 	}
+
+
+
+
+	if (isMove = false)
+	{
+		// 待機状態アニメーション
+		IdleAnimation++;
+		if (IdleAnimation >= kAnimFrameCycle)
+		{
+			IdleAnimation = 0;
+		}
+	}
 }
 
 void Player::Draw()
 {
-	if (isTurn)
-	{
-		// プレイヤー反転描画(左向き)
-		DrawTurnGraph(m_pos.x, m_pos.y, Graph, false);
-	}
-	else
-	{
-		// プレイヤー描画(右向き)
-		DrawGraph(m_pos.x, m_pos.y, Graph, false);
-	}
+	int animFrame = IdleAnimation / kAnimFrameNum;
+
+	int srcX = kUseFrame[animFrame] * 16;
+	
+
+
+	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
+	DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+		srcX, 0, 16, 16,
+		Graph, true);
+
+	//if(m_dir = kDirLeft)
+	//{
+	//	// プレイヤー左右移動時立ち絵(画像の中から切り抜いて拡大する)
+	//	DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+	//		srcX, 32, 16, 16,
+	//		Graph, true);
+	//}
+	//else if(m_dir = kDirRight)
+	//{
+	//	// プレイヤー左右移動時立ち絵(画像の中から切り抜いて拡大する)
+	//	DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+	//		srcX,16, 16, 16,
+	//		Graph, true);
+	//}
+
+
+
+	//if (isTurn)
+	//{
+	//	// プレイヤー反転描画(左向き)
+	//	DrawTurnGraph(m_pos.x, m_pos.y, Graph, false);
+	//}
+	//else
+	//{
+	//	// プレイヤー描画(右向き)
+	//	DrawGraph(m_pos.x, m_pos.y, Graph, false);
+	//}
 
 	// プレイヤーの現在座標表示
 	DrawFormatString(0,0,GetColor( 255 , 255 , 255 ),

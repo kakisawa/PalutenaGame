@@ -8,6 +8,7 @@ public:
 	// 向いている方向
 	enum Dir
 	{
+		kDirFront,	// 正面
 		kDirDown,	// 下
 		kDirLeft,	// 左
 		kDirRight,	// 右
@@ -24,7 +25,7 @@ public:
 
 private:
 	// プレイヤーの画像
-	int Graph;
+	int Graph;		// 通常待機
 	// プレイヤーの画像サイズ
 	int W, H;
 	// プレイヤーの体力
@@ -34,6 +35,8 @@ private:
 	Vec2 m_pos;
 	// 向いている方向
 	Dir m_dir;
+	// 待機状態アニメーション
+	int IdleAnimation;
 
 	// 重力
 	float Gravity;
@@ -45,7 +48,7 @@ private:
 public:
 	// プレイヤー反転フラグ
 	bool isTurn;
-	// 移動中かどうかのフラグ
+	// プレイヤーが移動中かどうかのフラグ
 	bool isMove;
 	// ジャンプ中かどうかのフラグ
 	int isJumpFlag;
