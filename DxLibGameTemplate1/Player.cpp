@@ -14,12 +14,15 @@ namespace
 	// ジャンプ距離
 	constexpr float kJump = 13.0f;
 
-	// キャラクターのアニメーション
+	// キャラクターのアニメーション(6コマ用)
 	constexpr int kUseFrame[] = { 0,1,2,3,4,5,4,3,2,1 };
 	// アニメーションの1コマのフレーム数
 	constexpr int kAnimFrameNum = 8;
 	// アニメーション1サイクルのフレーム数
 	constexpr int kAnimFrameCycle = _countof(kUseFrame) * kAnimFrameNum;
+
+	// キャラクターアニメーション(4コマ用)
+
 }
 
 Player::Player():
@@ -28,7 +31,9 @@ Player::Player():
 	m_dir(kDirFront),				// プレイヤーの初期方向
 	JumpPower(0.0f),				// プレイヤーの初期ジャンプ
 	Gravity(0.0f),					// プレイヤーの初期重力
-	IdleAnimation(0)				// 待機状態アニメーションの初期化
+	IdleAnimation(0),				// 待機状態アニメーションの初期化
+	RunAnimation(0),				// 左右移動アニメーション
+	isMove(false)					// 移動状態フラグ(否定のfalse)
 {
 }
 
@@ -39,7 +44,7 @@ Player::~Player()
 void Player::Init()
 {
 	// プレイヤーの画像読み込み&座標の初期化
-	Graph = LoadGraph("data/Player.png");
+	Graph = LoadGraph("data/Player1.png");
 }
 
 void Player::Update()
@@ -79,14 +84,12 @@ void Player::Update()
 	if (Key && CheckHitKey(KEY_INPUT_UP) == 1)
 	{
 		isMove = true;
-		isTurn = false;
 		m_dir = kDirUp;
 	}
 	// 屈む
 	if (Key && CheckHitKey(KEY_INPUT_DOWN) == 1)
 	{
 		isMove = true;
-		isTurn = false;
 		m_dir = kDirDown;
 	}
 	// 左移動
@@ -94,7 +97,6 @@ void Player::Update()
 	{
 		m_pos.x -= kSpeed;
 		isMove = true;
-		isTurn = true;
 		m_dir = kDirLeft;
 	}
 	// 右移動
@@ -102,7 +104,6 @@ void Player::Update()
 	{
 		m_pos.x += kSpeed;
 		isMove = true;
-		isTurn = false;
 		m_dir = kDirRight;
 	}
 
@@ -116,20 +117,16 @@ void Player::Update()
 		isJumpFlag = true;
 		isMove = true;
 	}
-
 	// ジャンプ処理
 	m_pos.y -= JumpPower;
 
 
 	// ベクトルの正規化
 	move.normalize();
-
 	// ベクトルの長さをkSpeedにする
 	move *= kSpeed;
-
 	// 座標とベクトルの足し算
 	m_pos += move;
-
 	// 当たり判定の更新
 	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
 
@@ -144,9 +141,8 @@ void Player::Update()
 	}
 
 
-
-
-	if (isMove = false)
+	// 待機&左右移動アニメーションフレーム
+	if (isMove == false)
 	{
 		// 待機状態アニメーション
 		IdleAnimation++;
@@ -155,47 +151,54 @@ void Player::Update()
 			IdleAnimation = 0;
 		}
 	}
+	else if (isMove == true)
+	{
+		// 左右移動アニメーション
+		RunAnimation++;
+		if (RunAnimation >= kAnimFrameCycle)
+		{
+			RunAnimation = 0;
+		}
+	}
+
 }
 
 void Player::Draw()
 {
-	int animFrame = IdleAnimation / kAnimFrameNum;
-
-	int srcX = kUseFrame[animFrame] * 16;
+	// 待機状態アニメーション
+	int IdleFrame = IdleAnimation / kAnimFrameNum;
+	int src1X = kUseFrame[IdleFrame] * 16;
+	// 左右移動アニメーション
+	int RunFrame = RunAnimation / kAnimFrameNum;
+	int src2X = kUseFrame[RunFrame] * 16;
 	
-
-
 	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
-	DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-		srcX, 0, 16, 16,
-		Graph, true);
-
-	//if(m_dir = kDirLeft)
+	if (isMove == false)
+	{
+		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+			src1X, 27, 13, 16,
+			Graph, true);
+	}
+	// プレイヤー左移動
+	else if(isMove == true && m_dir == kDirLeft)
+	{
+		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+			src2X, 59, 13, 16,
+			Graph, true);
+	}
+	// プレイヤー右移動
+	else if(isMove == true && m_dir == kDirRight)
+	{
+		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+			src2X,43, 13, 16,
+			Graph, true);
+	}
+	//// プレイヤーしゃがみ
+	//else if (m_dir == kDirDown)
 	//{
-	//	// プレイヤー左右移動時立ち絵(画像の中から切り抜いて拡大する)
 	//	DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-	//		srcX, 32, 16, 16,
+	//		srcX, 16, 16, 16,
 	//		Graph, true);
-	//}
-	//else if(m_dir = kDirRight)
-	//{
-	//	// プレイヤー左右移動時立ち絵(画像の中から切り抜いて拡大する)
-	//	DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-	//		srcX,16, 16, 16,
-	//		Graph, true);
-	//}
-
-
-
-	//if (isTurn)
-	//{
-	//	// プレイヤー反転描画(左向き)
-	//	DrawTurnGraph(m_pos.x, m_pos.y, Graph, false);
-	//}
-	//else
-	//{
-	//	// プレイヤー描画(右向き)
-	//	DrawGraph(m_pos.x, m_pos.y, Graph, false);
 	//}
 
 	// プレイヤーの現在座標表示
@@ -204,6 +207,9 @@ void Player::Draw()
 	// プレイヤーの現在体力表示
 	DrawFormatString(0, 19, GetColor(255, 255, 255),
 		"HP:(%d)", HP);
+
+	DrawFormatString(0, 38, GetColor(255, 255, 255),
+		"isMove:(%d)", isMove);
 
 #ifdef _DEBUG
 	// 当たり判定の表示

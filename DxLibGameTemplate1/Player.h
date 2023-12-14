@@ -37,6 +37,8 @@ private:
 	Dir m_dir;
 	// 待機状態アニメーション
 	int IdleAnimation;
+	// 左右移動アニメーション
+	int RunAnimation;
 
 	// 重力
 	float Gravity;
@@ -45,9 +47,7 @@ private:
 	
 	// 当たり判定用の矩形
 	Rect m_colRect;
-public:
-	// プレイヤー反転フラグ
-	bool isTurn;
+
 	// プレイヤーが移動中かどうかのフラグ
 	bool isMove;
 	// ジャンプ中かどうかのフラグ
