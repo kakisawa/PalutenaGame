@@ -16,14 +16,14 @@ namespace
 
 	// キャラクターのアニメーション(6コマ用)
 	constexpr int SixFrame[] = { 0,1,2,3,4,5,4,3,2,1 };
-	//// キャラクターのアニメーション(4コマ用)
-	//constexpr int FourFrame[] = { 0,1,2,3,2,1 };
+	// キャラクターのアニメーション(4コマ用)
+	constexpr int FourFrame[] = { 0,1,2,3,2,1 };
 	// アニメーションの1コマのフレーム数
 	constexpr int kAnimFrameNum = 8;
 	// アニメーション1サイクルのフレーム数(6コマ用)
 	constexpr int SixFrameCycle = _countof(SixFrame) * kAnimFrameNum;
-	//// キャラクターアニメーション(4コマ用)
-	//constexpr int FourFrameCycle = _countof(FourFrame) * kAnimFrameNum;
+	// キャラクターアニメーション(4コマ用)
+	constexpr int FourFrameCycle = _countof(FourFrame) * kAnimFrameNum;
 	
 
 }
@@ -164,15 +164,16 @@ void Player::Update()
 			RunAnimation = 0;
 		}
 	}
-	//else if (m_dir==kDirDown)
-	//{
-	//	// しゃがみアニメーション
-	//	SquatAnimation++;
-	//	if (SquatAnimation >= FourFrameCycle)
-	//	{
-	//		SquatAnimation = 0;
-	//	}
-	//}
+
+	if (isMove == true && m_dir == kDirDown)
+	{
+		// しゃがみアニメーション
+		SquatAnimation++;
+		if (SquatAnimation >= FourFrameCycle)
+		{
+			SquatAnimation = 0;
+		}
+	}
 
 }
 
@@ -184,9 +185,9 @@ void Player::Draw()
 	// 左右移動アニメーション
 	int RunFrame = RunAnimation / kAnimFrameNum;
 	int src2X = SixFrame[RunFrame] * 16;
-	//// しゃがみアニメーション
-	//int SquatFrame = SquatAnimation / kAnimFrameNum;
-	//int src3X= FourFrame[SquatFrame] * 16;
+	// しゃがみアニメーション
+	int SquatFrame = SquatAnimation / kAnimFrameNum;
+	int src3X= FourFrame[SquatFrame] * 16;
 	
 	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
 	if (isMove == false)
@@ -209,13 +210,13 @@ void Player::Draw()
 			src2X,43, 13, 16,
 			Graph, true);
 	}
-	//// プレイヤーしゃがみ
-	//else if (m_dir == kDirDown)
-	//{
-	//	DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-	//		src3X+91, 43, 13, 16,
-	//		Graph, true);
-	//}
+	// プレイヤーしゃがみ
+	else if (m_dir == kDirDown)
+	{
+		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+			src3X+91, 43, 13, 16,
+			Graph, true);
+	}
 
 	// プレイヤーの現在座標表示
 	DrawFormatString(0,0,GetColor( 255 , 255 , 255 ),
