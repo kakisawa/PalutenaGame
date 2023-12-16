@@ -15,13 +15,16 @@ namespace
 	constexpr float kJump = 13.0f;
 
 	// キャラクターのアニメーション(6コマ用)
-	constexpr int kUseFrame[] = { 0,1,2,3,4,5,4,3,2,1 };
+	constexpr int SixFrame[] = { 0,1,2,3,4,5,4,3,2,1 };
+	//// キャラクターのアニメーション(4コマ用)
+	//constexpr int FourFrame[] = { 0,1,2,3,2,1 };
 	// アニメーションの1コマのフレーム数
 	constexpr int kAnimFrameNum = 8;
-	// アニメーション1サイクルのフレーム数
-	constexpr int kAnimFrameCycle = _countof(kUseFrame) * kAnimFrameNum;
-
-	// キャラクターアニメーション(4コマ用)
+	// アニメーション1サイクルのフレーム数(6コマ用)
+	constexpr int SixFrameCycle = _countof(SixFrame) * kAnimFrameNum;
+	//// キャラクターアニメーション(4コマ用)
+	//constexpr int FourFrameCycle = _countof(FourFrame) * kAnimFrameNum;
+	
 
 }
 
@@ -33,6 +36,7 @@ Player::Player():
 	Gravity(0.0f),					// プレイヤーの初期重力
 	IdleAnimation(0),				// 待機状態アニメーションの初期化
 	RunAnimation(0),				// 左右移動アニメーション
+	SquatAnimation(0),				// しゃがみアニメーション
 	isMove(false)					// 移動状態フラグ(否定のfalse)
 {
 }
@@ -146,7 +150,7 @@ void Player::Update()
 	{
 		// 待機状態アニメーション
 		IdleAnimation++;
-		if (IdleAnimation >= kAnimFrameCycle)
+		if (IdleAnimation >= SixFrameCycle)
 		{
 			IdleAnimation = 0;
 		}
@@ -155,11 +159,20 @@ void Player::Update()
 	{
 		// 左右移動アニメーション
 		RunAnimation++;
-		if (RunAnimation >= kAnimFrameCycle)
+		if (RunAnimation >= SixFrameCycle)
 		{
 			RunAnimation = 0;
 		}
 	}
+	//else if (m_dir==kDirDown)
+	//{
+	//	// しゃがみアニメーション
+	//	SquatAnimation++;
+	//	if (SquatAnimation >= FourFrameCycle)
+	//	{
+	//		SquatAnimation = 0;
+	//	}
+	//}
 
 }
 
@@ -167,10 +180,13 @@ void Player::Draw()
 {
 	// 待機状態アニメーション
 	int IdleFrame = IdleAnimation / kAnimFrameNum;
-	int src1X = kUseFrame[IdleFrame] * 16;
+	int src1X = SixFrame[IdleFrame] * 16;
 	// 左右移動アニメーション
 	int RunFrame = RunAnimation / kAnimFrameNum;
-	int src2X = kUseFrame[RunFrame] * 16;
+	int src2X = SixFrame[RunFrame] * 16;
+	//// しゃがみアニメーション
+	//int SquatFrame = SquatAnimation / kAnimFrameNum;
+	//int src3X= FourFrame[SquatFrame] * 16;
 	
 	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
 	if (isMove == false)
@@ -197,7 +213,7 @@ void Player::Draw()
 	//else if (m_dir == kDirDown)
 	//{
 	//	DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-	//		srcX, 16, 16, 16,
+	//		src3X+91, 43, 13, 16,
 	//		Graph, true);
 	//}
 

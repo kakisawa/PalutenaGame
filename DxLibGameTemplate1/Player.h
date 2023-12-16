@@ -39,6 +39,8 @@ private:
 	int IdleAnimation;
 	// 左右移動アニメーション
 	int RunAnimation;
+	// しゃがみアニメーション
+	int SquatAnimation;
 
 	// 重力
 	float Gravity;
