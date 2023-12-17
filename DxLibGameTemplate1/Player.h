@@ -35,12 +35,8 @@ private:
 	Vec2 m_pos;
 	// 向いている方向
 	Dir m_dir;
-	// 待機状態アニメーション
-	float IdleAnimation;
-	// 左右移動アニメーション
-	float RunAnimation;
-	// しゃがみアニメーション
-	float SquatAnimation;
+	// プレイヤーアニメーション
+	float PlayerAnim;
 
 	// 重力
 	float Gravity;

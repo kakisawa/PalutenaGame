@@ -14,31 +14,21 @@ namespace
 	// ジャンプ距離
 	constexpr float kJump = 13.0f;
 
-	// キャラクターのアニメーション(6コマ用)
-	constexpr int SixFrame[] = { 0,1,2,3,4,5,4,3,2,1 };
-	// キャラクターのアニメーション(4コマ用)
-	constexpr int FourFrame[] = { 0,1,2,3,2,1 };
-	// アニメーションの1コマのフレーム数(6コマ用)
-	constexpr int kSixAnimFrameNum = 8;
-	// アニメーションの1コマのフレーム数(4コマ用)
-	constexpr int kFourAnimFrameNum = 12;
-	// アニメーション1サイクルのフレーム数(6コマ用)
-	constexpr int SixFrameCycle = _countof(SixFrame) * kSixAnimFrameNum;
-	// キャラクターアニメーション(4コマ用)
-	constexpr int FourFrameCycle = _countof(FourFrame) * kFourAnimFrameNum;
-	
-
+	// キャラクターのアニメーション
+	constexpr int Frame[] = { 0,1,2,3,4,5,4,3,2,1 };
+	// アニメーションの1コマのフレーム数
+	constexpr int kAnimFrameNum = 8;
+	// アニメーション1サイクルのフレーム数
+	constexpr int FrameCycle = _countof(Frame) * kAnimFrameNum;
 }
 
-Player::Player():
+Player::Player() :
 	HP(100),						// プレイヤーの初期HP
 	m_pos(kScreenWidth / 2, 100),	// プレイヤーの初期位置
 	m_dir(kDirFront),				// プレイヤーの初期方向
 	JumpPower(0.0f),				// プレイヤーの初期ジャンプ
 	Gravity(0.0f),					// プレイヤーの初期重力
-	IdleAnimation(0),				// 待機状態アニメーションの初期化
-	RunAnimation(0),				// 左右移動アニメーション
-	SquatAnimation(0),				// しゃがみアニメーション
+	PlayerAnim(0),					// プレイヤーアニメーションの初期化
 	isMove(false)					// 移動状態フラグ(否定のfalse)
 {
 }
@@ -50,7 +40,7 @@ Player::~Player()
 void Player::Init()
 {
 	// プレイヤーの画像読み込み
-	Graph = LoadGraph("data/Player1.png");
+	Graph = LoadGraph("data/Player.png");
 }
 
 void Player::Update()
@@ -120,9 +110,10 @@ void Player::Update()
 		for (int i = 0; i < kJump; i++) {
 			JumpPower += 0.5f;
 		}
-		isJumpFlag = true;
-		isMove = true;
+			isJumpFlag = true;
+			isMove = true;
 	}
+
 	// ジャンプ処理
 	m_pos.y -= JumpPower;
 
@@ -148,82 +139,90 @@ void Player::Update()
 
 
 	// 待機&左右移動アニメーションフレーム
-	if (isMove == false)
+	if (isMove == false && isJumpFlag == false)
 	{
 		// 待機状態アニメーション
-		IdleAnimation++;
-		if (IdleAnimation >= SixFrameCycle)
+		PlayerAnim++;
+		if (PlayerAnim >= FrameCycle)
 		{
-			IdleAnimation = 0;
+			PlayerAnim = 0;
 		}
 	}
 	else if (isMove == true)
 	{
 		// 左右移動アニメーション
-		RunAnimation++;
-		if (RunAnimation >= SixFrameCycle)
+		PlayerAnim++;
+		if (PlayerAnim >= FrameCycle)
 		{
-			RunAnimation = 0;
+			PlayerAnim = 0;
 		}
 	}
-
-	if (isMove == true && m_dir == kDirDown)
+	else if (isMove == true && m_dir == kDirDown)
 	{
 		// しゃがみアニメーション
-		SquatAnimation++;
-		if (SquatAnimation >= FourFrameCycle)
+		PlayerAnim++;
+		if (PlayerAnim >= FrameCycle)
 		{
-			SquatAnimation = 0;
+			PlayerAnim = 0;
 		}
 	}
-
+	else if (isJumpFlag == true)
+	{
+		// ジャンプアニメーション
+		PlayerAnim++;
+		if (PlayerAnim >= FrameCycle)
+		{
+			PlayerAnim = 0;
+		}
+	}
 }
 
 void Player::Draw()
 {
-	// 待機状態アニメーション
-	int IdleFrame = IdleAnimation / kSixAnimFrameNum;
-	int src1X = SixFrame[IdleFrame] * 16;
-	// 左右移動アニメーション
-	int RunFrame = RunAnimation / kSixAnimFrameNum;
-	int src2X = SixFrame[RunFrame] * 16;
-	// しゃがみアニメーション
-	int SquatFrame = SquatAnimation / kFourAnimFrameNum;
-	int src3X= FourFrame[SquatFrame] * 16;
-	
+	// プレイヤーアニメーション
+	int PlayerFrame = PlayerAnim / kAnimFrameNum;
+	int srcX = Frame[PlayerFrame] * 16;
+
 	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
 	if (isMove == false)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
-			src1X, 27, 13, 16,
+			srcX + 2, 64, 13, 16,
 			Graph, true);
 	}
 	// プレイヤー左移動
-	else if(isMove == true && m_dir == kDirLeft)
+	else if (isMove == true && m_dir == kDirLeft && isJumpFlag == false)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-			src2X, 59, 13, 16,
+			srcX + 97, 79, 13, 16,
 			Graph, true);
 	}
 	// プレイヤー右移動
-	else if(isMove == true && m_dir == kDirRight)
+	else if (isMove == true && m_dir == kDirRight && isJumpFlag == false)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-			src2X,43, 13, 16,
+			srcX + 2, 79, 13, 16,
 			Graph, true);
 	}
 	// プレイヤーしゃがみ
 	else if (m_dir == kDirDown)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-			src3X + 93, 42,18, 15,
+			srcX + 2, 32, 13, 16,
+			Graph, true);
+	}
+	// プレイヤージャンプ
+	else if (isJumpFlag == true)
+	{
+		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+			srcX + 97, 64, 13, 16,
 			Graph, true);
 	}
 
 	// プレイヤーの現在座標表示
-	DrawFormatString(0,0,GetColor( 255 , 255 , 255 ),
-		"現在座標:(%.2f,%.2f)",m_pos.x, m_pos.y);
+	DrawFormatString(0, 0, GetColor(255, 255, 255),
+		"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);
 	// プレイヤーの現在体力表示
 	DrawFormatString(0, 19, GetColor(255, 255, 255),
 		"HP:(%d)", HP);

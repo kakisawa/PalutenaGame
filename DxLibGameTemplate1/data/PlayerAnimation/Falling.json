@@ -4,15 +4,15 @@
       "frame": {
         "x": 0,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "rotated": false,
-      "trimmed": true,
+      "trimmed": false,
       "spriteSourceSize": {
-        "x": 2,
+        "x": 0,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "sourceSize": {
@@ -26,17 +26,17 @@
     },
     "Falling2.png": {
       "frame": {
-        "x": 13,
+        "x": 16,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "rotated": false,
-      "trimmed": true,
+      "trimmed": false,
       "spriteSourceSize": {
-        "x": 2,
+        "x": 0,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "sourceSize": {
@@ -50,17 +50,17 @@
     },
     "Falling3.png": {
       "frame": {
-        "x": 26,
+        "x": 32,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "rotated": false,
-      "trimmed": true,
+      "trimmed": false,
       "spriteSourceSize": {
-        "x": 2,
+        "x": 0,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "sourceSize": {
@@ -74,17 +74,17 @@
     },
     "Falling4.png": {
       "frame": {
-        "x": 39,
+        "x": 48,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "rotated": false,
-      "trimmed": true,
+      "trimmed": false,
       "spriteSourceSize": {
-        "x": 2,
+        "x": 0,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "sourceSize": {
@@ -98,17 +98,17 @@
     },
     "Falling5.png": {
       "frame": {
-        "x": 52,
+        "x": 64,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "rotated": false,
-      "trimmed": true,
+      "trimmed": false,
       "spriteSourceSize": {
-        "x": 2,
+        "x": 0,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "sourceSize": {
@@ -122,17 +122,17 @@
     },
     "Falling6.png": {
       "frame": {
-        "x": 65,
+        "x": 80,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "rotated": false,
-      "trimmed": true,
+      "trimmed": false,
       "spriteSourceSize": {
-        "x": 2,
+        "x": 0,
         "y": 0,
-        "w": 13,
+        "w": 16,
         "h": 16
       },
       "sourceSize": {
@@ -151,7 +151,7 @@
     "image": "Falling.png",
     "format": "RGBA8888",
     "size": {
-      "w": 78,
+      "w": 96,
       "h": 16
     },
     "scale": 1

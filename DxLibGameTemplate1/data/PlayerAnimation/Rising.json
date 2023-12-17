@@ -1,82 +1,10 @@
 {
   "frames": {
-    "Attack.png": {
+    "Rising1.png": {
       "frame": {
         "x": 0,
         "y": 0,
-        "w": 176,
-        "h": 27
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 9,
-        "y": 5,
-        "w": 176,
-        "h": 27
-      },
-      "sourceSize": {
-        "w": 192,
-        "h": 32
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "Player.png": {
-      "frame": {
-        "x": 0,
-        "y": 27,
-        "w": 92,
-        "h": 47
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 92,
-        "h": 47
-      },
-      "sourceSize": {
-        "w": 92,
-        "h": 47
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "Dying.png": {
-      "frame": {
-        "x": 0,
-        "y": 74,
-        "w": 95,
-        "h": 16
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 1,
-        "y": 0,
-        "w": 95,
-        "h": 16
-      },
-      "sourceSize": {
-        "w": 96,
-        "h": 16
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "Falling.png": {
-      "frame": {
-        "x": 92,
-        "y": 27,
-        "w": 78,
+        "w": 16,
         "h": 16
       },
       "rotated": false,
@@ -84,11 +12,11 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 78,
+        "w": 16,
         "h": 16
       },
       "sourceSize": {
-        "w": 78,
+        "w": 16,
         "h": 16
       },
       "pivot": {
@@ -96,59 +24,11 @@
         "y": 0.5
       }
     },
-    "Crouch.png": {
+    "Rising2.png": {
       "frame": {
-        "x": 92,
-        "y": 43,
-        "w": 68,
-        "h": 13
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 2,
-        "y": 4,
-        "w": 68,
-        "h": 13
-      },
-      "sourceSize": {
-        "w": 72,
-        "h": 18
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "Decomposing.png": {
-      "frame": {
-        "x": 92,
-        "y": 56,
-        "w": 78,
-        "h": 7
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
+        "x": 16,
         "y": 0,
-        "w": 78,
-        "h": 7
-      },
-      "sourceSize": {
-        "w": 78,
-        "h": 7
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
-    },
-    "Hit.png": {
-      "frame": {
-        "x": 95,
-        "y": 63,
-        "w": 22,
+        "w": 16,
         "h": 16
       },
       "rotated": false,
@@ -156,11 +36,107 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 22,
+        "w": 16,
         "h": 16
       },
       "sourceSize": {
-        "w": 22,
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Rising3.png": {
+      "frame": {
+        "x": 32,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Rising4.png": {
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Rising5.png": {
+      "frame": {
+        "x": 64,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Rising6.png": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
         "h": 16
       },
       "pivot": {
@@ -172,11 +148,11 @@
   "meta": {
     "app": "http://free-tex-packer.com",
     "version": "0.6.7",
-    "image": "Player1.png",
+    "image": "Rising.png",
     "format": "RGBA8888",
     "size": {
-      "w": 176,
-      "h": 90
+      "w": 96,
+      "h": 16
     },
     "scale": 1
   }
