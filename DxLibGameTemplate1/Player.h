@@ -36,11 +36,11 @@ private:
 	// 向いている方向
 	Dir m_dir;
 	// 待機状態アニメーション
-	int IdleAnimation;
+	float IdleAnimation;
 	// 左右移動アニメーション
-	int RunAnimation;
+	float RunAnimation;
 	// しゃがみアニメーション
-	int SquatAnimation;
+	float SquatAnimation;
 
 	// 重力
 	float Gravity;
@@ -53,6 +53,6 @@ private:
 	// プレイヤーが移動中かどうかのフラグ
 	bool isMove;
 	// ジャンプ中かどうかのフラグ
-	int isJumpFlag;
+	bool isJumpFlag;
 };
 

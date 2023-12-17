@@ -18,12 +18,14 @@ namespace
 	constexpr int SixFrame[] = { 0,1,2,3,4,5,4,3,2,1 };
 	// キャラクターのアニメーション(4コマ用)
 	constexpr int FourFrame[] = { 0,1,2,3,2,1 };
-	// アニメーションの1コマのフレーム数
-	constexpr int kAnimFrameNum = 8;
+	// アニメーションの1コマのフレーム数(6コマ用)
+	constexpr int kSixAnimFrameNum = 8;
+	// アニメーションの1コマのフレーム数(4コマ用)
+	constexpr int kFourAnimFrameNum = 12;
 	// アニメーション1サイクルのフレーム数(6コマ用)
-	constexpr int SixFrameCycle = _countof(SixFrame) * kAnimFrameNum;
+	constexpr int SixFrameCycle = _countof(SixFrame) * kSixAnimFrameNum;
 	// キャラクターアニメーション(4コマ用)
-	constexpr int FourFrameCycle = _countof(FourFrame) * kAnimFrameNum;
+	constexpr int FourFrameCycle = _countof(FourFrame) * kFourAnimFrameNum;
 	
 
 }
@@ -47,7 +49,7 @@ Player::~Player()
 
 void Player::Init()
 {
-	// プレイヤーの画像読み込み&座標の初期化
+	// プレイヤーの画像読み込み
 	Graph = LoadGraph("data/Player1.png");
 }
 
@@ -180,19 +182,20 @@ void Player::Update()
 void Player::Draw()
 {
 	// 待機状態アニメーション
-	int IdleFrame = IdleAnimation / kAnimFrameNum;
+	int IdleFrame = IdleAnimation / kSixAnimFrameNum;
 	int src1X = SixFrame[IdleFrame] * 16;
 	// 左右移動アニメーション
-	int RunFrame = RunAnimation / kAnimFrameNum;
+	int RunFrame = RunAnimation / kSixAnimFrameNum;
 	int src2X = SixFrame[RunFrame] * 16;
 	// しゃがみアニメーション
-	int SquatFrame = SquatAnimation / kAnimFrameNum;
+	int SquatFrame = SquatAnimation / kFourAnimFrameNum;
 	int src3X= FourFrame[SquatFrame] * 16;
 	
 	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
 	if (isMove == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+		DrawRectExtendGraph(m_pos.x, m_pos.y,
+			m_pos.x + kWidth, m_pos.y + kHeight,
 			src1X, 27, 13, 16,
 			Graph, true);
 	}
@@ -214,7 +217,7 @@ void Player::Draw()
 	else if (m_dir == kDirDown)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
-			src3X+91, 43, 13, 16,
+			src3X + 93, 42,18, 15,
 			Graph, true);
 	}
 

@@ -24,7 +24,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// プレイヤーの初期化
 	player.Init();
 
-
 	// ゲームループ
 	while (ProcessMessage() != -1)
 	{
