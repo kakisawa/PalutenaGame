@@ -3,6 +3,7 @@
 #include "Game.h"
 
 #include "Player.h"
+#include "MozueyeEnemy.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -20,9 +21,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	Player player;
+	MozueyeEnemy mozueyeEnemy;
 
 	// プレイヤーの初期化
 	player.Init();
+	// 敵の初期化
+	mozueyeEnemy.Init();
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -37,10 +41,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// プレイヤーの更新
 		player.Update();
+		// 敵の更新
+		mozueyeEnemy.Update();
 
 		// プレイヤーの描画
 		player.Draw();
-
+		// 敵の描画
+		mozueyeEnemy.Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();

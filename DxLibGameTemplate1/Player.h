@@ -4,6 +4,22 @@
 class Player
 {
 public:
+	Player();
+	~Player();
+
+	void Init();
+	void Update();
+	void Draw();
+
+public:
+	// プレイヤーの体力
+	int PlayerHP;
+
+private:
+	// プレイヤーの画像
+	int Graph;		// 通常待機
+	// プレイヤーの画像サイズ
+	int W, H;
 
 	// 向いている方向
 	enum Dir
@@ -14,22 +30,6 @@ public:
 		kDirRight,	// 右
 		kDirUp,		// 上
 	};
-
-
-	Player();
-	~Player();
-
-	void Init();
-	void Update();
-	void Draw();
-
-private:
-	// プレイヤーの画像
-	int Graph;		// 通常待機
-	// プレイヤーの画像サイズ
-	int W, H;
-	// プレイヤーの体力
-	int HP;
 
 	// 表示位置
 	Vec2 m_pos;

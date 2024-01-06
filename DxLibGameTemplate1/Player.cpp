@@ -23,7 +23,7 @@ namespace
 }
 
 Player::Player() :
-	HP(100),						// プレイヤーの初期HP
+	PlayerHP(100),						// プレイヤーの初期HP
 	m_pos(kScreenWidth / 2, 100),	// プレイヤーの初期位置
 	m_dir(kDirFront),				// プレイヤーの初期方向
 	JumpPower(0.0f),				// プレイヤーの初期ジャンプ
@@ -225,7 +225,7 @@ void Player::Draw()
 		"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);
 	// プレイヤーの現在体力表示
 	DrawFormatString(0, 19, GetColor(255, 255, 255),
-		"HP:(%d)", HP);
+		"PlayerHP:(%d)", PlayerHP);
 
 	DrawFormatString(0, 38, GetColor(255, 255, 255),
 		"isMove:(%d)", isMove);
