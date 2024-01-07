@@ -3,16 +3,16 @@
 
 #define ENEMY_NUM 2        // –{—ˆ17
 
-class MozueyeEnemy : public EnemyBase{
+class MozueyeEnemy : public EnemyBase {
 public:
     MozueyeEnemy();
-    ~MozueyeEnemy(){}
+    ~MozueyeEnemy() {}
 
     void Init();
     void Update();
     void Draw();
 
-    void Damage(int damage) override; 
+    void Damage(int damage) override;
 
     // •\Ž¦ˆÊ’u
     Vec2 enemy[ENEMY_NUM];

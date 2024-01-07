@@ -32,4 +32,3 @@ private:
 	float m_right;	// 右上のX座標
 	float m_bottom; // 右上のY座標
 };
-

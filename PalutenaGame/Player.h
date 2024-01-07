@@ -1,67 +1,54 @@
 #pragma once
-#include "Rect.h"
 #include "Vec2.h"
-#include "Game.h"
-
-// プロトタイプ宣言
-struct Shot;
-
-class Player 
+#include "Rect.h"
+class Player
 {
 public:
 	Player();
 	~Player();
 
 	void Init();
-	void Update(Shot shotArray[], int shotArraySize);
+	void Update();
 	void Draw();
 
-	void Crate(Shot& shot);
-
-	// 当たり判定用の矩形
-	Rect m_colRect;
-	// プレイヤーの現在位置を取得する
-	Vec2 GetPos() const { return m_pos; }
-	// プレイヤーの当たり判定を取得する
-	Rect GetColRect() const { return m_colRect; }
+public:
+	// プレイヤーの体力
+	int PlayerHP;
 
 private:
 	// プレイヤーの画像
-	int Graph;
+	int Graph;		// 通常待機
 	// プレイヤーの画像サイズ
-	int W;
-	int H;
+	int W, H;
 
-	// プレイヤーのHP管理
-	int Hp;
+	// 向いている方向
+	enum Dir
+	{
+		kDirFront,	// 正面
+		kDirDown,	// 下
+		kDirLeft,	// 左
+		kDirRight,	// 右
+		kDirUp,		// 上
+	};
 
-	// 落下移動量
-	float FallPowor;
+	// 表示位置
+	Vec2 m_pos;
+	// 向いている方向
+	Dir m_dir;
+	// プレイヤーアニメーション
+	float PlayerAnim;
+
+	// 重力
+	float Gravity;
 	// ジャンプ移動量
 	float JumpPower;
 
-	// グラフィックのハンドル
-	int m_handle;
-	// 表示位置
-	Vec2 m_pos;
+	// 当たり判定用の矩形
+	Rect m_colRect;
 
-public:
-
-	// プレイヤー反転フラグ
-	bool isTurn;
-	// プレイヤーが上を向いているかのフラグ
-	bool isLookUp;
-	// プレイヤーがしゃがんでいるかのフラグ
-	bool isSquat;
-	// 移動中かどうかのフラグ
+	// プレイヤーが移動中かどうかのフラグ
 	bool isMove;
 	// ジャンプ中かどうかのフラグ
-	int isPushFlag;
-	// ショットボタンが前フレームで押されたかどうかのフラグ
-	bool isPrevshotFlag;
-
-	// 弾の左方向フラグ
-	bool LeftDir;
-	// 弾の上方向フラグ
-	bool TopDir;
+	bool isJumpFlag;
 };
+

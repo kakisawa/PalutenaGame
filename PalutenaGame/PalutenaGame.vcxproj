@@ -18,6 +18,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EnemyBase.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MozueyeEnemy.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="Vec2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EnemyBase.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="MozueyeEnemy.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Rect.h" />
+    <ClInclude Include="Vec2.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -132,24 +148,6 @@
       <AdditionalLibraryDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="KeyProcess.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Rect.cpp" />
-    <ClCompile Include="Shot.cpp" />
-    <ClCompile Include="Vec2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="KeyProcess.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Rect.h" />
-    <ClInclude Include="Shot.h" />
-    <ClInclude Include="Vec2.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

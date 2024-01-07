@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Game.h"
 
-namespace 
+namespace
 {
 	// エネミーのサイズ
 	constexpr int kWidth = 32;
@@ -83,7 +83,7 @@ void MozueyeEnemy::Update()
 
 void MozueyeEnemy::Draw()
 {
-	for(int i=0;i<ENEMY_NUM;i++)
+	for (int i = 0; i < ENEMY_NUM; i++)
 	{
 		if (isTurn == false)
 		{
@@ -106,7 +106,7 @@ void MozueyeEnemy::Damage(int damage)
 	// HPを減らす
 	HP -= damage;
 	// もしHPが0以下なら死亡処理をする
-	if (HP <= 0) 
+	if (HP <= 0)
 	{
 		Death();
 	}

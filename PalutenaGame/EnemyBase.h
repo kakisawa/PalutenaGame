@@ -2,7 +2,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 
-class EnemyBase{
+class EnemyBase {
 public:
 
 	EnemyBase() {}			// コンストラクタ
@@ -28,7 +28,7 @@ public:
 protected:		// 派生クラスからアクセスできるように
 
 	int EGraph;	// 敵画像
-	int W,H;	// 敵画像サイズ
+	int W, H;	// 敵画像サイズ
 	int HP;		// 敵HP
 	int Atk;	// 敵攻撃力	
 	int isTurn;	// 左右どちらを向いているか
@@ -50,5 +50,5 @@ protected:		// 派生クラスからアクセスできるように
 
 
 	bool isDeath = false; //死んだかどうか、falseで初期化しておく
-//	Player* player;	// プレイヤー
+	//	Player* player;	// プレイヤー
 };
