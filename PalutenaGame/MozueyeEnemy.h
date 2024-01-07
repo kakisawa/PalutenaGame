@@ -1,7 +1,7 @@
 #pragma once
 #include "EnemyBase.h"
 
-#define ENEMY_NUM 2        // –{—ˆ17
+#define ENEMY_NUM 3        // –{—ˆ17
 
 class MozueyeEnemy : public EnemyBase {
 public:
