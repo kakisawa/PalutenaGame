@@ -20,13 +20,13 @@ MozueyeEnemy::MozueyeEnemy()
 	Item;		// ドロップアイテム
 
 	enemy[ENEMY_NUM].x = kScreenWidth / 3;		// 敵座標
-	enemy[ENEMY_NUM].y = 400;
-	/*
+//	enemy[ENEMY_NUM].y = 400;
+	
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
 		enemy[i].y = 400 - i * kHeight;
 	}
-	*/
+	
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
@@ -80,7 +80,7 @@ void MozueyeEnemy::Update()
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
 		// 当たり判定の更新
-		m_colRect.SetCenter(enemy[i].x + kWidth / 2, enemy[i].y + kHeight / 2, kWidth, kHeight);
+		m_colRect[i].SetCenter(enemy[i].x + kWidth / 2, enemy[i].y + kHeight / 2, kWidth, kHeight);
 	}
 }
 
@@ -100,7 +100,10 @@ void MozueyeEnemy::Draw()
 
 #ifdef _DEBUG
 	// 当たり判定の表示
-	m_colRect.Draw(GetColor(0, 0, 255), false);
+	for (int i = 0; i < ENEMY_NUM; i++)
+	{
+		m_colRect[i].Draw(GetColor(0, 0, 255), false);
+	}
 #endif
 }
 
