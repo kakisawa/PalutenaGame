@@ -20,10 +20,13 @@ MozueyeEnemy::MozueyeEnemy()
 	Item;		// ドロップアイテム
 
 	enemy[ENEMY_NUM].x = kScreenWidth / 3;		// 敵座標
+	enemy[ENEMY_NUM].y = 400;
+	/*
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
 		enemy[i].y = 400 - i * kHeight;
 	}
+	*/
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
