@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "Game.h"
 
+#include "SceneMain.h"
 #include "Player.h"
 #include "MozueyeEnemy.h"
 
@@ -10,6 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	// 画面モード変更(解像度・ビット数)
 	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
+	
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
 
@@ -20,11 +22,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	Player player;
+	// SceneMain
+	SceneMain* pScene = new SceneMain;
 	MozueyeEnemy mozueyeEnemy;
 
-	// プレイヤーの初期化
-	player.Init();
+	// 初期化
+	pScene->Init();
 	// 敵の初期化
 	mozueyeEnemy.Init();
 
@@ -38,14 +41,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		// ゲームの処理
-
-		// プレイヤーの更新
-		player.Update();
+		// シーンの更新
+		pScene->Update();
 		// 敵の更新
 		mozueyeEnemy.Update();
 
-		// プレイヤーの描画
-		player.Draw();
+		// シーンの描画
+		pScene->Draw();
 		// 敵の描画
 		mozueyeEnemy.Draw();
 
@@ -64,8 +66,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 		}
 	}
+	pScene->End();
+
+	// メモリの解放
+	delete pScene;
+	pScene = nullptr;
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
-
 	return 0;				// ソフトの終了 
 }

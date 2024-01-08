@@ -1,0 +1,27 @@
+#include "DxLib.h"
+#include "Back.h"
+
+Back::Back():
+	x(0),
+	y(0)
+{
+}
+
+Back::~Back()
+{
+}
+
+void Back::Init()
+{
+	// îwåiâÊëúì«Ç›çûÇ›
+	Bg = LoadGraph("data/Map/Back.png");
+}
+
+void Back::Update()
+{
+}
+
+void Back::Draw()
+{
+	DrawGraph(x, y, Bg, FALSE);
+}

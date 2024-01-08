@@ -20,15 +20,20 @@ namespace
 	constexpr int kAnimFrameNum = 8;
 	// アニメーション1サイクルのフレーム数
 	constexpr int FrameCycle = _countof(Frame) * kAnimFrameNum;
+	// ダメージ演出フレーム数
+	constexpr int kDamageFrame = 60;
 }
 
-Player::Player() :
+Player::Player(SceneMain* pMain) :
+	m_pMain(pMain),
+	Graph(-1),
 	PlayerHP(100),						// プレイヤーの初期HP
 	m_pos(kScreenWidth / 2, 100),	// プレイヤーの初期位置
 	m_dir(kDirFront),				// プレイヤーの初期方向
 	JumpPower(0.0f),				// プレイヤーの初期ジャンプ
 	Gravity(0.0f),					// プレイヤーの初期重力
 	PlayerAnim(0),					// プレイヤーアニメーションの初期化
+	m_damageFrame(0),				// プレイヤー被ダメアニメーション
 	isMove(false)					// 移動状態フラグ(否定のfalse)
 {
 }
@@ -39,12 +44,15 @@ Player::~Player()
 
 void Player::Init()
 {
-	// プレイヤーの画像読み込み
-	Graph = LoadGraph("data/Player.png");
+	
 }
 
 void Player::Update()
 {
+	// ダメージ演出の進行
+	m_damageFrame--;
+	if (m_damageFrame < 0)	m_damageFrame = 0;
+
 	// プレイヤーが移動中かどうか
 	isMove = false;				// 移動していないのfalse
 	// プレイヤーがどの方向を向いているか
@@ -179,6 +187,15 @@ void Player::Update()
 
 void Player::Draw()
 {
+	// ダメージ演出 2フレーム間隔で表示非表示切り替え
+	// 0: 表示される
+	// 1:表示される
+	// 2:非表示
+	// 3:非表示
+	// 4:表示される	...
+	// %4することで012301230123...に変換する
+	if (m_damageFrame % 4 >= 2) return;
+
 	// プレイヤーアニメーション
 	int PlayerFrame = PlayerAnim / kAnimFrameNum;
 	int srcX = Frame[PlayerFrame] * 16;
@@ -234,6 +251,14 @@ void Player::Draw()
 	// 当たり判定の表示
 	m_colRect.Draw(GetColor(255, 0, 0), false);
 #endif
+}
+
+void Player::OnDamage()
+{
+	// ダメージ演出中は再度食らわない
+	if (m_damageFrame > 0)	return;
+	// 演出フレーム数を設定する
+	m_damageFrame = kDamageFrame;
 }
 
 // 地面処理まで終わってるはず

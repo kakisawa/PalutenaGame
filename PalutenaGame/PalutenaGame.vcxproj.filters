@@ -19,6 +19,12 @@
     <Filter Include="ヘッダー ファイル\Enemy">
       <UniqueIdentifier>{76d1aa79-f4c9-4d0b-958c-5acbdf454699}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Map">
+      <UniqueIdentifier>{f9273daa-83bc-4739-93f4-abe8d102506b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Mpa">
+      <UniqueIdentifier>{91ecc640-0a07-43b3-8ee6-0c7469c9a981}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -39,6 +45,12 @@
     <ClCompile Include="EnemyBase.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="SceneMain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Back.cpp">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -58,6 +70,12 @@
     </ClInclude>
     <ClInclude Include="MozueyeEnemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMain.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Back.h">
+      <Filter>ヘッダー ファイル\Mpa</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

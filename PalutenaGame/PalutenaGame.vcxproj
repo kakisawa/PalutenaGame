@@ -19,19 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Back.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MozueyeEnemy.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="SceneMain.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Back.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MozueyeEnemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rect.h" />
+    <ClInclude Include="SceneMain.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

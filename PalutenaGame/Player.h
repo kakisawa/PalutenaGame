@@ -1,10 +1,12 @@
 #pragma once
 #include "Vec2.h"
 #include "Rect.h"
+
+class SceneMain;
 class Player
 {
 public:
-	Player();
+	Player(SceneMain* pMain);
 	~Player();
 
 	void Init();
@@ -12,14 +14,27 @@ public:
 	void Draw();
 
 public:
+
+	// メンバー変数にアクセスする
+	void SetHandle(int handle) { Graph = handle; }
 	// プレイヤーの体力
 	int PlayerHP;
 
+	// プレイヤーがダメージを受けた
+	void OnDamage();
+
 private:
+
+	SceneMain* m_pMain;
+
 	// プレイヤーの画像
-	int Graph;		// 通常待機
+	int Graph;		
 	// プレイヤーの画像サイズ
 	int W, H;
+
+	int m_damageFrame;		// ダメージを受けてからのフレーム数
+							// 普段は0で、当たった時にフレーム数を設定して
+							// 以降毎フレーム減らしていく
 
 	// 向いている方向
 	enum Dir
@@ -51,4 +66,3 @@ private:
 	// ジャンプ中かどうかのフラグ
 	bool isJumpFlag;
 };
-

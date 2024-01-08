@@ -18,15 +18,12 @@ MozueyeEnemy::MozueyeEnemy()
 	HP = 1;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
-
-	enemy[ENEMY_NUM].x = kScreenWidth / 3;		// 敵座標
-//	enemy[ENEMY_NUM].y = 400;
-	
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
+		enemy[i].x = kScreenWidth / 3;		// 敵座標
 		enemy[i].y = 400 - i * kHeight;
 	}
-	
+
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
@@ -52,30 +49,30 @@ void MozueyeEnemy::Update()
 		enemy[ENEMY_NUM] += move;
 	}
 
-
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		// エネミーの座標を移動している方向に移動する
-		if (isTurn == false)
-		{
-			enemy[i].x += kSpeed;
-		}
-		else if (isTurn == true)
-		{
-			enemy[i].x -= kSpeed;
-		}
-		// エネミーが画面端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
-		if (enemy[i].x > kScreenWidth - kWidth)
-		{
-			enemy[i].x = kScreenWidth - kWidth;
-			isTurn = true;
-		}
-		else if (enemy[i].x < 0)
-		{
-			enemy[i].x = 0;
-			isTurn = false;
-		}
-	}
+	// 敵移動
+	//for (int i = 0; i < ENEMY_NUM; i++)
+	//{
+	//	// エネミーの座標を移動している方向に移動する
+	//	if (isTurn == false)
+	//	{
+	//		enemy[i].x += kSpeed;
+	//	}
+	//	else if (isTurn == true)
+	//	{
+	//		enemy[i].x -= kSpeed;
+	//	}
+	//	// エネミーが画面端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
+	//	if (enemy[i].x > kScreenWidth - kWidth)
+	//	{
+	//		enemy[i].x = kScreenWidth - kWidth;
+	//		isTurn = true;
+	//	}
+	//	else if (enemy[i].x < 0)
+	//	{
+	//		enemy[i].x = 0;
+	//		isTurn = false;
+	//	}
+	//}
 
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{

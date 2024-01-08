@@ -272,7 +272,7 @@ void SceneMain::Draw()
 	}
 	DrawFormatString(8, 40, GetColor(255, 255, 255), "ShotNum:%d", shotNum);
 
-	// バックバッファに書き込む設定にm戻しておく
+	// バックバッファに書き込む設定に戻しておく
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	// ゲーム画面をバックバッファに描画する
