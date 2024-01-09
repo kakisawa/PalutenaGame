@@ -2,6 +2,7 @@
 #include "Back.h"
 
 Back::Back():
+	Bg(0),
 	x(0),
 	y(0)
 {
@@ -13,8 +14,6 @@ Back::~Back()
 
 void Back::Init()
 {
-	// ”wŒi‰æ‘œ“Ç‚İ‚İ
-	Bg = LoadGraph("data/Map/Back.png");
 }
 
 void Back::Update()

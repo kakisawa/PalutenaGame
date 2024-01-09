@@ -65,4 +65,6 @@ private:
 	bool isMove;
 	// ジャンプ中かどうかのフラグ
 	bool isJumpFlag;
+	// プレイヤーが攻撃したかどうかのフラグ
+	bool isAttack;
 };

@@ -2,6 +2,7 @@
 #include "Player.h"
 
 #include "Game.h"
+#include "Pad.h"
 
 namespace
 {
@@ -14,7 +15,7 @@ namespace
 	// ジャンプ距離
 	constexpr float kJump = 13.0f;
 
-	// キャラクターのアニメーション
+	// キャラクターのアニメーション		// モーションのフレームごとに作り直す
 	constexpr int Frame[] = { 0,1,2,3,4,5,4,3,2,1 };
 	// アニメーションの1コマのフレーム数
 	constexpr int kAnimFrameNum = 8;
@@ -34,7 +35,8 @@ Player::Player(SceneMain* pMain) :
 	Gravity(0.0f),					// プレイヤーの初期重力
 	PlayerAnim(0),					// プレイヤーアニメーションの初期化
 	m_damageFrame(0),				// プレイヤー被ダメアニメーション
-	isMove(false)					// 移動状態フラグ(否定のfalse)
+	isMove(false),					// 移動状態フラグ(否定のfalse)
+	isAttack(false)					// 攻撃フラグ(否定のfalse)
 {
 }
 
@@ -44,7 +46,7 @@ Player::~Player()
 
 void Player::Init()
 {
-	
+
 }
 
 void Player::Update()
@@ -55,6 +57,8 @@ void Player::Update()
 
 	// プレイヤーが移動中かどうか
 	isMove = false;				// 移動していないのfalse
+	// プレイヤーが攻撃ボタンを押したかどうか
+	isAttack = false;			// 攻撃していないのfalse
 	// プレイヤーがどの方向を向いているか
 	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
 
@@ -85,34 +89,33 @@ void Player::Update()
 
 	// 矢印キーを押していたらプレイヤーを移動させる
 	// 上向き
-	if (Key && CheckHitKey(KEY_INPUT_UP) == 1)
+	if (CheckHitKey(KEY_INPUT_UP) == 1)
 	{
 		isMove = true;
 		m_dir = kDirUp;
 	}
 	// 屈む
-	if (Key && CheckHitKey(KEY_INPUT_DOWN) == 1)
+	if (CheckHitKey(KEY_INPUT_DOWN) == 1)
 	{
 		isMove = true;
 		m_dir = kDirDown;
 	}
 	// 左移動
-	if (Key && CheckHitKey(KEY_INPUT_LEFT) == 1)
+	if (CheckHitKey(KEY_INPUT_LEFT) == 1)
 	{
 		m_pos.x -= kSpeed;
 		isMove = true;
 		m_dir = kDirLeft;
 	}
 	// 右移動
-	if (Key && CheckHitKey(KEY_INPUT_RIGHT) == 1)
+	if (CheckHitKey(KEY_INPUT_RIGHT) == 1)
 	{
 		m_pos.x += kSpeed;
 		isMove = true;
 		m_dir = kDirRight;
 	}
-
 	// ジャンプボタンを押していて、地面についていたらジャンプ
-	if ((Key & PAD_INPUT_A) && m_pos.y == Ground)
+	if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == Ground)	//IsTrigger
 	{
 		// ジャンプ加速度
 		for (int i = 0; i < kJump; i++) {
@@ -120,6 +123,11 @@ void Player::Update()
 		}
 		isJumpFlag = true;
 		isMove = true;
+	}
+	// スペースキーを押していたら攻撃
+	if (Pad::IsTrigger(PAD_INPUT_10))
+	{
+		isAttack = true;
 	}
 
 	// ジャンプ処理
@@ -147,7 +155,7 @@ void Player::Update()
 
 
 	// 待機&左右移動アニメーションフレーム
-	if (isMove == false && isJumpFlag == false)
+	if (isMove == false)	//  && isJumpFlag == false
 	{
 		// 待機状態アニメーション
 		PlayerAnim++;
@@ -183,6 +191,15 @@ void Player::Update()
 			PlayerAnim = 0;
 		}
 	}
+	else if (isAttack == true)
+	{
+		// 攻撃アニメーション
+		PlayerAnim++;
+		if (PlayerAnim >= FrameCycle)
+		{
+			PlayerAnim = 0;
+		}
+	}
 }
 
 void Player::Draw()
@@ -199,9 +216,10 @@ void Player::Draw()
 	// プレイヤーアニメーション
 	int PlayerFrame = PlayerAnim / kAnimFrameNum;
 	int srcX = Frame[PlayerFrame] * 16;
+	int srcX2= Frame[PlayerFrame] * 32;
 
 	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
-	if (isMove == false)
+	if (isMove == false && isJumpFlag == false && isAttack == false)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
@@ -209,32 +227,42 @@ void Player::Draw()
 			Graph, true);
 	}
 	// プレイヤー左移動
-	else if (isMove == true && m_dir == kDirLeft && isJumpFlag == false)
+	else if (isMove == true && m_dir == kDirLeft && isJumpFlag == false && isAttack == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+		DrawRectExtendGraph(m_pos.x, m_pos.y, 
+			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 97, 79, 13, 16,
 			Graph, true);
 	}
 	// プレイヤー右移動
-	else if (isMove == true && m_dir == kDirRight && isJumpFlag == false)
+	else if (isMove == true && m_dir == kDirRight && isJumpFlag == false && isAttack == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+		DrawRectExtendGraph(m_pos.x, m_pos.y,
+			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 2, 79, 13, 16,
 			Graph, true);
 	}
 	// プレイヤーしゃがみ
-	else if (m_dir == kDirDown)
+	else if (m_dir == kDirDown && isAttack == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x , m_pos.y,
 			srcX + 2, 32, 13, 16,
 			Graph, true);
 	}
 	// プレイヤージャンプ
-	else if (isJumpFlag == true)
+	else if (isJumpFlag == true && isAttack == false)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 97, 64, 13, 16,
 			Graph, true);
+	}
+	// プレイヤー攻撃
+	else if (isAttack == true)
+	{
+		DrawRectExtendGraph(m_pos.x, m_pos.y - kWidth*1.1, m_pos.x + kWidth, m_pos.y + kHeight,
+			srcX2+3, 0, 26, 32,
+			Graph, true);
+
 	}
 
 	// プレイヤーの現在座標表示
@@ -246,6 +274,8 @@ void Player::Draw()
 
 	DrawFormatString(0, 38, GetColor(255, 255, 255),
 		"isMove:(%d)", isMove);
+	DrawFormatString(0, 57, GetColor(255, 255, 255),
+		"isAttack:(%d)", isAttack);
 
 #ifdef _DEBUG
 	// 当たり判定の表示

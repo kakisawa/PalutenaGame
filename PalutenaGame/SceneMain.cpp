@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Game.h"
 #include "Rect.h"
+#include "Pad.h"
 
 #include <cassert>
 
@@ -62,6 +63,8 @@ void SceneMain::End()
 
 void SceneMain::Update()
 {
+	Pad::Update();
+
 	m_pBack->Update();
 	m_pPlayer->Update();
 }

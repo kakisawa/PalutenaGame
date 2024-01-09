@@ -5,8 +5,8 @@
 class EnemyBase {
 public:
 
-	EnemyBase() {}			// コンストラクタ
-	virtual ~EnemyBase() {}	// デストラクタ
+	EnemyBase();		// コンストラクタ
+	virtual ~EnemyBase();	// デストラクタ
 
 	virtual void Init();
 	virtual void Update();
