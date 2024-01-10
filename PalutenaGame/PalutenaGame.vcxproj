@@ -20,24 +20,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Back.cpp" />
+    <ClCompile Include="DeathYourEnemy.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MozueyeEnemy.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="SceneMain.cpp" />
+    <ClCompile Include="SnakeEnemy.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Back.h" />
+    <ClInclude Include="DeathYourEnemy.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="MozueyeEnemy.h" />
     <ClInclude Include="Pad.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="SceneMain.h" />
+    <ClInclude Include="SnakeEnemy.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

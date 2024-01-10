@@ -1,12 +1,14 @@
 #pragma once
 #include "EnemyBase.h"
 
-#define ENEMY_NUM 5        // 本来17
+#define ENEMY_NUM 1        // 本来 3
 
-class MozueyeEnemy : public EnemyBase {
+class DeathYourEnemy :
+    public EnemyBase
+{
 public:
-    MozueyeEnemy();
-    ~MozueyeEnemy() {}
+    DeathYourEnemy();
+    ~DeathYourEnemy();
 
     void Init();
     void Update();
@@ -19,7 +21,4 @@ public:
 
     // 当たり判定用の矩形
     Rect m_colRect[ENEMY_NUM];
-
-private:
 };
-

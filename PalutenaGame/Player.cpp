@@ -60,16 +60,16 @@ void Player::Update()
 	// プレイヤーが攻撃ボタンを押したかどうか
 	isAttack = false;			// 攻撃していないのfalse
 	// プレイヤーがどの方向を向いているか
-	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
+//	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
 
-	// キー入力取得
-	int Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+	//// キー入力取得
+	//int Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
 
 	// 重力処理
-	m_pos.y += Gravity;
+//	m_pos.y += Gravity;
 	// 落下加速度を加える
 	Gravity += 0.3f;
 
@@ -91,14 +91,21 @@ void Player::Update()
 	// 上向き
 	if (CheckHitKey(KEY_INPUT_UP) == 1)
 	{
-		isMove = true;
+		isMove = false;
 		m_dir = kDirUp;
+
+		// デバッグ用
+		m_pos.y -= kSpeed;
+
 	}
 	// 屈む
 	if (CheckHitKey(KEY_INPUT_DOWN) == 1)
 	{
 		isMove = true;
 		m_dir = kDirDown;
+
+		// デバッグ用
+		m_pos.y += kSpeed;
 	}
 	// 左移動
 	if (CheckHitKey(KEY_INPUT_LEFT) == 1)
@@ -155,7 +162,7 @@ void Player::Update()
 
 
 	// 待機&左右移動アニメーションフレーム
-	if (isMove == false)	//  && isJumpFlag == false
+	if (isMove == false || m_dir == kDirUp)	//  && isJumpFlag == false
 	{
 		// 待機状態アニメーション
 		PlayerAnim++;
@@ -262,7 +269,6 @@ void Player::Draw()
 		DrawRectExtendGraph(m_pos.x, m_pos.y - kWidth*1.1, m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX2+3, 0, 26, 32,
 			Graph, true);
-
 	}
 
 	// プレイヤーの現在座標表示
