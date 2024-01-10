@@ -69,7 +69,7 @@ void Player::Update()
 	Vec2 move{ 0.0f,0.0f };
 
 	// 重力処理
-//	m_pos.y += Gravity;
+	m_pos.y += Gravity;
 	// 落下加速度を加える
 	Gravity += 0.3f;
 
@@ -95,17 +95,17 @@ void Player::Update()
 		m_dir = kDirUp;
 
 		// デバッグ用
-		m_pos.y -= kSpeed;
+	//	m_pos.y -= kSpeed;
 
 	}
 	// 屈む
 	if (CheckHitKey(KEY_INPUT_DOWN) == 1)
 	{
-		isMove = true;
+		isMove = false;
 		m_dir = kDirDown;
 
 		// デバッグ用
-		m_pos.y += kSpeed;
+		//m_pos.y += kSpeed;
 	}
 	// 左移動
 	if (CheckHitKey(KEY_INPUT_LEFT) == 1)
@@ -180,7 +180,7 @@ void Player::Update()
 			PlayerAnim = 0;
 		}
 	}
-	else if (isMove == true && m_dir == kDirDown)
+	else if (isMove == false && m_dir == kDirDown)
 	{
 		// しゃがみアニメーション
 		PlayerAnim++;
@@ -236,7 +236,7 @@ void Player::Draw()
 	// プレイヤー左移動
 	else if (isMove == true && m_dir == kDirLeft && isJumpFlag == false && isAttack == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y, 
+		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 97, 79, 13, 16,
 			Graph, true);
@@ -250,7 +250,7 @@ void Player::Draw()
 			Graph, true);
 	}
 	// プレイヤーしゃがみ
-	else if (m_dir == kDirDown && isAttack == false)
+	else if (isMove == false && m_dir == kDirDown && isAttack == false)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x , m_pos.y,
 			srcX + 2, 32, 13, 16,
