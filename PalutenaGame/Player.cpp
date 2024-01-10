@@ -101,7 +101,7 @@ void Player::Update()
 	// 屈む
 	if (CheckHitKey(KEY_INPUT_DOWN) == 1)
 	{
-		isMove = false;
+		isMove = true;
 		m_dir = kDirDown;
 
 		// デバッグ用
@@ -162,7 +162,7 @@ void Player::Update()
 
 
 	// 待機&左右移動アニメーションフレーム
-	if (isMove == false || m_dir == kDirUp)	//  && isJumpFlag == false
+	if (isMove == false)	//  && isJumpFlag == false
 	{
 		// 待機状態アニメーション
 		PlayerAnim++;
@@ -180,7 +180,7 @@ void Player::Update()
 			PlayerAnim = 0;
 		}
 	}
-	else if (isMove == false && m_dir == kDirDown)
+	else if (isMove == true && m_dir == kDirDown)
 	{
 		// しゃがみアニメーション
 		PlayerAnim++;
@@ -223,7 +223,7 @@ void Player::Draw()
 	// プレイヤーアニメーション
 	int PlayerFrame = PlayerAnim / kAnimFrameNum;
 	int srcX = Frame[PlayerFrame] * 16;
-	int srcX2= Frame[PlayerFrame] * 32;
+	int srcX2 = Frame[PlayerFrame] * 32;
 
 	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
 	if (isMove == false && isJumpFlag == false && isAttack == false)
@@ -250,24 +250,27 @@ void Player::Draw()
 			Graph, true);
 	}
 	// プレイヤーしゃがみ
-	else if (isMove == false && m_dir == kDirDown && isAttack == false)
+	else if (isMove == true && m_dir == kDirDown && isAttack == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x , m_pos.y,
+		DrawRectExtendGraph(m_pos.x, m_pos.y,
+			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 2, 32, 13, 16,
 			Graph, true);
 	}
 	// プレイヤージャンプ
 	else if (isJumpFlag == true && isAttack == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y, m_pos.x + kWidth, m_pos.y + kHeight,
+		DrawRectExtendGraph(m_pos.x, m_pos.y,
+			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 97, 64, 13, 16,
 			Graph, true);
 	}
 	// プレイヤー攻撃
 	else if (isAttack == true)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y - kWidth*1.1, m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX2+3, 0, 26, 32,
+		DrawRectExtendGraph(m_pos.x, m_pos.y - kWidth * 1.1,
+			m_pos.x + kWidth, m_pos.y + kHeight,
+			srcX2 + 3, 0, 26, 32,
 			Graph, true);
 	}
 
@@ -282,6 +285,8 @@ void Player::Draw()
 		"isMove:(%d)", isMove);
 	DrawFormatString(0, 57, GetColor(255, 255, 255),
 		"isAttack:(%d)", isAttack);
+	DrawFormatString(0, 76, GetColor(255, 255, 255),
+		"m_dir:(%d)", m_dir);
 
 #ifdef _DEBUG
 	// 当たり判定の表示

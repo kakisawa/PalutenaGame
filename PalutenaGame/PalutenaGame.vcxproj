@@ -29,7 +29,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="SceneMain.cpp" />
-    <ClCompile Include="SnakeEnemy.cpp" />
+    <ClCompile Include="PumpkinEnemy.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -43,7 +43,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="SceneMain.h" />
-    <ClInclude Include="SnakeEnemy.h" />
+    <ClInclude Include="PumpkinEnemy.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

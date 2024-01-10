@@ -1,45 +1,40 @@
-#include "DeathYourEnemy.h"
+#include "PumpkinEnemy.h"
 #include "DxLib.h"
 #include "Game.h"
 
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 26;
-	constexpr int kHeight = 45;
+	constexpr int kWidth = 16;
+	constexpr int kHeight = 22;
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
 }
 
-DeathYourEnemy::DeathYourEnemy()
+PumpkinEnemy::PumpkinEnemy()
 {
-	HP = 5;		// HP
+	HP = 1;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
-		enemy[i].x = kScreenWidth / 3;		// 敵座標
-		enemy[i].y = 200 + i * kHeight;
+		enemy[i].x = kScreenWidth / 5;		// 敵座標
+		enemy[i].y = 400 - i * kHeight;
 	}
+
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
 }
 
-DeathYourEnemy::~DeathYourEnemy()
+void PumpkinEnemy::Init()
 {
+	EGraph = LoadGraph("data/Fairy3.png");
 }
 
-void DeathYourEnemy::Init()
-{
-	EGraph = LoadGraph("data/Fairy2.png");
-}
-
-void DeathYourEnemy::Update()
-{
-
-	// 移動量を持つようにする
+void PumpkinEnemy::Update()
+{// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
 
 	// ベクトルの正規化
@@ -52,7 +47,7 @@ void DeathYourEnemy::Update()
 		enemy[ENEMY_NUM] += move;
 	}
 
-	// //敵移動
+	// 敵移動
 	//for (int i = 0; i < ENEMY_NUM; i++)
 	//{
 	//	// エネミーの座標を移動している方向に移動する
@@ -77,14 +72,14 @@ void DeathYourEnemy::Update()
 	//	}
 	//}
 
-	 for (int i = 0; i < ENEMY_NUM; i++)
-	 {
-		 // 当たり判定の更新
-		 m_colRect[i].SetCenter(enemy[i].x + kWidth / 2, enemy[i].y + kHeight / 2, kWidth, kHeight);
-	 }
+	for (int i = 0; i < ENEMY_NUM; i++)
+	{
+		// 当たり判定の更新
+		m_colRect[i].SetCenter(enemy[i].x + kWidth / 2, enemy[i].y + kHeight / 2, kWidth, kHeight);
+	}
 }
 
-void DeathYourEnemy::Draw()
+void PumpkinEnemy::Draw()
 {
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
@@ -107,7 +102,7 @@ void DeathYourEnemy::Draw()
 #endif
 }
 
-void DeathYourEnemy::Damage(int damage)
+void PumpkinEnemy::Damage(int damage)
 {
 	// HPを減らす
 	HP -= damage;

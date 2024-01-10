@@ -1,14 +1,14 @@
 #pragma once
 #include "EnemyBase.h"
 
-#define ENEMY_NUM 15
+#define ENEMY_NUM 1
 
-class SnakeEnemy :
+class PumpkinEnemy :
     public EnemyBase
 {
 public:
-    SnakeEnemy();
-    ~SnakeEnemy() {}
+    PumpkinEnemy();
+    ~PumpkinEnemy() {}
 
     void Init();
     void Update();
@@ -21,7 +21,6 @@ public:
 
     // “–‚½‚è”»’è—p‚Ì‹éŒ`
     Rect m_colRect[ENEMY_NUM];
-
 
 private:
 };

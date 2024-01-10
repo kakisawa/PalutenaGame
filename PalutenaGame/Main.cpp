@@ -5,6 +5,8 @@
 #include "SceneMain.h"
 #include "Player.h"
 #include "MozueyeEnemy.h"
+#include "DeathYourEnemy.h"
+#include "PumpkinEnemy.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -25,11 +27,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// SceneMain
 	SceneMain* pScene = new SceneMain;
 	MozueyeEnemy mozueyeEnemy;
+	DeathYourEnemy deathYourEnemy;
+	PumpkinEnemy punpkinEnemy;
 
 	// 初期化
 	pScene->Init();
 	// 敵の初期化
 	mozueyeEnemy.Init();
+	deathYourEnemy.Init();
+	punpkinEnemy.Init();
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -45,11 +51,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		pScene->Update();
 		// 敵の更新
 		mozueyeEnemy.Update();
+		deathYourEnemy.Update();
+		punpkinEnemy.Update();
 
 		// シーンの描画
 		pScene->Draw();
 		// 敵の描画
 		mozueyeEnemy.Draw();
+		deathYourEnemy.Draw();
+		punpkinEnemy.Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();

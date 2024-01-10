@@ -60,7 +60,7 @@
     <ClCompile Include="DeathYourEnemy.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="SnakeEnemy.cpp">
+    <ClCompile Include="PumpkinEnemy.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClInclude Include="DeathYourEnemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="SnakeEnemy.h">
+    <ClInclude Include="PumpkinEnemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
