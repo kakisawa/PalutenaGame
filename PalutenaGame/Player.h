@@ -52,7 +52,7 @@ private:
 	Dir m_dir;
 	// プレイヤーアニメーション
 	float PlayerAnim;
-
+	// enumでboolを変える
 	// 重力
 	float Gravity;
 	// ジャンプ移動量
