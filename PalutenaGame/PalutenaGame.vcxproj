@@ -20,31 +20,37 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Back.cpp" />
-    <ClCompile Include="DeathYourEnemy.cpp" />
-    <ClCompile Include="EnemyBase.cpp" />
+    <ClCompile Include="Enemy\DeathYourEnemy.cpp" />
+    <ClCompile Include="Enemy\EnemyBase.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MozueyeEnemy.cpp" />
-    <ClCompile Include="Pad.cpp" />
+    <ClCompile Include="Enemy\MozueyeEnemy.cpp" />
+    <ClCompile Include="Util\Pad.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Rect.cpp" />
-    <ClCompile Include="SceneMain.cpp" />
-    <ClCompile Include="PumpkinEnemy.cpp" />
-    <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="Util\Rect.cpp" />
+    <ClCompile Include="Scene\SceneBase.cpp" />
+    <ClCompile Include="Scene\SceneMain.cpp" />
+    <ClCompile Include="Enemy\PumpkinEnemy.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Back.h" />
-    <ClInclude Include="DeathYourEnemy.h" />
-    <ClInclude Include="EnemyBase.h" />
+    <ClInclude Include="Enemy\DeathYourEnemy.h" />
+    <ClInclude Include="Enemy\EnemyBase.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="MozueyeEnemy.h" />
-    <ClInclude Include="Pad.h" />
+    <ClInclude Include="Enemy\MozueyeEnemy.h" />
+    <ClInclude Include="Util\Pad.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Rect.h" />
-    <ClInclude Include="SceneMain.h" />
-    <ClInclude Include="PumpkinEnemy.h" />
-    <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Util\Rect.h" />
+    <ClInclude Include="Scene\SceneBase.h" />
+    <ClInclude Include="Scene\SceneMain.h" />
+    <ClInclude Include="Enemy\PumpkinEnemy.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Scene\SceneTitle.h" />
+    <ClInclude Include="Util\Vec2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -132,7 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir);$(ProjectDir)Enemy;$(ProjectDir)Scene;$(ProjectDir)Util</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>

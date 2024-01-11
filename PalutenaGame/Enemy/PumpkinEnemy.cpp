@@ -30,7 +30,6 @@ PumpkinEnemy::PumpkinEnemy()
 
 void PumpkinEnemy::Init()
 {
-	EGraph = LoadGraph("data/Fairy3.png");
 }
 
 void PumpkinEnemy::Update()

@@ -3,6 +3,7 @@
 
 #define ENEMY_NUM 1
 
+class SceneMain;
 class PumpkinEnemy :
     public EnemyBase
 {
@@ -13,6 +14,9 @@ public:
     void Init();
     void Update();
     void Draw();
+
+    // グラフィックの設定
+    void SetHandle(int handle) { EGraph = handle; }
 
     void Damage(int damage) override;
 

@@ -3,8 +3,10 @@
 #include "Vec2.h"
 
 class Player;
-class EnemyBase;
 class Back;
+class MozueyeEnemy;
+class DeathYourEnemy;
+class PumpkinEnemy;
 
 class SceneMain
 {
@@ -13,9 +15,13 @@ public:
 	virtual ~SceneMain();
 
 	void Init();
-	void End();
 	void Update();
 	void Draw();
+
+	void End();
+
+	// シーンを終了させたいか
+	bool IsSceneEnd() const;
 
 private:
 	//// 敵キャラクターの生成
@@ -30,12 +36,20 @@ private:
 	int m_enemyHandle;		// 敵
 	int m_backHandle;		// 背景
 
+	// エネミー
+	int m_mozueyeEnemy;			// モズアイ
+	int m_deathYourEnemyGraph;	// お前たちの死
+	int m_pumpkinEnemyGraph;	// パンプキン君
+
+
 	// プレイヤー
 	Player* m_pPlayer;
 	// 背景
 	Back* m_pBack;
-	// 敵
-	std::vector<EnemyBase*> m_pEnemy;
 
+	// エネミー
+	MozueyeEnemy* m_pMozueyeEnemy;
+	DeathYourEnemy* m_pDeathYourEnemy;
+	PumpkinEnemy* m_pPumpkinEnemy;
 };
 

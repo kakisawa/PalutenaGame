@@ -1,41 +1,43 @@
+#include "DeathYourEnemy.h"
 #include "DxLib.h"
-#include "MozueyeEnemy.h"
-#include "Player.h"
 #include "Game.h"
 
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 32;
-	constexpr int kHeight = 32;
+	constexpr int kWidth = 26;
+	constexpr int kHeight = 46;
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
 }
 
-MozueyeEnemy::MozueyeEnemy()
+DeathYourEnemy::DeathYourEnemy()
 {
-	HP = 1;		// HP
+	HP = 5;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
 		enemy[i].x = kScreenWidth / 3;		// 敵座標
-		enemy[i].y = 400 - i * kHeight;
+		enemy[i].y = 200 + i * kHeight;
 	}
-
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
 }
 
-void MozueyeEnemy::Init()
+DeathYourEnemy::~DeathYourEnemy()
 {
-	EGraph = LoadGraph("data/Fairy.png");
 }
 
-void MozueyeEnemy::Update()
+void DeathYourEnemy::Init()
 {
+}
+
+void DeathYourEnemy::Update()
+{
+
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
 
@@ -49,7 +51,7 @@ void MozueyeEnemy::Update()
 		enemy[ENEMY_NUM] += move;
 	}
 
-	// 敵移動
+	// //敵移動
 	//for (int i = 0; i < ENEMY_NUM; i++)
 	//{
 	//	// エネミーの座標を移動している方向に移動する
@@ -74,14 +76,14 @@ void MozueyeEnemy::Update()
 	//	}
 	//}
 
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		// 当たり判定の更新
-		m_colRect[i].SetCenter(enemy[i].x + kWidth / 2, enemy[i].y + kHeight / 2, kWidth, kHeight);
-	}
+	 for (int i = 0; i < ENEMY_NUM; i++)
+	 {
+		 // 当たり判定の更新
+		 m_colRect[i].SetCenter(enemy[i].x + kWidth / 2, enemy[i].y + kHeight / 2, kWidth, kHeight);
+	 }
 }
 
-void MozueyeEnemy::Draw()
+void DeathYourEnemy::Draw()
 {
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
@@ -104,7 +106,7 @@ void MozueyeEnemy::Draw()
 #endif
 }
 
-void MozueyeEnemy::Damage(int damage)
+void DeathYourEnemy::Damage(int damage)
 {
 	// HPを減らす
 	HP -= damage;

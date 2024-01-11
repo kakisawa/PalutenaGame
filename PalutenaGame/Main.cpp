@@ -2,11 +2,9 @@
 #include "Vec2.h"
 #include "Game.h"
 
-#include "SceneMain.h"
+#include "Scene/SceneMain.h"
 #include "Player.h"
-#include "MozueyeEnemy.h"
-#include "DeathYourEnemy.h"
-#include "PumpkinEnemy.h"
+#include "Scene/SceneTitle.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -24,18 +22,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
+	
 	// SceneMain
 	SceneMain* pScene = new SceneMain;
-	MozueyeEnemy mozueyeEnemy;
-	DeathYourEnemy deathYourEnemy;
-	PumpkinEnemy punpkinEnemy;
-
+	//SceneTitle sceneTitle;
+	
 	// 初期化
 	pScene->Init();
-	// 敵の初期化
-	mozueyeEnemy.Init();
-	deathYourEnemy.Init();
-	punpkinEnemy.Init();
+	// 仮
+	//sceneTitle.Init();
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -47,19 +42,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		// ゲームの処理
+		
 		// シーンの更新
 		pScene->Update();
-		// 敵の更新
-		mozueyeEnemy.Update();
-		deathYourEnemy.Update();
-		punpkinEnemy.Update();
 
+		// 仮
+		//sceneTitle.Update();
 		// シーンの描画
 		pScene->Draw();
-		// 敵の描画
-		mozueyeEnemy.Draw();
-		deathYourEnemy.Draw();
-		punpkinEnemy.Draw();
+		// 仮
+		//sceneTitle.Draw();
+		
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
