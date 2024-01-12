@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "Rect.h"
 
 class Player;
 class Map
@@ -20,6 +21,11 @@ public:
 
 	// プレイヤーと当たっているか判定
 	bool IsColPlayer();		// bool型を返す変数だから先頭にIsを付ける
+
+	// 指定した矩形と当たっているか判定
+	// 参照を使用してぶつかったマップチップの矩形情報を取得する
+	bool IsCol(Rect rect, Rect& chipRect);
+	
 
 private:
 	// スクロール量を決定するためにプレイヤーの位置情報が必要

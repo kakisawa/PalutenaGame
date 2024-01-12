@@ -11,7 +11,8 @@
 
 #include <cassert>
 
-SceneMain::SceneMain()
+SceneMain::SceneMain():
+	m_isSceneEnd(false)
 {
 	// ゲーム画面描画先の生成
 	// 画面サイズと同じ大きさのグラフィックデータを作成する
@@ -104,6 +105,13 @@ void SceneMain::Update()
 	m_pDeathYourEnemy->Update();
 	m_pPumpkinEnemy->Update();
 
+
+	// 1ボタンorZキーが押されたらゲームオーバー画面へ
+	if (CheckHitKey(KEY_INPUT_RETURN))	  // 1ボタンが押された or Zが押されたとき
+	{
+		m_isSceneEnd = true;
+	}
+	return;
 }
 
 void SceneMain::Draw()
@@ -133,5 +141,5 @@ void SceneMain::End()
 
 bool SceneMain::IsSceneEnd() const
 {
-	
+	return m_isSceneEnd;
 }

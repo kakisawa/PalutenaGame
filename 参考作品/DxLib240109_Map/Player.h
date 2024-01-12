@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "Rect.h"
 
 class Map;
 class Player
@@ -23,6 +24,8 @@ public:
 	float GetRight(); 
 	float GetTop();
 	float GetBottom();
+	// 現在のプレイヤーの矩形情報を取得
+	Rect getRect();
 
 private:
 	// Mapで決定したスクロール量を取得するためにMapクラスの情報が必要

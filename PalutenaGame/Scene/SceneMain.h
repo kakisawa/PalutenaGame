@@ -2,6 +2,7 @@
 #include <vector>
 #include "Vec2.h"
 
+// クラス宣言
 class Player;
 class Back;
 class MozueyeEnemy;
@@ -40,6 +41,9 @@ private:
 	int m_mozueyeEnemy;			// モズアイ
 	int m_deathYourEnemyGraph;	// お前たちの死
 	int m_pumpkinEnemyGraph;	// パンプキン君
+
+	// シーン処理
+	bool m_isSceneEnd;		// シーンを終了する時trueにする
 
 
 	// プレイヤー

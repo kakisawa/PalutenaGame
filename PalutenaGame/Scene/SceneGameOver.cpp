@@ -1,25 +1,23 @@
-#include "SceneTitle.h"
+#include "SceneGameOver.h"
 #include "DxLib.h"
-#include "Game.h"
-#include "Pad.h"
 
-
-SceneTitle::SceneTitle():
+SceneGameOver::SceneGameOver():
 	m_isSceneEnd(false)
 {
 	
 }
 
-
-void SceneTitle::Init()
+SceneGameOver::~SceneGameOver()
 {
-	// 背景のロード
-	Graph = LoadGraph("data/Map/TitleGraph.jpg");
-	m_isSceneEnd = false;
-	
 }
 
-void SceneTitle::Update()
+void SceneGameOver::Init()
+{
+	Graph = LoadGraph("data/Map/GameOverGraph.jpg");
+	m_isSceneEnd = false;
+}
+
+void SceneGameOver::Update()
 {
 	if (CheckHitKey(KEY_INPUT_RETURN))	// パッドの1ボタン or キーボードのZキー
 	{
@@ -52,20 +50,20 @@ void SceneTitle::Update()
 	}*/
 }
 
-void SceneTitle::Draw()
+void SceneGameOver::Draw()
 {
 	DrawGraph(0, 0, Graph, false);
-	DrawString(120, 120, "タイトル画面", GetColor(255, 255, 255));
+	DrawString(120, 120, "ゲームオーバー画面", GetColor(255, 255, 255));
 	DrawString(120, 120 + 16, "Enterキーを押してください", GetColor(255, 255, 255));
 }
 
-void SceneTitle::End()
+void SceneGameOver::End()
 {
 	// 背景をメモリから削除
 	DeleteGraph(Graph);
 }
 
-bool SceneTitle::IsSceneEnd() const
+bool SceneGameOver::IsSceneEnd() const
 {
 	return m_isSceneEnd;
 }

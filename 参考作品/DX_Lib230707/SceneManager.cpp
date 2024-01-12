@@ -24,14 +24,10 @@ void SceneManager::Init()
 	case kSceneKindMain:
 		m_main.Init();
 		break;
-	case kSceneKindResult:
-		m_result.Init();
-		break;
 	default:
 		break;
 	}
 }
-
 
 void SceneManager::Update()
 {
@@ -72,8 +68,8 @@ void SceneManager::Update()
 			m_title.Init();
 		}
 		break;
-		//	default:
-				//  break;
+			default:
+				  break;
 	}
 
 	// 各シーンの更新を行う

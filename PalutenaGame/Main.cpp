@@ -2,16 +2,17 @@
 #include "Vec2.h"
 #include "Game.h"
 
-#include "Scene/SceneMain.h"
+#include "SceneMain.h"
 #include "Player.h"
-#include "Scene/SceneTitle.h"
+#include "SceneTitle.h"
+#include "SceneManager.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// 画面モード変更(解像度・ビット数)
 	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
-	
+
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
 
@@ -22,15 +23,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	
-	// SceneMain
-	SceneMain* pScene = new SceneMain;
+
+	// SceneMainメモリ確保
+	//SceneMain* pScene = new SceneMain;
 	//SceneTitle sceneTitle;
-	
+
+	SceneManager* pSceneManager=new SceneManager;
+	pSceneManager->Init();
+
 	// 初期化
-	pScene->Init();
+	//pScene->Init();
 	// 仮
 	//sceneTitle.Init();
+
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -44,15 +49,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// ゲームの処理
 		
 		// シーンの更新
-		pScene->Update();
-
+		//pScene->Update();
 		// 仮
 		//sceneTitle.Update();
+		
+		pSceneManager->Update();
+
 		// シーンの描画
-		pScene->Draw();
+		//pScene->Draw();
 		// 仮
 		//sceneTitle.Draw();
 		
+		pSceneManager->Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
@@ -69,11 +77,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 		}
 	}
-	pScene->End();
+	//pScene->End();
+
+	pSceneManager->End();
 
 	// メモリの解放
-	delete pScene;
-	pScene = nullptr;
+	//delete pScene;
+	//pScene = nullptr;
+
+	delete pSceneManager;
+	pSceneManager = nullptr;
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 	return 0;				// ソフトの終了 

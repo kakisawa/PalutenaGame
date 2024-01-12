@@ -3,6 +3,7 @@
 
 class SceneTitle;
 class SceneMain;
+class SceneGameOver;
 
 class SceneManager
 {
@@ -21,6 +22,7 @@ private:
 	{
 		kSceneKindTitle,
 		kSceneKindMain,
+		kSceneKindGameOver,
 	};
 
 private:
@@ -30,6 +32,7 @@ private:
 	// SceneManager‚ÅŠÇ—‚·‚éŠeƒV[ƒ“
 	SceneTitle*  m_pTitle;
 	SceneMain*   m_pMain;
+	SceneGameOver* m_pGameOver;
 
 
 //	SceneResult m_result;

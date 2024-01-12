@@ -1,11 +1,11 @@
 #pragma once
 #include "SceneBase.h"
-class SceneTitle :
+class SceneGameOver :
     public SceneBase
 {
 public:
-    SceneTitle();
-    ~SceneTitle() {}
+    SceneGameOver();
+    ~SceneGameOver();
 
     void Init();
     void Update();
@@ -22,4 +22,6 @@ private:
 
     bool m_isSceneEnd;	// シーン終了フラグ
     // true:タイトルを終了してゲームへ
+
+
 };

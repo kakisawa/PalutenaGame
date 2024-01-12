@@ -5,24 +5,25 @@
 class EnemyBase {
 public:
 
-	EnemyBase();		// コンストラクタ
-	virtual ~EnemyBase();	// デストラクタ
+	EnemyBase();			// コンストラクタ
+	virtual ~EnemyBase(){}	// デストラクタ
 
-	virtual void Init();
-	virtual void Update();
-	virtual void Draw();
+	virtual void Init(){}
+	virtual void Update(){}
+	virtual void Draw(){}
 
 	// 攻撃を受ける処理(純粋仮想関数にし、派生クラスで実装)
 	virtual void Damage(int damage) = 0;
+
 	// 死んだときの処理
 	void Death()
 	{
-		isDeath = true;		// 死んだフラグをオンにする
+		isDeath = true;		// 死死亡フラグをオンにする
 	}
 	// 死んでいるかどうか
 	bool GetisDeath()
 	{
-		return isDeath;
+		return isDeath;		// 死亡フラグを返す
 	}
 
 protected:		// 派生クラスからアクセスできるように
@@ -33,6 +34,11 @@ protected:		// 派生クラスからアクセスできるように
 	int Atk;	// 敵攻撃力	
 	int isTurn;	// 左右どちらを向いているか
 
+	// エネミーアニメーション
+	float EnemyAnim;
+	// 重力
+	float Gravity;
+
 	enum Item	// アイテムの種類
 	{
 		kHeart,		// ハート
@@ -40,15 +46,9 @@ protected:		// 派生クラスからアクセスできるように
 		kBigHeart,	// ビッグハート
 		kHammer,	// トンカチ
 	};
-
 	Item Drop;		// ドロップアイテム
 
-	// エネミーアニメーション
-	float EnemyAnim;
-	// 重力
-	float Gravity;
+	bool isDeath; // 死亡フラグ
 
-
-	bool isDeath = false; //死んだかどうか、falseで初期化しておく
 	//	Player* player;	// プレイヤー
 };

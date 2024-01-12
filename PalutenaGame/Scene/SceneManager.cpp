@@ -2,17 +2,20 @@
 #include "DxLib.h"
 #include "SceneTitle.h"
 #include "SceneMain.h"
+#include "SceneGameOver.h"
 
-SceneManager::SceneManager():
+SceneManager::SceneManager() :
 	m_runScene(kSceneKindTitle),
 	m_pTitle(),			// クラスの初期化時は()の中にコンストラクタの引数を書く
-	m_pMain()
+	m_pMain(),
+	m_pGameOver()
 {
 	// メモリ確保
 	m_pTitle = new SceneTitle;
 	m_pMain = new SceneMain;
+	m_pGameOver = new SceneGameOver;
 }
- 
+
 SceneManager::~SceneManager()
 {
 }
@@ -29,6 +32,8 @@ void SceneManager::Init()
 	case kSceneKindMain:
 		m_pMain->Init();
 		break;
+	case kSceneKindGameOver:
+		m_pGameOver->Init();
 	default:
 		break;
 	}
@@ -36,6 +41,8 @@ void SceneManager::Init()
 
 void SceneManager::Update()
 {
+	// 仮でタイトル画面とゲーム画面を行き来できるようにする
+
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:
@@ -56,20 +63,70 @@ void SceneManager::Update()
 			// シーンを切り替える
 			m_pMain->End();	// 実行していたシーンの終了処理
 
-	//		m_runScene = kSceneKindResult;	// 次のフレーム以降、実行したいシーン
-	//		m_result.Init();
+			m_runScene = kSceneKindGameOver;	// 次のフレーム以降、実行したいシーン
+			m_pGameOver->Init();
 		}
 		break;
+	case kSceneKindGameOver:
+		if(m_pGameOver->IsSceneEnd())
+		{
+			// シーンを切り替える
+			m_pGameOver->End();	// 実行していたシーンの終了処理
+
+			m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
+			m_pTitle->Init();
+		}
 	}
 
-
-	// 各シーンの更新
+	// 各シーンの更新を行う
+	switch (m_runScene)
+	{
+	case kSceneKindTitle:
+		m_pTitle->Update();
+		break;
+	case kSceneKindMain:
+		m_pMain->Update();
+		break;
+	case kSceneKindGameOver:
+		m_pGameOver->Update();
+	default:
+		break;
+	}
 }
 
 void SceneManager::Draw()
 {
+	// 仮でタイトル画面とゲーム画面を行き来できるようにする
+
+	// 各シーンの更新を行う
+	switch (m_runScene)
+	{
+	case kSceneKindTitle:
+		m_pTitle->Draw();
+		break;
+	case kSceneKindMain:
+		m_pMain->Draw();
+		break;
+	case kSceneKindGameOver:
+		m_pGameOver->Draw();
+	default:
+		break;
+	}
 }
 
 void SceneManager::End()
 {
+	switch (m_runScene)
+	{
+	case kSceneKindTitle:
+		m_pTitle->End();
+		break;
+	case kSceneKindMain:
+		m_pMain->End();
+		break;
+	case kSceneKindGameOver:
+		m_pGameOver->End();
+	default:
+		break;
+	}
 }
