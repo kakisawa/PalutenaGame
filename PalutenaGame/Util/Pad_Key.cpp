@@ -21,7 +21,7 @@ namespace Pad
 		// 前のフレームに取得したパッド情報を一つ古い情報にする
 		lastPad = nowPad;
 		// 現在のパッドの情報を取得する
-		nowPad = GetJoypadInputState(DX_CHECKINPUT_PAD);
+		nowPad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 		// ジョイパッドの入力状態を取得する
 		// CheckHitKeyAllで調べる入力タイプ// パッド入力を調べる
@@ -72,11 +72,11 @@ namespace Pad
 		}
 
 
-		bool IsPress(int key)
+		bool Key::IsPress(int key)
 		{
 			return (nowKey & key);
 		}
-		bool IsTrigger(int key)
+		bool Key::IsTrigger(int key)
 		{
 			bool isNow = (nowKey & key);	// このフレーム
 			bool isLast = (lastKey & key);	// 前のフレーム
@@ -89,7 +89,7 @@ namespace Pad
 			}
 			return false;
 		}
-		bool IsRelase(int key)
+		bool Key::IsRelase(int key)
 		{
 			bool isNow = (nowKey & key);	// このフレーム
 			bool isLast = (lastKey & key);	// 前のフレーム
