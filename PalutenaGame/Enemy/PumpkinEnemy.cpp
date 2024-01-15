@@ -17,23 +17,33 @@ PumpkinEnemy::PumpkinEnemy()
 	HP = 1;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		enemy[i].x = kScreenWidth / 5;		// 敵座標
-		enemy[i].y = 400 - i * kHeight;
-	}
-
-
+	
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
-}
 
-void PumpkinEnemy::Init()
-{
+	m_pos.x = kScreenWidth * 0.5;
+	m_pos.y = kScreenHeight * 0.5;
 }
 
 void PumpkinEnemy::Update()
-{// 移動量を持つようにする
+{
+	m_basePos += m_vec;
+
+	m_pos += m_basePos;
+
+	//当たり判定の更新
+	UpdateCollision();
+
+	int width = 0;
+	int height = 0;
+	GetGraphSize(EGraph, &width, &height);
+
+	if (m_pos.x<0 || m_pos.x > kScreenWidth + width / 2)
+	{
+		m_isExist = false;
+	}
+
+	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
 
 	// ベクトルの正規化
@@ -41,10 +51,8 @@ void PumpkinEnemy::Update()
 	// ベクトルの長さをkSpeedにする
 	move *= kSpeed;
 	// 座標とベクトルの足し算
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		enemy[ENEMY_NUM] += move;
-	}
+	//enemy += move;
+
 
 	// 敵移動
 	//for (int i = 0; i < ENEMY_NUM; i++)
@@ -70,35 +78,6 @@ void PumpkinEnemy::Update()
 	//		isTurn = false;
 	//	}
 	//}
-
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		// 当たり判定の更新
-		m_colRect[i].SetCenter(enemy[i].x + kWidth / 2, enemy[i].y + kHeight / 2, kWidth, kHeight);
-	}
-}
-
-void PumpkinEnemy::Draw()
-{
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		if (isTurn == false)
-		{
-			DrawGraph(enemy[i].x, enemy[i].y, EGraph, true);
-		}
-		else if (isTurn == true)
-		{
-			DrawTurnGraph(enemy[i].x, enemy[i].y, EGraph, true);
-		}
-	}
-
-#ifdef _DEBUG
-	// 当たり判定の表示
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		m_colRect[i].Draw(GetColor(0, 0, 255), false);
-	}
-#endif
 }
 
 void PumpkinEnemy::Damage(int damage)

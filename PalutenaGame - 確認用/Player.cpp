@@ -62,12 +62,6 @@ void Player::Update()
 	// プレイヤーがどの方向を向いているか
 //	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
 
-	// パッド入力取得
-	int Pad = GetJoypadInputState(DX_CHECKINPUT_PAD);
-	// キー入力取得
-	int Key = CheckHitKey(DX_CHECKINPUT_KEY);
-
-
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
 
@@ -125,7 +119,7 @@ void Player::Update()
 		m_dir = kDirRight;
 	}
 	// ジャンプボタンを押していて、地面についていたらジャンプ
-	if (Key::IsTrigger(KEY_INPUT_Z) && m_pos.y == Ground)	//IsTrigger
+	if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == Ground)	//IsTrigger
 	{
 		// ジャンプ加速度
 		for (int i = 0; i < kJump; i++) {
@@ -135,7 +129,7 @@ void Player::Update()
 		isMove = true;
 	}
 	// スペースキーを押していたら攻撃
-	if (Key::IsTrigger(KEY_INPUT_SPACE))
+	if (Pad::IsTrigger(PAD_INPUT_10))
 	{
 		isAttack = true;
 	}

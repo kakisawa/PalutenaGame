@@ -7,9 +7,9 @@ public:
     MozueyeEnemy();
     ~MozueyeEnemy() {}
 
-    void Init();
+    void Init() {}
     void Update();
-    void Draw();
+    void Draw(){}
 
     void Damage(int damage) override;
 

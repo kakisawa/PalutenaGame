@@ -53,6 +53,8 @@ SceneMain::SceneMain():
 	m_pBack->SetHandle(m_backHandle);
 
 	// “G‚Ìƒƒ‚ƒŠŠm•Û
+
+
 	m_pMozueyeEnemy.resize(MozuMax);
 	m_pDeathYourEnemy.resize(DeathMax);
 	m_pPumpkinEnemy.resize(PumpMax);
@@ -120,8 +122,6 @@ void SceneMain::Init()
 
 void SceneMain::Update()
 {
-
-
 	m_pBack->Update();
 	m_pPlayer->Update();
 

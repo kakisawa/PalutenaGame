@@ -96,8 +96,6 @@ void SceneMain::Init()
 
 void SceneMain::Update()
 {
-	Pad::Update();
-
 	m_pBack->Update();
 	m_pPlayer->Update();
 
@@ -107,7 +105,7 @@ void SceneMain::Update()
 
 
 	// エンターキーが押されたらゲームオーバー画面へ遷移する
-	if (Key::IsTrigger(KEY_INPUT_RETURN))	  // 1ボタンが押された or Zが押されたとき
+	if (Pad::IsTrigger(PAD_INPUT_4))	  // 1ボタンが押された or Zが押されたとき
 	{
 		m_isSceneEnd = true;
 	}

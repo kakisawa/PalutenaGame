@@ -20,25 +20,20 @@ DeathYourEnemy::DeathYourEnemy()
 	
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
+
+	m_pos.x = kScreenWidth * 0.5;
+	m_pos.y = kScreenHeight * 0.5;
 }
 
 DeathYourEnemy::~DeathYourEnemy()
 {
 }
 
-void DeathYourEnemy::Init()
-{
-	m_pos.x = kScreenWidth * 0.5;
-	m_pos.y = kScreenHeight * 0.5;
-}
-
 void DeathYourEnemy::Update()
 {
-
 	m_basePos += m_vec;
 
 	m_pos += m_basePos;
-
 
 	//当たり判定の更新
 	UpdateCollision();
