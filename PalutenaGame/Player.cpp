@@ -2,7 +2,7 @@
 #include "Player.h"
 
 #include "Game.h"
-#include "Pad_Key.h"
+#include "Pad.h"
 
 namespace
 {
@@ -125,7 +125,7 @@ void Player::Update()
 		m_dir = kDirRight;
 	}
 	// ジャンプボタンを押していて、地面についていたらジャンプ
-	if (Key::IsTrigger(KEY_INPUT_Z) && m_pos.y == Ground)	//IsTrigger
+	if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == Ground)	//IsTrigger
 	{
 		// ジャンプ加速度
 		for (int i = 0; i < kJump; i++) {
@@ -135,7 +135,7 @@ void Player::Update()
 		isMove = true;
 	}
 	// スペースキーを押していたら攻撃
-	if (Key::IsTrigger(KEY_INPUT_SPACE))
+	if (Pad::IsTrigger(PAD_INPUT_10))
 	{
 		isAttack = true;
 	}
@@ -295,6 +295,12 @@ void Player::Draw()
 	// 当たり判定の表示
 	m_colRect.Draw(GetColor(255, 0, 0), false);
 #endif
+}
+
+void Player::End()
+{
+	// 背景をメモリから削除
+	DeleteGraph(Graph);
 }
 
 void Player::OnDamage()

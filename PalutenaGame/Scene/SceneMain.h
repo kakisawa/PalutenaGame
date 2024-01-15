@@ -52,8 +52,8 @@ private:
 	Back* m_pBack;
 
 	// エネミー
-	MozueyeEnemy* m_pMozueyeEnemy;
-	DeathYourEnemy* m_pDeathYourEnemy;
-	PumpkinEnemy* m_pPumpkinEnemy;
+	std::vector<MozueyeEnemy> m_pMozueyeEnemy;
+	std::vector<DeathYourEnemy> m_pDeathYourEnemy;
+	std::vector<PumpkinEnemy> m_pPumpkinEnemy;
 };
 

@@ -7,9 +7,19 @@
 #include "Back.h"
 #include "Game.h"
 #include "Rect.h"
-#include "Pad_Key.h"
+#include "Pad.h"
 
 #include <cassert>
+
+namespace
+{
+	// モズアイ出現数
+	constexpr int MozuMax = 17;
+	// 死出現数
+	constexpr int DeathMax = 3;
+	// かぼちゃ出現数
+	constexpr int PumpMax = 10;	// 仮、覚えてない
+}
 
 SceneMain::SceneMain():
 	m_isSceneEnd(false)
@@ -43,6 +53,18 @@ SceneMain::SceneMain():
 	m_pBack->SetHandle(m_backHandle);
 
 	// 敵のメモリ確保
+	m_pMozueyeEnemy.resize(MozuMax);
+	m_pDeathYourEnemy.resize(DeathMax);
+	m_pPumpkinEnemy.resize(PumpMax);
+
+	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
+	{
+		m_pMozueyeEnemy[i] = nullptr;
+	}
+
+
+
+
 	m_pMozueyeEnemy = new MozueyeEnemy;
 	m_pMozueyeEnemy->SetHandle(m_mozueyeEnemy);
 	m_pDeathYourEnemy = new DeathYourEnemy;
@@ -86,6 +108,8 @@ void SceneMain::Init()
 {
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
+	m_isSceneEnd = false;
+
 	m_pPlayer->Init();
 	m_pBack->Init();
 
@@ -96,7 +120,7 @@ void SceneMain::Init()
 
 void SceneMain::Update()
 {
-	Pad::Update();
+
 
 	m_pBack->Update();
 	m_pPlayer->Update();
@@ -106,8 +130,10 @@ void SceneMain::Update()
 	m_pPumpkinEnemy->Update();
 
 
-	// エンターキーが押されたらゲームオーバー画面へ遷移する
-	if (Key::IsTrigger(KEY_INPUT_RETURN))	  // 1ボタンが押された or Zが押されたとき
+	Rect playerRect = m_pPlayer->GetColRect();
+
+	// Aボタンが押されたらゲームオーバー画面へ遷移する
+	if (Pad::IsTrigger( PAD_INPUT_4))	  // Aボタンが押された
 	{
 		m_isSceneEnd = true;
 	}

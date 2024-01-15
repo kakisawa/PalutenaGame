@@ -13,10 +13,14 @@ public:
 	void Update();
 	void Draw();
 
+	void End();
+
 public:
 
 	// メンバー変数にアクセスする
 	void SetHandle(int handle) { Graph = handle; }
+	// プレイヤーの当たり判定を取得する
+	Rect GetColRect() const { return m_colRect; }
 	// プレイヤーの体力
 	int PlayerHP;
 

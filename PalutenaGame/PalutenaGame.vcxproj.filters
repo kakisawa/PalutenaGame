@@ -84,7 +84,7 @@
     <ClCompile Include="Scene\SceneGameOver.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Pad_Key.cpp">
+    <ClCompile Include="Util\Pad.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,7 +134,7 @@
     <ClInclude Include="Scene\SceneGameOver.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Util\Pad_Key.h">
+    <ClInclude Include="Util\Pad.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

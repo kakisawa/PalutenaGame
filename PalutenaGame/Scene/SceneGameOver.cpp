@@ -1,5 +1,5 @@
 #include "SceneGameOver.h"
-#include "Pad_Key.h"
+#include "Pad.h"
 #include "DxLib.h"
 
 SceneGameOver::SceneGameOver():
@@ -21,7 +21,7 @@ void SceneGameOver::Init()
 void SceneGameOver::Update()
 {
 	// エンターキーが押されたらタイトル画面へ遷移する
-	if (Key::IsTrigger(KEY_INPUT_RETURN))
+	if (Pad::IsTrigger(PAD_INPUT_4))
 	{
 		//if (!m_isSceneEnd)
 		//{

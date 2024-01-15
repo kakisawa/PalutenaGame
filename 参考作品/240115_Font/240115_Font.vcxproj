@@ -18,48 +18,13 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Back.cpp" />
-    <ClCompile Include="Enemy\DeathYourEnemy.cpp" />
-    <ClCompile Include="Enemy\EnemyBase.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Enemy\MozueyeEnemy.cpp" />
-    <ClCompile Include="Scene\SceneGameOver.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Util\Pad.cpp" />
-    <ClCompile Include="Util\Rect.cpp" />
-    <ClCompile Include="Scene\SceneBase.cpp" />
-    <ClCompile Include="Scene\SceneMain.cpp" />
-    <ClCompile Include="Enemy\PumpkinEnemy.cpp" />
-    <ClCompile Include="Scene\SceneManager.cpp" />
-    <ClCompile Include="Scene\SceneTitle.cpp" />
-    <ClCompile Include="Util\Vec2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Back.h" />
-    <ClInclude Include="Enemy\DeathYourEnemy.h" />
-    <ClInclude Include="Enemy\EnemyBase.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Enemy\MozueyeEnemy.h" />
-    <ClInclude Include="Scene\SceneGameOver.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Util\Pad.h" />
-    <ClInclude Include="Util\Rect.h" />
-    <ClInclude Include="Scene\SceneBase.h" />
-    <ClInclude Include="Scene\SceneMain.h" />
-    <ClInclude Include="Enemy\PumpkinEnemy.h" />
-    <ClInclude Include="Scene\SceneManager.h" />
-    <ClInclude Include="Scene\SceneTitle.h" />
-    <ClInclude Include="Util\Vec2.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{30db2a5e-2954-4cea-9817-32cba90864a1}</ProjectGuid>
-    <RootNamespace>PalutenaGame</RootNamespace>
+    <ProjectGuid>{334dac1f-3fa7-4454-9680-791350b47982}</ProjectGuid>
+    <RootNamespace>_240115_Font</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>DxLib240115_Font</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -140,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir);$(ProjectDir)Enemy;$(ProjectDir)Scene;$(ProjectDir)Util</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -168,6 +133,9 @@
       <AdditionalLibraryDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

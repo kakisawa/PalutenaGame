@@ -1,8 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
 
-#define ENEMY_NUM 1        // 本来17
-
 class SceneMain;
 class MozueyeEnemy : public EnemyBase {
 public:
@@ -15,15 +13,12 @@ public:
 
     void Damage(int damage) override;
 
-    // グラフィックの設定
-    void SetHandle(int handle) { EGraph = handle; }
-
-    // 表示位置
-    Vec2 enemy[ENEMY_NUM];
-
-    // 当たり判定用の矩形
-    Rect m_colRect[ENEMY_NUM];
 
 private:
+    // 基準規定 真右方向に移動する基準座標
+    // y成分にsinの値を足して上下に動くようにする
+    Vec2 m_basePos;
+    // sin()に与える引数
+    float m_sinRate;
 };
 

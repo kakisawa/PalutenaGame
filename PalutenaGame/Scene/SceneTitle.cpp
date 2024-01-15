@@ -1,7 +1,7 @@
 #include "SceneTitle.h"
 #include "DxLib.h"
 #include "Game.h"
-#include "Pad_Key.h"
+#include "Pad.h"
 
 
 SceneTitle::SceneTitle():
@@ -21,8 +21,8 @@ void SceneTitle::Init()
 
 void SceneTitle::Update()
 {
-	// エンターキーが押されたらメイン画面へ遷移する
-	if (Key::IsTrigger(KEY_INPUT_RETURN))
+	// Aボタンが押されたらメイン画面へ遷移する
+	if (Pad::IsTrigger(PAD_INPUT_4))
 	{
 		//if (!m_isSceneEnd)
 		//{
