@@ -14,6 +14,9 @@ namespace
 
 PumpkinEnemy::PumpkinEnemy()
 {
+
+	EGraph= LoadGraph("data/Fairy3.png");
+
 	HP = 1;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
@@ -23,6 +26,11 @@ PumpkinEnemy::PumpkinEnemy()
 
 	m_pos.x = kScreenWidth * 0.5;
 	m_pos.y = kScreenHeight * 0.5;
+}
+
+PumpkinEnemy::~PumpkinEnemy()
+{
+	DeleteGraph(EGraph);
 }
 
 void PumpkinEnemy::Update()
@@ -78,15 +86,4 @@ void PumpkinEnemy::Update()
 	//		isTurn = false;
 	//	}
 	//}
-}
-
-void PumpkinEnemy::Damage(int damage)
-{
-	// HPを減らす
-	HP -= damage;
-	// もしHPが0以下なら死亡処理をする
-	if (HP <= 0)
-	{
-		Death();
-	}
 }

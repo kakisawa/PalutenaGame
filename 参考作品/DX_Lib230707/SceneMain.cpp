@@ -16,7 +16,6 @@ namespace
 	constexpr int kEnemyWaitFrameChangeNum = 5;
 	// ˆê“x¶¬ŠÔŠu‚ğ’Z‚­‚·‚é‚Æ‚«‚É‰½ƒtƒŒ[ƒ€’Z‚­‚·‚é‚©
 	constexpr int kEnemyWaitFrameChangeFrame = 2;
-
 }
 
 SceneMain::SceneMain():

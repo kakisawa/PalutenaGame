@@ -5,35 +5,18 @@
 class EnemyBase {
 public:
 
-	EnemyBase();			// コンストラクタ
-	virtual ~EnemyBase(){}	// デストラクタ
+	EnemyBase();			
+	virtual ~EnemyBase(){}
 
 	virtual void Init(){}
 	virtual void Update();
 	virtual void Draw();
 
-	// メンバー変数にアクセスする
-	void SetHandle(int handle) { EGraph = handle; }
+	virtual void OnDamage();	// 敵がダメージを受けた時の処理
+	void Death();				// 死んだときの処理
 
-	// 攻撃を受ける処理(純粋仮想関数にし、派生クラスで実装)
-	virtual void Damage(int damage) = 0;
-
-	// 死んだときの処理
-	void Death()
-	{
-		isDeath = true;		// 死死亡フラグをオンにする
-	}
-	// 死んでいるかどうか
-	bool GetisDeath()
-	{
-		return isDeath;		// 死亡フラグを返す
-	}
-
-	// 位置の取得
-	Vec2 GetPos() const { return m_pos; }
-
-	// 当たり判定の矩形を取得する
-	Rect GetColRect() const { return m_colRect; }
+	Vec2 GetPos() const { return m_pos; }			// 位置の取得
+	Rect GetColRect() const { return m_colRect; }	// 当たり判定の矩形を取得する
 
 
 protected:		// 派生クラスからアクセスできるように
@@ -44,12 +27,12 @@ protected:		// 派生クラスからアクセスできるように
 	int Atk;	// 敵攻撃力	
 	int isTurn;	// 左右どちらを向いているか
 
-	bool m_isExist;	// 存在するかフラグ(使用中かどうか)
 
-	// エネミーアニメーション
-	float EnemyAnim;
-	// 重力
-	float Gravity;
+	float EnemyAnim;	// エネミーアニメーション
+	float Gravity;		// 重力
+
+	bool m_isExist;		// 存在するかフラグ(使用中かどうか)
+
 
 	// m_posを左上に,m_handleのグラフィックサイズを幅高さにした
 	// 当たり判定を設定する

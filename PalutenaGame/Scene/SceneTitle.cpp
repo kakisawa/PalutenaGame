@@ -13,10 +13,10 @@ SceneTitle::SceneTitle():
 
 void SceneTitle::Init()
 {
-	// 背景のロード
-	Graph = LoadGraph("data/Map/TitleGraph.jpg");
+	Graph = LoadGraph("data/Map/TitleGraph.jpg");	// 背景読み込み
+	TitleGraph = LoadGraph("data/TitleGraph.png");		// タイトルロゴ読み込み
+
 	m_isSceneEnd = false;
-	
 }
 
 void SceneTitle::Update()
@@ -55,15 +55,16 @@ void SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	DrawGraph(0, 0, Graph, false);
-	DrawString(120, 120, "タイトル画面", GetColor(255, 255, 255));
-	DrawString(120, 120 + 16, "Enterキーを押してください", GetColor(255, 255, 255));
+	//DrawGraph(0, 0, Graph, false);
+	DrawExtendGraph(-120, -160, 850, 510, TitleGraph, true);
+	DrawString(260, 350 + 16, "Aボタンを押してください", GetColor(255, 255, 255));
 }
 
 void SceneTitle::End()
 {
-	// 背景をメモリから削除
+	// 画像をメモリから削除
 	DeleteGraph(Graph);
+	DeleteGraph(TitleGraph);
 }
 
 bool SceneTitle::IsSceneEnd() const

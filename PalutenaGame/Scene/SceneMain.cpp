@@ -11,17 +11,7 @@
 
 #include <cassert>
 
-namespace
-{
-	// モズアイ出現数
-	constexpr int MozuMax = 17;
-	// 死出現数
-	constexpr int DeathMax = 3;
-	// かぼちゃ出現数
-	constexpr int PumpMax = 10;	// 仮、覚えてない
-}
-
-SceneMain::SceneMain():
+SceneMain::SceneMain() :
 	m_isSceneEnd(false)
 {
 	// ゲーム画面描画先の生成
@@ -36,14 +26,6 @@ SceneMain::SceneMain():
 	m_backHandle = LoadGraph("data/Map/Back.png");
 	assert(m_backHandle != -1);
 
-	m_mozueyeEnemy = LoadGraph("data/Fairy.png");
-	assert(m_mozueyeEnemy != -1);
-	m_deathYourEnemyGraph = LoadGraph("data/Fairy2.png");
-	assert(m_deathYourEnemyGraph != -1);
-	m_pumpkinEnemyGraph = LoadGraph("data/Fairy3.png");
-	assert(m_pumpkinEnemyGraph != -1);
-
-
 	// プレイヤーのメモリ確保
 	m_pPlayer = new Player{ this };
 	m_pPlayer->SetHandle(m_playerHandle);	// Playerにグラフィックのハンドルを渡す
@@ -53,28 +35,18 @@ SceneMain::SceneMain():
 	m_pBack->SetHandle(m_backHandle);
 
 	// 敵のメモリ確保
-
-
-	m_pMozueyeEnemy.resize(MozuMax);
-	m_pDeathYourEnemy.resize(DeathMax);
-	m_pPumpkinEnemy.resize(PumpMax);
-
-	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
+	for (int i = 0; i < MozuMax; i++)
 	{
-		m_pMozueyeEnemy[i] = nullptr;
+		m_pMozueyeEnemy[i] = new MozueyeEnemy;
 	}
-
-
-
-
-	m_pMozueyeEnemy = new MozueyeEnemy;
-	m_pMozueyeEnemy->SetHandle(m_mozueyeEnemy);
-	m_pDeathYourEnemy = new DeathYourEnemy;
-	m_pDeathYourEnemy->SetHandle(m_deathYourEnemyGraph);
-	m_pPumpkinEnemy = new PumpkinEnemy;
-	m_pPumpkinEnemy->SetHandle(m_pumpkinEnemyGraph);
-
-
+	for (int i = 0; i < DeathMax; i++)
+	{
+		m_pDeathYourEnemy[i] = new DeathYourEnemy;
+	}
+	for (int i = 0; i < PumpMax; i++)
+	{
+		m_pPumpkinEnemy[i] = new PumpkinEnemy;
+	}
 }
 
 SceneMain::~SceneMain()
@@ -87,23 +59,29 @@ SceneMain::~SceneMain()
 	DeleteGraph(m_enemyHandle);
 	DeleteGraph(m_backHandle);
 
-	DeleteGraph(m_mozueyeEnemy);
-	DeleteGraph(m_deathYourEnemyGraph);
-	DeleteGraph(m_pumpkinEnemyGraph);
-
 	// メモリの解放
 	delete m_pPlayer;
 	m_pPlayer = nullptr;
 
 	delete m_pBack;
 	m_pBack = nullptr;
+	for (int i = 0; i < MozuMax; i++)
+	{
+		delete m_pMozueyeEnemy;
+		m_pMozueyeEnemy[i] = nullptr;
+	}
 
-	delete m_pMozueyeEnemy;
-	m_pMozueyeEnemy = nullptr;
-	delete m_pDeathYourEnemy;
-	m_pDeathYourEnemy = nullptr;
-	delete m_pPumpkinEnemy;
-	m_pPumpkinEnemy = nullptr;
+	for (int i = 0; i < DeathMax; i++)
+	{
+		delete m_pDeathYourEnemy;
+		m_pDeathYourEnemy[i] = nullptr;
+	}
+
+	for (int i = 0; i < PumpMax; i++)
+	{
+		delete m_pPumpkinEnemy;
+		m_pPumpkinEnemy[i] = nullptr;
+	}
 }
 
 void SceneMain::Init()
@@ -115,27 +93,73 @@ void SceneMain::Init()
 	m_pPlayer->Init();
 	m_pBack->Init();
 
-	m_pMozueyeEnemy->Init();
-	m_pDeathYourEnemy->Init();
-	m_pPumpkinEnemy->Init();
+	for (int i = 0; i < MozuMax; i++)
+	{
+		m_pMozueyeEnemy[i]->Init();
+	}
+	for (int i = 0; i < DeathMax; i++)
+	{
+		m_pDeathYourEnemy[i]->Init();
+	}
+	for (int i = 0; i < PumpMax; i++)
+	{
+		m_pPumpkinEnemy[i]->Init();
+	}
 }
 
 void SceneMain::Update()
 {
-	m_pBack->Update();
-	m_pPlayer->Update();
+	if (m_pPlayer->PlayerDeath())
+	{
+		// Aボタンが押されたらゲームオーバー画面へ遷移する
+		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
+		{
+			m_isSceneEnd = true;
+		}
+		m_pPlayer->Update();
+		m_pPlayer->Death();
 
-	m_pMozueyeEnemy->Update();
-	m_pDeathYourEnemy->Update();
-	m_pPumpkinEnemy->Update();
+		return;
+	}
+
+	m_pPlayer->Update();
+	m_pBack->Update();
 
 
 	Rect playerRect = m_pPlayer->GetColRect();
-
-	// Aボタンが押されたらゲームオーバー画面へ遷移する
-	if (Pad::IsTrigger( PAD_INPUT_4))	  // Aボタンが押された
+	for (int i = 0; i < MozuMax; i++)
 	{
-		m_isSceneEnd = true;
+		m_pMozueyeEnemy[i]->Update();
+
+		// 存在している敵とプレイヤーの当たり判定
+		Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
+		if (playerRect.IsCollsion(enemyRect))
+		{
+			m_pPlayer->OnDamage();
+		}
+	}
+
+	for (int i = 0; i < DeathMax; i++)
+	{
+		m_pDeathYourEnemy[i]->Update();
+
+		// 存在している敵とプレイヤーの当たり判定
+		Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
+		if (playerRect.IsCollsion(enemyRect))
+		{
+			m_pPlayer->OnDamage();
+		}
+	}
+	for (int i = 0; i < PumpMax; i++)
+	{
+		m_pPumpkinEnemy[i]->Update();
+
+		// 存在している敵とプレイヤーの当たり判定
+		Rect enemyRect = m_pPumpkinEnemy[i]->GetColRect();
+		if (playerRect.IsCollsion(enemyRect))
+		{
+			m_pPlayer->OnDamage();
+		}
 	}
 	return;
 }
@@ -150,10 +174,20 @@ void SceneMain::Draw()
 
 	m_pBack->Draw();
 	m_pPlayer->Draw();
+	m_pPlayer->Death();
 
-	m_pMozueyeEnemy->Draw();
-	m_pDeathYourEnemy->Draw();
-	m_pPumpkinEnemy->Draw();
+	for (int i = 0; i < MozuMax; i++)
+	{
+		m_pMozueyeEnemy[i]->EnemyBase::Draw();
+	}
+	for (int i = 0; i < DeathMax; i++)
+	{
+		m_pDeathYourEnemy[i]->EnemyBase::Draw();
+	}
+	for (int i = 0; i < PumpMax; i++)
+	{
+		m_pPumpkinEnemy[i]->EnemyBase::Draw();
+	}
 
 	// バックバッファに書き込む設定に戻しておく
 	SetDrawScreen(DX_SCREEN_BACK);

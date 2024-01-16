@@ -43,11 +43,23 @@ void EnemyBase::Draw()
 #endif // DEBUG
 }
 
+void EnemyBase::OnDamage()
+{
+}
+
+void EnemyBase::Death()
+{
+	isDeath = true;		// 死亡フラグをオンにする
+	m_isExist = false;
+}
+
+
+
 void EnemyBase::UpdateCollision()
 {
 	int width = 0;
 	int height = 0;
 	GetGraphSize(EGraph, &width, &height);
 	// 中心座標を指定して当たり判定のRectを生成する
-	m_colRect.SetCenter(m_pos.x, m_pos.y, width, height);
+	m_colRect.SetLT(m_pos.x, m_pos.y, width, height);
 }

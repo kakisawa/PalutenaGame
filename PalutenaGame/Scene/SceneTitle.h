@@ -19,6 +19,7 @@ public:
     void SetHandle(int handle) { Graph = handle; }
 
 private:
+    int TitleGraph;     // タイトルロゴグラフ
 
     bool m_isSceneEnd;	// シーン終了フラグ
     // true:タイトルを終了してゲームへ

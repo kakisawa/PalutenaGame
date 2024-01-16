@@ -12,33 +12,32 @@ public:
 	void Init();
 	void Update();
 	void Draw();
-
 	void End();
+
+	void OnDamage();	// プレイヤー被ダメ処理
+	void Death();		// プレイヤー死亡時処理
 
 public:
 
-	// メンバー変数にアクセスする
-	void SetHandle(int handle) { Graph = handle; }
-	// プレイヤーの当たり判定を取得する
-	Rect GetColRect() const { return m_colRect; }
-	// プレイヤーの体力
-	int PlayerHP;
+	void SetHandle(int handle) { Graph = handle; }		// メンバー変数にアクセスする
 
-	// プレイヤーがダメージを受けた
-	void OnDamage();
+	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
 
+	int OutHp = HP;		// プレイヤーHPの引数
+	bool PlayerDeath() const { return isDeath; }
 private:
 
 	SceneMain* m_pMain;
 
-	// プレイヤーの画像
-	int Graph;		
-	// プレイヤーの画像サイズ
-	int W, H;
-
-	int m_damageFrame;		// ダメージを受けてからのフレーム数
+	int HP;		// プレイヤーの体力
+	int Graph;	// プレイヤーの画像
+	int W, H;	// プレイヤーの画像サイズ
+	int m_damageFrame;	// ダメージを受けてからのフレーム数
 							// 普段は0で、当たった時にフレーム数を設定して
 							// 以降毎フレーム減らしていく
+	float Gravity;		// 重力
+	float JumpPower;	// ジャンプ移動量
+	float PlayerAnim;	// プレイヤーアニメーション
 
 	// 向いている方向
 	enum Dir
@@ -50,25 +49,12 @@ private:
 		kDirUp,		// 上
 	};
 
-	// 表示位置
-	Vec2 m_pos;
-	// 向いている方向
-	Dir m_dir;
-	// プレイヤーアニメーション
-	float PlayerAnim;
-	// enumでboolを変える
-	// 重力
-	float Gravity;
-	// ジャンプ移動量
-	float JumpPower;
+	Vec2 m_pos;			// 表示位置
+	Dir m_dir;			// 向いている方向
+	Rect m_colRect;		// 当たり判定用の矩形
 
-	// 当たり判定用の矩形
-	Rect m_colRect;
-
-	// プレイヤーが移動中かどうかのフラグ
-	bool isMove;
-	// ジャンプ中かどうかのフラグ
-	bool isJumpFlag;
-	// プレイヤーが攻撃したかどうかのフラグ
-	bool isAttack;
+	bool isMove;		// プレイヤーが移動中かどうかのフラグ
+	bool isJumpFlag;	// プレイヤーがジャンプ中かどうかのフラグ
+	bool isAttack;		// プレイヤーが攻撃したかどうかのフラグ
+	bool isDeath;		// プレイヤーが死亡したかどうかのフラグ
 };

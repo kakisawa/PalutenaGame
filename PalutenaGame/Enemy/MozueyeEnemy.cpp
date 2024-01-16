@@ -15,6 +15,8 @@ namespace
 
 MozueyeEnemy::MozueyeEnemy()
 {
+	EGraph= LoadGraph("data/Fairy.png");
+
 	HP = 1;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
@@ -22,8 +24,13 @@ MozueyeEnemy::MozueyeEnemy()
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
 
-	m_pos.x = kScreenWidth * 0.3;
-	m_pos.y = kScreenHeight * 0.3;
+	m_pos.x = 300;
+	m_pos.y = 300;
+}
+
+MozueyeEnemy::~MozueyeEnemy()
+{
+	DeleteGraph(EGraph);
 }
 
 void MozueyeEnemy::Update()
@@ -80,15 +87,4 @@ void MozueyeEnemy::Update()
 	//		isTurn = false;
 	//	}
 	//}
-}
-
-void MozueyeEnemy::Damage(int damage)
-{
-	// HPを減らす
-	HP -= damage;
-	// もしHPが0以下なら死亡処理をする
-	if (HP <= 0)
-	{
-		Death();
-	}
 }

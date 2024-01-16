@@ -2,6 +2,16 @@
 #include <vector>
 #include "Vec2.h"
 
+namespace
+{
+	// モズアイ出現数
+	constexpr int MozuMax = 1;	// 17
+	// 死出現数
+	constexpr int DeathMax = 1;	// 3
+	// かぼちゃ出現数
+	constexpr int PumpMax = 1;	// 10仮、覚えてない
+}
+
 // クラス宣言
 class Player;
 class Back;
@@ -52,10 +62,7 @@ private:
 	Back* m_pBack;
 
 	// エネミー
-	std::vector<EnemyBase>* m_pEnemy;
-
-	/*std::vector<MozueyeEnemy> m_pMozueyeEnemy;
-	std::vector<DeathYourEnemy> m_pDeathYourEnemy;
-	std::vector<PumpkinEnemy> m_pPumpkinEnemy;*/
+	MozueyeEnemy* m_pMozueyeEnemy[MozuMax];
+	DeathYourEnemy* m_pDeathYourEnemy[DeathMax];
+	PumpkinEnemy* m_pPumpkinEnemy[PumpMax];
 };
-

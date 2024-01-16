@@ -14,19 +14,22 @@ namespace
 
 DeathYourEnemy::DeathYourEnemy()
 {
+	EGraph= LoadGraph("data/Fairy2.png");
+
 	HP = 5;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
 	
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
-
-	m_pos.x = kScreenWidth * 0.5;
-	m_pos.y = kScreenHeight * 0.5;
+	
+	m_pos.x = 400;
+	m_pos.y = 400;
 }
 
 DeathYourEnemy::~DeathYourEnemy()
 {
+	DeleteGraph(EGraph);
 }
 
 void DeathYourEnemy::Update()
@@ -83,16 +86,4 @@ void DeathYourEnemy::Update()
 	//		isTurn = false;
 	//	}
 	//}
-}
-
-
-void DeathYourEnemy::Damage(int damage)
-{
-	// HPを減らす
-	HP -= damage;
-	// もしHPが0以下なら死亡処理をする
-	if (HP <= 0)
-	{
-		Death();
-	}
 }

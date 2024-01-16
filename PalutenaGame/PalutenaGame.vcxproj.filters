@@ -51,9 +51,6 @@
     <ClCompile Include="Enemy\EnemyBase.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Back.cpp">
-      <Filter>ソース ファイル\Map</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -87,6 +84,9 @@
     <ClCompile Include="Util\Pad.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Back.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -100,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="Enemy\MozueyeEnemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Back.h">
-      <Filter>ヘッダー ファイル\Mpa</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -135,6 +132,9 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Util\Pad.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Back.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
