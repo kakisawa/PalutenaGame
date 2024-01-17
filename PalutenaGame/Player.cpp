@@ -327,7 +327,7 @@ void Player::Death()
 
 		// プレイヤーアニメーション
 		int DeathPlayerFrame = PlayerAnim / DefAnimFrameNum;
-		int srcX = DefFrame[DeathPlayerFrame] * 16;
+		int srcX2 = DefFrame[DeathPlayerFrame] * 16;
 
 		// ↑詰まる所、一度最終フレーム(6)まで来たらそれ以降は計算しないようにしたい
 		// 　そうしたら、死にモーションの最後のコマで止まり続ける。
@@ -337,7 +337,7 @@ void Player::Death()
 		// 死亡時描画
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX, 48, 15, 17,
+			srcX2, 48, 15, 17,
 			Graph, true);
 	}
 }

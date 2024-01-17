@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\scene">
+      <UniqueIdentifier>{59635cad-80bd-461a-b46d-53ff8ef62969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\scene">
+      <UniqueIdentifier>{658ada6f-a0ef-477d-b731-70b43a596e4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\util">
+      <UniqueIdentifier>{d24f7f02-74a7-4e95-bf25-65d3f89c63e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\util">
+      <UniqueIdentifier>{42ba21a6-54bd-4bd6-8430-d7adaad53a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\enemy">
+      <UniqueIdentifier>{306f8020-31e8-480f-8663-aecdc18c61e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\enemy">
+      <UniqueIdentifier>{e1323bc2-57a2-407b-bf00-87523d0a5555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\shot">
+      <UniqueIdentifier>{75568a10-d9b6-4fcf-b399-01a698f95bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\shot">
+      <UniqueIdentifier>{506926ce-805f-4124-b25d-685009f7fb31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\recovery">
+      <UniqueIdentifier>{630c2136-62db-450c-829a-13378dcc3961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\recovery">
+      <UniqueIdentifier>{cd46a808-8161-48fc-87f9-2df7768dd47b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\SceneMain.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="util\Vec2.cpp">
+      <Filter>ソース ファイル\util</Filter>
+    </ClCompile>
+    <ClCompile Include="Pad.cpp">
+      <Filter>ソース ファイル\util</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\SceneManager.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="util\Rect.cpp">
+      <Filter>ソース ファイル\util</Filter>
+    </ClCompile>
+    <ClCompile Include="shot\ShotBase.cpp">
+      <Filter>ソース ファイル\shot</Filter>
+    </ClCompile>
+    <ClCompile Include="shot\ShotBuster.cpp">
+      <Filter>ソース ファイル\shot</Filter>
+    </ClCompile>
+    <ClCompile Include="Bg.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="shot\ShotFire.cpp">
+      <Filter>ソース ファイル\shot</Filter>
+    </ClCompile>
+    <ClCompile Include="shot\ShotLineMove.cpp">
+      <Filter>ソース ファイル\shot</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\EnemyBase.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\Matasaburo.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\SceneTitle.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\SceneGameOver.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="recovery\RecoveryBase.cpp">
+      <Filter>ソース ファイル\recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="recovery\RecoverySmallShot.cpp">
+      <Filter>ソース ファイル\recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="recovery\RecoverySmallHp.cpp">
+      <Filter>ソース ファイル\recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\ScenePause.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="recovery\RecoveryGreatHp.cpp">
+      <Filter>ソース ファイル\recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="recovery\RecoveryGreatShot.cpp">
+      <Filter>ソース ファイル\recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="recovery\RecoveryLife.cpp">
+      <Filter>ソース ファイル\recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="recovery\RecoveryFullHp.cpp">
+      <Filter>ソース ファイル\recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="shot\ShotMetal.cpp">
+      <Filter>ソース ファイル\shot</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\SceneStageSelect.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\SceneClear.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\SceneMain.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Vec2.h">
+      <Filter>ヘッダー ファイル\util</Filter>
+    </ClInclude>
+    <ClInclude Include="Pad.h">
+      <Filter>ヘッダー ファイル\util</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Rect.h">
+      <Filter>ヘッダー ファイル\util</Filter>
+    </ClInclude>
+    <ClInclude Include="shot\ShotBase.h">
+      <Filter>ヘッダー ファイル\shot</Filter>
+    </ClInclude>
+    <ClInclude Include="shot\ShotBuster.h">
+      <Filter>ヘッダー ファイル\shot</Filter>
+    </ClInclude>
+    <ClInclude Include="Bg.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="shot\ShotMetal.h">
+      <Filter>ヘッダー ファイル\shot</Filter>
+    </ClInclude>
+    <ClInclude Include="shot\ShotFire.h">
+      <Filter>ヘッダー ファイル\shot</Filter>
+    </ClInclude>
+    <ClInclude Include="shot\ShotLineMove.h">
+      <Filter>ヘッダー ファイル\shot</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\EnemyBase.h">
+      <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\Matasaburo.h">
+      <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\SceneTitle.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\SceneGameOver.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="recovery\RecoveryBase.h">
+      <Filter>ヘッダー ファイル\recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="recovery\RecoverySmallShot.h">
+      <Filter>ヘッダー ファイル\recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="recovery\RecoverySmallHp.h">
+      <Filter>ヘッダー ファイル\recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\ScenePause.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="recovery\RecoveryGreatHp.h">
+      <Filter>ヘッダー ファイル\recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="recovery\RecoveryGreatShot.h">
+      <Filter>ヘッダー ファイル\recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="recovery\RecoveryLife.h">
+      <Filter>ヘッダー ファイル\recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="recovery\RecoveryFullHp.h">
+      <Filter>ヘッダー ファイル\recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\SceneStageSelect.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\SceneClear.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Rockman2.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
