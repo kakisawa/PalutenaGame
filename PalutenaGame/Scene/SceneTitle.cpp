@@ -26,8 +26,8 @@ namespace
 
 SceneTitle::SceneTitle() :
 	m_isSceneEnd(false),
-	m_select(kSclectOperation),
-	m_selectPos(kSelectPosX, kSelectPosY),
+	m_select(kSelectGameStart),
+	m_selectPos(kSelectPosX, kSelectPosY+ kSelectMoveY),
 	m_fadeAlpha(255)
 {
 }
@@ -37,10 +37,10 @@ void SceneTitle::Init()
 	Graph = LoadGraph("data/Map/TitleGraph.jpg");	// îwåiì«Ç›çûÇ›
 	TitleGraph = LoadGraph("data/TitleGraph.png");		// É^ÉCÉgÉãÉçÉSì«Ç›çûÇ›
 
-	m_select=kSclectOperation;
+	m_select= kSelectGameStart;
 	m_isSceneEnd = false;
 	m_selectPos.x = kSelectPosX;
-	m_selectPos.y = kSelectPosY;
+	m_selectPos.y = kSelectPosY+ kSelectMoveY;
 }
 
 void SceneTitle::Update()

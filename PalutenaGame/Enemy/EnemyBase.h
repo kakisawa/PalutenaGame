@@ -18,6 +18,7 @@ public:
 	Vec2 GetPos() const { return m_pos; }			// 位置の取得
 	Rect GetColRect() const { return m_colRect; }	// 当たり判定の矩形を取得する
 
+	int GetEnemyAtk() const { return Atk; }
 
 protected:		// 派生クラスからアクセスできるように
 

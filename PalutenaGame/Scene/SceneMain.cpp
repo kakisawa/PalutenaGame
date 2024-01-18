@@ -152,7 +152,7 @@ void SceneMain::Update()
 		Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
 		if (playerRect.IsCollsion(enemyRect))
 		{
-			m_pPlayer->OnDamage();
+			m_pPlayer->OnDamage_Mozu();
 		}
 	}
 
@@ -164,7 +164,7 @@ void SceneMain::Update()
 		Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
 		if (playerRect.IsCollsion(enemyRect))
 		{
-			m_pPlayer->OnDamage();
+			m_pPlayer->OnDamage_Death();
 		}
 	}
 	for (int i = 0; i < PumpMax; i++)
@@ -175,7 +175,7 @@ void SceneMain::Update()
 		Rect enemyRect = m_pPumpkinEnemy[i]->GetColRect();
 		if (playerRect.IsCollsion(enemyRect))
 		{
-			m_pPlayer->OnDamage();
+			m_pPlayer->OnDamage_Pump();
 		}
 	}
 }

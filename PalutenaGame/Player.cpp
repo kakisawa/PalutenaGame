@@ -1,6 +1,9 @@
 #include "DxLib.h"
 #include "Player.h"
 
+#include "MozueyeEnemy.h"
+#include "DeathYourEnemy.h"
+#include "PumpkinEnemy.h"
 #include "Game.h"
 #include "Pad.h"
 
@@ -341,19 +344,65 @@ void Player::End()
 	DeleteGraph(Graph);
 }
 
-void Player::OnDamage()
+void Player::OnDamage_Mozu()
 {
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0)
 	{
 		return;
 	}
-	HP -= 50;
+	HP -= m_mozueyeEnemy->GetEnemyAtk();
+	if (HP <= 0)
+	{
+		isDeath = true;
+	}
+
+#ifdef _DEBUG
+	// 敵とプレイヤーの当たり判定が反応したか
+	printfDx("当たった\n");
+
+#endif
+
+	// 演出フレーム数を設定する
+	m_damageFrame = kDamageFrame;
+}
+
+void Player::OnDamage_Death()
+{
+	// ダメージ演出中は再度食らわない
+	if (m_damageFrame > 0)
+	{
+		return;
+	}
+	HP -= m_dethYourEnemy->GetEnemyAtk();
 	if (HP <= 0)
 	{
 		isDeath = true;
 	}
 	
+#ifdef _DEBUG
+	// 敵とプレイヤーの当たり判定が反応したか
+	printfDx("当たった\n");
+
+#endif
+
+	// 演出フレーム数を設定する
+	m_damageFrame = kDamageFrame;
+}
+
+void Player::OnDamage_Pump()
+{
+	// ダメージ演出中は再度食らわない
+	if (m_damageFrame > 0)
+	{
+		return;
+	}
+	HP -= m_pumpkinEnemy->GetEnemyAtk();
+	if (HP <= 0)
+	{
+		isDeath = true;
+	}
+
 #ifdef _DEBUG
 	// 敵とプレイヤーの当たり判定が反応したか
 	printfDx("当たった\n");

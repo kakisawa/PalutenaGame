@@ -3,6 +3,10 @@
 #include "Rect.h"
 
 class SceneMain;
+class MozueyeEnemy;
+class DeathYourEnemy;
+class PumpkinEnemy;
+
 class Player
 {
 public:
@@ -14,7 +18,9 @@ public:
 	void Draw();
 	void End();
 
-	void OnDamage();	// プレイヤー被ダメ処理
+	void OnDamage_Mozu();	// プレイヤー被ダメ処理(敵_モズアイ)
+	void OnDamage_Death();	// プレイヤー被ダメ処理(敵_死)
+	void OnDamage_Pump();	// プレイヤー被ダメ処理(敵_パンプキン)
 	void Death();		// プレイヤー死亡時処理
 
 public:
@@ -28,6 +34,9 @@ public:
 private:
 
 	SceneMain* m_pMain;
+	MozueyeEnemy* m_mozueyeEnemy;
+	DeathYourEnemy* m_dethYourEnemy;
+	PumpkinEnemy* m_pumpkinEnemy;
 
 	int HP;		// プレイヤーの体力
 	int Graph;	// プレイヤーの画像
