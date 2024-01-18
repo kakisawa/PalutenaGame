@@ -25,6 +25,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Enemy\MozueyeEnemy.cpp" />
+    <ClCompile Include="Scene\SceneStageSelect.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Util\Pad.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Enemy\MozueyeEnemy.h" />
+    <ClInclude Include="Scene\SceneStageSelect.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Util\Pad.h" />

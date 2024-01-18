@@ -128,6 +128,7 @@ void SceneMain::Update()
 		}
 		m_pPlayer->Update();
 		m_pPlayer->Death();
+		Death();
 
 		return;
 	}
@@ -212,6 +213,16 @@ void SceneMain::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+}
+
+void SceneMain::Death()
+{
+	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 128);
+
+	SetFontSize(32);
+	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
+	SetFontSize(16);
+	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 65, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 void SceneMain::End()

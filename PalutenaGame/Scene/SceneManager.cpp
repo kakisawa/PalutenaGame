@@ -3,16 +3,19 @@
 #include "SceneTitle.h"
 #include "SceneMain.h"
 #include "SceneGameOver.h"
+#include "SceneStageSelect.h"
 #include "Pad.h"
 
 SceneManager::SceneManager() :
 	m_runScene(kSceneKindTitle),
 	m_pTitle(),			// クラスの初期化時は()の中にコンストラクタの引数を書く
+	m_pStageSelect(),
 	m_pMain(),
 	m_pGameOver()
 {
 	// メモリ確保
 	m_pTitle = new SceneTitle;
+	m_pStageSelect = new SceneStageSelect;
 	m_pMain = new SceneMain;
 	m_pGameOver = new SceneGameOver;
 }
@@ -29,6 +32,9 @@ void SceneManager::Init()
 	{
 	case kSceneKindTitle:
 		m_pTitle->Init();
+		break;
+	case kSceneStageSelect:
+		m_pStageSelect->Init();
 		break;
 	case kSceneKindMain:
 		m_pMain->Init();
@@ -52,9 +58,24 @@ void SceneManager::Update()
 		{
 			m_pTitle->End();
 
-			// ゲームシーンへ遷移
+			m_runScene = kSceneStageSelect;
+			m_pStageSelect->Init();
+		}
+		break;
+	case kSceneStageSelect:
+		if (m_pStageSelect->IsSceneEnd())
+		{
 			m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
 			m_pMain->Init();		// 変更先シーンの初期化
+		}
+		else if (m_pStageSelect->IsSceneEnd2()) {
+			//	m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
+			//	m_pMain->Init();		// 変更先シーンの初期化
+			//}
+		}
+		else if (m_pStageSelect->IsSceneEnd3()) {
+			m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
+			m_pTitle->Init();
 		}
 		break;
 	case kSceneKindMain:
@@ -69,7 +90,7 @@ void SceneManager::Update()
 		}
 		break;
 	case kSceneKindGameOver:
-		if(m_pGameOver->IsSceneEnd())
+		if (m_pGameOver->IsSceneEnd())
 		{
 			// シーンを切り替える
 			m_pGameOver->End();	// 実行していたシーンの終了処理
@@ -77,6 +98,9 @@ void SceneManager::Update()
 			m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
 			m_pTitle->Init();
 		}
+		break;
+	default:
+		break;
 	}
 
 	// 各シーンの更新を行う
@@ -84,6 +108,9 @@ void SceneManager::Update()
 	{
 	case kSceneKindTitle:
 		m_pTitle->Update();
+		break;
+	case kSceneStageSelect:
+		m_pStageSelect->Update();
 		break;
 	case kSceneKindMain:
 		m_pMain->Update();
@@ -97,13 +124,14 @@ void SceneManager::Update()
 
 void SceneManager::Draw()
 {
-	// 仮でタイトル画面とゲーム画面を行き来できるようにする
-
 	// 各シーンの更新を行う
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:
 		m_pTitle->Draw();
+		break;
+	case kSceneStageSelect:
+		m_pStageSelect->Draw();
 		break;
 	case kSceneKindMain:
 		m_pMain->Draw();
@@ -121,6 +149,9 @@ void SceneManager::End()
 	{
 	case kSceneKindTitle:
 		m_pTitle->End();
+		break;
+	case kSceneStageSelect:
+		m_pStageSelect->End();
 		break;
 	case kSceneKindMain:
 		m_pMain->End();

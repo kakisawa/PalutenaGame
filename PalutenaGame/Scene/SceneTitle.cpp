@@ -26,7 +26,6 @@ namespace
 
 SceneTitle::SceneTitle() :
 	m_isSceneEnd(false),
-	m_isGameEnd(false),
 	m_select(kSclectOperation),
 	m_selectPos(kSelectPosX, kSelectPosY),
 	m_fadeAlpha(255)
@@ -78,7 +77,7 @@ void SceneTitle::Update()
 		{
 		case kSclectOperation:
 			break;
-		case kSelectGameState:
+		case kSelectGameStart:
 			m_isSceneEnd = true;
 			break;
 		case kSclectEnd:

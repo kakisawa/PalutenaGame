@@ -14,5 +14,4 @@ namespace
 
 	// ƒVƒ‡ƒbƒg‚Ì”
 #define SHOT 20
-
 }

@@ -328,8 +328,6 @@ void Player::Death()
 		// 　そうしたら、死にモーションの最後のコマで止まり続ける。
 		// boolで一回回ったら止まるようにするのもあり
 
-
-		// 死亡時描画
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX2, 48, 15, 17,
@@ -355,7 +353,12 @@ void Player::OnDamage()
 	{
 		isDeath = true;
 	}
+	
+#ifdef _DEBUG
+	// 敵とプレイヤーの当たり判定が反応したか
 	printfDx("当たった\n");
+
+#endif
 
 	// 演出フレーム数を設定する
 	m_damageFrame = kDamageFrame;

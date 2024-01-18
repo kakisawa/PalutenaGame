@@ -29,6 +29,7 @@ public:
 	void Update();
 	void Draw();
 
+	void Death();	// 死亡時の処理
 	void End();
 
 	// シーンを終了させたいか
@@ -41,7 +42,7 @@ private:
 	//void CreateEnemyToPlayer();
 
 	// グラフィックのハンドル
-	int m_gameScreenHandle;	// ゲーム画面
+	int m_gameScreenHandle;	// ゲームオーバー時画面
 
 	int m_playerHandle;		// プレイヤー
 	int m_enemyHandle;		// 敵

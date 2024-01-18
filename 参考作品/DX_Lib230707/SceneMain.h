@@ -42,7 +42,7 @@ private:
 
 	// Enemyの生成制御
 	int m_enemyCreateNum;	// 今までに生産した敵の数
-	int m_enemyWaitFrame;	// 適生成までの待ち時間
+	int m_enemyWaitFrame;	// 敵生成までの待ち時間
 
 	// フェードイン、アウト
 	int m_fadeAlpha;

@@ -1,14 +1,16 @@
-#include "SceneGameOver.h"
-#include "SceneManager.h"
-#include "Pad.h"
-#include "Game.h"
+#include "SceneStageSelect.h"
 #include "DxLib.h"
+#include "Game.h"
+#include "Pad.h"
 
 namespace
 {
 	// 文字の表示位置
 	constexpr int kChirPosX = kScreenWidth * 0.4;
 	constexpr int kChirPosY = kScreenHeight * 0.7;
+
+	// 文字の表示幅
+	constexpr int kCharInterval = 35;
 
 	// 文字を囲む四角の初期位置
 	constexpr int kSelectPosX = kChirPosX - 2;
@@ -22,28 +24,27 @@ namespace
 	constexpr int kSelectSizeY = 30;
 }
 
-SceneGameOver::SceneGameOver() :
+SceneStageSelect::SceneStageSelect() :
 	m_isSceneEnd(false),
-	m_select(kScelectRestart),
-	m_fadeAlpha(255)
+	m_isSceneEnd2(false),
+	m_isSceneEnd3(false),
+	m_select(kStage1),
+	m_selectPos(kSelectPosX, kSelectPosY)
 {
 
 }
 
-SceneGameOver::~SceneGameOver()
+void SceneStageSelect::Init()
 {
-}
-
-void SceneGameOver::Init()
-{
-	Graph = LoadGraph("data/Map/GameOverGraph.jpg");
-
-	m_select=kScelectRestart;
+	m_select = kStage1;
 	m_isSceneEnd = false;
-	m_fadeAlpha = 255;
+	m_isSceneEnd2 = false;
+	m_isSceneEnd3 = false;
+	m_selectPos.x = kSelectPosX;
+	m_selectPos.y = kSelectPosY;
 }
 
-void SceneGameOver::Update()
+void SceneStageSelect::Update()
 {
 	// ↓キーを押したら選択状態を一つ下げる
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
@@ -70,24 +71,22 @@ void SceneGameOver::Update()
 		}
 	}
 
-	// エンターキーが押されたらタイトル画面へ遷移する
+	// Aボタンが押されたらメイン画面へ遷移する
 	if (Pad::IsTrigger(PAD_INPUT_4))
 	{
 		switch (m_select)
 		{
-		case kScelectRestart:
-			break;
-		case kScelectReturnHome:
+		case kStage1:
 			m_isSceneEnd = true;
 			break;
-		case kScelectEnd:
-			DxLib_End();
+		case kStage2:
+			break;
+		case kSclectBack:
+			m_isSceneEnd3 = true;
 			break;
 		default:
 			break;
 		}
-
-
 
 		//if (!m_isSceneEnd)
 		//{
@@ -95,49 +94,37 @@ void SceneGameOver::Update()
 		//	// PlaySoundFile("data/sound/TitleDecide.mp3", DX_PLAYTYPE_BACK);
 		//	PlaySoundMem(m_decideSe, DX_PLAYTYPE_BACK, true);
 		//}
-
-
-
-
-		m_isSceneEnd = true;
-
-		m_fadeAlpha += 8;
-		if (m_fadeAlpha > 255)
-		{
-			m_fadeAlpha = 255;
-		}
-	}
-	m_fadeAlpha -= 8;
-	if (m_fadeAlpha < 0)
-	{
-		m_fadeAlpha = 0;
+		// タイトル画面を終了してSceneMainに移動する処理を書きたい!
 	}
 }
 
-void SceneGameOver::Draw()
+void SceneStageSelect::Draw()
 {
-	DrawGraph(0, 0, Graph, false);
-	DrawString(120, 120, "ゲームオーバー画面", GetColor(255, 255, 255));
-	DrawString(120, 120 + 16, "Enterキーを押してください", GetColor(255, 255, 255));
+	DrawString(kChirPosX + 25, kChirPosY, "ステージ1", 0xffffff);
+	DrawString(kChirPosX, kChirPosY + kCharInterval, "ステージ2", 0xffffff);
+	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "タイトルに戻る", 0xffffff);
 
-	// フェードの描画
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+	// 選択中の部分を四角で描画
+	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
+		m_selectPos.y + kSelectSizeY, 0x00bfff, false);
 }
 
-void SceneGameOver::End()
+void SceneStageSelect::End()
 {
-	// 背景をメモリから削除
-	DeleteGraph(Graph);
 }
 
-bool SceneGameOver::IsSceneEnd() const
+bool SceneStageSelect::IsSceneEnd() const
 {
 	return m_isSceneEnd;
 }
 
-bool SceneGameOver::IsSceneRestart() const
+bool SceneStageSelect::IsSceneEnd2() const
 {
-	return false;
+	return m_isSceneEnd2;
 }
+
+bool SceneStageSelect::IsSceneEnd3() const
+{
+	return m_isSceneEnd3;
+}
+
