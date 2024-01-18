@@ -22,11 +22,13 @@ public:
 private:
     enum Select
     {
-        kSelectGameState,   // ゲームスタート
         kSclectOperation,   // 操作方法
-        kSclectBack,        // 戻る
+        kSelectGameState,   // ゲームスタート
         kSclectEnd,         // ゲームを終わる
+
         kSclectNum,         // 項目数
+
+        kSclectBack,        // 戻る
     };
 
     int m_select;    // 選択中のメニュー
@@ -34,7 +36,10 @@ private:
 
 private:
     int TitleGraph;     // タイトルロゴグラフ
+    int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
+
+    bool m_isGameEnd;   // ゲーム終了フラグ
     
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;

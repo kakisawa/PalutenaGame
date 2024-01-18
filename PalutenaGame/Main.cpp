@@ -23,19 +23,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-
-	// SceneMainメモリ確保
-	//SceneMain* pScene = new SceneMain;
-	//SceneTitle sceneTitle;
-
 	SceneManager* pSceneManager=new SceneManager;
 	pSceneManager->Init();
-
-	// 初期化
-	//pScene->Init();
-	// 仮
-	//sceneTitle.Init();
-
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -46,20 +35,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画を行う前に画面をクリアする
 		ClearDrawScreen();
 
-		// ゲームの処理
-		
-		// シーンの更新
-		//pScene->Update();
-		// 仮
-		//sceneTitle.Update();
-		
 		pSceneManager->Update();
 
 		// シーンの描画
-		//pScene->Draw();
-		// 仮
-		//sceneTitle.Draw();
-		
 		pSceneManager->Draw();
 
 		// 画面が切り替わるのを待つ
@@ -77,13 +55,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 		}
 	}
-	//pScene->End();
 
 	pSceneManager->End();
 
-	// メモリの解放
-	//delete pScene;
-	//pScene = nullptr;
 
 	delete pSceneManager;
 	pSceneManager = nullptr;

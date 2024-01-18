@@ -303,11 +303,6 @@ void Player::Draw()
 	DrawFormatString(80, 76, GetColor(255, 255, 255),
 		"m_dir:(%d)", m_dir);
 
-	//if (OnDamage)
-	//{
-	//	DrawString(200, 0, "“–‚½‚Á‚½\n", GetColor(0, 0, 0));
-	//}
-
 #ifdef _DEBUG
 	// “–‚½‚è”»’è‚Ì•\Ž¦
 	m_colRect.Draw(GetColor(255, 0, 0), false);

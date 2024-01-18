@@ -52,6 +52,8 @@ private:
 	int m_deathYourEnemyGraph;	// お前たちの死
 	int m_pumpkinEnemyGraph;	// パンプキン君
 
+	int m_fadeAlpha;		// フェードイン、アウト
+
 	// シーン処理
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
 

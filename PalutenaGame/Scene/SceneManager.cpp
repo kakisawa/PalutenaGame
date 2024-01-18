@@ -42,7 +42,6 @@ void SceneManager::Init()
 
 void SceneManager::Update()
 {
-	// 仮でタイトル画面とゲーム画面を行き来できるようにする
 	Pad::Update();
 
 	switch (m_runScene)

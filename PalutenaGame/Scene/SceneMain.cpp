@@ -12,7 +12,8 @@
 #include <cassert>
 
 SceneMain::SceneMain() :
-	m_isSceneEnd(false)
+	m_isSceneEnd(false),
+	m_fadeAlpha(255)		// 不透明で初期化
 {
 	// ゲーム画面描画先の生成
 	// 画面サイズと同じ大きさのグラフィックデータを作成する
@@ -105,6 +106,8 @@ void SceneMain::Init()
 	{
 		m_pPumpkinEnemy[i]->Init();
 	}
+
+	m_fadeAlpha = 255;
 }
 
 void SceneMain::Update()
@@ -115,6 +118,13 @@ void SceneMain::Update()
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
 			m_isSceneEnd = true;
+
+			// フェードアウト
+			m_fadeAlpha += 8;
+			if (m_fadeAlpha < 255)
+			{
+				m_fadeAlpha = 255;
+			}
 		}
 		m_pPlayer->Update();
 		m_pPlayer->Death();
@@ -122,9 +132,15 @@ void SceneMain::Update()
 		return;
 	}
 
-	m_pPlayer->Update();
-	m_pBack->Update();
+	// フェードイン
+	m_fadeAlpha -= 8;
+	if (m_fadeAlpha < 0)
+	{
+		m_fadeAlpha = 0;
+	}
 
+	m_pBack->Update();
+	m_pPlayer->Update();
 
 	Rect playerRect = m_pPlayer->GetColRect();
 	for (int i = 0; i < MozuMax; i++)
@@ -161,16 +177,15 @@ void SceneMain::Update()
 			m_pPlayer->OnDamage();
 		}
 	}
-	return;
 }
 
 void SceneMain::Draw()
 {
-	// 自分で生成したグラフィックデータに対して書き込みを行う
-	SetDrawScreen(m_gameScreenHandle);
+	//// 自分で生成したグラフィックデータに対して書き込みを行う
+	//SetDrawScreen(m_gameScreenHandle);
 
-	// 描画先スクリーンをクリアする
-	ClearDrawScreen();
+	//// 描画先スクリーンをクリアする
+	//ClearDrawScreen();
 
 	m_pBack->Draw();
 	m_pPlayer->Draw();
@@ -189,10 +204,14 @@ void SceneMain::Draw()
 		m_pPumpkinEnemy[i]->EnemyBase::Draw();
 	}
 
-	// バックバッファに書き込む設定に戻しておく
-	SetDrawScreen(DX_SCREEN_BACK);
-
 	DrawGraph(0, 0, m_gameScreenHandle, true);
+
+	// バックバッファに書き込む設定に戻しておく
+	//SetDrawScreen(DX_SCREEN_BACK);
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
 void SceneMain::End()
@@ -201,5 +220,5 @@ void SceneMain::End()
 
 bool SceneMain::IsSceneEnd() const
 {
-	return m_isSceneEnd;
+	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }

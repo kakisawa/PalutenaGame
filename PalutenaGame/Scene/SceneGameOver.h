@@ -19,9 +19,6 @@ public:
     void SetHandle(int handle) { Graph = handle; }
 
 private:
-
+    int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
-    // true:タイトルを終了してゲームへ
-
-
 };

@@ -1,11 +1,13 @@
 #include "SceneGameOver.h"
 #include "Pad.h"
+#include "Game.h"
 #include "DxLib.h"
 
-SceneGameOver::SceneGameOver():
-	m_isSceneEnd(false)
+SceneGameOver::SceneGameOver() :
+	m_isSceneEnd(false),
+	m_fadeAlpha(255)
 {
-	
+
 }
 
 SceneGameOver::~SceneGameOver()
@@ -16,6 +18,7 @@ void SceneGameOver::Init()
 {
 	Graph = LoadGraph("data/Map/GameOverGraph.jpg");
 	m_isSceneEnd = false;
+	m_fadeAlpha = 255;
 }
 
 void SceneGameOver::Update()
@@ -32,24 +35,18 @@ void SceneGameOver::Update()
 
 		// タイトル画面を終了してタイトルに移動する処理を書きたい!
 		m_isSceneEnd = true;
-	}
 
-	/*if (m_isSceneEnd)
-	{
 		m_fadeAlpha += 8;
 		if (m_fadeAlpha > 255)
 		{
 			m_fadeAlpha = 255;
 		}
 	}
-	else
+	m_fadeAlpha -= 8;
+	if (m_fadeAlpha < 0)
 	{
-		m_fadeAlpha -= 8;
-		if (m_fadeAlpha < 0)
-		{
-			m_fadeAlpha = 0;
-		}
-	}*/
+		m_fadeAlpha = 0;
+	}
 }
 
 void SceneGameOver::Draw()
@@ -57,6 +54,11 @@ void SceneGameOver::Draw()
 	DrawGraph(0, 0, Graph, false);
 	DrawString(120, 120, "ゲームオーバー画面", GetColor(255, 255, 255));
 	DrawString(120, 120 + 16, "Enterキーを押してください", GetColor(255, 255, 255));
+
+	// フェードの描画
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
 void SceneGameOver::End()
