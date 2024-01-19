@@ -17,7 +17,7 @@ MozueyeEnemy::MozueyeEnemy()
 {
 	EGraph= LoadGraph("data/Fairy.png");
 
-	HP = 1;		// HP
+	HP = 2;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
 

@@ -35,6 +35,8 @@ public:
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
 
+	
+
 private:
 	//// 敵キャラクターの生成
 	//void CreateEnemyLeft();

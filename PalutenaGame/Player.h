@@ -31,14 +31,19 @@ public:
 
 	int OutHp = HP;		// プレイヤーHPの引数
 	bool PlayerDeath() const { return isDeath; }
-private:
 
+	// 敵の攻撃力を獲得するため
+	void SetMozu(MozueyeEnemy* pMozu) { m_mozueyeEnemy = pMozu; }
+	void SetDeath(DeathYourEnemy* pDeath) { m_dethYourEnemy = pDeath; }
+	void SetPump(PumpkinEnemy* pPump) { m_pumpkinEnemy = pPump; }
+private:
 	SceneMain* m_pMain;
 	MozueyeEnemy* m_mozueyeEnemy;
 	DeathYourEnemy* m_dethYourEnemy;
 	PumpkinEnemy* m_pumpkinEnemy;
 
 	int HP;		// プレイヤーの体力
+	int Atk;	// プレイヤーの攻撃力
 	int Graph;	// プレイヤーの画像
 	int W, H;	// プレイヤーの画像サイズ
 	int m_damageFrame;	// ダメージを受けてからのフレーム数

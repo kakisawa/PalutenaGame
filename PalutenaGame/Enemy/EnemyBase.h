@@ -18,7 +18,12 @@ public:
 	Vec2 GetPos() const { return m_pos; }			// 位置の取得
 	Rect GetColRect() const { return m_colRect; }	// 当たり判定の矩形を取得する
 
+	// 敵の攻撃力を渡す
 	int GetEnemyAtk() const { return Atk; }
+
+	bool GetisExist() const { return m_isExist; }
+
+	int GetEnemyHP() const { return HP; }
 
 protected:		// 派生クラスからアクセスできるように
 
@@ -31,6 +36,9 @@ protected:		// 派生クラスからアクセスできるように
 
 	float EnemyAnim;	// エネミーアニメーション
 	float Gravity;		// 重力
+	int m_damageFrame;	// ダメージを受けてからのフレーム数
+							// 普段は0で、当たった時にフレーム数を設定して
+							// 以降毎フレーム減らしていく
 
 	bool m_isExist;		// 存在するかフラグ(使用中かどうか)
 

@@ -16,7 +16,7 @@ DeathYourEnemy::DeathYourEnemy()
 {
 	EGraph= LoadGraph("data/Fairy2.png");
 
-	HP = 5;		// HP
+	HP = 3;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
 	
@@ -44,11 +44,6 @@ void DeathYourEnemy::Update()
 	int width = 0;
 	int height = 0;
 	GetGraphSize(EGraph, &width, &height);
-
-	if (m_pos.x > kScreenWidth + width / 2)
-	{
-		m_isExist = false;
-	}
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };

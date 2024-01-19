@@ -147,35 +147,47 @@ void SceneMain::Update()
 	for (int i = 0; i < MozuMax; i++)
 	{
 		m_pMozueyeEnemy[i]->Update();
+		m_pPlayer->SetMozu(m_pMozueyeEnemy[i]);
 
 		// 存在している敵とプレイヤーの当たり判定
-		Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
-		if (playerRect.IsCollsion(enemyRect))
-		{
-			m_pPlayer->OnDamage_Mozu();
+		if (m_pMozueyeEnemy[i]->GetisExist()) {
+			Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
+			if (playerRect.IsCollsion(enemyRect))
+			{
+				m_pPlayer->OnDamage_Mozu();
+				m_pMozueyeEnemy[i]->OnDamage();
+			}
 		}
 	}
 
 	for (int i = 0; i < DeathMax; i++)
 	{
 		m_pDeathYourEnemy[i]->Update();
+		m_pPlayer->SetDeath(m_pDeathYourEnemy[i]);
 
 		// 存在している敵とプレイヤーの当たり判定
-		Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
-		if (playerRect.IsCollsion(enemyRect))
-		{
-			m_pPlayer->OnDamage_Death();
+		if (m_pDeathYourEnemy[i]->GetisExist()) {
+			Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
+			if (playerRect.IsCollsion(enemyRect))
+			{
+				m_pPlayer->OnDamage_Death();
+				m_pDeathYourEnemy[i]->OnDamage();
+			}
 		}
 	}
 	for (int i = 0; i < PumpMax; i++)
 	{
 		m_pPumpkinEnemy[i]->Update();
+		m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
 
 		// 存在している敵とプレイヤーの当たり判定
-		Rect enemyRect = m_pPumpkinEnemy[i]->GetColRect();
-		if (playerRect.IsCollsion(enemyRect))
-		{
-			m_pPlayer->OnDamage_Pump();
+		if (m_pPumpkinEnemy[i]->GetisExist()) {
+			Rect enemyRect = m_pPumpkinEnemy[i]->GetColRect();
+			if (playerRect.IsCollsion(enemyRect))
+			{
+				m_pPlayer->OnDamage_Pump();
+				m_pPumpkinEnemy[i]->OnDamage();
+			}
 		}
 	}
 }
@@ -199,6 +211,10 @@ void SceneMain::Draw()
 	for (int i = 0; i < DeathMax; i++)
 	{
 		m_pDeathYourEnemy[i]->EnemyBase::Draw();
+
+		// デバッグ
+		DrawFormatString(100, 100, GetColor(255, 255, 255),
+			"DeathHP(%d)", m_pDeathYourEnemy[i]->GetEnemyHP());
 	}
 	for (int i = 0; i < PumpMax; i++)
 	{
@@ -206,6 +222,8 @@ void SceneMain::Draw()
 	}
 
 	DrawGraph(0, 0, m_gameScreenHandle, true);
+
+	
 
 	// バックバッファに書き込む設定に戻しておく
 	//SetDrawScreen(DX_SCREEN_BACK);
