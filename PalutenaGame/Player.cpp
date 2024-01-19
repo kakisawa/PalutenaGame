@@ -30,7 +30,6 @@ namespace
 	// 基本キャラアニメーション1サイクルのフレーム数
 	constexpr int DeathFrameCycle = _countof(DefFrame) * DeathAnimFrameNum;
 
-
 	// ダメージ演出フレーム数
 	constexpr int kDamageFrame = 60;
 }
@@ -53,6 +52,7 @@ void Player::Init()
 	m_dir = kDirFront;			// プレイヤーの初期方向
 	JumpPower = 0.0f;			// プレイヤーの初期ジャンプ
 	Gravity = 0.0f;				// プレイヤーの初期重力
+	Atk = 1;					// プレイヤーの初期攻撃力
 	PlayerAnim = 0;				// プレイヤーアニメーションの初期化
 	m_damageFrame = 0;			// プレイヤー被ダメアニメーション
 	isMove = false;				// 移動状態フラグ(否定のfalse)
@@ -347,68 +347,68 @@ void Player::End()
 void Player::OnDamage_Mozu()
 {
 	// ダメージ演出中は再度食らわない
-	if (m_damageFrame > 0)
-	{
-		return;
-	}
+	if (m_damageFrame > 0)	return;
+
+	// プレイヤーのHPを、敵の攻撃力分減らす
 	HP -= m_mozueyeEnemy->GetEnemyAtk();
+
+	// HPが0以下になった場合、プレイヤーの死亡フラグをtrueにする
 	if (HP <= 0)
 	{
 		isDeath = true;
 	}
 
+	// 演出フレーム数を設定する
+	m_damageFrame = kDamageFrame;
+	
 #ifdef _DEBUG
 	// 敵とプレイヤーの当たり判定が反応したか
 	printfDx("当たった\n");
-
 #endif
-
-	// 演出フレーム数を設定する
-	m_damageFrame = kDamageFrame;
 }
 
 void Player::OnDamage_Death()
 {
 	// ダメージ演出中は再度食らわない
-	if (m_damageFrame > 0)
-	{
-		return;
-	}
+	if (m_damageFrame > 0) return;
+
+	// プレイヤーのHPを、敵の攻撃力分減らす
 	HP -= m_dethYourEnemy->GetEnemyAtk();
+
+	// HPが0以下になった場合、プレイヤーの死亡フラグをtrueにする
 	if (HP <= 0)
 	{
 		isDeath = true;
 	}
+
+	// 演出フレーム数を設定する
+	m_damageFrame = kDamageFrame;
 	
 #ifdef _DEBUG
 	// 敵とプレイヤーの当たり判定が反応したか
 	printfDx("当たった\n");
-
 #endif
-
-	// 演出フレーム数を設定する
-	m_damageFrame = kDamageFrame;
 }
 
 void Player::OnDamage_Pump()
 {
 	// ダメージ演出中は再度食らわない
-	if (m_damageFrame > 0)
-	{
-		return;
-	}
+	if (m_damageFrame > 0)	return;
+
+	// プレイヤーのHPを、敵の攻撃力分減らす
 	HP -= m_pumpkinEnemy->GetEnemyAtk();
+
+	// HPが0以下になった場合、プレイヤーの死亡フラグをtrueにする
 	if (HP <= 0)
 	{
 		isDeath = true;
 	}
 
+	// 演出フレーム数を設定する
+	m_damageFrame = kDamageFrame;
+
 #ifdef _DEBUG
 	// 敵とプレイヤーの当たり判定が反応したか
 	printfDx("当たった\n");
-
 #endif
-
-	// 演出フレーム数を設定する
-	m_damageFrame = kDamageFrame;
 }
