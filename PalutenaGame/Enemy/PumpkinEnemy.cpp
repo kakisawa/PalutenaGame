@@ -35,6 +35,10 @@ PumpkinEnemy::~PumpkinEnemy()
 
 void PumpkinEnemy::Update()
 {
+	// EnemyBase‚ÌŒp³‚ª‚¤‚Ü‚­‚Å‚«‚Ä‚È‚¢H
+	// ˆê“I‚É—Í‹Z‚ÅŒÄ‚Ño‚µ’†
+	EnemyBase::Update();
+
 	m_basePos += m_vec;
 
 	m_pos += m_basePos;

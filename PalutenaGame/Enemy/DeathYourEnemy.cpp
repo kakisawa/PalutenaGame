@@ -34,6 +34,8 @@ DeathYourEnemy::~DeathYourEnemy()
 
 void DeathYourEnemy::Update()
 {
+	EnemyBase::Update();
+
 	m_basePos += m_vec;
 
 	m_pos += m_basePos;

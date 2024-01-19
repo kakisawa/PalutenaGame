@@ -59,6 +59,7 @@ void Player::Init()
 	isMove = false;				// 移動状態フラグ(否定のfalse)
 	isAttack = false;			// 攻撃フラグ(否定のfalse)
 	isDeath = false;			// 死亡フラグ(否定のfalse)
+	m_damageFrame = 0;
 }
 
 void Player::Update()

@@ -18,12 +18,17 @@ EnemyBase::EnemyBase():
 	Gravity(0),
 	isTurn(false),	// エネミーの向きフラグ,右を向いているのfalseを挿入
 	isDeath(false),	// 死亡フラグ,死んでいないのfalseを挿入
-	m_isExist(true)
+	m_isExist(true), 
+	m_damageFrame(0)
 {
 }
 
 void EnemyBase::Update()
 {
+	// ダメージ演出の進行
+	m_damageFrame--;
+	if (m_damageFrame < 0)	m_damageFrame = 0;
+
 	// 存在しない敵の処理はしない
 	if (!m_isExist) return;
 }
@@ -35,6 +40,8 @@ void EnemyBase::Draw()
 
 	// グラフィックが設定されていなければ止まる
 	assert(EGraph != -1);
+
+	if (m_damageFrame % 4 >= 2) return;
 
 	if (isTurn == false)
 	{
@@ -61,14 +68,13 @@ void EnemyBase::OnDamage()
 
 	HP -= 1;
 	
+	// 演出フレーム数を設定する
+	m_damageFrame = kDamageFrame;
 
 	if (HP <= 0)
 	{
 		Death();
 	}
-
-	// 演出フレーム数を設定する
-	m_damageFrame = kDamageFrame;
 }
 
 void EnemyBase::Death()
