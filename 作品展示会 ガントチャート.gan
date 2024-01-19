@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2023-11-23" view-index="0" gantt-divider-location="332" resource-divider-location="300" version="3.2.3247" locale="ja_JP">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2023-12-27" view-index="0" gantt-divider-location="346" resource-divider-location="300" version="3.2.3247" locale="ja_JP">
     <description/>
     <view zooming-state="default:2" id="gantt-chart">
-        <field id="tpd3" name="名前" width="174" order="0"/>
-        <field id="tpd4" name="開始日" width="74" order="1"/>
-        <field id="tpd5" name="終了日" width="68" order="2"/>
+        <field id="tpd3" name="名前" width="182" order="0"/>
+        <field id="tpd4" name="開始日" width="77" order="1"/>
+        <field id="tpd5" name="終了日" width="71" order="2"/>
         <option id="filter.completedTasks" value="false"/>
         <option id="color.recent">
             <![CDATA[#000000 #99ccff #66ccff #ff0000]]>
@@ -39,11 +39,11 @@
         </taskproperties>
         <task id="0" name="全体作成" color="#8cb6ce" meeting="false" start="2023-11-30" duration="55" complete="0" thirdDate="2023-11-30" thirdDate-constraint="0" expand="true"/>
         <task id="6" name="サンプルゲーム解析" color="#8cb6ce" meeting="false" start="2023-11-30" duration="3" complete="0" thirdDate="2023-11-30" thirdDate-constraint="0" expand="false"/>
-        <task id="1" name="予定プロトタイプ期間" color="#8cb6ce" meeting="false" start="2023-11-29" duration="15" complete="41" thirdDate="2023-11-30" thirdDate-constraint="0" expand="true">
-            <task id="7" name="プレイヤー関係" color="#ff0000" meeting="false" start="2023-11-29" duration="8" complete="55" thirdDate="2023-11-29" thirdDate-constraint="0" expand="true">
+        <task id="1" name="予定プロトタイプ期間" color="#8cb6ce" meeting="false" start="2023-11-29" duration="15" complete="38" thirdDate="2023-11-30" thirdDate-constraint="0" expand="true">
+            <task id="7" name="プレイヤー関係" color="#ff0000" meeting="false" start="2023-11-29" duration="8" complete="50" thirdDate="2023-11-29" thirdDate-constraint="0" expand="false">
                 <task id="8" name="左右移動" color="#99ccff" meeting="false" start="2023-11-29" duration="1" complete="100" thirdDate="2023-11-29" thirdDate-constraint="0" expand="true"/>
                 <task id="67" name="画像表示" color="#8cb6ce" meeting="false" start="2023-11-29" duration="1" complete="100" thirdDate="2023-11-29" thirdDate-constraint="0" expand="true"/>
-                <task id="9" name="ジャンプ" color="#8cb6ce" meeting="false" start="2023-11-30" duration="4" complete="100" thirdDate="2023-11-29" thirdDate-constraint="0" expand="true"/>
+                <task id="9" name="ジャンプ" color="#8cb6ce" meeting="false" start="2023-11-30" duration="4" complete="70" thirdDate="2023-11-29" thirdDate-constraint="0" expand="true"/>
                 <task id="69" name="攻撃" color="#8cb6ce" meeting="false" start="2023-12-04" duration="1" complete="0" thirdDate="2023-11-24" thirdDate-constraint="0" expand="true"/>
                 <task id="10" name="しゃがむ" color="#8cb6ce" meeting="false" start="2023-12-04" duration="1" complete="100" thirdDate="2023-11-29" thirdDate-constraint="0" expand="true"/>
                 <task id="11" name="当たり判定" color="#8cb6ce" meeting="false" start="2023-12-04" duration="3" complete="100" thirdDate="2023-11-29" thirdDate-constraint="0" expand="true"/>

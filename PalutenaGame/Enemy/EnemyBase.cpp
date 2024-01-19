@@ -1,13 +1,6 @@
 #include "EnemyBase.h"
 #include "DxLib.h"
 #include <cassert>
-#include "Player.h"
-
-namespace
-{
-	// ダメージ演出フレーム数
-	constexpr int kDamageFrame = 60;
-}
 
 EnemyBase::EnemyBase():
 	EGraph(-1),
@@ -52,24 +45,6 @@ void EnemyBase::Draw()
 
 void EnemyBase::OnDamage()
 {
-	// ダメージ演出中は再度食らわない
-	if (m_damageFrame > 0)
-	{
-		return;
-	}
-
-	//HP -= m_pumpkinEnemy->GetEnemyAtk();
-
-	HP -= m_pPlayer->GetPlayerAtk();
-
-	HP -= 1;
-
-	if (HP <= 0)
-	{
-		Death();
-	}
-	// 演出フレーム数を設定する
-	m_damageFrame = kDamageFrame;
 }
 
 void EnemyBase::Death()
@@ -77,6 +52,8 @@ void EnemyBase::Death()
 	isDeath = true;		// 死亡フラグをオンにする
 	m_isExist = false;
 }
+
+
 
 void EnemyBase::UpdateCollision()
 {
