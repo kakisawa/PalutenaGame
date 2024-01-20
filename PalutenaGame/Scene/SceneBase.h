@@ -10,7 +10,6 @@ public:
 	virtual void Update() {}
 	virtual void Draw() {}
 
-
 	// ƒV[ƒ“‚ğI—¹‚³‚¹‚½‚¢‚©
 	virtual  bool IsSceneEnd() const;
 
