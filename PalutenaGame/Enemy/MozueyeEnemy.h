@@ -1,6 +1,12 @@
 #pragma once
 #include "EnemyBase.h"
 
+//namespace
+//{
+//    // モズアイ出現数
+//    constexpr int MozuMax = 1;	// 17
+//}
+
 class SceneMain;
 class MozueyeEnemy : public EnemyBase {
 public:

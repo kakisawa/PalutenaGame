@@ -16,7 +16,7 @@ DeathYourEnemy::DeathYourEnemy()
 {
 	EGraph= LoadGraph("data/Fairy2.png");
 
-	HP = 3;		// HP
+	HP = 10;		// HP
 	Atk = 10;	// 攻撃力
 	Item;		// ドロップアイテム
 	

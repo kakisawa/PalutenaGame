@@ -1,6 +1,12 @@
 #pragma once
 #include "EnemyBase.h"
 
+//namespace
+//{
+//    // €oŒ»”
+//    constexpr int DeathMax = 2;	// 3
+//}
+
 class DeathYourEnemy :
     public EnemyBase
 {
