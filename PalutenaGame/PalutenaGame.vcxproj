@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Back.cpp" />
-    <ClCompile Include="BulletBase.cpp" />
+    <ClCompile Include="Shot\BulletBase.cpp" />
     <ClCompile Include="Enemy\DeathYourEnemy.cpp" />
     <ClCompile Include="Enemy\EnemyBase.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Back.h" />
-    <ClInclude Include="BulletBase.h" />
+    <ClInclude Include="Shot\BulletBase.h" />
     <ClInclude Include="Enemy\DeathYourEnemy.h" />
     <ClInclude Include="Enemy\EnemyBase.h" />
     <ClInclude Include="Game.h" />

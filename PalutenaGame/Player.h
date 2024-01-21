@@ -29,8 +29,11 @@ public:
 
 	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
 
-	int OutHp = HP;		// プレイヤーHPの引数
+	int OutHp = HP;			// プレイヤーHP
+	Vec2 OutPos() const { return m_pos; }	// プレイヤー座標
 	bool PlayerDeath() const { return isDeath; }
+
+
 
 	// 敵の攻撃力を獲得するため
 	void SetMozu(MozueyeEnemy* pMozu) { m_mozueyeEnemy = pMozu; }
