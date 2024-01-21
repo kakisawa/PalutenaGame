@@ -4,6 +4,7 @@
 #include "MozueyeEnemy.h"
 #include "DeathYourEnemy.h"
 #include "PumpkinEnemy.h"
+#include "Shot/Shot.h"
 #include "Game.h"
 #include "Pad.h"
 
@@ -153,6 +154,8 @@ void Player::Update()
 		if (Pad::IsTrigger(PAD_INPUT_10))
 		{
 			isAttack = true;
+
+			//m_shot->init();
 		}
 	}
 

@@ -10,6 +10,9 @@ namespace
 	constexpr int DeathMax = 1;	// 3
 	// かぼちゃ出現数
 	constexpr int PumpMax = 1;	// 10仮、覚えてない
+
+	// 画面内に同時に出せる弾の数
+	constexpr int kShotMax = 260;
 }
 
 // クラス宣言
@@ -18,6 +21,7 @@ class Back;
 class MozueyeEnemy;
 class DeathYourEnemy;
 class PumpkinEnemy;
+class Shot;
 
 class SceneMain
 {
@@ -34,8 +38,6 @@ public:
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
-
-	
 
 private:
 	//// 敵キャラクターの生成
@@ -60,9 +62,10 @@ private:
 	// シーン処理
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
 
-
 	// プレイヤー
 	Player* m_pPlayer;
+	// 弾
+//	Shot* m_pShot[kShotMax];
 	// 背景
 	Back* m_pBack;
 

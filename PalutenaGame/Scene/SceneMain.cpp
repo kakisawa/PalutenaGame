@@ -4,6 +4,7 @@
 #include "MozueyeEnemy.h"
 #include "DeathYourEnemy.h"
 #include "PumpkinEnemy.h"
+#include "Shot/Shot.h"
 #include "Back.h"
 #include "Game.h"
 #include "Rect.h"
@@ -48,6 +49,11 @@ SceneMain::SceneMain() :
 	{
 		m_pPumpkinEnemy[i] = new PumpkinEnemy;
 	}
+
+	//// 弾のメモリ確保
+	//for (int i = 0; i < kShotMax; i++) {
+	//	m_pShot[i] = new Shot;
+	//}
 }
 
 SceneMain::~SceneMain()
@@ -83,6 +89,12 @@ SceneMain::~SceneMain()
 		delete m_pPumpkinEnemy;
 		m_pPumpkinEnemy[i] = nullptr;
 	}
+
+	//// 弾のメモリ解放
+	//for (int i = 0; i < kShotMax; i++) {
+	//	delete m_pShot[i];
+	//	m_pShot[i] = nullptr;
+	//}
 }
 
 void SceneMain::Init()
@@ -106,6 +118,11 @@ void SceneMain::Init()
 	{
 		m_pPumpkinEnemy[i]->Init();
 	}
+
+	//// 弾のメモリ確保
+	//for (int i = 0; i < kShotMax; i++) {
+	//	m_pShot[i]->init();
+	//}
 
 	m_fadeAlpha = 255;
 }
@@ -190,6 +207,20 @@ void SceneMain::Update()
 			}
 		}
 	}
+
+	//for (int i = 0; i < kShotMax; i++)
+	//{
+	//	// nullptrなら処理は行わない
+	//	if (!m_pShot[i])	continue;
+
+	//	m_pShot[i]->Update();
+	//	// 画面外に出たらメモリ解放
+	//	if (!m_pShot[i]->IsExist())
+	//	{
+	//		delete m_pShot[i];
+	//		m_pShot[i] = nullptr;
+	//	}
+	//}
 }
 
 void SceneMain::Draw()
@@ -220,6 +251,13 @@ void SceneMain::Draw()
 	{
 		m_pPumpkinEnemy[i]->EnemyBase::Draw();
 	}
+
+	//for (int i = 0; i < kShotMax; i++)
+	//{
+	//	// nullptrかどうかをチェックする
+	//	if (!m_pShot[i])	continue;// nullptrなら以降の処理は行わない
+	//	m_pShot[i]->Draw();
+	//}
 
 	DrawGraph(0, 0, m_gameScreenHandle, true);
 

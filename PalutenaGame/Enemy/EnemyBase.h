@@ -18,13 +18,12 @@ public:
 	Vec2 GetPos() const { return m_pos; }			// ˆÊ’u‚Ìæ“¾
 	Rect GetColRect() const { return m_colRect; }	// “–‚½‚è”»’è‚Ì‹éŒ`‚ğæ“¾‚·‚é
 
-	// “G‚ÌUŒ‚—Í‚ğ“n‚·
+	// “G‚ÌUŒ‚—Í,HP‚ğ“n‚·
 	int GetEnemyAtk() const { return Atk; }
-
-	bool GetisExist() const { return m_isExist; }
-
 	int GetEnemyHP() const { return HP; }
 
+	bool GetisExist() const { return m_isExist; }
+	
 protected:		// ”h¶ƒNƒ‰ƒX‚©‚çƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É
 
 	int EGraph;	// “G‰æ‘œ

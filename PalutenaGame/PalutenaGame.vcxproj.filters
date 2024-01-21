@@ -90,7 +90,7 @@
     <ClCompile Include="Scene\SceneStageSelect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Shot\BulletBase.cpp">
+    <ClCompile Include="Shot\Shot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,7 +146,7 @@
     <ClInclude Include="Scene\SceneStageSelect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Shot\BulletBase.h">
+    <ClInclude Include="Shot\Shot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
