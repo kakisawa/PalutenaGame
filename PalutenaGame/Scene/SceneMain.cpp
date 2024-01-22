@@ -49,11 +49,6 @@ SceneMain::SceneMain() :
 	{
 		m_pPumpkinEnemy[i] = new PumpkinEnemy;
 	}
-
-	//// 弾のメモリ確保
-	//for (int i = 0; i < kShotMax; i++) {
-	//	m_pShot[i] = new Shot;
-	//}
 }
 
 SceneMain::~SceneMain()
@@ -90,11 +85,6 @@ SceneMain::~SceneMain()
 		m_pPumpkinEnemy[i] = nullptr;
 	}
 
-	//// 弾のメモリ解放
-	//for (int i = 0; i < kShotMax; i++) {
-	//	delete m_pShot[i];
-	//	m_pShot[i] = nullptr;
-	//}
 }
 
 void SceneMain::Init()
@@ -118,11 +108,6 @@ void SceneMain::Init()
 	{
 		m_pPumpkinEnemy[i]->Init();
 	}
-
-	//// 弾のメモリ確保
-	//for (int i = 0; i < kShotMax; i++) {
-	//	m_pShot[i]->init();
-	//}
 
 	m_fadeAlpha = 255;
 }
@@ -208,19 +193,20 @@ void SceneMain::Update()
 		}
 	}
 
-	//for (int i = 0; i < kShotMax; i++)
-	//{
-	//	// nullptrなら処理は行わない
-	//	if (!m_pShot[i])	continue;
-
-	//	m_pShot[i]->Update();
-	//	// 画面外に出たらメモリ解放
-	//	if (!m_pShot[i]->IsExist())
-	//	{
-	//		delete m_pShot[i];
-	//		m_pShot[i] = nullptr;
-	//	}
-	//}
+	// 弾
+	for (int i = 0; i < kShotMax; i++)
+	{
+		// nullptrなら処理は行わない
+		if (!m_pShot[i])	continue;
+		
+		m_pShot[i]->Update();
+		// 画面外に出たらメモリ解放
+		if (!m_pShot[i]->IsExist())
+		{
+			delete m_pShot[i];
+			m_pShot[i] = nullptr;
+		}
+	}
 }
 
 void SceneMain::Draw()
@@ -252,17 +238,16 @@ void SceneMain::Draw()
 		m_pPumpkinEnemy[i]->EnemyBase::Draw();
 	}
 
-	//for (int i = 0; i < kShotMax; i++)
-	//{
-	//	// nullptrかどうかをチェックする
-	//	if (!m_pShot[i])	continue;// nullptrなら以降の処理は行わない
-	//	m_pShot[i]->Draw();
-	//}
+	// 弾描画
+	for (int i = 0; i < kShotMax; i++)
+	{
+		// nullptrかどうかをチェックする
+		if (!m_pShot[i])	continue;// nullptrなら以降の処理は行わない
+		m_pShot[i]->Draw();
+	}
 
 	DrawGraph(0, 0, m_gameScreenHandle, true);
-
 	
-
 	// バックバッファに書き込む設定に戻しておく
 	//SetDrawScreen(DX_SCREEN_BACK);
 
@@ -288,4 +273,25 @@ void SceneMain::End()
 bool SceneMain::IsSceneEnd() const
 {
 	return m_isSceneEnd && (m_fadeAlpha >= 255);
+}
+
+bool SceneMain::AddShot(Shot* pShot)
+{
+	// nullptrを渡されたら止まる
+	assert(pShot);
+
+	for (int i = 0; i < kShotMax; i++)
+	{
+		// 使用中なら次のチェックへ
+		if (m_pShot[i])	continue;
+
+		// ここに来たということはm_pShot[i] == nullptr
+		m_pShot[i] = pShot;
+		// 登録したら終了
+		return true;
+	}
+
+	// ここに来た、という事はm_pShotにポインタを登録できなかった
+	delete pShot;
+	return false;
 }

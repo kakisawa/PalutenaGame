@@ -12,7 +12,7 @@ namespace
 	constexpr int PumpMax = 1;	// 10仮、覚えてない
 
 	// 画面内に同時に出せる弾の数
-	constexpr int kShotMax = 260;
+	constexpr int kShotMax = 20;
 }
 
 // クラス宣言
@@ -38,6 +38,12 @@ public:
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
+
+	// ショットを追加する
+	// 登録できなかった場合はfalseを返す
+	// 登録できなかった場合は内部でpShot解放する
+	bool AddShot(Shot* pShot);
+
 
 private:
 	//// 敵キャラクターの生成
@@ -65,7 +71,7 @@ private:
 	// プレイヤー
 	Player* m_pPlayer;
 	// 弾
-//	Shot* m_pShot[kShotMax];
+	Shot* m_pShot[kShotMax];
 	// 背景
 	Back* m_pBack;
 

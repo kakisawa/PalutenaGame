@@ -1,6 +1,9 @@
 #pragma once
+#include "Rect.h"
+#include "Vec2.h"
 
 class Player;
+class SceneMain;
 
 namespace
 {
@@ -12,8 +15,8 @@ namespace
 	// 要改善
 
 	// 弾のサイズ
-	constexpr int kShotWidth = 16;
-	constexpr int kShotHeight = 16;
+	constexpr int kShotWidth = 20;
+	constexpr int kShotHeight = 20;
 
 	// 弾の移動速度
 	constexpr float kShotSpeed = 8.0f;
@@ -29,14 +32,14 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
-	void RightShot();
-	void LeftShot();
-	void UpShot();
+	void Start(Vec2 pos);
+
 
 	bool IsExist() const { return m_isExist; }
-
+	
+	void SetMain(SceneMain* pMain) { m_pMain = pMain; }
 	// プレイヤーの向いている方向を取得する為
-//	void SetPlayer(Player* pPlayer) { m_Player = pPlayer; }
+	void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
 
 protected:
 	int Se;
@@ -46,8 +49,15 @@ protected:
 
 	bool m_isExist;	// 存在するかフラグ(使用中かどうか)
 
+	// 表示位置
+	Vec2 m_pos;
+	// 当たり判定の矩形
+	Rect m_colRect;
+
 public:
-	// プレイヤー
-	Player* m_Player;
+	// ショットを打ったプレイヤーのポインタを覚えておく
+	Player* m_pPlayer;
+	// SceneMainの関数を呼び出すためにポインタを覚えておく
+	SceneMain* m_pMain;
 };
 

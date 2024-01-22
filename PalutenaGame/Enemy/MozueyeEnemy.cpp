@@ -24,8 +24,8 @@ MozueyeEnemy::MozueyeEnemy()
 	Gravity = 0.0f;				// “G‚Ì‰Šúd—Í
 	isTurn = false;				// ‰E‚ğŒü‚¢‚Ä‚¢‚é‚Ìfalse‚ğ‘}“ü
 
-	m_pos.x = 300;
-	m_pos.y = 300;
+	m_pos.x = kScreenWidth * 0.3;
+	m_pos.y = Ground - kHeight;
 }
 
 MozueyeEnemy::~MozueyeEnemy()

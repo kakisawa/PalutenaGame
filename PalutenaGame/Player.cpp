@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "Player.h"
 
+#include "SceneMain.h"
 #include "MozueyeEnemy.h"
 #include "DeathYourEnemy.h"
 #include "PumpkinEnemy.h"
@@ -51,7 +52,8 @@ void Player::Init()
 	HP = 100;						// プレイヤーの初期HP
 	m_pos.x = kScreenWidth / 2;	// プレイヤーの初期位置x
 	m_pos.y = 100;				// プレイヤーの初期位置y
-	m_dir = kDirFront;			// プレイヤーの初期方向
+	m_dir = kDirFront;			// プレイヤーの初期方向(正面のflont)
+	m_shotDir = kShotDirRight;
 	JumpPower = 0.0f;			// プレイヤーの初期ジャンプ
 	Gravity = 0.0f;				// プレイヤーの初期重力
 	Atk = 1;					// プレイヤーの初期攻撃力
@@ -153,9 +155,16 @@ void Player::Update()
 		// スペースキーを押していたら攻撃
 		if (Pad::IsTrigger(PAD_INPUT_10))
 		{
-			isAttack = true;
+			// ショットメモリの確保
+			Shot* pShot = new Shot;
 
-			//m_shot->init();
+			pShot->SetMain(m_pMain);
+			pShot->SetPlayer(this);
+			pShot->init();
+			pShot->Start(m_pos);
+			isAttack = true;
+			// 以降更新やメモリの開放はSceneMainに任せる
+			m_pMain->AddShot(pShot);
 		}
 	}
 
@@ -297,6 +306,7 @@ void Player::Draw()
 	// 　なので恐らく、一瞬描画した後にデフォルトの描画に戻っている模様。
 	// 　最終的には、1ループ分のアニメーションは動いてほしい
 
+	SetFontSize(16);
 	// プレイヤーの現在座標表示
 	DrawFormatString(80, 0, GetColor(255, 255, 255),
 		"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);

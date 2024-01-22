@@ -23,8 +23,8 @@ DeathYourEnemy::DeathYourEnemy()
 	Gravity = 0.0f;				// “G‚Ì‰Šúd—Í
 	isTurn = false;				// ‰E‚ğŒü‚¢‚Ä‚¢‚é‚Ìfalse‚ğ‘}“ü
 	
-	m_pos.x = 400;
-	m_pos.y = 400;
+	m_pos.x = kScreenWidth * 0.7;
+	m_pos.y = Ground - kHeight;
 }
 
 DeathYourEnemy::~DeathYourEnemy()

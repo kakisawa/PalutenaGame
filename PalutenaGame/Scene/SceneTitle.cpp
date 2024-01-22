@@ -7,24 +7,30 @@ namespace
 {
 	// 文字の表示位置
 	constexpr int kChirPosX = kScreenWidth * 0.4;
-	constexpr int kChirPosY = kScreenHeight * 0.7;
+	constexpr int kChirPosY = kScreenHeight * 0.65;
 
 	// 文字の表示幅
-	constexpr int kCharInterval = 35;
+	constexpr int kCharInterval = 90;
 
 	// 文字を囲む四角の初期位置
-	constexpr int kSelectPosX = kChirPosX - 2;
-	constexpr int kSelectPosY = kChirPosY - 6;
+	constexpr int kSelectPosX = kChirPosX-2;
+	constexpr int kSelectPosY = kChirPosY-2;
 
 	// 文字を囲む四角の移動量
-	constexpr int kSelectMoveY = 35;
+	constexpr int kSelectMoveY = 90;
 
 	// 文字を囲む四角のサイズ
-	constexpr int kSelectSizeX = 120;
-	constexpr int kSelectSizeY = 30;
+	constexpr int kSelectSizeX =460;
+	constexpr int kSelectSizeY = 75;
+
+	// タイトルロゴサイズ
+	constexpr int kLogoSizeX = 1200;
+	constexpr int kLogoSizeY = 1000;
 }
 
 SceneTitle::SceneTitle() :
+	x(kScreenWidth * 0.2),
+	y(-180),
 	m_isSceneEnd(false),
 	m_select(kSelectGameStart),
 	m_selectPos(kSelectPosX, kSelectPosY+ kSelectMoveY),
@@ -116,13 +122,15 @@ void SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	DrawExtendGraph(-120, -160, 850, 510, TitleGraph, true);
+	DrawExtendGraph(x, y, x+kLogoSizeX, y+kLogoSizeY, TitleGraph, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 
-	DrawString(kChirPosX + 25, kChirPosY, "操作説明", 0xffffff);
+	SetFontSize(64);
+
+	DrawString(kChirPosX + 100, kChirPosY, "操作説明", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを始める", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0xffffff);
 

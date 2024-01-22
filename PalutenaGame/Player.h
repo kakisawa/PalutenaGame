@@ -18,6 +18,14 @@ enum Dir
 	kDirUp,		// 上
 };
 
+// 弾を撃つ方向
+enum ShotDir
+{
+	kShotDirLeft,	// 左
+	kShotDirRight,	// 右
+	kShotDirUp,		// 上
+};
+
 class Player
 {
 public:
@@ -38,12 +46,13 @@ public:
 
 	void SetHandle(int handle) { Graph = handle; }		// メンバー変数にアクセスする
 	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
+	Vec2 OutPos() const { return m_pos; }				// プレイヤーの座標を取得する
+	bool PlayerDeath() const { return isDeath; }		// プレイヤーの生死状態を取得する
+
+	Dir OutDir() const { return m_dir; }				// プレイヤーがどの方向を向いているかを取得する
+
 	int OutHp = HP;			// プレイヤーHP
-	Vec2 OutPos() const { return m_pos; }	// プレイヤー座標
-	bool PlayerDeath() const { return isDeath; }	// プレイヤーの生死
-
-	//Dir OutDir() const { return m_dir; }	// プレイヤーがどの方向を向いているか
-
+	
 	// 敵の攻撃力を獲得するため
 	void SetMozu(MozueyeEnemy* pMozu) { m_mozueyeEnemy = pMozu; }
 	void SetDeath(DeathYourEnemy* pDeath) { m_dethYourEnemy = pDeath; }
@@ -53,7 +62,7 @@ private:
 	MozueyeEnemy* m_mozueyeEnemy;
 	DeathYourEnemy* m_dethYourEnemy;
 	PumpkinEnemy* m_pumpkinEnemy;
-	//Shot* m_shot;
+	Shot* m_shot;
 
 	int HP;		// プレイヤーの体力
 	int Atk;	// プレイヤーの攻撃力
@@ -68,6 +77,7 @@ private:
 
 	Vec2 m_pos;			// 表示位置
 	Dir m_dir;			// 向いている方向
+	ShotDir m_shotDir;	
 	Rect m_colRect;		// 当たり判定用の矩形
 
 	bool isMove;		// プレイヤーが移動中かどうかのフラグ

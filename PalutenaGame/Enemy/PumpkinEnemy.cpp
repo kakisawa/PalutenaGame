@@ -25,7 +25,7 @@ PumpkinEnemy::PumpkinEnemy()
 	isTurn = false;				// ‰E‚ðŒü‚¢‚Ä‚¢‚é‚Ìfalse‚ð‘}“ü
 
 	m_pos.x = kScreenWidth * 0.5;
-	m_pos.y = kScreenHeight * 0.5;
+	m_pos.y = Ground-kHeight;
 }
 
 PumpkinEnemy::~PumpkinEnemy()

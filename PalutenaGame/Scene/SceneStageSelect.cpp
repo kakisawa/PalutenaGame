@@ -7,21 +7,21 @@ namespace
 {
 	// 文字の表示位置
 	constexpr int kChirPosX = kScreenWidth * 0.4;
-	constexpr int kChirPosY = kScreenHeight * 0.7;
+	constexpr int kChirPosY = kScreenHeight * 0.3;
 
 	// 文字の表示幅
-	constexpr int kCharInterval = 35;
+	constexpr int kCharInterval = 120;
 
 	// 文字を囲む四角の初期位置
 	constexpr int kSelectPosX = kChirPosX - 2;
-	constexpr int kSelectPosY = kChirPosY - 6;
+	constexpr int kSelectPosY = kChirPosY - 2;
 
 	// 文字を囲む四角の移動量
-	constexpr int kSelectMoveY = 35;
+	constexpr int kSelectMoveY = 120;
 
 	// 文字を囲む四角のサイズ
-	constexpr int kSelectSizeX = 120;
-	constexpr int kSelectSizeY = 30;
+	constexpr int kSelectSizeX = 460;
+	constexpr int kSelectSizeY = 75;
 }
 
 SceneStageSelect::SceneStageSelect() :
