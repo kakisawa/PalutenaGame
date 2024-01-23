@@ -100,9 +100,14 @@ void SceneStageSelect::Update()
 
 void SceneStageSelect::Draw()
 {
+	SetFontSize(64);
+
 	DrawString(kChirPosX + 25, kChirPosY, "ステージ1", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "ステージ2", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "タイトルに戻る", 0xffffff);
+
+	SetFontSize(32);
+	DrawString(kChirPosX, kChirPosY + kCharInterval * 3, "Aキーで決定", 0xffffff);
 
 	// 選択中の部分を四角で描画
 	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,

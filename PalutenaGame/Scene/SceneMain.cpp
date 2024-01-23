@@ -125,7 +125,7 @@ void SceneMain::Init()
 
 void SceneMain::Update()
 {
-	if (m_pPlayer->PlayerDeath())
+	if (m_pPlayer->PlayerDeath() || m_pTime->TimeUp())
 	{
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
@@ -156,6 +156,7 @@ void SceneMain::Update()
 	m_pBack->Update();
 	m_pPlayer->Update();
 	m_pTime->Update();
+
 
 	// 弾との当たり判定
 	for (int j = 0; j < kShotMax; j++)

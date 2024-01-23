@@ -118,7 +118,7 @@ void SceneGameOver::Draw()
 {
 	DrawGraph(0, 0, Graph, false);
 	DrawString(120, 120, "ゲームオーバー画面", GetColor(255, 255, 255));
-	DrawString(120, 120 + 16, "Enterキーを押してください", GetColor(255, 255, 255));
+	DrawString(120, 120 + 16, "Aキーを押してください", GetColor(255, 255, 255));
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始

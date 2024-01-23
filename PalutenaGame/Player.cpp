@@ -312,6 +312,7 @@ void Player::Draw()
 	DrawFormatString(80, 19, GetColor(255, 255, 255),
 		"PlayerHP:(%d)", HP);
 
+#ifdef _DEBUG
 	DrawFormatString(80, 38, GetColor(255, 255, 255),
 		"isMove:(%d)", isMove);
 	DrawFormatString(80, 57, GetColor(255, 255, 255),
@@ -319,7 +320,6 @@ void Player::Draw()
 	DrawFormatString(80, 76, GetColor(255, 255, 255),
 		"m_dir:(%d)", m_dir);
 
-#ifdef _DEBUG
 	// “–‚½‚è”»’è‚Ì•\Ž¦
 	m_colRect.Draw(GetColor(255, 0, 0), false);
 #endif

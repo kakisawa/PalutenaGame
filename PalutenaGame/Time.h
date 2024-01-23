@@ -1,4 +1,5 @@
 #pragma once
+
 class Time
 {
 public:
@@ -8,6 +9,8 @@ public:
 	void Init();
 	void Update();
 	void Draw();
+
+	bool TimeUp() const { return isTimeUp; }
 
 private:
 	float Second;		// c‚è‚ÌƒQ[ƒ€•b”(§ŒÀŠÔ)*60

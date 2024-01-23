@@ -1,4 +1,5 @@
 #include "Time.h"
+#include "Player.h"
 #include "DxLib.h"
 
 Time::Time():
@@ -14,17 +15,19 @@ Time::~Time()
 
 void Time::Init()
 {
-	Second = 3600.0f;		// 60ïb*60
+	Second = 600.0f;		// ñ{óàÇÕ60ïb*60
+							// åªç›ÇÕâºÇ≈10ïb*60[
+	isTimeUp = false;
 }
 
 void Time::Update()
 {
-	/*Second -= Count;
-	Count++;*/
+	if (Second <= 0)
+	{
+		isTimeUp = true;
+	}
 
 	Second--;
-
-	//Second =Second/ 60;
 }
 
 void Time::Draw()
