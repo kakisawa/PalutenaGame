@@ -8,7 +8,7 @@ public:
 	EnemyBase();			
 	virtual ~EnemyBase(){}
 
-	virtual void Init(){}
+	virtual void Init(int x,int y);
 	virtual void Update();
 	virtual void Draw();
 
@@ -23,6 +23,9 @@ public:
 	int GetEnemyHP() const { return HP; }
 
 	bool isExist() const { return m_isExist; }
+
+	// 敵キャラクターをスタートさせる
+	virtual void Start() = 0;
 	
 protected:		// 派生クラスからアクセスできるように
 
@@ -45,15 +48,6 @@ protected:		// 派生クラスからアクセスできるように
 	// m_posを左上に,m_handleのグラフィックサイズを幅高さにした
 	// 当たり判定を設定する
 	virtual void UpdateCollision();
-
-	enum Item	// アイテムの種類
-	{
-		kHeart,		// ハート
-		kHalfHeart,	// ハーフハート
-		kBigHeart,	// ビッグハート
-		kHammer,	// トンカチ
-	};
-	Item Drop;		// ドロップアイテム
 
 	bool isDeath; // 死亡フラグ
 

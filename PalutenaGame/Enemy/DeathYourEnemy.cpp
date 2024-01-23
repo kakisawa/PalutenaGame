@@ -18,7 +18,6 @@ DeathYourEnemy::DeathYourEnemy()
 
 	HP = 10;		// HP
 	Atk = 10;	// 攻撃力
-	Item;		// ドロップアイテム
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
@@ -31,6 +30,10 @@ DeathYourEnemy::DeathYourEnemy()
 DeathYourEnemy::~DeathYourEnemy()
 {
 	DeleteGraph(EGraph);
+}
+
+void DeathYourEnemy::Init()
+{
 }
 
 void DeathYourEnemy::Update()
@@ -79,4 +82,9 @@ void DeathYourEnemy::Update()
 		m_pos.x = 0;
 		isTurn = false;
 	}
+}
+
+void DeathYourEnemy::Start()
+{
+	m_isExist = true;
 }

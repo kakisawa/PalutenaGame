@@ -22,6 +22,7 @@ class MozueyeEnemy;
 class DeathYourEnemy;
 class PumpkinEnemy;
 class Shot;
+class Time;
 
 class SceneMain
 {
@@ -46,10 +47,10 @@ public:
 
 
 private:
-	//// 敵キャラクターの生成
-	//void CreateEnemyLeft();
-	//void CreateEnemyRight();
-	//void CreateEnemyToPlayer();
+	// 敵キャラクターの生成
+	void CreateEnemyMozu();
+	void CreateEnemyDeath();
+	void CreateEnemyPump();
 
 	// グラフィックのハンドル
 	int m_gameScreenHandle;	// ゲームオーバー時画面
@@ -74,9 +75,11 @@ private:
 	Shot* m_pShot[kShotMax];
 	// 背景
 	Back* m_pBack;
+	// 制限時間
+	Time* m_pTime;
 
 	// エネミー
-	MozueyeEnemy* m_pMozueyeEnemy[MozuMax];
-	DeathYourEnemy* m_pDeathYourEnemy[DeathMax];
-	PumpkinEnemy* m_pPumpkinEnemy[PumpMax];
+	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;
+	std::vector<DeathYourEnemy*> m_pDeathYourEnemy;
+	std::vector<PumpkinEnemy*> m_pPumpkinEnemy;
 };

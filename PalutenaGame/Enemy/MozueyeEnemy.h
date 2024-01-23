@@ -1,12 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
 
-//namespace
-//{
-//    // モズアイ出現数
-//    constexpr int MozuMax = 1;	// 17
-//}
-
 class SceneMain;
 class MozueyeEnemy : public EnemyBase {
 public:
@@ -17,6 +11,7 @@ public:
     void Update();
     void Draw(){}
 
+    void Start();
 
 private:
     // 基準規定 真右方向に移動する基準座標

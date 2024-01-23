@@ -10,7 +10,7 @@ namespace
 	constexpr int kHeight = 22;
 
 	// 移動速度
-	constexpr float kSpeed = 3.0f;
+	constexpr float kSpeed = 1.0f;
 }
 
 PumpkinEnemy::PumpkinEnemy()
@@ -20,8 +20,7 @@ PumpkinEnemy::PumpkinEnemy()
 
 	HP = 1;		// HP
 	Atk = 10;	// 攻撃力
-	Item;		// ドロップアイテム
-	
+
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
 
@@ -62,4 +61,9 @@ void PumpkinEnemy::Update()
 	toTarget.normalize();
 	// kSpeedでかける
 	m_vec = toTarget * kSpeed;
+}
+
+void PumpkinEnemy::Start()
+{
+	m_isExist = true;
 }

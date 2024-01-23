@@ -1,12 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
 
-//namespace
-//{
-//    // 死出現数
-//    constexpr int DeathMax = 2;	// 3
-//}
-
 class DeathYourEnemy :
     public EnemyBase
 {
@@ -14,8 +8,10 @@ public:
     DeathYourEnemy();
     ~DeathYourEnemy();
 
-    void Init(){}
+    void Init();
     virtual void Update() override;
+
+    void Start();
 
 private:
     // 基準規定 真右方向に移動する基準座標

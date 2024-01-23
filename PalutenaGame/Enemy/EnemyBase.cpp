@@ -23,6 +23,12 @@ EnemyBase::EnemyBase():
 {
 }
 
+void EnemyBase::Init(int x, int y)
+{
+	m_pos.x = x;
+	m_pos.y = y;
+}
+
 void EnemyBase::Update()
 {
 	// ダメージ演出の進行
@@ -80,6 +86,11 @@ void EnemyBase::OnDamage()
 void EnemyBase::Death()
 {
 	isDeath = true;		// 死亡フラグをオンにする
+	m_isExist = false;
+}
+
+void EnemyBase::Start()
+{
 	m_isExist = false;
 }
 

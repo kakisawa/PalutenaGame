@@ -29,6 +29,7 @@
     <ClCompile Include="Scene\SceneStageSelect.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Util\Pad.cpp" />
     <ClCompile Include="Util\Rect.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Scene\SceneStageSelect.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Util\Pad.h" />
     <ClInclude Include="Util\Rect.h" />
     <ClInclude Include="Scene\SceneBase.h" />

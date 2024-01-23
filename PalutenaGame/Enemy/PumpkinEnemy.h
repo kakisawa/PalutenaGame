@@ -14,6 +14,8 @@ public:
     virtual void Update() override;
     void Draw(){}
 
+    void Start();
+
     // メンバー変数にアクセスする
     void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
  

@@ -19,7 +19,6 @@ MozueyeEnemy::MozueyeEnemy()
 
 	HP = 2;		// HP
 	Atk = 10;	// 攻撃力
-	Item;		// ドロップアイテム
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
@@ -77,4 +76,9 @@ void MozueyeEnemy::Update()
 		m_pos.x = 0;
 		isTurn = false;
 	}
+}
+
+void MozueyeEnemy::Start()
+{
+	m_isExist = true;
 }
