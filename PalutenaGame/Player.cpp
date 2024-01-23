@@ -58,7 +58,7 @@ void Player::Init()
 	Gravity = 0.0f;				// プレイヤーの初期重力
 	Atk = 1;					// プレイヤーの初期攻撃力
 	PlayerAnim = 0;				// プレイヤーアニメーションの初期化
-	m_damageFrame = 0;			// プレイヤー被ダメアニメーション
+	m_damageFrame = 0;			// プレイヤー被ダメアニメーション  
 	isMove = false;				// 移動状態フラグ(否定のfalse)
 	isAttack = false;			// 攻撃フラグ(否定のfalse)
 	isDeath = false;			// 死亡フラグ(否定のfalse)
@@ -115,18 +115,13 @@ void Player::Update()
 		{
 			isMove = false;
 			m_dir = kDirUp;
-
-			// デバッグ用
-			//	m_pos.y -= kSpeed;
+			m_shotDir = kShotDirUp;
 		}
 		// 屈む
 		if (CheckHitKey(KEY_INPUT_DOWN) == 1)
 		{
 			isMove = true;
 			m_dir = kDirDown;
-
-			// デバッグ用
-			//m_pos.y += kSpeed;
 		}
 		// 左移動
 		if (CheckHitKey(KEY_INPUT_LEFT) == 1)
@@ -134,6 +129,8 @@ void Player::Update()
 			m_pos.x -= kSpeed;
 			isMove = true;
 			m_dir = kDirLeft;
+
+			m_shotDir = kShotDirLeft;
 		}
 		// 右移動
 		if (CheckHitKey(KEY_INPUT_RIGHT) == 1)
@@ -141,9 +138,10 @@ void Player::Update()
 			m_pos.x += kSpeed;
 			isMove = true;
 			m_dir = kDirRight;
+			m_shotDir = kShotDirRight;
 		}
 		// ジャンプボタンを押していて、地面についていたらジャンプ
-		if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == Ground)	//IsTrigger
+		if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == Ground)
 		{
 			// ジャンプ加速度
 			for (int i = 0; i < kJump; i++) {
@@ -156,7 +154,7 @@ void Player::Update()
 		if (Pad::IsTrigger(PAD_INPUT_10))
 		{
 			// ショットメモリの確保
-			Shot* pShot = new Shot;
+			Shot* pShot = new Shot();
 
 			pShot->SetMain(m_pMain);
 			pShot->SetPlayer(this);

@@ -49,7 +49,7 @@ public:
 	Vec2 OutPos() const { return m_pos; }				// プレイヤーの座標を取得する
 	bool PlayerDeath() const { return isDeath; }		// プレイヤーの生死状態を取得する
 
-	Dir OutDir() const { return m_dir; }				// プレイヤーがどの方向を向いているかを取得する
+	ShotDir OutShotDir() const { return m_shotDir; }				// プレイヤーがどの方向を向いているかを取得する
 
 	int OutHp = HP;			// プレイヤーHP
 	

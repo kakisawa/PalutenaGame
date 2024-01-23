@@ -34,18 +34,22 @@ public:
 
 	void Start(Vec2 pos);
 
+	void colShot();		// 弾が敵とぶつかったときの処理
 
+	Rect GetColRect() const { return m_colRect; }	// 当たり判定の矩形を取得する
 	bool IsExist() const { return m_isExist; }
 	
 	void SetMain(SceneMain* pMain) { m_pMain = pMain; }
 	// プレイヤーの向いている方向を取得する為
 	void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
 
-protected:
+private:
 	int Se;
 
-	int x;
+	int x;	// 弾の座標
 	int y;
+
+	int dir;	// 弾の方向
 
 	bool m_isExist;	// 存在するかフラグ(使用中かどうか)
 
@@ -60,4 +64,3 @@ public:
 	// SceneMainの関数を呼び出すためにポインタを覚えておく
 	SceneMain* m_pMain;
 };
-

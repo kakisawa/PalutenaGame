@@ -17,13 +17,17 @@ Shot::~Shot()
 
 void Shot::init()
 {
+	x = m_pos.x;
+	y = m_pos.y;
+
+	dir = m_pPlayer->OutShotDir();
 }
 
 void Shot::Update()
 {
 	if (!m_isExist)	return;
-
-	if (m_pPlayer->OutDir() == kDirRight)
+	
+	if (dir == kShotDirRight)
 	{
 		m_pos.x += kShotSpeed;
 		if (m_pos.x >= kScreenWidth)
@@ -32,7 +36,7 @@ void Shot::Update()
 			return;
 		}
 	}
-	else if (m_pPlayer->OutDir() == kDirLeft)
+	else if (dir == kShotDirLeft)
 	{
 		m_pos.x -= kShotSpeed;
 		if (m_pos.x <= 0)
@@ -41,7 +45,7 @@ void Shot::Update()
 			return;
 		}
 	}
-	else if (m_pPlayer->OutDir() == kDirUp)
+	else if (dir == kShotDirUp)
 	{
 		m_pos.y -= kShotSpeed;
 		if (m_pos.y <= 0)
@@ -52,7 +56,7 @@ void Shot::Update()
 	}
 
 	// 当たり判定の更新
-	m_colRect.SetCenter(m_pos.x + kPlayerWidth * 0.5, m_pos.y + kPlayerHeight, kShotWidth, kShotHeight);
+	m_colRect.SetCenter(m_pos.x + kPlayerWidth * 0.5, m_pos.y + kPlayerHeight * 0.5, kShotWidth, kShotHeight);
 }
 
 void Shot::Draw()
@@ -67,55 +71,14 @@ void Shot::Draw()
 #endif
 }
 
-//void Shot::RightShot()
-// {
-//	// 右方向への弾の発射位置
-//	// プレイヤーの右側,高さは半分
-//	//x = m_Player->OutPos().x + kPlayerWidth;
-//	//y = m_Player->OutPos().y + kPlayerHeight * 0.5;
-//
-//	x = m_pos.x+kPlayerWidth;
-//	y = m_pos.y + kPlayerHeight * 0.5;
-//}
-//
-//void Shot::LeftShot()
-//{
-//	// 左方向への弾の発射位置
-//	// プレイヤーの左側,高さは半分
-//	//x = m_Player->OutPos().x;
-//	//y = m_Player->OutPos().y + kPlayerHeight * 0.5;
-//
-//	x = m_pos.x;
-//	y = m_pos.y + kPlayerHeight * 0.5;
-//}
-//
-//void Shot::UpShot()
-//{
-//	// 右方向への弾の発射位置
-//	// プレイヤーの上側
-//	//x = m_Player->OutPos().x + kPlayerWidth * 0.5;
-//	//y = m_Player->OutPos().y;
-//
-//	x = m_pos.x+kPlayerWidth*0.5;
-//	y = m_pos.y;
-//}
-//
 void Shot::Start(Vec2 pos)
 {
 	m_isExist = true;
 
 	m_pos = pos;
+}
 
-	if (m_pPlayer->OutDir()==kDirRight) // プレイヤーが右を向いている場合
-	{
-		m_pos.x += kShotSpeed;
-	}
-	else if(m_pPlayer->OutDir() == kDirLeft) // プレイヤーが左を向いている場合
-	{
-		m_pos.x = -kShotSpeed;
-	}
-	else if (m_pPlayer->OutDir() == kDirUp)
-	{
-		m_pos.y = -kShotSpeed;
-	}
+void Shot::colShot()
+{
+        m_isExist = false;
 }

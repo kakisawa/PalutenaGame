@@ -23,4 +23,7 @@ private:
     Vec2 m_basePos;
     // sin()‚É—^‚¦‚éˆø”
     float m_sinRate;
+
+    // “G‚ÌˆÚ“®Šp“x
+    float angle;
 };

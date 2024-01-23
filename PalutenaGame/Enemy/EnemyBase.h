@@ -22,7 +22,7 @@ public:
 	int GetEnemyAtk() const { return Atk; }
 	int GetEnemyHP() const { return HP; }
 
-	bool GetisExist() const { return m_isExist; }
+	bool isExist() const { return m_isExist; }
 	
 protected:		// 派生クラスからアクセスできるように
 
