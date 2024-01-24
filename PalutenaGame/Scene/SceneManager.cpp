@@ -81,7 +81,8 @@ void SceneManager::Update()
 			}
 			else if(m_pStageSelect->ToBackTitke())
 			{
-				break;
+				m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
+				m_pTitle->Init();
 			}
 		}
 		break;
@@ -91,11 +92,6 @@ void SceneManager::Update()
 		{
 			// シーンを切り替える
 			m_pMain->End();	// 実行していたシーンの終了処理
-
-			if(m_pMain->JustStage1())
-			{
-				
-			}
 
 			m_runScene = kSceneKindGameOver;	// 次のフレーム以降、実行したいシーン
 			m_pGameOver->Init();
@@ -107,8 +103,17 @@ void SceneManager::Update()
 			// シーンを切り替える
 			m_pGameOver->End();	// 実行していたシーンの終了処理
 
-			m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
-			m_pTitle->Init();
+			if (m_pGameOver->AgainStage1())
+			{
+				m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
+				m_pMain->Init();
+			}
+			//else if(m_pMainTwo->JustStage2())
+			//{ }
+			else {
+				m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
+				m_pTitle->Init();
+			}
 		}
 		break;
 	default:

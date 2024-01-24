@@ -1,5 +1,6 @@
 #include "SceneGameOver.h"
 #include "SceneManager.h"
+#include "SceneMain.h"
 #include "Pad.h"
 #include "Game.h"
 #include "DxLib.h"
@@ -27,6 +28,8 @@ namespace
 
 SceneGameOver::SceneGameOver() :
 	m_isSceneEnd(false),
+	isStage1(false),
+	isStage2(false),
 	m_select(kScelectRestart),
 	m_fadeAlpha(255),
 	m_selectPos(kSelectPosX, kSelectPosY)
@@ -44,6 +47,8 @@ void SceneGameOver::Init()
 
 	m_select=kScelectRestart;
 	m_isSceneEnd = false;
+	isStage1 = false;
+	isStage2 = false;
 	m_fadeAlpha = 255;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
@@ -82,6 +87,16 @@ void SceneGameOver::Update()
 		switch (m_select)
 		{
 		case kScelectRestart:
+			if(m_pSceneMain->JustFinishStage1())
+			{
+				m_isSceneEnd = true;
+				isStage1 = true;
+			}
+			//if(m_pSceneTwo->JustStage2())
+			//{
+			// m_isSceneEnd = true;
+			// isStage2=true;
+			//}
 			break;
 		case kScelectReturnHome:
 			m_isSceneEnd = true;
@@ -153,7 +168,7 @@ bool SceneGameOver::IsSceneEnd() const
 	return m_isSceneEnd;
 }
 
-bool SceneGameOver::IsSceneRestart() const
+bool SceneGameOver::AgainStage1() const
 {
-	return false;
+	return isStage1;
 }

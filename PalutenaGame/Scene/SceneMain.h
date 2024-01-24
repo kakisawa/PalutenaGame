@@ -40,13 +40,14 @@ public:
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
 
+
 	// ショットを追加する
 	// 登録できなかった場合はfalseを返す
 	// 登録できなかった場合は内部でpShot解放する
 	bool AddShot(Shot* pShot);
 	
 	// 直前にこのステージを遊んでいたかどうかのフラグ
-	bool JustStage1() const { return isSrage1; }
+	bool JustFinishStage1() const { return isFinishStage1; }
 
 private:
 	// 敵キャラクターの生成
@@ -71,7 +72,7 @@ private:
 	// シーン処理
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
 
-	bool isSrage1;	// 直前にプレイしたステージを判定するためのフラグ
+	bool isFinishStage1;	// 直前にプレイしたステージを判定するためのフラグ
 					// ゲーム終了時にtrueにする
 
 	// プレイヤー
