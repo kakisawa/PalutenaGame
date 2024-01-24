@@ -92,6 +92,11 @@ void SceneManager::Update()
 			// シーンを切り替える
 			m_pMain->End();	// 実行していたシーンの終了処理
 
+			if(m_pMain->JustStage1())
+			{
+				
+			}
+
 			m_runScene = kSceneKindGameOver;	// 次のフレーム以降、実行したいシーン
 			m_pGameOver->Init();
 		}
