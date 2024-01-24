@@ -17,6 +17,10 @@ public:
     // シーンを終了させたいか
     bool IsSceneEnd() const;
 
+    // 次どのステージに行くか
+    bool ToStage() const { return isToSelect; }
+    bool ToExplanation() const { return isToExplanation; }
+
     void SetHandle(int handle) { Graph = handle; }
 
 private:
@@ -39,6 +43,9 @@ private:
     int TitleGraph;     // タイトルロゴグラフ
     int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
+
+    bool isToSelect;        // ステージセレクト画面に行くか
+    bool isToExplanation;   // 説明シーンに行くか 
 
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;

@@ -29,6 +29,7 @@ public:
 	// プレイ中/ゲームオーバー時ステージ
 	Stage m_runStage;
 
+
 private:
 
 	// シーンの種類

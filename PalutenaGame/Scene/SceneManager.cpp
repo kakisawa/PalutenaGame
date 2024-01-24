@@ -58,24 +58,31 @@ void SceneManager::Update()
 		{
 			m_pTitle->End();
 
-			m_runScene = kSceneStageSelect;
+			if (m_pTitle->ToExplanation()) {		// 説明画面へ行く
+				break;
+			}
+			else if(m_pTitle->ToStage())
+				m_runScene = kSceneStageSelect;		// ステージセレクト画面へ行く
 			m_pStageSelect->Init();
 		}
 		break;
 	case kSceneStageSelect:
 		if (m_pStageSelect->IsSceneEnd())
 		{
-			m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
-			m_pMain->Init();		// 変更先シーンの初期化
-		}
-		else if (m_pStageSelect->IsSceneEnd2()) {
-			//	m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
-			//	m_pMain->Init();		// 変更先シーンの初期化
-			//}
-		}
-		else if (m_pStageSelect->IsSceneEnd3()) {
-			m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
-			m_pTitle->Init();
+			m_pStageSelect->End();
+
+			if (m_pStageSelect->ToStage1()) {
+				m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
+				m_pMain->Init();		// 変更先シーンの初期化
+			}
+			else if (m_pStageSelect->ToStage2())
+			{
+				break;
+			}
+			else if(m_pStageSelect->ToBackTitke())
+			{
+				break;
+			}
 		}
 		break;
 	case kSceneKindMain:

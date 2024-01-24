@@ -16,7 +16,7 @@ Time::~Time()
 void Time::Init()
 {
 	Second = 600.0f;		// ñ{óàÇÕ60ïb*60
-							// åªç›ÇÕâºÇ≈10ïb*60[
+							// åªç›ÇÕâºÇ≈10ïb*60
 	isTimeUp = false;
 }
 

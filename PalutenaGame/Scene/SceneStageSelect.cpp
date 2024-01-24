@@ -25,10 +25,10 @@ namespace
 }
 
 SceneStageSelect::SceneStageSelect() :
-	m_isSceneEnd(false),
-	m_isSceneEnd2(false),
-	m_isSceneEnd3(false),
 	m_select(kStage1),
+	isStage1(false),
+	isStage2(false),
+	isBackTitle(false),
 	m_selectPos(kSelectPosX, kSelectPosY)
 {
 
@@ -38,8 +38,9 @@ void SceneStageSelect::Init()
 {
 	m_select = kStage1;
 	m_isSceneEnd = false;
-	m_isSceneEnd2 = false;
-	m_isSceneEnd3 = false;
+	isStage1 = false;
+	isStage2 = false;
+	isBackTitle = false;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
 }
@@ -77,14 +78,16 @@ void SceneStageSelect::Update()
 		switch (m_select)
 		{
 		case kStage1:
-			m_isSceneEnd = true;
+ 			m_isSceneEnd = true;
+			isStage1 = true;
 			break;
 		case kStage2:
+			m_isSceneEnd = true;
+			isStage2 = true;
 			break;
-		case kSclectBack:
-			m_isSceneEnd3 = true;
-			break;
-		default:
+		case kBackTitle:
+			isBackTitle = true;
+			m_isSceneEnd = true;
 			break;
 		}
 
@@ -122,14 +125,3 @@ bool SceneStageSelect::IsSceneEnd() const
 {
 	return m_isSceneEnd;
 }
-
-bool SceneStageSelect::IsSceneEnd2() const
-{
-	return m_isSceneEnd2;
-}
-
-bool SceneStageSelect::IsSceneEnd3() const
-{
-	return m_isSceneEnd3;
-}
-

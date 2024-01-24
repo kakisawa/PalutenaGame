@@ -21,6 +21,10 @@ public:
     // シーンを最初から
     bool IsSceneRestart() const;
 
+    // 直前にどのステージを遊んでいたかのフラグを受け取る
+    void JustStage1(int justStage1) { isStage1 = justStage1; }
+    void JustStage2(int justStage2) { isStage2 = justStage2; }
+
     void SetHandle(int handle) { Graph = handle; }
 
 private:
@@ -37,6 +41,10 @@ private:
 
     int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
+
+    bool isStage1;  // 直前に遊んでいたステージ1
+    bool isStage2;  // 直前に遊んでいたステージ2
+
 
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;
