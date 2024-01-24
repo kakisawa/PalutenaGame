@@ -73,7 +73,7 @@ private:
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
 
 	bool isFinishStage1;	// 直前にプレイしたステージを判定するためのフラグ
-					// ゲーム終了時にtrueにする
+							// ゲーム終了時にtrueにする
 
 	// プレイヤー
 	Player* m_pPlayer;

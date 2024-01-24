@@ -84,10 +84,12 @@ void SceneGameOver::Update()
 	// エンターキーが押されたらタイトル画面へ遷移する
 	if (Pad::IsTrigger(PAD_INPUT_4))
 	{
+		SceneMain* pSceneMain = new SceneMain;
+
 		switch (m_select)
 		{
 		case kScelectRestart:
-			if(m_pSceneMain->JustFinishStage1())
+			if(pSceneMain->JustFinishStage1())
 			{
 				m_isSceneEnd = true;
 				isStage1 = true;
@@ -166,9 +168,4 @@ void SceneGameOver::End()
 bool SceneGameOver::IsSceneEnd() const
 {
 	return m_isSceneEnd;
-}
-
-bool SceneGameOver::AgainStage1() const
-{
-	return isStage1;
 }

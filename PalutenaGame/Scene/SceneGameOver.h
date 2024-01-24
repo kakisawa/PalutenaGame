@@ -3,7 +3,6 @@
 #include "Vec2.h"
 
 class SceneMain;
-class SceneManager;
 
 class SceneGameOver :
     public SceneBase
@@ -26,7 +25,7 @@ public:
 
 
     // 直前に遊んでいたステージを返す
-    bool AgainStage1() const;
+    bool AgainStage1() const { return isStage1; }
 
     bool AgainStage2() const { return isStage2; }
 
@@ -59,5 +58,4 @@ private:
     Vec2 m_selectPos;
 
     SceneMain* m_pSceneMain;
-    SceneManager* m_pSceneManager;
 };
