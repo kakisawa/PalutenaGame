@@ -118,9 +118,9 @@ void SceneMain::Init()
 	m_pBack->Init();
 	m_pTime->Init();
 
-	CreateEnemyMozu();
 	CreateEnemyDeath();
 	CreateEnemyPump();
+	CreateEnemyMozu();
 
 	m_fadeAlpha = 255;
 }
@@ -135,7 +135,7 @@ void SceneMain::Update()
 
 			isFinishStage1 = true;
 			m_isSceneEnd = true;
-			
+
 
 			// フェードアウト
 			m_fadeAlpha += 8;
@@ -162,6 +162,13 @@ void SceneMain::Update()
 	m_pPlayer->Update();
 	m_pTime->Update();
 
+	int count = 0;
+	count++;
+	if (count >= 60)
+	{
+		CreateEnemyMozu();
+		count = 0;
+	}
 
 	// 弾との当たり判定
 	for (int j = 0; j < kShotMax; j++)
@@ -305,21 +312,21 @@ void SceneMain::Draw()
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
 		if (m_pMozueyeEnemy[i]) {
-			m_pMozueyeEnemy[i]->EnemyBase::Draw();
+			m_pMozueyeEnemy[i]->Draw();
 		}
 	}
 	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
 	{
 		if (m_pDeathYourEnemy[i])
 		{
-			m_pDeathYourEnemy[i]->EnemyBase::Draw();
+			m_pDeathYourEnemy[i]->Draw();
 		}
 	}
 	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
 	{
 		if (m_pPumpkinEnemy[i])
 		{
-			m_pPumpkinEnemy[i]->EnemyBase::Draw();
+			m_pPumpkinEnemy[i]->Draw();
 		}
 	}
 
@@ -353,6 +360,40 @@ void SceneMain::Death()
 
 void SceneMain::End()
 {
+
+	// 弾との当たり判定
+	for (int j = 0; j < kShotMax; j++)
+	{
+		delete m_pShot[j];
+		m_pShot[j] = nullptr;
+
+	}
+
+	// エネミーの解放
+	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
+	{
+		if (m_pMozueyeEnemy[i] != nullptr)
+		{
+			delete m_pMozueyeEnemy[i];
+			m_pMozueyeEnemy[i] = nullptr;
+		}
+	}
+	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
+	{
+		if (m_pDeathYourEnemy[i] != nullptr)
+		{
+			delete m_pDeathYourEnemy[i];
+			m_pDeathYourEnemy[i] = nullptr;
+		}
+	}
+	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
+	{
+		if (m_pPumpkinEnemy[i] != nullptr)
+		{
+			delete m_pPumpkinEnemy[i];
+			m_pPumpkinEnemy[i] = nullptr;
+		}
+	}
 }
 
 bool SceneMain::IsSceneEnd() const
@@ -390,7 +431,7 @@ void SceneMain::CreateEnemyMozu()
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init();
-			m_pMozueyeEnemy[i]->Start();
+			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.3, Ground - 32 * 0.5);
 			return;
 		}
 	}
@@ -404,7 +445,7 @@ void SceneMain::CreateEnemyDeath()
 		{
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
 			m_pDeathYourEnemy[i]->Init();
-			m_pDeathYourEnemy[i]->Start();
+			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.7, Ground - 46 * 0.5);
 			return;
 		}
 	}
@@ -416,7 +457,7 @@ void SceneMain::CreateEnemyPump()
 	{
 		m_pPumpkinEnemy[i] = new PumpkinEnemy;
 		m_pPumpkinEnemy[i]->Init();
-		m_pPumpkinEnemy[i]->Start();
+		m_pPumpkinEnemy[i]->Start(kScreenWidth * 0.5, Ground - 22 * 0.5);
 		return;
 	}
 }

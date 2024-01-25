@@ -3,28 +3,35 @@
 #include "Player.h"
 #include "Game.h"
 
+#include <cassert>
+
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 32;
+	constexpr int kWidth = 46;
 	constexpr int kHeight = 32;
 
 	// 移動速度
 	float kSpeed = 3.0f;
+
+	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
+	constexpr int DefFrame[] = { 0,1,2,3,4 };
+	// 基本キャラアニメーションの1コマのフレーム数
+	constexpr int DefAnimFrameNum = 10;
+	// 基本キャラアニメーション1サイクルのフレーム数
+	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
 }
 
 MozueyeEnemy::MozueyeEnemy()
 {
-	EGraph= LoadGraph("data/Fairy.png");
+	EGraph= LoadGraph("data/Enemy/Mozueye.png");
 
-	HP = 2;		// HP
+	HP = 3;		// HP
 	Atk = 10;	// 攻撃力
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
-
-	m_pos.x = kScreenWidth * 0.3;
-	m_pos.y = Ground - kHeight*0.5;
+	EnemyAnim = 0;				// 敵のアニメーションの初期化
 }
 
 MozueyeEnemy::~MozueyeEnemy()
@@ -34,10 +41,8 @@ MozueyeEnemy::~MozueyeEnemy()
 
 void MozueyeEnemy::Update()
 {
-	EnemyBase::Update();
-
 	//当たり判定の更新
-	UpdateCollision();
+	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
@@ -76,9 +81,53 @@ void MozueyeEnemy::Update()
 		m_pos.x = 0;
 		isTurn = false;
 	}
+
+	// アニメーションフレーム
+	EnemyAnim++;
+	if (EnemyAnim >= DefFrameCycle)
+	{
+		EnemyAnim = 0;
+	}
 }
 
-void MozueyeEnemy::Start()
+void MozueyeEnemy::Draw()
 {
+	int EnemyFrame = EnemyAnim / DefAnimFrameNum;
+	int srcX = DefFrame[EnemyFrame] * kWidth;
+
+	// 存在しない敵は描画しない
+	if (!m_isExist) return;
+	// グラフィックが設定されていなければ止まる
+	assert(EGraph != -1);
+
+	if (m_damageFrame % 4 >= 2) return;
+
+	if (isTurn == false)
+	{
+		DrawRectExtendGraph(m_pos.x, m_pos.y,
+			m_pos.x + kWidth, m_pos.y + kHeight,
+			srcX + 2, 29,
+			kWidth, kHeight,
+			EGraph, true);
+	}
+	else if (isTurn == true)
+	{
+		DrawRectExtendGraph(m_pos.x, m_pos.y,
+			m_pos.x + kWidth, m_pos.y + kHeight,
+			srcX + 2, 0,
+			kWidth, kHeight,
+			EGraph, true);
+	}
+#ifdef _DEBUG
+	// 当たり判定の表示
+	m_colRect.Draw(GetColor(255, 0, 0), false);
+#endif // DEBUG
+}
+
+void MozueyeEnemy::Start(float x, float y)
+{
+	m_pos.x = x;
+	m_pos.y = y;
+
 	m_isExist = true;
 }

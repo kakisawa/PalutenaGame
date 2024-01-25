@@ -33,8 +33,8 @@ namespace
 }
 
 SceneTitle::SceneTitle() :
-	x(kLogoPosX),
-	y(kLogoPosY),
+	x(0),
+	y(0),
 	m_isSceneEnd(false),
 	isToExplanation(false),
 	isToSelect(false),
@@ -133,7 +133,8 @@ void SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	DrawExtendGraph(x, y, x+kLogoSizeX, y+kLogoSizeY, TitleGraph, true);
+	DrawExtendGraph(x, y,kScreenWidth,kScreenHeight, Graph, false);
+	DrawExtendGraph(kLogoPosX, kLogoPosY, kLogoPosX +kLogoSizeX, kLogoPosY +kLogoSizeY, TitleGraph, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// ”¼“§–¾‚Å•\Ž¦ŠJŽn
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);

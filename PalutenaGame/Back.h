@@ -11,8 +11,6 @@ public:
 
 	// グラフィックの設定
 	void SetHandle(int handle) {Bg = handle; }
-
-
 private:
 	
 	double x, y;		// 座標

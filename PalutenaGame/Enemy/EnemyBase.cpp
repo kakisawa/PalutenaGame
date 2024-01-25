@@ -39,32 +39,16 @@ void EnemyBase::Update()
 	if (!m_isExist) return;
 }
 
-void EnemyBase::Draw()
-{
-	// 存在しない敵は描画しない
-	if (!m_isExist) return;
-
-	// グラフィックが設定されていなければ止まる
-	assert(EGraph != -1);
-
-	if (m_damageFrame % 4 >= 2) return;
-
-	if (isTurn == false)
-	{
-		DrawGraph(m_pos.x, m_pos.y, EGraph, true);
-	}
-	else if (isTurn == true)
-	{
-		DrawTurnGraph(m_pos.x, m_pos.y, EGraph, true);
-	}
-#ifdef _DEBUG
-	// 当たり判定の表示
-	m_colRect.Draw(GetColor(255, 0, 0), false);
-#endif // DEBUG
-}
-
 void EnemyBase::OnDamage()
 {
+
+	HP -= 1;
+
+	if (HP <= 0)
+	{
+		Death();
+	}
+
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0)
 	{
@@ -72,15 +56,11 @@ void EnemyBase::OnDamage()
 	}
 	// HP -= m_pPlayer->GetPlayerAtk();
 
-	HP -= 1;
+	
 	
 	// 演出フレーム数を設定する
 	m_damageFrame = kDamageFrame;
 
-	if (HP <= 0)
-	{
-		Death();
-	}
 }
 
 void EnemyBase::Death()
@@ -89,16 +69,7 @@ void EnemyBase::Death()
 	m_isExist = false;
 }
 
-void EnemyBase::Start()
+void EnemyBase::Start(float x, float y)
 {
-	m_isExist = false;
-}
-
-void EnemyBase::UpdateCollision()
-{
-	int width = 0;
-	int height = 0;
-	GetGraphSize(EGraph, &width, &height);
-	// 中心座標を指定して当たり判定のRectを生成する
-	m_colRect.SetLT(m_pos.x, m_pos.y, width, height);
+	m_isExist = true;
 }

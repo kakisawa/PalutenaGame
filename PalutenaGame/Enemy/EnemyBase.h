@@ -10,7 +10,7 @@ public:
 
 	virtual void Init(int x,int y);
 	virtual void Update();
-	virtual void Draw();
+	virtual void Draw() {}
 
 	virtual void OnDamage();	// 敵がダメージを受けた時の処理
 	void Death();				// 死んだときの処理
@@ -25,7 +25,7 @@ public:
 	bool isExist() const { return m_isExist; }
 
 	// 敵キャラクターをスタートさせる
-	virtual void Start() = 0;
+	virtual void Start(float x, float y) = 0;
 	
 protected:		// 派生クラスからアクセスできるように
 
@@ -43,12 +43,6 @@ protected:		// 派生クラスからアクセスできるように
 							// 以降毎フレーム減らしていく
 
 	bool m_isExist;		// 存在するかフラグ(使用中かどうか)
-
-
-	// m_posを左上に,m_handleのグラフィックサイズを幅高さにした
-	// 当たり判定を設定する
-	virtual void UpdateCollision();
-
 	bool isDeath; // 死亡フラグ
 
 	// 表示位置

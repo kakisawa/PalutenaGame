@@ -12,9 +12,9 @@ public:
 
     void Init(){}
     virtual void Update() override;
-    void Draw(){}
+    void Draw() override;
 
-    void Start();
+    void Start(float x, float y);
 
     // メンバー変数にアクセスする
     void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }

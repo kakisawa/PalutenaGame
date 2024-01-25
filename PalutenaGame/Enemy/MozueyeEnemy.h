@@ -8,10 +8,10 @@ public:
     ~MozueyeEnemy();
 
     void Init() {}
-    void Update();
-    void Draw(){}
+    void Update() override;
+    void Draw() override;
 
-    void Start();
+    void Start(float x,float y);
 
 private:
     // Šî€‹K’è ^‰E•ûŒü‚ÉˆÚ“®‚·‚éŠî€À•W

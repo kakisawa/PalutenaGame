@@ -5,7 +5,7 @@
 namespace
 {
 	// モズアイ出現数
-	constexpr int MozuMax = 1;	// 17
+	constexpr int MozuMax = 5;	// 17
 	// 死出現数
 	constexpr int DeathMax = 1;	// 3
 	// かぼちゃ出現数
@@ -56,7 +56,7 @@ private:
 	void CreateEnemyPump();
 
 	// グラフィックのハンドル
-	int m_gameScreenHandle;	// ゲームオーバー時画面
+	int m_gameScreenHandle;	
 
 	int m_playerHandle;		// プレイヤー
 	int m_enemyHandle;		// 敵
@@ -88,4 +88,6 @@ private:
 	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;
 	std::vector<DeathYourEnemy*> m_pDeathYourEnemy;
 	std::vector<PumpkinEnemy*> m_pPumpkinEnemy;
+
+	int m_count;
 };
