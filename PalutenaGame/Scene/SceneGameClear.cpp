@@ -1,4 +1,4 @@
-#include "SceneGameOver.h"
+#include "SceneGameClear.h"
 #include "SceneManager.h"
 #include "SceneMain.h"
 #include "Pad.h"
@@ -26,7 +26,7 @@ namespace
 	constexpr int kSelectSizeY = 75;
 }
 
-SceneGameOver::SceneGameOver() :
+SceneGameClear::SceneGameClear():
 	m_isSceneEnd(false),
 	isStage1(false),
 	isStage2(false),
@@ -34,18 +34,17 @@ SceneGameOver::SceneGameOver() :
 	m_fadeAlpha(255),
 	m_selectPos(kSelectPosX, kSelectPosY)
 {
-
 }
 
-SceneGameOver::~SceneGameOver()
+SceneGameClear::~SceneGameClear()
 {
 }
 
-void SceneGameOver::Init()
+void SceneGameClear::Init()
 {
-	Graph = LoadGraph("data/Map/GameOverGraph.jpg");
+	Graph = LoadGraph("data/Map/gg.jpg");
 
-	m_select=kScelectRestart;
+	m_select = kScelectRestart;
 	m_isSceneEnd = false;
 	isStage1 = false;
 	isStage2 = false;
@@ -54,7 +53,7 @@ void SceneGameOver::Init()
 	m_selectPos.y = kSelectPosY;
 }
 
-void SceneGameOver::Update()
+void SceneGameClear::Update()
 {
 	// ↓キーを押したら選択状態を一つ下げる
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
@@ -89,17 +88,17 @@ void SceneGameOver::Update()
 		switch (m_select)
 		{
 		case kScelectRestart:
-			if(pSceneMain->JustFinishStage1())
+			if (pSceneMain->JustFinishStage1())
 			{
 				m_isSceneEnd = true;
 				isStage1 = true;
 				isStage2 = false;
 			}
-			//if(m_pSceneTwo->JustFinishStage2())
+			//if(m_pSceneTwo->JustStage2())
 			//{
 			// m_isSceneEnd = true;
+			// isStage1=true;
 			// isStage2=true;
-			// isStage1 = false;
 			//}
 			break;
 		case kScelectReturnHome:
@@ -113,14 +112,6 @@ void SceneGameOver::Update()
 		default:
 			break;
 		}
-		//if (!m_isSceneEnd)
-		//{
-		//	// // 効果音鳴らす
-		//	// PlaySoundFile("data/sound/TitleDecide.mp3", DX_PLAYTYPE_BACK);
-		//	PlaySoundMem(m_decideSe, DX_PLAYTYPE_BACK, true);
-		//}
-
-		m_isSceneEnd = true;
 
 		m_fadeAlpha += 8;
 		if (m_fadeAlpha > 255)
@@ -136,10 +127,10 @@ void SceneGameOver::Update()
 	}
 }
 
-void SceneGameOver::Draw()
+void SceneGameClear::Draw()
 {
 	DrawGraph(0, 0, Graph, false);
-	DrawString(120, 120, "ゲームオーバー画面", GetColor(255, 255, 255));
+	DrawString(120, 120, "ゲームクリア画面", GetColor(255, 255, 255));
 	DrawString(120, 120 + 64, "Aキーを押してください", GetColor(255, 255, 255));
 
 	// フェードの描画
@@ -158,13 +149,13 @@ void SceneGameOver::Draw()
 		m_selectPos.y + kSelectSizeY, 0x00bfff, false);
 }
 
-void SceneGameOver::End()
+void SceneGameClear::End()
 {
 	// 背景をメモリから削除
 	DeleteGraph(Graph);
 }
 
-bool SceneGameOver::IsSceneEnd() const
+bool SceneGameClear::IsSceneEnd() const
 {
 	return m_isSceneEnd;
 }

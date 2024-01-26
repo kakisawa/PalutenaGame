@@ -14,12 +14,13 @@ public:
     void Draw();
     void End();
 
-    // シーンを終了させたいか
+    // 次のシーンへ行くかの値を返す
+    // ゲームセレクトシーンへ向かうか
     bool IsSceneEnd() const;
 
     // 次どのステージに行くか
-    bool ToStage() const { return isToSelect; }
-    bool ToExplanation() const { return isToExplanation; }
+    bool ToStage() const;
+    bool ToExplanation() const;
 
     void SetHandle(int handle) { Graph = handle; }
 

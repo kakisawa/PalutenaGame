@@ -1,9 +1,11 @@
 #include "SceneManager.h"
 #include "DxLib.h"
 #include "SceneTitle.h"
+#include "SceneExplanation.h"
 #include "SceneMain.h"
 #include "SceneGameOver.h"
 #include "SceneStageSelect.h"
+#include "SceneGameClear.h"
 #include "Pad.h"
 
 SceneManager::SceneManager() :
@@ -18,6 +20,8 @@ SceneManager::SceneManager() :
 	m_pStageSelect = new SceneStageSelect;
 	m_pMain = new SceneMain;
 	m_pGameOver = new SceneGameOver;
+	m_pGameClear = new SceneGameClear;
+	m_pExplanation = new SceneExplanation;
 }
 
 SceneManager::~SceneManager()
@@ -31,17 +35,22 @@ void SceneManager::Init()
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:
-		m_pTitle->Init();
+		m_pTitle->Init();			// タイトル画面の初期化
 		break;
-	case kSceneStageSelect:
-		m_pStageSelect->Init();
+	case kSceneKindExplanation:
+		m_pExplanation->Init();		// 操作説明画面の初期化
+		break;
+	case kSceneKindStageSelect:
+		m_pStageSelect->Init();		// ステージセレクト画面の初期化
 		break;
 	case kSceneKindMain:
-		m_pMain->Init();
+		m_pMain->Init();			// ステージ1画面の初期化
 		break;
 	case kSceneKindGameOver:
-		m_pGameOver->Init();
-	default:
+		m_pGameOver->Init();		// ゲームオーバー画面の初期化
+		break;
+	case kSceneKindGameClear:
+		m_pGameClear->Init();		// ゲームクリア画面の初期化
 		break;
 	}
 }
@@ -53,109 +62,151 @@ void SceneManager::Update()
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:
-		// タイトル画面の終了をチェック
-		if (m_pTitle->IsSceneEnd())
+		if (m_pTitle->IsSceneEnd())					// タイトル画面の終了をチェック
 		{
-			m_pTitle->End();
+			m_pTitle->End();						// タイトル画面の終了処理
 
-			if (m_pTitle->ToExplanation()) {		// 説明画面へ行く
-				break;
+			if (m_pTitle->ToExplanation()) {		
+				m_runScene = kSceneKindExplanation;	// 説明画面へ行く
+				m_pExplanation->Init();
 			}
-			else if(m_pTitle->ToStage())
-				m_runScene = kSceneStageSelect;		// ステージセレクト画面へ行く
+			else if(m_pTitle->ToStage())			
+				m_runScene = kSceneKindStageSelect;	// ステージセレクト画面へ行く
 			m_pStageSelect->Init();
 		}
 		break;
-	case kSceneStageSelect:
-		if (m_pStageSelect->IsSceneEnd())
+	case kSceneKindExplanation:
+		if (m_pExplanation->IsSceneEnd())			// 操作説明画面の終了処理
 		{
-			m_pStageSelect->End();
+			m_runScene = kSceneKindTitle;			// タイトル画面に戻る
+			m_pTitle->Init();
+		}
+		break;
+	case kSceneKindStageSelect:
+		if (m_pStageSelect->IsSceneEnd())			// ステージセレクト画面の終了をチェック
+		{
+			m_pStageSelect->End();					// ステージセレクト画面の終了処理
 
-			if (m_pStageSelect->ToStage1()) {
-				m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
-				m_pMain->Init();		// 変更先シーンの初期化
+			if (m_pStageSelect->ToStage1()) {		
+				m_runScene = kSceneKindMain;		// ステージ1画面へ行く
+				m_pMain->Init();
 			}
-			else if (m_pStageSelect->ToStage2())
+			else if (m_pStageSelect->ToStage2())	// ステージ2画面へ行く
 			{
 				break;
 			}
-			else if(m_pStageSelect->ToBackTitke())
+			else if(m_pStageSelect->ToBackTitke())	
 			{
-				m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
+				m_runScene = kSceneKindTitle;		// タイトル画面に戻る
 				m_pTitle->Init();
 			}
 		}
 		break;
 	case kSceneKindMain:
-		// 終了していたらSceneResultに切り替える
-		if (m_pMain->IsSceneEnd())
+		if (m_pMain->IsSceneEnd())					// ステージ1画面の終了をチェック
 		{
-			// シーンを切り替える
-			m_pMain->End();	// 実行していたシーンの終了処理
+			m_pMain->End();							// ステージ1画面の終了処理
 
-			m_runScene = kSceneKindGameOver;	// 次のフレーム以降、実行したいシーン
-			m_pGameOver->Init();
+			if (m_pMain->ToGameOver())
+			{
+				m_runScene = kSceneKindGameOver;	// ゲームオーバー画面へ行く
+				m_pGameOver->Init();
+			}
+			else if (m_pMain->ToGameClear())		
+			{
+				m_runScene = kSceneKindGameClear;	// ゲームクリア画面へ行く
+				m_pGameClear->Init();
+			}
 		}
 		break;
 	case kSceneKindGameOver:
 		if (m_pGameOver->IsSceneEnd())
 		{
-			// シーンを切り替える
-			m_pGameOver->End();	// 実行していたシーンの終了処理
+			m_pGameOver->End();						// ゲームオーバー画面の終了処理
 
 			if (m_pGameOver->AgainStage1())
 			{
-				m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
+				m_runScene = kSceneKindMain;		// ステージ1画面へ行く
 				m_pMain->Init();
 			}
-			//else if(m_pMainTwo->JustStage2())
-			//{ }
-			else {
-				m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
+			//else if(m_pMainTwo->AgainStage2())
+			//{
+			//	m_runScene=kSceneKindSecond;		// ステージ2画面へ行く
+			//  m_pSecond->Init(); 
+			//}
+			else if(!m_pGameOver->AgainStage1()||!m_pGameOver->AgainStage2()){
+				m_runScene = kSceneKindTitle;		// タイトル画面へ行く
 				m_pTitle->Init();
 			}
 		}
 		break;
-	default:
+	case kSceneKindGameClear:
+		if (m_pGameClear->IsSceneEnd())
+		{
+			m_pGameClear->End();					// ゲームクリア画面の終了処理
+
+			if (m_pGameOver->AgainStage1())
+			{
+				m_runScene = kSceneKindMain;		// ステージ1画面へ行く
+				m_pMain->Init();
+			}
+			//else if(m_pMainTwo->AgainStage2())
+			// {
+			//	m_runScene=kSceneKindSecond;		// ステージ2画面へ行く
+			//  m_pSecond->Init();  
+			// }
+			else if (!m_pGameOver->AgainStage1() || !m_pGameOver->AgainStage2()) {
+				m_runScene = kSceneKindTitle;		// タイトル画面へ行く
+				m_pTitle->Init();
+			}
+		}
 		break;
 	}
 
-	// 各シーンの更新を行う
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:
-		m_pTitle->Update();
+		m_pTitle->Update();			// タイトル画面の更新
 		break;
-	case kSceneStageSelect:
-		m_pStageSelect->Update();
+	case kSceneKindExplanation:
+		m_pExplanation->Update();	// 操作説明画面の更新
+		break;
+	case kSceneKindStageSelect:
+		m_pStageSelect->Update();	// ステージセレクト画面の更新
 		break;
 	case kSceneKindMain:
-		m_pMain->Update();
+		m_pMain->Update();			// ステージ1画面の更新
 		break;
 	case kSceneKindGameOver:
-		m_pGameOver->Update();
-	default:
+		m_pGameOver->Update();		// ゲームオーバー画面の更新
+		break;
+	case kSceneKindGameClear:
+		m_pGameClear->Update();		// ゲームクリア画面の更新
 		break;
 	}
 }
 
 void SceneManager::Draw()
 {
-	// 各シーンの更新を行う
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:
-		m_pTitle->Draw();
+		m_pTitle->Draw();			// タイトル画面の描画
 		break;
-	case kSceneStageSelect:
-		m_pStageSelect->Draw();
+	case kSceneKindExplanation:
+		m_pExplanation->Draw();		// 操作説明画面の描画
+		break;
+	case kSceneKindStageSelect:
+		m_pStageSelect->Draw();		// ステージセレクト画面の描画
 		break;
 	case kSceneKindMain:
-		m_pMain->Draw();
+		m_pMain->Draw();			// ステージ1画面の描画
 		break;
 	case kSceneKindGameOver:
-		m_pGameOver->Draw();
-	default:
+		m_pGameOver->Draw();		// ゲームオーバー画面の描画
+		break;
+	case kSceneKindGameClear:
+		m_pGameClear->Draw();		// ゲームクリア画面の描画
 		break;
 	}
 }
@@ -165,17 +216,22 @@ void SceneManager::End()
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:
-		m_pTitle->End();
+		m_pTitle->End();			// タイトル画面の終了
 		break;
-	case kSceneStageSelect:
-		m_pStageSelect->End();
+	case kSceneKindExplanation:
+		m_pExplanation->End();		// 操作説明画面の終了
+		break;
+	case kSceneKindStageSelect:
+		m_pStageSelect->End();		// ステージセレクト画面の終了
 		break;
 	case kSceneKindMain:
-		m_pMain->End();
+		m_pMain->End();				// ステージ1画面の終了
 		break;
 	case kSceneKindGameOver:
-		m_pGameOver->End();
-	default:
+		m_pGameOver->End();			// ゲームオーバー画面の終了
+		break;
+	case kSceneKindGameClear:
+		m_pGameClear->End();		// ゲームクリア画面の終了
 		break;
 	}
 }

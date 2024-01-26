@@ -34,12 +34,19 @@ public:
 	void Update();
 	void Draw();
 
+	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
-	void End();
+	void End();		
+
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
+	// ↑これはシーン終了時のフラグ
+	// クリアとゲームオーバーは別にした方がいいかもしれない。
 
+	// 次どのステージに行くか
+	bool ToGameOver() const;
+	bool ToGameClear() const;
 
 	// ショットを追加する
 	// 登録できなかった場合はfalseを返す
@@ -75,6 +82,9 @@ private:
 	bool isFinishStage1;	// 直前にプレイしたステージを判定するためのフラグ
 							// ゲーム終了時にtrueにする
 
+	bool isToGameOver;		// ステージセレクト画面に行くか
+	bool isToGameClear;		// 説明シーンに行くか 
+
 	// プレイヤー
 	Player* m_pPlayer;
 	// 弾
@@ -88,6 +98,4 @@ private:
 	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;
 	std::vector<DeathYourEnemy*> m_pDeathYourEnemy;
 	std::vector<PumpkinEnemy*> m_pPumpkinEnemy;
-
-	int m_count;
 };

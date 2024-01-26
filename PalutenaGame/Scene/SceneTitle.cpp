@@ -165,3 +165,13 @@ bool SceneTitle::IsSceneEnd() const
 {
 	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }
+
+bool SceneTitle::ToStage() const
+{
+	return isToSelect;
+}
+
+bool SceneTitle::ToExplanation() const
+{
+	return isToExplanation;
+}

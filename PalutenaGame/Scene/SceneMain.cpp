@@ -127,15 +127,15 @@ void SceneMain::Init()
 
 void SceneMain::Update()
 {
-	if (m_pPlayer->PlayerDeath() || m_pTime->TimeUp())
+	// プレイヤーが死亡したら(ゲームオーバー)
+	if (m_pPlayer->PlayerDeath())
 	{
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
-
 			isFinishStage1 = true;
 			m_isSceneEnd = true;
-
+			isToGameOver = true;
 
 			// フェードアウト
 			m_fadeAlpha += 8;
@@ -147,7 +147,27 @@ void SceneMain::Update()
 		m_pPlayer->Update();
 		m_pPlayer->Death();
 		Death();
+		return;
+	}
 
+	// 制限時間が終わったら(ゲームクリア)
+	if (m_pTime->TimeUp())
+	{
+		// Aボタンが押されたらゲームオーバー画面へ遷移する
+		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
+		{
+			isFinishStage1 = true;
+			m_isSceneEnd = true;
+			isToGameClear = true;
+
+			// フェードアウト
+			m_fadeAlpha += 8;
+			if (m_fadeAlpha < 255)
+			{
+				m_fadeAlpha = 255;
+			}
+		}
+		Clear();
 		return;
 	}
 
@@ -161,14 +181,6 @@ void SceneMain::Update()
 	m_pBack->Update();
 	m_pPlayer->Update();
 	m_pTime->Update();
-
-	int count = 0;
-	count++;
-	if (count >= 60)
-	{
-		CreateEnemyMozu();
-		count = 0;
-	}
 
 	// 弾との当たり判定
 	for (int j = 0; j < kShotMax; j++)
@@ -348,6 +360,16 @@ void SceneMain::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
+void SceneMain::Clear()
+{
+	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 128);
+
+	SetFontSize(32);
+	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
+	SetFontSize(16);
+	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 65, "Aキーを押してください", GetColor(255, 255, 255));
+}
+
 void SceneMain::Death()
 {
 	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 128);
@@ -360,7 +382,6 @@ void SceneMain::Death()
 
 void SceneMain::End()
 {
-
 	// 弾との当たり判定
 	for (int j = 0; j < kShotMax; j++)
 	{
@@ -399,6 +420,16 @@ void SceneMain::End()
 bool SceneMain::IsSceneEnd() const
 {
 	return m_isSceneEnd && (m_fadeAlpha >= 255);
+}
+
+bool SceneMain::ToGameOver() const
+{
+	return isToGameOver;
+}
+
+bool SceneMain::ToGameClear() const
+{
+	return isToGameClear;
 }
 
 bool SceneMain::AddShot(Shot* pShot)
@@ -445,7 +476,7 @@ void SceneMain::CreateEnemyDeath()
 		{
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
 			m_pDeathYourEnemy[i]->Init();
-			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.7, Ground - 46 * 0.5);
+			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5, Ground - 46 * 0.5);
 			return;
 		}
 	}

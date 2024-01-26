@@ -140,4 +140,8 @@ void DeathYourEnemy::Draw()
 void DeathYourEnemy::Start(float x, float y)
 {
 	m_isExist = true;
+
+	m_pos.x = x;
+	m_pos.y = y;
+
 }

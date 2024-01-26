@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Back.cpp" />
+    <ClCompile Include="Scene\SceneExplanation.cpp" />
+    <ClCompile Include="Scene\SceneGameClear.cpp" />
     <ClCompile Include="Shot\Shot.cpp" />
     <ClCompile Include="Enemy\DeathYourEnemy.cpp" />
     <ClCompile Include="Enemy\EnemyBase.cpp" />
@@ -41,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Back.h" />
+    <ClInclude Include="Scene\SceneExplanation.h" />
+    <ClInclude Include="Scene\SceneGameClear.h" />
     <ClInclude Include="Shot\Shot.h" />
     <ClInclude Include="Enemy\DeathYourEnemy.h" />
     <ClInclude Include="Enemy\EnemyBase.h" />
