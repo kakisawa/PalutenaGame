@@ -22,5 +22,4 @@ protected:
 	int y;
 
 	bool m_isSceneEnd;	// シーン終了フラグ
-	// true:タイトルを終了してゲームへ
 };

@@ -57,6 +57,7 @@ void Player::Init()
 	JumpPower = 0.0f;			// プレイヤーの初期ジャンプ
 	Gravity = 0.0f;				// プレイヤーの初期重力
 	Atk = 1;					// プレイヤーの初期攻撃力
+	Score = 0;					// プレイヤーが獲得しているスコアの初期化
 	PlayerAnim = 0;				// プレイヤーアニメーションの初期化
 	m_damageFrame = 0;			// プレイヤー被ダメアニメーション  
 	isMove = false;				// 移動状態フラグ(否定のfalse)

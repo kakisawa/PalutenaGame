@@ -27,6 +27,7 @@ DeathYourEnemy::DeathYourEnemy()
 
 	HP = 10;		// HP
 	Atk = 10;	// 攻撃力
+	Score = 100;	// 倒した際に得られるスコア
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入

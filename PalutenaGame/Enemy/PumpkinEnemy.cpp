@@ -28,6 +28,7 @@ PumpkinEnemy::PumpkinEnemy()
 
 	HP = 1;		// HP
 	Atk = 10;	// 攻撃力
+	Score = 10;	// 倒した際に得られるスコア
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入

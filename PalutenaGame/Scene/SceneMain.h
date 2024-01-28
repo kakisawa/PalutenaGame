@@ -12,7 +12,7 @@ namespace
 	constexpr int PumpMax = 1;	// 10仮、覚えてない
 
 	// 画面内に同時に出せる弾の数
-	constexpr int kShotMax = 20;
+	constexpr int kShotMax = 5;
 }
 
 // クラス宣言

@@ -6,14 +6,6 @@ class SceneMain;
 class SceneGameOver;
 class SceneGameClear;
 
-enum Stage
-{
-	kStage1,
-	kStage2,
-
-	kBack
-};
-
 class SceneManager
 {
 public:
@@ -24,13 +16,6 @@ public:
 	void Update();
 	void Draw();
 	void End();
-
-public:
-	// ステージの種類
-	Stage PlayedStage() const { return m_runStage; }
-	// プレイ中/ゲームオーバー時ステージ
-	Stage m_runStage;
-
 
 private:
 

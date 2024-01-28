@@ -18,9 +18,10 @@ public:
 	Vec2 GetPos() const { return m_pos; }			// 位置の取得
 	Rect GetColRect() const { return m_colRect; }	// 当たり判定の矩形を取得する
 
-	// 敵の攻撃力,HPを渡す
+	// 敵の攻撃力,HP,スコアを渡す
 	int GetEnemyAtk() const { return Atk; }
 	int GetEnemyHP() const { return HP; }
+	int GetEnemyScore() const { return Score; }
 
 	bool isExist() const { return m_isExist; }
 
@@ -33,8 +34,8 @@ protected:		// 派生クラスからアクセスできるように
 	int W, H;	// 敵画像サイズ
 	int HP;		// 敵HP
 	int Atk;	// 敵攻撃力	
+	int Score;	// 敵を倒した際に得られるスコア
 	int isTurn;	// 左右どちらを向いているか
-
 
 	float EnemyAnim;	// エネミーアニメーション
 	float Gravity;		// 重力

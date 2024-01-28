@@ -66,6 +66,7 @@ private:
 
 	int HP;		// プレイヤーの体力
 	int Atk;	// プレイヤーの攻撃力
+	int Score;	// プレイヤーが敵を倒した際に獲得したスコア
 	int Graph;	// プレイヤーの画像
 	int W, H;	// プレイヤーの画像サイズ
 	int m_damageFrame;	// ダメージを受けてからのフレーム数

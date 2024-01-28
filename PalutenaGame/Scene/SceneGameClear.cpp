@@ -30,9 +30,9 @@ SceneGameClear::SceneGameClear():
 	m_isSceneEnd(false),
 	isStage1(false),
 	isStage2(false),
-	m_select(kScelectRestart),
+	m_select(kScelectReturnHome),
 	m_fadeAlpha(255),
-	m_selectPos(kSelectPosX, kSelectPosY)
+	m_selectPos(kSelectPosX, kSelectPosY+ kSelectMoveY)
 {
 }
 
@@ -44,13 +44,13 @@ void SceneGameClear::Init()
 {
 	Graph = LoadGraph("data/Map/gg.jpg");
 
-	m_select = kScelectRestart;
+	m_select = kScelectReturnHome;
 	m_isSceneEnd = false;
 	isStage1 = false;
 	isStage2 = false;
 	m_fadeAlpha = 255;
 	m_selectPos.x = kSelectPosX;
-	m_selectPos.y = kSelectPosY;
+	m_selectPos.y = kSelectPosY + kSelectMoveY;
 }
 
 void SceneGameClear::Update()
@@ -108,8 +108,6 @@ void SceneGameClear::Update()
 			break;
 		case kScelectEnd:
 			DxLib_End();
-			break;
-		default:
 			break;
 		}
 

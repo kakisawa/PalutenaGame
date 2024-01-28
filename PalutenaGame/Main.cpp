@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
 
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
-	ChangeWindowMode(true);
+	//ChangeWindowMode(true);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
