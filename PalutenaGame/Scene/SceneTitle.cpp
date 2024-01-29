@@ -140,6 +140,16 @@ void SceneTitle::Draw()
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// •s“§–¾‚É–ß‚µ‚Ä‚¨‚­
 
+	for (int i = 0; i < 3; i++)
+	{
+		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
+			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
+	}
+
+	// ‘I‘ð’†‚Ì•”•ª‚ðŽlŠp‚Å•`‰æ
+	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
+		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
+
 	SetFontSize(64);
 
 	DrawString(kChirPosX + 100, kChirPosY, "‘€ìà–¾", 0xffffff);
@@ -149,9 +159,7 @@ void SceneTitle::Draw()
 	SetFontSize(32);
 	DrawString(kChirPosX + 123, kChirPosY + kCharInterval * 3.6, "AƒL[‚ÅŒˆ’è", 0xffffff);
 
-	// ‘I‘ð’†‚Ì•”•ª‚ðŽlŠp‚Å•`‰æ
-	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
-		m_selectPos.y + kSelectSizeY, 0x00bfff, false);
+	
 }
 
 void SceneTitle::End()
