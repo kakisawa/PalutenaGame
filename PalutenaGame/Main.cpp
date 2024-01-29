@@ -21,8 +21,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	SceneManager* pSceneManager=new SceneManager;
-	pSceneManager->Init();
+	// メモリ確保
+	SceneManager* m_pSceneManager = new SceneManager;
+	m_pSceneManager->Init();
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -33,10 +34,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画を行う前に画面をクリアする
 		ClearDrawScreen();
 
-		pSceneManager->Update();
+		// シーンの更新
+		m_pSceneManager->Update();
 
 		// シーンの描画
-		pSceneManager->Draw();
+		m_pSceneManager->Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
@@ -54,11 +56,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 	}
 
-	pSceneManager->End();
+	m_pSceneManager->End();
 
-
-	delete pSceneManager;
-	pSceneManager = nullptr;
+	// メモリの解放
+	delete m_pSceneManager;
+	m_pSceneManager = nullptr;
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 	return 0;				// ソフトの終了 

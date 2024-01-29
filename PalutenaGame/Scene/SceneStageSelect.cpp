@@ -29,9 +29,9 @@ SceneStageSelect::SceneStageSelect() :
 	isStage1(false),
 	isStage2(false),
 	isBackTitle(false),
-	m_selectPos(kSelectPosX, kSelectPosY)
+	m_selectPos(kSelectPosX, kSelectPosY),
+	m_fadeLetter(0)
 {
-
 }
 
 void SceneStageSelect::Init()
@@ -43,6 +43,7 @@ void SceneStageSelect::Init()
 	isBackTitle = false;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
+	m_fadeLetter = 0;
 }
 
 void SceneStageSelect::Update()
@@ -98,6 +99,13 @@ void SceneStageSelect::Update()
 		//	PlaySoundMem(m_decideSe, DX_PLAYTYPE_BACK, true);
 		//}
 		// タイトル画面を終了してSceneMainに移動する処理を書きたい!
+
+			// 文字の点滅
+		m_fadeLetter++;
+		if (m_fadeLetter == 80)
+		{
+			m_fadeLetter = 0;
+		}
 	}
 }
 
@@ -105,16 +113,26 @@ void SceneStageSelect::Draw()
 {
 	SetFontSize(64);
 
+	for (int i = 0; i < 3; i++)
+	{
+		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
+			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
+	}
+
+	// 選択中の部分を四角で描画
+	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
+		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
+
 	DrawString(kChirPosX + 25, kChirPosY, "ステージ1", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "ステージ2", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "タイトルに戻る", 0xffffff);
 
-	SetFontSize(32);
-	DrawString(kChirPosX, kChirPosY + kCharInterval * 3, "Aキーで決定", 0xffffff);
-
-	// 選択中の部分を四角で描画
-	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
-		m_selectPos.y + kSelectSizeY, 0x00bfff, false);
+	// 文字の点滅描画
+	if (m_fadeLetter < 60)
+	{
+		SetFontSize(32);
+		DrawString(kChirPosX, kChirPosY + kCharInterval * 3, "Aキーで決定", 0xffffff);
+	}
 }
 
 void SceneStageSelect::End()

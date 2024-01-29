@@ -40,6 +40,7 @@ private:
 
     int m_select;    // 選択中のメニュー
 
+    int m_fadeLetter;   // 文字の点滅用カウンタ
     int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
 

@@ -36,8 +36,7 @@ private:
     };
 
     int m_select;    // 選択中のメニュー
-
-private:
+    int m_fadeLetter;// 文字の点滅用カウンタ
 
     // ステージ1へ行くか、ステージ２へ行くか、タイトル画面に戻るか
     bool isStage1;

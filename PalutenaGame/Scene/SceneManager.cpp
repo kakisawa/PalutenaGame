@@ -26,12 +26,24 @@ SceneManager::SceneManager() :
 
 SceneManager::~SceneManager()
 {
+	// メモリの解放
+	delete m_pTitle;
+	m_pTitle = nullptr;
+	delete m_pStageSelect;
+	m_pStageSelect = nullptr;
+	delete m_pMain;
+	m_pMain = nullptr;
+	delete m_pGameOver;
+	m_pGameOver = nullptr;
+	delete m_pGameClear;
+	m_pGameClear = nullptr;
+	delete m_pExplanation;
+	m_pExplanation = nullptr;
 }
 
 void SceneManager::Init()
 {
 	// 初期化処理
-		// 実行したいシーンの初期化を行う
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:

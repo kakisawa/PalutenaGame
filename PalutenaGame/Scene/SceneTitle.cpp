@@ -122,7 +122,6 @@ void SceneTitle::Update()
 		m_fadeLetter = 0;
 	}
 
-
 	if (m_isSceneEnd)
 	{
 		m_fadeAlpha += 8;
@@ -166,6 +165,7 @@ void SceneTitle::Draw()
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを始める", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0xffffff);
 
+	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
 		SetFontSize(32);
