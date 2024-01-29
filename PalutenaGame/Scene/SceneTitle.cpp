@@ -13,14 +13,14 @@ namespace
 	constexpr int kCharInterval = 90;
 
 	// 文字を囲む四角の初期位置
-	constexpr int kSelectPosX = kChirPosX-2;
-	constexpr int kSelectPosY = kChirPosY-2;
+	constexpr int kSelectPosX = kChirPosX - 2;
+	constexpr int kSelectPosY = kChirPosY - 2;
 
 	// 文字を囲む四角の移動量
 	constexpr int kSelectMoveY = 90;
 
 	// 文字を囲む四角のサイズ
-	constexpr int kSelectSizeX =460;
+	constexpr int kSelectSizeX = 460;
 	constexpr int kSelectSizeY = 75;
 
 	// タイトルロゴ表示位置
@@ -39,8 +39,9 @@ SceneTitle::SceneTitle() :
 	isToExplanation(false),
 	isToSelect(false),
 	m_select(kSelectGameStart),
-	m_selectPos(kSelectPosX, kSelectPosY+ kSelectMoveY),
-	m_fadeAlpha(255)
+	m_selectPos(kSelectPosX, kSelectPosY + kSelectMoveY),
+	m_fadeAlpha(255),
+	m_fadeLetter(0)
 {
 }
 
@@ -49,12 +50,13 @@ void SceneTitle::Init()
 	Graph = LoadGraph("data/Map/TitleGraph.jpg");	// 背景読み込み
 	TitleGraph = LoadGraph("data/TitleGraph.png");		// タイトルロゴ読み込み
 
-	m_select= kSelectGameStart;
+	m_select = kSelectGameStart;
 	m_isSceneEnd = false;
 	isToExplanation = false;
 	isToSelect = false;
 	m_selectPos.x = kSelectPosX;
-	m_selectPos.y = kSelectPosY+ kSelectMoveY;
+	m_selectPos.y = kSelectPosY + kSelectMoveY;
+	m_fadeLetter = 0;
 }
 
 void SceneTitle::Update()
@@ -113,6 +115,14 @@ void SceneTitle::Update()
 		// タイトル画面を終了してSceneMainに移動する処理を書きたい!
 	}
 
+	// 文字の点滅
+	m_fadeLetter++;
+	if (m_fadeLetter == 80)
+	{
+		m_fadeLetter = 0;
+	}
+
+
 	if (m_isSceneEnd)
 	{
 		m_fadeAlpha += 8;
@@ -133,8 +143,8 @@ void SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	DrawExtendGraph(x, y,kScreenWidth,kScreenHeight, Graph, false);
-	DrawExtendGraph(kLogoPosX, kLogoPosY, kLogoPosX +kLogoSizeX, kLogoPosY +kLogoSizeY, TitleGraph, true);
+	DrawExtendGraph(x, y, kScreenWidth, kScreenHeight, Graph, false);
+	DrawExtendGraph(kLogoPosX, kLogoPosY, kLogoPosX + kLogoSizeX, kLogoPosY + kLogoSizeY, TitleGraph, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
@@ -156,10 +166,11 @@ void SceneTitle::Draw()
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを始める", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0xffffff);
 
-	SetFontSize(32);
-	DrawString(kChirPosX + 123, kChirPosY + kCharInterval * 3.6, "Aキーで決定", 0xffffff);
-
-	
+	if (m_fadeLetter < 60)
+	{
+		SetFontSize(32);
+		DrawString(kChirPosX + 123, kChirPosY + kCharInterval * 3.6, "Aキーで決定", 0xffffff);
+	}
 }
 
 void SceneTitle::End()

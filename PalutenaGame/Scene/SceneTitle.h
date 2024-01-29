@@ -36,12 +36,12 @@ private:
         kSclectBack,        // 戻る
     };
 
-    int m_select;    // 選択中のメニュー
 
-private:
     int x, y;           // タイトルロゴ座標
-
     int TitleGraph;     // タイトルロゴグラフ
+
+    int m_select;       // 選択中のメニュー
+    int m_fadeLetter;   // 文字の点滅用カウンタ
     int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
 

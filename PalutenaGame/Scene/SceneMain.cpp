@@ -382,6 +382,17 @@ void SceneMain::Death()
 
 void SceneMain::End()
 {
+	// ƒƒ‚ƒŠ‚Ì‰ğ•ú
+	delete m_pPlayer;
+	m_pPlayer = nullptr;
+
+	delete m_pBack;
+	m_pBack = nullptr;
+
+	delete m_pTime;
+	m_pTime = nullptr;
+
+
 	// ’e‚Æ‚Ì“–‚½‚è”»’è
 	for (int j = 0; j < kShotMax; j++)
 	{
