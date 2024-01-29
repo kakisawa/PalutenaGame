@@ -27,7 +27,7 @@ PumpkinEnemy::PumpkinEnemy()
 	EGraph= LoadGraph("data/Enemy/Pumpkin.png");
 
 	HP = 1;		// HP
-	Atk = 10;	// UŒ‚—Í
+	Atk = 100;	// UŒ‚—Í
 	Score = 10;	// “|‚µ‚½Û‚É“¾‚ç‚ê‚éƒXƒRƒA
 
 	Gravity = 0.0f;				// “G‚Ì‰Šúd—Í

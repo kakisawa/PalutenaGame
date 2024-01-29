@@ -15,7 +15,6 @@ public:
 	void Draw();
     void End();
 
-
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
 	void SetHandle(int handle) { Graph = handle; }
@@ -44,10 +43,8 @@ private:
     int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
 
-
     bool isStage1;  // 直前に遊んでいたステージ1
     bool isStage2;  // 直前に遊んでいたステージ2
-
 
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;

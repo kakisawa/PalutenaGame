@@ -14,6 +14,9 @@ public:
     void Draw();
     void End();
 
+    void StringDraw();      // 文字の描画
+    void BackDraw();        // 会計のスクロール描画
+
     // 次のシーンへ行くかの値を返す
     // ゲームセレクトシーンへ向かうか
     bool IsSceneEnd() const;
@@ -39,6 +42,13 @@ private:
 
     int x, y;           // タイトルロゴ座標
     int TitleGraph;     // タイトルロゴグラフ
+    float m_scrollX;    // スクロール移動量
+
+    struct Size         // 背景のサイズ
+    {
+        int width;
+        int height;
+    };
 
     int m_select;       // 選択中のメニュー
     int m_fadeLetter;   // 文字の点滅用カウンタ
@@ -50,4 +60,6 @@ private:
 
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;
+    // 背景の表示位置
+    Vec2 m_bgPos;
 };

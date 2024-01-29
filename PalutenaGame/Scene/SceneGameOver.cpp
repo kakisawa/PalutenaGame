@@ -30,9 +30,10 @@ SceneGameOver::SceneGameOver() :
 	m_isSceneEnd(false),
 	isStage1(false),
 	isStage2(false),
-	m_select(kScelectRestart),
+	m_select(kScelectReturnHome),
 	m_fadeAlpha(255),
-	m_selectPos(kSelectPosX, kSelectPosY)
+	m_fadeLetter(0),
+	m_selectPos(kSelectPosX, kSelectPosY + kSelectMoveY)
 {
 
 }
@@ -45,13 +46,14 @@ void SceneGameOver::Init()
 {
 	Graph = LoadGraph("data/Map/GameOverGraph.jpg");
 
-	m_select=kScelectRestart;
+	m_select= kScelectReturnHome;
 	m_isSceneEnd = false;
 	isStage1 = false;
 	isStage2 = false;
 	m_fadeAlpha = 255;
+	m_fadeLetter = 0;
 	m_selectPos.x = kSelectPosX;
-	m_selectPos.y = kSelectPosY;
+	m_selectPos.y = kSelectPosY + kSelectMoveY;
 }
 
 void SceneGameOver::Update()
@@ -129,6 +131,13 @@ void SceneGameOver::Update()
 		}
 	}
 
+	// 文字の点滅
+	m_fadeLetter++;
+	if (m_fadeLetter == 80)
+	{
+		m_fadeLetter = 0;
+	}
+
 	m_fadeAlpha -= 8;
 	if (m_fadeAlpha < 0)
 	{
@@ -138,14 +147,19 @@ void SceneGameOver::Update()
 
 void SceneGameOver::Draw()
 {
+	SetFontSize(32);
+
 	DrawGraph(0, 0, Graph, false);
 	DrawString(120, 120, "ゲームオーバー画面", GetColor(255, 255, 255));
-	DrawString(120, 120 + 64, "Aキーを押してください", GetColor(255, 255, 255));
-
+	
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+
+	// 選択中の部分を四角で描画
+	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
+		m_selectPos.y + kSelectSizeY, 0x00bfff, false);
 
 	SetFontSize(64);
 
@@ -153,9 +167,12 @@ void SceneGameOver::Draw()
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "タイトル画面に戻る", 0xffffff);
 	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0xffffff);
 
-	// 選択中の部分を四角で描画
-	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
-		m_selectPos.y + kSelectSizeY, 0x00bfff, false);
+	// 文字の点滅描画
+	if (m_fadeLetter < 60)
+	{
+		SetFontSize(32);
+		DrawString(kChirPosX + 123, kChirPosY + kCharInterval * 3.6, "Aキーで決定", 0xffffff);
+	}
 }
 
 void SceneGameOver::End()

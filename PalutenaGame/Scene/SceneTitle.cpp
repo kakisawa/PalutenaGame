@@ -30,6 +30,11 @@ namespace
 	// タイトルロゴサイズ
 	constexpr int kLogoSizeX = 1450;
 	constexpr int kLogoSizeY = 1100;
+
+	// スクロール移動量
+	constexpr float backGround_scale = 2.0f;
+	// 背景の拡大率
+	constexpr int kBgScale = 4;
 }
 
 SceneTitle::SceneTitle() :
@@ -38,8 +43,10 @@ SceneTitle::SceneTitle() :
 	m_isSceneEnd(false),
 	isToExplanation(false),
 	isToSelect(false),
+	m_scrollX(0),
 	m_select(kSelectGameStart),
 	m_selectPos(kSelectPosX, kSelectPosY + kSelectMoveY),
+	m_bgPos(0, 0),
 	m_fadeAlpha(255),
 	m_fadeLetter(0)
 {
@@ -51,11 +58,15 @@ void SceneTitle::Init()
 	TitleGraph = LoadGraph("data/TitleGraph.png");		// タイトルロゴ読み込み
 
 	m_select = kSelectGameStart;
+
 	m_isSceneEnd = false;
 	isToExplanation = false;
 	isToSelect = false;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY + kSelectMoveY;
+	m_scrollX = 0;
+	m_bgPos.x = 0;
+	m_bgPos.y = 0;
 	m_fadeLetter = 0;
 }
 
@@ -115,6 +126,9 @@ void SceneTitle::Update()
 		// タイトル画面を終了してSceneMainに移動する処理を書きたい!
 	}
 
+	// 背景スクロール
+	m_scrollX += backGround_scale;
+
 	// 文字の点滅
 	m_fadeLetter++;
 	if (m_fadeLetter == 80)
@@ -142,9 +156,23 @@ void SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	DrawExtendGraph(x, y, kScreenWidth, kScreenHeight, Graph, false);
+	// 背景・タイトルの描画
+	BackDraw();
 	DrawExtendGraph(kLogoPosX, kLogoPosY, kLogoPosX + kLogoSizeX, kLogoPosY + kLogoSizeY, TitleGraph, true);
 
+	// 選択肢等の文字の描画用
+	StringDraw();
+}
+
+void SceneTitle::End()
+{
+	// 画像をメモリから削除
+	DeleteGraph(Graph);
+	DeleteGraph(TitleGraph);
+}
+
+void SceneTitle::StringDraw()
+{
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
@@ -173,11 +201,22 @@ void SceneTitle::Draw()
 	}
 }
 
-void SceneTitle::End()
+void SceneTitle::BackDraw()
 {
-	// 画像をメモリから削除
-	DeleteGraph(Graph);
-	DeleteGraph(TitleGraph);
+	Size bg1Size;
+	GetGraphSize(Graph, &bg1Size.width, &bg1Size.height);
+
+	// スクロール量を計算
+	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
+
+	for (int index = 0; index < 4; index++)
+	{
+		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
+			kScreenHeight - bg1Size.height * kBgScale,
+			0, 0,
+			kBgScale, 0.0f,
+			Graph, true);
+	}
 }
 
 bool SceneTitle::IsSceneEnd() const

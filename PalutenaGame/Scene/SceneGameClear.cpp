@@ -118,6 +118,9 @@ void SceneGameClear::Update()
 		{
 			m_fadeAlpha = 255;
 		}
+
+		delete pSceneMain;
+		pSceneMain = nullptr;
 	}
 
 	// •¶Žš‚Ì“_–Å
@@ -154,7 +157,7 @@ void SceneGameClear::Draw()
 
 	// ‘I‘ð’†‚Ì•”•ª‚ðŽlŠp‚Å•`‰æ
 	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
-		m_selectPos.y + kSelectSizeY, 0x00bfff, false);
+		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
 
 	SetFontSize(64);
 

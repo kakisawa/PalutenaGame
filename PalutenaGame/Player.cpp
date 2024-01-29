@@ -79,10 +79,10 @@ void Player::Update()
 	// プレイヤーがどの方向を向いているか
 //	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
 
-	// パッド入力取得
-	int Pad = GetJoypadInputState(DX_CHECKINPUT_PAD);
-	// キー入力取得
-	int Key = CheckHitKey(DX_CHECKINPUT_KEY);
+	//// パッド入力取得
+	//int Pad = GetJoypadInputState(DX_CHECKINPUT_PAD);
+	//// キー入力取得
+	//int Key = CheckHitKey(DX_CHECKINPUT_KEY);
 
 
 	// 移動量を持つようにする

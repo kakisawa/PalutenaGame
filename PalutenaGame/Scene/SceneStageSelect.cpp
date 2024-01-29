@@ -22,6 +22,11 @@ namespace
 	// 文字を囲む四角のサイズ
 	constexpr int kSelectSizeX = 460;
 	constexpr int kSelectSizeY = 75;
+
+	// スクロール移動量
+	constexpr float backGround_scale = 2.0f;
+	// 背景の拡大率
+	constexpr int kBgScale = 4;
 }
 
 SceneStageSelect::SceneStageSelect() :
@@ -29,13 +34,22 @@ SceneStageSelect::SceneStageSelect() :
 	isStage1(false),
 	isStage2(false),
 	isBackTitle(false),
+	m_scrollX(0),
 	m_selectPos(kSelectPosX, kSelectPosY),
-	m_fadeLetter(0)
+	m_bgPos(0, 0),
+	m_fadeLetter(0),
+	m_fadeAlpha(255)
+{
+}
+
+SceneStageSelect::~SceneStageSelect()
 {
 }
 
 void SceneStageSelect::Init()
 {
+	Graph = LoadGraph("data/Map/TitleGraph.jpg");	// 背景読み込み
+
 	m_select = kStage1;
 	m_isSceneEnd = false;
 	isStage1 = false;
@@ -43,6 +57,10 @@ void SceneStageSelect::Init()
 	isBackTitle = false;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
+	m_scrollX = 0;
+	m_bgPos.x = 0;
+	m_bgPos.y = 0;
+	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
 }
 
@@ -100,6 +118,9 @@ void SceneStageSelect::Update()
 		//}
 		// タイトル画面を終了してSceneMainに移動する処理を書きたい!
 
+		// 背景スクロール
+		m_scrollX += backGround_scale;
+
 			// 文字の点滅
 		m_fadeLetter++;
 		if (m_fadeLetter == 80)
@@ -107,11 +128,33 @@ void SceneStageSelect::Update()
 			m_fadeLetter = 0;
 		}
 	}
+	// フェードイン
+	m_fadeAlpha -= 8;
+	if (m_fadeAlpha < 0)
+	{
+		m_fadeAlpha = 0;
+	}
 }
 
 void SceneStageSelect::Draw()
 {
+	BackDraw();
+	StringDraw();
+}
+
+void SceneStageSelect::End()
+{
+}
+
+void SceneStageSelect::StringDraw()
+{
 	SetFontSize(64);
+
+	// フェードの描画
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -130,13 +173,27 @@ void SceneStageSelect::Draw()
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
-		SetFontSize(32);
+		//SetFontSize(32);
 		DrawString(kChirPosX, kChirPosY + kCharInterval * 3, "Aキーで決定", 0xffffff);
 	}
 }
 
-void SceneStageSelect::End()
+void SceneStageSelect::BackDraw()
 {
+	Size bg1Size;
+	GetGraphSize(Graph, &bg1Size.width, &bg1Size.height);
+
+	// スクロール量を計算
+	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
+
+	for (int index = 0; index < 4; index++)
+	{
+		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
+			kScreenHeight - bg1Size.height * kBgScale,
+			0, 0,
+			kBgScale, 0.0f,
+			Graph, true);
+	}
 }
 
 bool SceneStageSelect::IsSceneEnd() const

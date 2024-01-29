@@ -33,7 +33,6 @@ void Shot::Update()
 		if (m_pos.x >= kScreenWidth)
 		{
 			m_isExist = false;
-			return;
 		}
 	}
 	else if (dir == kShotDirLeft)
@@ -42,7 +41,6 @@ void Shot::Update()
 		if (m_pos.x <= 0)
 		{
 			m_isExist = false;
-			return;
 		}
 	}
 	else if (dir == kShotDirUp)
@@ -51,7 +49,6 @@ void Shot::Update()
 		if (m_pos.y <= 0)
 		{
 			m_isExist = false;
-			return;
 		}
 	}
 

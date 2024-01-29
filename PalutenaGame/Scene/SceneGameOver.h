@@ -44,7 +44,8 @@ private:
 
     int m_select;    // 選択中のメニュー
 
-    int m_fadeAlpha;    // フェードイン、アウト
+    int m_fadeAlpha;    // フェードイン、アウト 
+    int m_fadeLetter;   // 文字の点滅用カウンタ
     bool m_isSceneEnd;	// シーン終了フラグ
 
     bool isStage1;  // 直前に遊んでいたステージ1
