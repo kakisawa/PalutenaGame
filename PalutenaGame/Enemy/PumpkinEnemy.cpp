@@ -8,8 +8,12 @@
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 16;
-	constexpr int kHeight = 22;
+	constexpr int kWidth = 32;
+	constexpr int kHeight = 44;
+
+	// エネミーの画像元サイズ
+	constexpr int SrcWidth = 16;
+	constexpr int SrcHeight = 22;
 
 	// 移動速度
 	constexpr float kSpeed = 1.0f;
@@ -87,7 +91,7 @@ void PumpkinEnemy::Update()
 void PumpkinEnemy::Draw()
 {
 	int EnemyFrame = EnemyAnim / DefAnimFrameNum;
-	int srcX = DefFrame[EnemyFrame] * kWidth;
+	int srcX = DefFrame[EnemyFrame] * SrcWidth;
 
 	// 存在しない敵は描画しない
 	if (!m_isExist) return;
@@ -101,7 +105,7 @@ void PumpkinEnemy::Draw()
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX-1, 25,
-			kWidth, kHeight,
+			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
 	else if (isTurn == true)
@@ -109,7 +113,7 @@ void PumpkinEnemy::Draw()
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX - 1, 0,
-			kWidth, kHeight,
+			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
 #ifdef _DEBUG

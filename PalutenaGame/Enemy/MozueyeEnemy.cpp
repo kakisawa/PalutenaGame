@@ -8,8 +8,12 @@
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 46;
-	constexpr int kHeight = 32;
+	constexpr int kWidth = 72;
+	constexpr int kHeight = 50;
+
+	// エネミーの画像元サイズ
+	constexpr int SrcWidth = 46;
+	constexpr int SrcHeight = 32;
 
 	// 移動速度
 	float kSpeed = 3.0f;
@@ -94,7 +98,7 @@ void MozueyeEnemy::Update()
 void MozueyeEnemy::Draw()
 {
 	int EnemyFrame = EnemyAnim / DefAnimFrameNum;
-	int srcX = DefFrame[EnemyFrame] * kWidth;
+	int srcX = DefFrame[EnemyFrame] * SrcWidth;
 
 	// 存在しない敵は描画しない
 	if (!m_isExist) return;
@@ -108,7 +112,7 @@ void MozueyeEnemy::Draw()
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 2, 29,
-			kWidth, kHeight,
+			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
 	else if (isTurn == true)
@@ -116,7 +120,7 @@ void MozueyeEnemy::Draw()
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 2, 0,
-			kWidth, kHeight,
+			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
 #ifdef _DEBUG

@@ -7,8 +7,12 @@
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 42;		// 28
-	constexpr int kHeight = 69;		// 46
+	constexpr int kWidth = 42;
+	constexpr int kHeight = 69;
+
+	// エネミーの画像元サイズ
+	constexpr int SrcWidth = 28;
+	constexpr int SrcHeight = 46;
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
@@ -107,7 +111,7 @@ void DeathYourEnemy::Update()
 void DeathYourEnemy::Draw()
 {
 	int EnemyFrame = EnemyAnim / DefAnimFrameNum;
-	int srcX = DefFrame[EnemyFrame] * kWidth;
+	int srcX = DefFrame[EnemyFrame] * SrcWidth;
 
 	// 存在しない敵は描画しない
 	if (!m_isExist) return;
@@ -121,7 +125,7 @@ void DeathYourEnemy::Draw()
 			DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX+2, 80,
-				kWidth, kHeight,
+			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
 	else if (isTurn == true)
@@ -129,7 +133,7 @@ void DeathYourEnemy::Draw()
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX+2, 0,
-			kWidth, kHeight,
+			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
 #ifdef _DEBUG

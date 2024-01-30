@@ -5,11 +5,11 @@
 namespace
 {
 	// モズアイ最大出現数
-	constexpr int MozuMax = 5;
+	constexpr int MozuMax = 7;
 	// 死最大出現数
-	constexpr int DeathMax = 3;
+	constexpr int DeathMax = 5;
 	// かぼちゃ最大出現数
-	constexpr int PumpMax = 5;
+	constexpr int PumpMax = 3;
 
 	// 画面内に同時に出せる弾の数
 	constexpr int kShotMax = 30;

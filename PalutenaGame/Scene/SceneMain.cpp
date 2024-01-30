@@ -528,7 +528,22 @@ void SceneMain::CreateEnemyPump()
 		{
 			m_pPumpkinEnemy[i] = new PumpkinEnemy;
 			m_pPumpkinEnemy[i]->Init();
-			m_pPumpkinEnemy[i]->Start(kScreenWidth * 0.1, kScreenHeight * 0.5f);
+
+			int EnemyX=0;
+
+			switch (GetRand(2))
+			{
+			case 0:
+				EnemyX = kScreenWidth * 0.1;
+				break;
+			case 1:
+				EnemyX = kScreenWidth * 0.9;
+				break;
+			case 2:
+				EnemyX = kScreenWidth * 0.5;
+				break;
+			}
+			m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.5f);
 			return;
 		}
 	}
