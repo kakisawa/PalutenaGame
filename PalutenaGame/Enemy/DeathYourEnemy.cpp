@@ -7,8 +7,8 @@
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 28;
-	constexpr int kHeight = 46;
+	constexpr int kWidth = 42;		// 28
+	constexpr int kHeight = 69;		// 46
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;

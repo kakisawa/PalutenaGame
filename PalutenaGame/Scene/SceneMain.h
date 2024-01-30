@@ -5,7 +5,7 @@
 namespace
 {
 	// モズアイ最大出現数
-	constexpr int MozuMax = 10;
+	constexpr int MozuMax = 5;
 	// 死最大出現数
 	constexpr int DeathMax = 3;
 	// かぼちゃ最大出現数

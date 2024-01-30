@@ -24,9 +24,9 @@ namespace
 	constexpr int kSelectSizeY = 75;
 
 	// スクロール移動量
-	constexpr float backGround_scale = 2.0f;
+	constexpr float backGround_scale = 1.2f;
 	// 背景の拡大率
-	constexpr int kBgScale = 4;
+	constexpr int kBgScale = 1;
 }
 
 SceneStageSelect::SceneStageSelect() :
@@ -48,7 +48,7 @@ SceneStageSelect::~SceneStageSelect()
 
 void SceneStageSelect::Init()
 {
-	Graph = LoadGraph("data/Map/TitleGraph.jpg");	// 背景読み込み
+	Graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
 
 	m_select = kStage1;
 	m_isSceneEnd = false;
@@ -117,16 +117,16 @@ void SceneStageSelect::Update()
 		//	PlaySoundMem(m_decideSe, DX_PLAYTYPE_BACK, true);
 		//}
 		// タイトル画面を終了してSceneMainに移動する処理を書きたい!
+	}
 
-		// 背景スクロール
-		m_scrollX += backGround_scale;
+	// 背景スクロール
+	m_scrollX += backGround_scale;
 
-			// 文字の点滅
-		m_fadeLetter++;
-		if (m_fadeLetter == 80)
-		{
-			m_fadeLetter = 0;
-		}
+	// 文字の点滅
+	m_fadeLetter++;
+	if (m_fadeLetter == 80)
+	{
+		m_fadeLetter = 0;
 	}
 	// フェードイン
 	m_fadeAlpha -= 8;
@@ -159,6 +159,9 @@ void SceneStageSelect::StringDraw()
 	for (int i = 0; i < 3; i++)
 	{
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
+			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xF4EADE, true);
+
+		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
 			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
 	}
 
@@ -166,9 +169,9 @@ void SceneStageSelect::StringDraw()
 	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
 		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
 
-	DrawString(kChirPosX + 25, kChirPosY, "ステージ1", 0xffffff);
-	DrawString(kChirPosX, kChirPosY + kCharInterval, "ステージ2", 0xffffff);
-	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "タイトルに戻る", 0xffffff);
+	DrawString(kChirPosX + 25, kChirPosY, "ステージ1", 0x000000);
+	DrawString(kChirPosX, kChirPosY + kCharInterval, "ステージ2", 0x000000);
+	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "タイトルに戻る", 0x000000);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)

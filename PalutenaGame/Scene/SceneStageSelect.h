@@ -16,7 +16,7 @@ public:
     void End();
 
     void StringDraw();      // 文字の描画
-    void BackDraw();        // 会計のスクロール描画
+    void BackDraw();        // 背景のスクロール描画
 
     void SetHandle(int handle) { Graph = handle; }
 
@@ -42,6 +42,7 @@ private:
     int m_fadeAlpha;    // フェードイン、アウト
     int m_fadeLetter;   // 文字の点滅用カウンタ
     float m_scrollX;    // スクロール移動量
+
     struct Size         // 背景のサイズ
     {
         int width;

@@ -190,7 +190,7 @@ void SceneTitle::StringDraw()
 	for (int i = 0; i < 3; i++)
 	{
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
-			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xffffff, true);
+			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xF4EADE, true);
 
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
 			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
@@ -200,11 +200,11 @@ void SceneTitle::StringDraw()
 	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
 		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
 
-	//SetFontSize(64);
+	SetFontSize(64);
 
-	//DrawString(kChirPosX + 100, kChirPosY, "操作説明", 0x000000);
+	DrawString(kChirPosX + 100, kChirPosY, "操作説明", 0x000000);
 
-	DrawStringToHandle(kChirPosX + 100, kChirPosY, "操作説明", 0x000000, m_pFont->m_TitleFont);
+	//DrawStringToHandle(kChirPosX + 100, kChirPosY, "操作説明", 0x000000, m_pFont->m_TitleFont);
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを始める", 0x000000);
 	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0x000000);
 

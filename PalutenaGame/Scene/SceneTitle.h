@@ -17,7 +17,7 @@ public:
     void End();
 
     void StringDraw();      // 文字の描画
-    void BackDraw();        // 会計のスクロール描画
+    void BackDraw();        // 背景のスクロール描画
 
     // 次のシーンへ行くかの値を返す
     // ゲームセレクトシーンへ向かうか

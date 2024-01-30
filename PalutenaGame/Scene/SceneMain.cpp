@@ -46,7 +46,6 @@ SceneMain::SceneMain() :
 	m_pDeathYourEnemy.resize(DeathMax);
 	m_pPumpkinEnemy.resize(PumpMax);
 
-	// 初期状態ではメモリを確保していないことが分かるようにしておく
 	// 未使用状態にする nullptrを入れておく
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
@@ -218,7 +217,6 @@ void SceneMain::Update()
 					m_pPlayer->OnDamage_Mozu();
 					m_pMozueyeEnemy[i]->OnDamage();
 				}
-
 				// 弾との当たり判定
 				for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
 				{
@@ -347,16 +345,12 @@ void SceneMain::Update()
 			break;
 		}
 	}
-
 }
 
 void SceneMain::Draw()
 {
-	//// 自分で生成したグラフィックデータに対して書き込みを行う
-	//SetDrawScreen(m_gameScreenHandle);
-
-	//// 描画先スクリーンをクリアする
-	//ClearDrawScreen();
+	// 描画先スクリーンをクリアする
+	ClearDrawScreen();
 
 	m_pBack->Draw();
 	m_pPlayer->Draw();
@@ -394,9 +388,6 @@ void SceneMain::Draw()
 
 	DrawGraph(0, 0, m_gameScreenHandle, true);
 
-	// バックバッファに書き込む設定に戻しておく
-	//SetDrawScreen(DX_SCREEN_BACK);
-
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
@@ -404,7 +395,6 @@ void SceneMain::Draw()
 #ifdef _DEBUG
 	DrawFormatString(100, 300, GetColor(255, 255, 255),
 		"isMove:(%d)", m_enemyInterval);
-
 #endif
 }
 
@@ -511,6 +501,7 @@ void SceneMain::CreateEnemyMozu()
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init();
 			m_pMozueyeEnemy[i]->Start(0, Ground - 32 * 0.5);
+			return;
 		}
 	}
 }
@@ -524,6 +515,7 @@ void SceneMain::CreateEnemyDeath()
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
 			m_pDeathYourEnemy[i]->Init();
 			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5f, kScreenHeight * 0.5f);
+			return;
 		}
 	}
 }
@@ -532,9 +524,12 @@ void SceneMain::CreateEnemyPump()
 {
 	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
 	{
-		m_pPumpkinEnemy[i] = new PumpkinEnemy;
-		m_pPumpkinEnemy[i]->Init();
-		//m_pPumpkinEnemy[i]->Start((kScreenWidth * 0.1) * i, Ground - 100 * i);
-		m_pPumpkinEnemy[i]->Start(kScreenWidth * 0.1, kScreenHeight * 0.5f);
+		if (!m_pPumpkinEnemy[i])
+		{
+			m_pPumpkinEnemy[i] = new PumpkinEnemy;
+			m_pPumpkinEnemy[i]->Init();
+			m_pPumpkinEnemy[i]->Start(kScreenWidth * 0.1, kScreenHeight * 0.5f);
+			return;
+		}
 	}
 }
