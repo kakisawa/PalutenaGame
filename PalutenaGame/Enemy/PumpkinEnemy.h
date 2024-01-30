@@ -10,7 +10,7 @@ public:
     PumpkinEnemy();
     ~PumpkinEnemy();
 
-    void Init(){}
+    void Init();
     virtual void Update() override;
     void Draw() override;
 

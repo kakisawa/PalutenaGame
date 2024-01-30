@@ -40,6 +40,17 @@ PumpkinEnemy::~PumpkinEnemy()
 	DeleteGraph(EGraph);
 }
 
+void PumpkinEnemy::Init()
+{
+	HP = 1;		// HP
+	Atk = 100;	// 攻撃力
+	Score = 10;	// 倒した際に得られるスコア
+
+	Gravity = 0.0f;				// 敵の初期重力
+	isTurn = false;				// 右を向いているのfalseを挿入
+	EnemyAnim = 0;				// 敵のアニメーションの初期化
+}
+
 void PumpkinEnemy::Update()
 {
 	m_pos += m_vec;

@@ -18,7 +18,7 @@ EnemyBase::EnemyBase():
 	Gravity(0),
 	isTurn(false),	// エネミーの向きフラグ,右を向いているのfalseを挿入
 	isDeath(false),	// 死亡フラグ,死んでいないのfalseを挿入
-	m_isExist(true), 
+	m_isExist(false), 
 	m_damageFrame(0)
 {
 }

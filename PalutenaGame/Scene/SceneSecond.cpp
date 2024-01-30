@@ -14,7 +14,6 @@
 
 #include <cassert>
 
-
 SceneSecond::SceneSecond() :
 	m_isSceneEnd(false),
 	isFinishStage2(false),

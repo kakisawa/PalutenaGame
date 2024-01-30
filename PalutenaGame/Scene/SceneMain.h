@@ -4,15 +4,18 @@
 
 namespace
 {
-	// モズアイ出現数
-	constexpr int MozuMax = 5;	// 17
-	// 死出現数
-	constexpr int DeathMax = 1;	// 3
-	// かぼちゃ出現数
-	constexpr int PumpMax = 1;	// 10仮、覚えてない
+	// モズアイ最大出現数
+	constexpr int MozuMax = 10;
+	// 死最大出現数
+	constexpr int DeathMax = 3;
+	// かぼちゃ最大出現数
+	constexpr int PumpMax = 5;
 
 	// 画面内に同時に出せる弾の数
 	constexpr int kShotMax = 30;
+
+	// 何フレームおきに敵が登場するか
+	constexpr int kEnemyInterval = 60;
 }
 
 // クラス宣言
@@ -75,6 +78,7 @@ private:
 	int m_pumpkinEnemyGraph;	// パンプキン君
 
 	int m_fadeAlpha;		// フェードイン、アウト
+	int m_enemyInterval;	// 敵の登場間隔
 
 	// シーン処理
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
