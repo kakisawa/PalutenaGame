@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "Game.h"
 #include "Pad.h"
+#include "Util/Font.h"
 
 namespace
 {
@@ -32,9 +33,9 @@ namespace
 	constexpr int kLogoSizeY = 1100;
 
 	// スクロール移動量
-	constexpr float backGround_scale = 2.0f;
+	constexpr float backGround_scale = 1.2f;
 	// 背景の拡大率
-	constexpr int kBgScale = 4;
+	constexpr int kBgScale = 1;
 }
 
 SceneTitle::SceneTitle() :
@@ -50,11 +51,20 @@ SceneTitle::SceneTitle() :
 	m_fadeAlpha(255),
 	m_fadeLetter(0)
 {
+	// フォントのメモリ確保
+	m_pFont = new Font;
+}
+
+SceneTitle::~SceneTitle()
+{
+	// フォントメモリの解放
+	delete m_pFont;
+	m_pFont = nullptr;
 }
 
 void SceneTitle::Init()
 {
-	Graph = LoadGraph("data/Map/TitleGraph.jpg");	// 背景読み込み
+	Graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
 	TitleGraph = LoadGraph("data/TitleGraph.png");		// タイトルロゴ読み込み
 
 	m_select = kSelectGameStart;
@@ -180,6 +190,9 @@ void SceneTitle::StringDraw()
 	for (int i = 0; i < 3; i++)
 	{
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
+			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xffffff, true);
+
+		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
 			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
 	}
 
@@ -187,11 +200,13 @@ void SceneTitle::StringDraw()
 	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
 		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
 
-	SetFontSize(64);
+	//SetFontSize(64);
 
-	DrawString(kChirPosX + 100, kChirPosY, "操作説明", 0xffffff);
-	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを始める", 0xffffff);
-	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0xffffff);
+	//DrawString(kChirPosX + 100, kChirPosY, "操作説明", 0x000000);
+
+	DrawStringToHandle(kChirPosX + 100, kChirPosY, "操作説明", 0x000000, m_pFont->m_TitleFont);
+	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを始める", 0x000000);
+	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0x000000);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)

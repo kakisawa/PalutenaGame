@@ -1,3 +1,4 @@
+#include "SceneSecond.h"
 #include "DxLib.h"
 #include "SceneMain.h"
 #include "Player.h"
@@ -13,9 +14,10 @@
 
 #include <cassert>
 
-SceneMain::SceneMain() :
+
+SceneSecond::SceneSecond() :
 	m_isSceneEnd(false),
-	isFinishStage1(false),
+	isFinishStage2(false),
 	m_fadeAlpha(255)		// 不透明で初期化
 {
 	// ゲーム画面描画先の生成
@@ -31,7 +33,7 @@ SceneMain::SceneMain() :
 	assert(m_backHandle != -1);
 
 	// プレイヤーのメモリ確保
-	m_pPlayer = new Player{this};
+	m_pPlayer = new Player{m_pSceneMain};
 	m_pPlayer->SetHandle(m_playerHandle);	// Playerにグラフィックのハンドルを渡す
 
 	// 背景のメモリ確保
@@ -41,9 +43,9 @@ SceneMain::SceneMain() :
 	// 制限時間のメモリ確保
 	m_pTime = new Time;
 
-	m_pMozueyeEnemy.resize(MozuMax);
-	m_pDeathYourEnemy.resize(DeathMax);
-	m_pPumpkinEnemy.resize(PumpMax);
+	m_pMozueyeEnemy.resize(MozuSecondMax);
+	m_pDeathYourEnemy.resize(DeathSecondMax);
+	m_pPumpkinEnemy.resize(PumpSecondMax);
 
 	// 初期状態ではメモリを確保していないことが分かるようにしておく
 	// 未使用状態にする nullptrを入れておく
@@ -61,7 +63,7 @@ SceneMain::SceneMain() :
 	}
 }
 
-SceneMain::~SceneMain()
+SceneSecond::~SceneSecond()
 {
 	// MakeScreenで作成したらグラフィックを削除する
 	DeleteGraph(m_gameScreenHandle);
@@ -107,12 +109,12 @@ SceneMain::~SceneMain()
 	}
 }
 
-void SceneMain::Init()
+void SceneSecond::Init()
 {
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
 	m_isSceneEnd = false;
-	isFinishStage1 = false;
+	isFinishStage2 = false;
 
 	m_pPlayer->Init();
 	m_pBack->Init();
@@ -125,7 +127,7 @@ void SceneMain::Init()
 	m_fadeAlpha = 255;
 }
 
-void SceneMain::Update()
+void SceneSecond::Update()
 {
 	// プレイヤーが死亡したら(ゲームオーバー)
 	if (m_pPlayer->PlayerDeath())
@@ -133,7 +135,7 @@ void SceneMain::Update()
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
-			isFinishStage1 = true;
+			isFinishStage2 = true;
 			m_isSceneEnd = true;
 			isToGameOver = true;
 
@@ -156,7 +158,7 @@ void SceneMain::Update()
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
-			isFinishStage1 = true;
+			isFinishStage2 = true;
 			m_isSceneEnd = true;
 			isToGameClear = true;
 
@@ -183,7 +185,7 @@ void SceneMain::Update()
 	m_pTime->Update();
 
 	// 弾との当たり判定
-	for (int j = 0; j < kShotMax; j++)
+	for (int j = 0; j < kShotSecondMax; j++)
 	{
 		// nullptrなら処理は行わない
 		if (!m_pShot[j])	continue;
@@ -215,7 +217,7 @@ void SceneMain::Update()
 				}
 
 				// 弾との当たり判定
-				for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
+				for (int shotIndex = 0; shotIndex < kShotSecondMax; shotIndex++)
 				{
 					// nullptrなら処理は行わない
 					if (!m_pShot[shotIndex])	continue;
@@ -251,7 +253,7 @@ void SceneMain::Update()
 				}
 
 				// 弾との当たり判定
-				for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
+				for (int shotIndex = 0; shotIndex < kShotSecondMax; shotIndex++)
 				{
 					// nullptrなら処理は行わない
 					if (!m_pShot[shotIndex])	continue;
@@ -288,7 +290,7 @@ void SceneMain::Update()
 				}
 
 				// 弾との当たり判定
-				for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
+				for (int shotIndex = 0; shotIndex < kShotSecondMax; shotIndex++)
 				{
 					// nullptrなら処理は行わない
 					if (!m_pShot[shotIndex])	continue;
@@ -308,7 +310,7 @@ void SceneMain::Update()
 	}
 }
 
-void SceneMain::Draw()
+void SceneSecond::Draw()
 {
 	//// 自分で生成したグラフィックデータに対して書き込みを行う
 	//SetDrawScreen(m_gameScreenHandle);
@@ -343,7 +345,7 @@ void SceneMain::Draw()
 	}
 
 	// 弾描画
-	for (int i = 0; i < kShotMax; i++)
+	for (int i = 0; i < kShotSecondMax; i++)
 	{
 		// nullptrかどうかをチェックする
 		if (!m_pShot[i])	continue;// nullptrなら以降の処理は行わない
@@ -360,7 +362,7 @@ void SceneMain::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
-void SceneMain::Clear()
+void SceneSecond::Clear()
 {
 	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 128);
 
@@ -370,7 +372,7 @@ void SceneMain::Clear()
 	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 65, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
-void SceneMain::Death()
+void SceneSecond::Death()
 {
 	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 128);
 
@@ -380,10 +382,10 @@ void SceneMain::Death()
 	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 65, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
-void SceneMain::End()
+void SceneSecond::End()
 {
 	// 弾との当たり判定
-	for (int j = 0; j < kShotMax; j++)
+	for (int j = 0; j < kShotSecondMax; j++)
 	{
 		delete m_pShot[j];
 		m_pShot[j] = nullptr;
@@ -417,27 +419,27 @@ void SceneMain::End()
 	}
 }
 
-bool SceneMain::IsSceneEnd() const
+bool SceneSecond::IsSceneEnd() const
 {
 	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }
 
-bool SceneMain::ToGameOver() const
+bool SceneSecond::ToGameOver() const
 {
 	return isToGameOver;
 }
 
-bool SceneMain::ToGameClear() const
+bool SceneSecond::ToGameClear() const
 {
 	return isToGameClear;
 }
 
-bool SceneMain::AddShot(Shot* pShot)
+bool SceneSecond::AddShot(Shot* pShot)
 {
 	// nullptrを渡されたら止まる
 	assert(pShot);
 
-	for (int i = 0; i < kShotMax; i++)
+	for (int i = 0; i < kShotSecondMax; i++)
 	{
 		// 使用中なら次のチェックへ
 		if (m_pShot[i])	continue;
@@ -453,7 +455,7 @@ bool SceneMain::AddShot(Shot* pShot)
 	return false;
 }
 
-void SceneMain::CreateEnemyMozu()
+void SceneSecond::CreateEnemyMozu()
 {
 	// 敵のメモリ確保
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
@@ -462,13 +464,13 @@ void SceneMain::CreateEnemyMozu()
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init();
-			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.3, Ground - 32 * 0.5);
+			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.5, kScreenHeight * 0.5);
 			return;
 		}
 	}
 }
 
-void SceneMain::CreateEnemyDeath()
+void SceneSecond::CreateEnemyDeath()
 {
 	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
 	{
@@ -476,19 +478,19 @@ void SceneMain::CreateEnemyDeath()
 		{
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
 			m_pDeathYourEnemy[i]->Init();
-			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5, Ground - 46 * 0.5);
+			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5, kScreenHeight* 0.5);
 			return;
 		}
 	}
 }
 
-void SceneMain::CreateEnemyPump()
+void SceneSecond::CreateEnemyPump()
 {
 	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
 	{
 		m_pPumpkinEnemy[i] = new PumpkinEnemy;
 		m_pPumpkinEnemy[i]->Init();
-		m_pPumpkinEnemy[i]->Start(kScreenWidth * 0.5, Ground - 22 * 0.5);
+		m_pPumpkinEnemy[i]->Start(kScreenWidth * 0.5, kScreenHeight * 0.5);
 		return;
 	}
 }

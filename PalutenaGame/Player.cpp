@@ -2,6 +2,7 @@
 #include "Player.h"
 
 #include "SceneMain.h"
+#include "SceneSecond.h"
 #include "MozueyeEnemy.h"
 #include "DeathYourEnemy.h"
 #include "PumpkinEnemy.h"

@@ -3,6 +3,7 @@
 #include "Rect.h"
 
 class SceneMain;
+class SceneSecond;
 class MozueyeEnemy;
 class DeathYourEnemy;
 class PumpkinEnemy;

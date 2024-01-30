@@ -2,12 +2,14 @@
 #include "SceneBase.h"
 #include "Vec2.h"
 
+class Font;
+
 class SceneTitle :
     public SceneBase
 {
 public:
     SceneTitle();
-    ~SceneTitle() {}
+    ~SceneTitle();
 
     void Init();
     void Update();
@@ -62,4 +64,7 @@ private:
     Vec2 m_selectPos;
     // 背景の表示位置
     Vec2 m_bgPos;
+
+    // フォントのポインタ
+    Font* m_pFont;
 };

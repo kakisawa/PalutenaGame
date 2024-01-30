@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Back.cpp" />
+    <ClCompile Include="Scene\SceneSecond.cpp" />
+    <ClCompile Include="Util\Font.cpp" />
     <ClCompile Include="Scene\SceneExplanation.cpp" />
     <ClCompile Include="Scene\SceneGameClear.cpp" />
     <ClCompile Include="Shot\Shot.cpp" />
@@ -43,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Back.h" />
+    <ClInclude Include="Scene\SceneSecond.h" />
+    <ClInclude Include="Util\Font.h" />
     <ClInclude Include="Scene\SceneExplanation.h" />
     <ClInclude Include="Scene\SceneGameClear.h" />
     <ClInclude Include="Shot\Shot.h" />

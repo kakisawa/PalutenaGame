@@ -3,6 +3,7 @@
 #include "SceneTitle.h"
 #include "SceneExplanation.h"
 #include "SceneMain.h"
+#include "SceneSecond.h"
 #include "SceneGameOver.h"
 #include "SceneStageSelect.h"
 #include "SceneGameClear.h"
@@ -19,6 +20,7 @@ SceneManager::SceneManager() :
 	m_pTitle = new SceneTitle;
 	m_pStageSelect = new SceneStageSelect;
 	m_pMain = new SceneMain;
+	m_pSecond = new SceneSecond;
 	m_pGameOver = new SceneGameOver;
 	m_pGameClear = new SceneGameClear;
 	m_pExplanation = new SceneExplanation;
@@ -33,6 +35,8 @@ SceneManager::~SceneManager()
 	m_pStageSelect = nullptr;
 	delete m_pMain;
 	m_pMain = nullptr;
+	delete m_pSecond;
+	m_pSecond = nullptr;
 	delete m_pGameOver;
 	m_pGameOver = nullptr;
 	delete m_pGameClear;
@@ -58,6 +62,9 @@ void SceneManager::Init()
 	case kSceneKindMain:
 		m_pMain->Init();			// ステージ1画面の初期化
 		break;
+	case kSceneKindSecond:
+		m_pSecond->Init();			// ステージ2画面の初期化
+		break;
 	case kSceneKindGameOver:
 		m_pGameOver->Init();		// ゲームオーバー画面の初期化
 		break;
@@ -78,11 +85,11 @@ void SceneManager::Update()
 		{
 			m_pTitle->End();						// タイトル画面の終了処理
 
-			if (m_pTitle->ToExplanation()) {		
+			if (m_pTitle->ToExplanation()) {
 				m_runScene = kSceneKindExplanation;	// 説明画面へ行く
 				m_pExplanation->Init();
 			}
-			else if(m_pTitle->ToStage())			
+			else if (m_pTitle->ToStage())
 				m_runScene = kSceneKindStageSelect;	// ステージセレクト画面へ行く
 			m_pStageSelect->Init();
 		}
@@ -99,15 +106,16 @@ void SceneManager::Update()
 		{
 			m_pStageSelect->End();					// ステージセレクト画面の終了処理
 
-			if (m_pStageSelect->ToStage1()) {		
+			if (m_pStageSelect->ToStage1()) {
 				m_runScene = kSceneKindMain;		// ステージ1画面へ行く
 				m_pMain->Init();
 			}
-			else if (m_pStageSelect->ToStage2())	// ステージ2画面へ行く
+			else if (m_pStageSelect->ToStage2())
 			{
-				break;
+				m_runScene = kSceneKindSecond;		// ステージ2画面へ行く
+				m_pSecond->Init();
 			}
-			else if(m_pStageSelect->ToBackTitke())	
+			else if (m_pStageSelect->ToBackTitke())
 			{
 				m_runScene = kSceneKindTitle;		// タイトル画面に戻る
 				m_pTitle->Init();
@@ -124,7 +132,24 @@ void SceneManager::Update()
 				m_runScene = kSceneKindGameOver;	// ゲームオーバー画面へ行く
 				m_pGameOver->Init();
 			}
-			else if (m_pMain->ToGameClear())		
+			else if (m_pMain->ToGameClear())
+			{
+				m_runScene = kSceneKindGameClear;	// ゲームクリア画面へ行く
+				m_pGameClear->Init();
+			}
+		}
+		break;
+	case kSceneKindSecond:
+		if (m_pSecond->IsSceneEnd())
+		{
+			m_pSecond->End();
+
+			if (m_pSecond->ToGameOver())
+			{
+				m_runScene = kSceneKindGameOver;	// ゲームオーバー画面へ行く
+				m_pGameOver->Init();
+			}
+			else if (m_pSecond->ToGameClear())
 			{
 				m_runScene = kSceneKindGameClear;	// ゲームクリア画面へ行く
 				m_pGameClear->Init();
@@ -141,12 +166,12 @@ void SceneManager::Update()
 				m_runScene = kSceneKindMain;		// ステージ1画面へ行く
 				m_pMain->Init();
 			}
-			//else if(m_pMainTwo->AgainStage2())
-			//{
-			//	m_runScene=kSceneKindSecond;		// ステージ2画面へ行く
-			//  m_pSecond->Init(); 
-			//}
-			else if(!m_pGameOver->AgainStage1()||!m_pGameOver->AgainStage2()){
+			else if (m_pGameOver->AgainStage2())
+			{
+				m_runScene = kSceneKindSecond;		// ステージ2画面へ行く
+				m_pSecond->Init();
+			}
+			else if (!m_pGameOver->AgainStage1() || !m_pGameOver->AgainStage2()) {
 				m_runScene = kSceneKindTitle;		// タイトル画面へ行く
 				m_pTitle->Init();
 			}
@@ -162,11 +187,11 @@ void SceneManager::Update()
 				m_runScene = kSceneKindMain;		// ステージ1画面へ行く
 				m_pMain->Init();
 			}
-			//else if(m_pMainTwo->AgainStage2())
-			// {
-			//	m_runScene=kSceneKindSecond;		// ステージ2画面へ行く
-			//  m_pSecond->Init();  
-			// }
+			else if (m_pGameOver->AgainStage2())
+			{
+				m_runScene = kSceneKindSecond;		// ステージ2画面へ行く
+				m_pSecond->Init();
+			}
 			else if (!m_pGameOver->AgainStage1() || !m_pGameOver->AgainStage2()) {
 				m_runScene = kSceneKindTitle;		// タイトル画面へ行く
 				m_pTitle->Init();
@@ -188,6 +213,9 @@ void SceneManager::Update()
 		break;
 	case kSceneKindMain:
 		m_pMain->Update();			// ステージ1画面の更新
+		break;
+	case kSceneKindSecond:
+		m_pSecond->Update();		// ステージ2画面の更新
 		break;
 	case kSceneKindGameOver:
 		m_pGameOver->Update();		// ゲームオーバー画面の更新
@@ -214,6 +242,9 @@ void SceneManager::Draw()
 	case kSceneKindMain:
 		m_pMain->Draw();			// ステージ1画面の描画
 		break;
+	case kSceneKindSecond:
+		m_pSecond->Draw();			// ステージ2画面の描画
+		break;
 	case kSceneKindGameOver:
 		m_pGameOver->Draw();		// ゲームオーバー画面の描画
 		break;
@@ -238,6 +269,9 @@ void SceneManager::End()
 		break;
 	case kSceneKindMain:
 		m_pMain->End();				// ステージ1画面の終了
+		break;
+	case kSceneKindSecond:
+		m_pSecond->End();			// ステージ2画面の終了
 		break;
 	case kSceneKindGameOver:
 		m_pGameOver->End();			// ゲームオーバー画面の終了

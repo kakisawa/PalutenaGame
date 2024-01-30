@@ -3,6 +3,7 @@ class SceneTitle;
 class SceneExplanation;
 class SceneStageSelect;
 class SceneMain;
+class SceneSecond;
 class SceneGameOver;
 class SceneGameClear;
 
@@ -25,7 +26,8 @@ private:
 		kSceneKindTitle,		// タイトルシーン
 		kSceneKindExplanation,	// 操作説明シーン
 		kSceneKindStageSelect,	// ステージセレクト
-		kSceneKindMain,			// ゲーム１シーン
+		kSceneKindMain,			// ゲーム1シーン
+		kSceneKindSecond,		// ゲーム2シーン
 		kSceneKindGameOver,		// ゲームオーバーシーン
 		kSceneKindGameClear,	// ゲームクリアシーン
 	};
@@ -37,6 +39,7 @@ private:
 	SceneTitle*  m_pTitle;
 	SceneStageSelect* m_pStageSelect;
 	SceneMain*   m_pMain;
+	SceneSecond* m_pSecond;
 	SceneGameOver* m_pGameOver;
 	SceneGameClear* m_pGameClear;
 	SceneExplanation* m_pExplanation;
