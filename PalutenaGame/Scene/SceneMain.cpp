@@ -124,6 +124,8 @@ void SceneMain::Init()
 
 void SceneMain::Update()
 {
+	m_pBack->Update();
+
 	// プレイヤーが死亡したら(ゲームオーバー)
 	if (m_pPlayer->PlayerDeath())
 	{
@@ -144,12 +146,13 @@ void SceneMain::Update()
 		m_pPlayer->Update();
 		m_pPlayer->Death();
 		Death();
-		return;
 	}
 
 	// 制限時間が終わったら(ゲームクリア)
 	if (m_pTime->TimeUp())
 	{
+		Clear();
+
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
@@ -164,9 +167,11 @@ void SceneMain::Update()
 				m_fadeAlpha = 255;
 			}
 		}
-		Clear();
 		return;
 	}
+
+	m_pPlayer->Update();
+	m_pTime->Update();
 
 	// フェードイン
 	m_fadeAlpha -= 8;
@@ -174,10 +179,6 @@ void SceneMain::Update()
 	{
 		m_fadeAlpha = 0;
 	}
-
-	m_pBack->Update();
-	m_pPlayer->Update();
-	m_pTime->Update();
 
 	Rect playerRect = m_pPlayer->GetColRect();
 
@@ -326,35 +327,43 @@ void SceneMain::Update()
 		}
 	}
 
-	// 敵キャラクターの登場
-	m_enemyInterval++;
-	if (m_enemyInterval >= kEnemyInterval)
-	{
-		m_enemyInterval = 0;
-		// ランダムに生成する敵を選択
-		switch (GetRand(2))
-		{
-		case 0:
-			CreateEnemyMozu();
-			break;
-		case 1:
-			CreateEnemyDeath();
-			break;
-		case 2:
-			CreateEnemyPump();
-			break;
-		}
-	}
+	// //敵キャラクターの登場
+	//m_enemyInterval++;
+	//if (m_enemyInterval >= kEnemyInterval)
+	//{
+	//	m_enemyInterval = 0;
+	//	// ランダムに生成する敵を選択
+	//	switch (GetRand(2))
+	//	{
+	//	case 0:
+	//		CreateEnemyMozu();
+	//		break;
+	//	case 1:
+	//		CreateEnemyDeath();
+	//		break;
+	//	case 2:
+	//		CreateEnemyPump();
+	//		break;
+	//	}
+	//}
 }
 
 void SceneMain::Draw()
 {
 	// 描画先スクリーンをクリアする
 	ClearDrawScreen();
+	if (m_pPlayer->PlayerDeath())
+	{
+		m_pPlayer->Death();
+		Death();
+	}
+	if (m_pTime->TimeUp())
+	{
+		Clear();
+	}
 
 	m_pBack->Draw();
 	m_pPlayer->Draw();
-	m_pPlayer->Death();
 	m_pTime->Draw();
 
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
@@ -400,21 +409,19 @@ void SceneMain::Draw()
 
 void SceneMain::Clear()
 {
-	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 128);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
 
+	SetFontSize(64);
+	DrawString(kScreenWidth * 0.3, kScreenHeight * 0.4, "ゲームクリア！！！", GetColor(255, 255, 255));
 	SetFontSize(32);
-	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
-	SetFontSize(16);
-	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 65, "Aキーを押してください", GetColor(255, 255, 255));
+	DrawString(kScreenWidth * 0.4, kScreenHeight * 0.5, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 void SceneMain::Death()
 {
-	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 128);
-
-	SetFontSize(32);
+	SetFontSize(64);
 	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
-	SetFontSize(16);
+	SetFontSize(32);
 	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 65, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
@@ -425,7 +432,6 @@ void SceneMain::End()
 	{
 		delete m_pShot[j];
 		m_pShot[j] = nullptr;
-
 	}
 
 	// エネミーの解放

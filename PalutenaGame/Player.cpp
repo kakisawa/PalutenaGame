@@ -21,16 +21,24 @@ namespace
 	// ジャンプ距離
 	constexpr float kJump = 13.0f;
 
-	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
-	constexpr int DefFrame[] = { 0,1,2,3,4,5};
+	// 基本キャラアニメーション
+	constexpr int DefFrame[] = { 0,1,2,3,4,5 };
 	// 基本キャラアニメーションの1コマのフレーム数
 	constexpr int DefAnimFrameNum = 8;
 	// 基本キャラアニメーション1サイクルのフレーム数
 	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
 
-	// 死亡時キャラアニメーション一コマのフレーム数
+	// 攻撃時キャラアニメーション		
+	constexpr int AttackFrame[] = { 1,0,2,3,4,5 };
+	// 攻撃時キャラアニメーション1コマのフレーム数
+	constexpr int AttackAnimFrameNum = 8;
+	// 攻撃時キャラアニメーション1サイクルのフレーム数
+	constexpr int AttackFrameCycle = _countof(AttackFrame) * AttackAnimFrameNum;
+
+
+	// 死亡時キャラアニメーション1コマのフレーム数
 	constexpr int DeathAnimFrameNum = 50;
-	// 基本キャラアニメーション1サイクルのフレーム数
+	// 死亡時キャラアニメーション1サイクルのフレーム数
 	constexpr int DeathFrameCycle = _countof(DefFrame) * DeathAnimFrameNum;
 
 
@@ -54,7 +62,7 @@ void Player::Init()
 	m_pos.x = kScreenWidth / 2;	// プレイヤーの初期位置x
 	m_pos.y = 100;				// プレイヤーの初期位置y
 	m_dir = kDirFront;			// プレイヤーの初期方向(正面のflont)
-	m_shotDir = kShotDirRight;
+	m_shotDir = kShotDirRight;	// プレイヤーの攻撃初期方向
 	JumpPower = 0.0f;			// プレイヤーの初期ジャンプ
 	Gravity = 0.0f;				// プレイヤーの初期重力
 	Atk = 1;					// プレイヤーの初期攻撃力
@@ -62,6 +70,7 @@ void Player::Init()
 	PlayerAnim = 0;				// プレイヤーアニメーションの初期化
 	m_damageFrame = 0;			// プレイヤー被ダメアニメーション  
 	isMove = false;				// 移動状態フラグ(否定のfalse)
+	isTurn = false;				// 左右反転フラグ(否定のfalse)
 	isAttack = false;			// 攻撃フラグ(否定のfalse)
 	isDeath = false;			// 死亡フラグ(否定のfalse)
 	m_damageFrame = 0;
@@ -78,13 +87,7 @@ void Player::Update()
 	// プレイヤーが攻撃ボタンを押したかどうか
 	isAttack = false;			// 攻撃していないのfalse
 	// プレイヤーがどの方向を向いているか
-//	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
-
-	//// パッド入力取得
-	//int Pad = GetJoypadInputState(DX_CHECKINPUT_PAD);
-	//// キー入力取得
-	//int Key = CheckHitKey(DX_CHECKINPUT_KEY);
-
+	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
@@ -130,8 +133,8 @@ void Player::Update()
 		{
 			m_pos.x -= kSpeed;
 			isMove = true;
+			isTurn = true;
 			m_dir = kDirLeft;
-
 			m_shotDir = kShotDirLeft;
 		}
 		// 右移動
@@ -139,6 +142,7 @@ void Player::Update()
 		{
 			m_pos.x += kSpeed;
 			isMove = true;
+			isTurn = false;
 			m_dir = kDirRight;
 			m_shotDir = kShotDirRight;
 		}
@@ -231,7 +235,7 @@ void Player::Update()
 	{
 		// 攻撃アニメーション
 		PlayerAnim++;
-		if (PlayerAnim >= DefFrameCycle)
+		if (PlayerAnim >= AttackFrameCycle)
 		{
 			PlayerAnim = 0;
 		}
@@ -250,77 +254,132 @@ void Player::Draw()
 	if (m_damageFrame % 4 >= 2) return;
 
 	// プレイヤーアニメーション
-	int PlayerFrame = PlayerAnim / DefAnimFrameNum;
-	int srcX = DefFrame[PlayerFrame] * 16;
-	int srcX2 = DefFrame[PlayerFrame] * 32;
+	int DefPlayerFrame = PlayerAnim / DefAnimFrameNum;
+	int AttackPlayerFrame = PlayerAnim / AttackAnimFrameNum;
+	int srcX = DefFrame[DefPlayerFrame] * 16;
+	int srcX2 = AttackFrame[AttackPlayerFrame] * 32;
 
 	// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
-	if (isMove == false && isJumpFlag == false && isAttack == false && isDeath == false)
+	if (isMove == false && m_dir == kDirFront || m_dir == kDirUp && isJumpFlag == false && isAttack == false && isDeath == false) 
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
-			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX + 2, 64, 13, 16,
-			Graph, true);
+		// 右向き
+		if (isTurn == false)
+		{
+			DrawRectExtendGraph(m_pos.x, m_pos.y,
+				m_pos.x + kWidth, m_pos.y + kHeight,
+				srcX + 2, 64, 13, 16,
+				Graph, true);
+		}
+		// 左向き
+		else if (isTurn == true)
+		{
+			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y,
+				m_pos.x, m_pos.y + kHeight,
+				srcX + 2, 64, 13, 16,
+				Graph, true);
+		}
 	}
-	// プレイヤー左移動
-	else if (isMove == true && m_dir == kDirLeft && isJumpFlag == false && isAttack == false && isDeath == false)
+	// プレイヤー移動
+	if (isMove == true && isJumpFlag == false && isAttack == false && isDeath == false) 
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
-			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX + 97, 79, 13, 16,
-			Graph, true);
-	}
-	// プレイヤー右移動
-	else if (isMove == true && m_dir == kDirRight && isJumpFlag == false && isAttack == false && isDeath == false)
-	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
-			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX + 2, 79, 13, 16,
-			Graph, true);
+		// 右向き
+		if (m_dir == kDirRight)
+		{
+			DrawRectExtendGraph(m_pos.x, m_pos.y,
+				m_pos.x + kWidth, m_pos.y + kHeight,
+				srcX + 2, 80, 13, 17,
+				Graph, true);
+		}
+		// 左向き
+		else if (m_dir == kDirLeft)
+		{
+			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y,
+				m_pos.x, m_pos.y + kHeight,
+				srcX + 2, 80, 13, 17,
+				Graph, true);
+		}
 	}
 	// プレイヤーしゃがみ
-	else if (isMove == true && m_dir == kDirDown && isAttack == false && isDeath == false)
+	if (isMove == true  && m_dir == kDirDown && isAttack == false && isDeath == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
-			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX + 2, 32, 13, 16,
-			Graph, true);
+		// 右向き
+		if (isTurn == false)
+		{
+			DrawRectExtendGraph(m_pos.x, m_pos.y,
+				m_pos.x + kWidth, m_pos.y + kHeight,
+				srcX + 2, 32, 13, 16,
+				Graph, true);
+		}
+		// 左向き
+		else if (isTurn == true)
+		{
+			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y,
+				m_pos.x, m_pos.y + kHeight,
+				srcX + 2, 32, 13, 16,
+				Graph, true);
+		}
 	}
 	// プレイヤージャンプ
-	else if (isJumpFlag == true && isAttack == false && isDeath == false)
+	if (isJumpFlag == true  && isAttack == false && isDeath == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
-			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX + 97, 64, 13, 16,
-			Graph, true);
+		// 右向き
+		if (isTurn==false) 
+		{
+			DrawRectExtendGraph(m_pos.x, m_pos.y,
+				m_pos.x + kWidth, m_pos.y + kHeight,
+				srcX + 97, 64, 13, 16,
+				Graph, true);
+		}
+		// 左向き
+		else if (isTurn == true)
+		{
+			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y,
+				m_pos.x, m_pos.y + kHeight,
+				srcX + 97, 64, 13, 16,
+				Graph, true);
+		}
 	}
 	// プレイヤー攻撃
-	else if (isAttack == true && isDeath == false)
+	if (isAttack == true && isDeath == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y - kWidth * 1.1,
-			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX2 + 3, 0, 26, 32,
-			Graph, true);
+		// 右向き
+		if (isTurn==false)
+		{
+			DrawRectExtendGraph(m_pos.x, m_pos.y - kWidth * 1.1,
+				m_pos.x + kWidth, m_pos.y + kHeight,
+				srcX2 + 3, 0, 26, 32,
+				Graph, true);
+		}
+		// 左向き
+		else if (isTurn == true)
+		{
+			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y - kWidth * 1.1,
+				m_pos.x, m_pos.y + kHeight,
+				srcX2 + 3, 0, 26, 32,
+				Graph, true);
+		}
+
+		// 攻撃ボタンをIsTriggerにしている為、isAttackが一瞬しか反応していない。
+		// 　なので恐らく、一瞬描画した後にデフォルトの描画に戻っている模様。
+		// 　最終的には、1ループ分のアニメーションは動いてほしい
 	}
-	// 攻撃ボタンをIsTriggerにしている為、isAttackが一瞬しか反応していない。
-	// 　なので恐らく、一瞬描画した後にデフォルトの描画に戻っている模様。
-	// 　最終的には、1ループ分のアニメーションは動いてほしい
 
 	SetFontSize(16);
-	// プレイヤーの現在座標表示
-	DrawFormatString(80, 0, GetColor(255, 255, 255),
-		"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);
 	// プレイヤーの現在体力表示
 	DrawFormatString(80, 19, GetColor(255, 255, 255),
 		"PlayerHP:(%d)", HP);
-
 #ifdef _DEBUG
+	// プレイヤーの現在座標表示
+	DrawFormatString(80, 0, GetColor(255, 255, 255),
+		"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);
 	DrawFormatString(80, 38, GetColor(255, 255, 255),
 		"isMove:(%d)", isMove);
 	DrawFormatString(80, 57, GetColor(255, 255, 255),
 		"isAttack:(%d)", isAttack);
 	DrawFormatString(80, 76, GetColor(255, 255, 255),
 		"m_dir:(%d)", m_dir);
+	DrawFormatString(80, 88, GetColor(255, 255, 255),
+		"isTurn:(%d)", isTurn);
 
 	// 当たり判定の表示
 	m_colRect.Draw(GetColor(255, 0, 0), false);
@@ -337,7 +396,6 @@ void Player::Death()
 		{
 			PlayerAnim = 0;
 		}
-
 		// プレイヤーアニメーション
 		int DeathPlayerFrame = PlayerAnim / DefAnimFrameNum;
 		int srcX2 = DefFrame[DeathPlayerFrame] * 16;

@@ -50,7 +50,7 @@ public:
 	Vec2 OutPos() const { return m_pos; }				// プレイヤーの座標を取得する
 	bool PlayerDeath() const { return isDeath; }		// プレイヤーの生死状態を取得する
 
-	ShotDir OutShotDir() const { return m_shotDir; }				// プレイヤーがどの方向を向いているかを取得する
+	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
 
 	int OutHp = HP;			// プレイヤーHP
 	
@@ -83,6 +83,7 @@ private:
 	Rect m_colRect;		// 当たり判定用の矩形
 
 	bool isMove;		// プレイヤーが移動中かどうかのフラグ
+	bool isTurn;		// プレイヤーの左右反転状況についてのフラグ
 	bool isJumpFlag;	// プレイヤーがジャンプ中かどうかのフラグ
 	bool isAttack;		// プレイヤーが攻撃したかどうかのフラグ
 	bool isDeath;		// プレイヤーが死亡したかどうかのフラグ
