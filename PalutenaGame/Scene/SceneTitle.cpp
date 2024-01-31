@@ -8,7 +8,7 @@ namespace
 {
 	// 文字の表示位置
 	constexpr int kChirPosX = kScreenWidth * 0.38;
-	constexpr int kChirPosY = kScreenHeight * 0.58;
+	constexpr int kChirPosY = kScreenHeight * 0.65;
 
 	// 文字の表示幅
 	constexpr int kCharInterval = 90;
@@ -25,12 +25,12 @@ namespace
 	constexpr int kSelectSizeY = 75;
 
 	// タイトルロゴ表示位置
-	constexpr int kLogoPosX = kScreenWidth * 0.13;
-	constexpr int kLogoPosY = -220;
+	constexpr int kLogoPosX = kScreenWidth * 0.08;
+	constexpr int kLogoPosY = -150;
 
 	// タイトルロゴサイズ
-	constexpr int kLogoSizeX = 1450;
-	constexpr int kLogoSizeY = 1100;
+	constexpr int kLogoSizeX = 1637;
+	constexpr int kLogoSizeY = 1089;
 
 	// スクロール移動量
 	constexpr float backGround_scale = 1.2f;
@@ -65,7 +65,7 @@ SceneTitle::~SceneTitle()
 void SceneTitle::Init()
 {
 	Graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
-	TitleGraph = LoadGraph("data/TitleGraph.png");		// タイトルロゴ読み込み
+	TitleGraph = LoadGraph("data/TitleGraph3.png");		// タイトルロゴ読み込み
 
 	m_select = kSelectGameStart;
 

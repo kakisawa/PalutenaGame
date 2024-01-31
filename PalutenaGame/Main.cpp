@@ -15,6 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	ChangeWindowMode(true);
 	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
+	SetWindowText(_T("ミラージュ・ビット"));
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{

@@ -26,8 +26,6 @@ SceneMain::SceneMain() :
 	// グラフィックのロード
 	m_playerHandle = LoadGraph("data/Player.png");
 	assert(m_playerHandle != -1);
-	m_enemyHandle = LoadGraph("data/Fairy.png");
-	assert(m_enemyHandle != -1);
 	m_backHandle = LoadGraph("data/Map/Back.png");
 	assert(m_backHandle != -1);
 

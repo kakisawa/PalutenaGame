@@ -122,9 +122,9 @@ void DeathYourEnemy::Draw()
 
 	if (isTurn == false)
 	{
-			DrawRectExtendGraph(m_pos.x, m_pos.y,
-			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX+2, 80,
+			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y,
+			m_pos.x, m_pos.y + kHeight,
+			srcX+2, 0,
 			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
