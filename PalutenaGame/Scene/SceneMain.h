@@ -26,6 +26,7 @@ class DeathYourEnemy;
 class PumpkinEnemy;
 class Shot;
 class Time;
+class SoundManager;
 
 class SceneMain
 {
@@ -86,6 +87,9 @@ private:
 	bool isFinishStage1;	// 直前にプレイしたステージを判定するためのフラグ
 							// ゲーム終了時にtrueにする
 
+	int SoundSelect;		// セレクトボタンサウンド
+	int SoundButton;		// 決定ボタンサウンド
+
 	bool isToGameOver;		// ステージセレクト画面に行くか
 	bool isToGameClear;		// 説明シーンに行くか 
 
@@ -97,7 +101,8 @@ private:
 	Back* m_pBack;
 	// 制限時間
 	Time* m_pTime;
-
+	// SE/BGM
+	SoundManager* m_pSoundManager;
 	// エネミー
 	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;
 	std::vector<DeathYourEnemy*> m_pDeathYourEnemy;

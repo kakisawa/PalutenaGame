@@ -1,4 +1,5 @@
 #include "SceneStageSelect.h"
+#include "SoundManager.h"
 #include "DxLib.h"
 #include "Game.h"
 #include "Pad.h"
@@ -6,8 +7,8 @@
 namespace
 {
 	// 文字の表示位置
-	constexpr int kChirPosX = kScreenWidth * 0.4;
-	constexpr int kChirPosY = kScreenHeight * 0.3;
+	constexpr int kChirPosX = kScreenWidth * 0.1;
+	constexpr int kChirPosY = kScreenHeight * 0.2;
 
 	// 文字の表示幅
 	constexpr int kCharInterval = 120;
@@ -20,7 +21,7 @@ namespace
 	constexpr int kSelectMoveY = 120;
 
 	// 文字を囲む四角のサイズ
-	constexpr int kSelectSizeX = 460;
+	constexpr int kSelectSizeX = kScreenWidth*0.38;
 	constexpr int kSelectSizeY = 75;
 
 	// スクロール移動量
@@ -40,15 +41,21 @@ SceneStageSelect::SceneStageSelect() :
 	m_fadeLetter(0),
 	m_fadeAlpha(255)
 {
+	// SE/BGMメモリ確保
+	m_pSoundManager = new SoundManager;
 }
 
 SceneStageSelect::~SceneStageSelect()
 {
+	// メモリ解放
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
 }
 
 void SceneStageSelect::Init()
 {
 	Graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
+	Cursor = LoadGraph("data/Cursor.png");		// カーソルロゴ読み込み
 
 	m_select = kStage1;
 	m_isSceneEnd = false;
@@ -62,6 +69,9 @@ void SceneStageSelect::Init()
 	m_bgPos.y = 0;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
+
+	//サウンドマネージャーの初期化
+	m_pSoundManager->Init();
 }
 
 void SceneStageSelect::Update()
@@ -69,6 +79,8 @@ void SceneStageSelect::Update()
 	// ↓キーを押したら選択状態を一つ下げる
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
 	{
+		m_pSoundManager->SoundSelect();
+
 		m_select = (m_select + 1) % kSclectNum;
 		m_selectPos.y += kSelectMoveY;
 
@@ -77,10 +89,13 @@ void SceneStageSelect::Update()
 		{
 			m_selectPos.y = kSelectPosY;
 		}
+
 	}
 	// 上キーを押したら選択状態を一つ上げる
 	else if (Pad::IsTrigger(PAD_INPUT_UP))
 	{
+		m_pSoundManager->SoundSelect();
+
 		m_select = (m_select - 1) % kSclectNum;
 		m_selectPos.y -= kSelectMoveY;
 
@@ -110,13 +125,8 @@ void SceneStageSelect::Update()
 			break;
 		}
 
-		//if (!m_isSceneEnd)
-		//{
-		//	// // 効果音鳴らす
-		//	// PlaySoundFile("data/sound/TitleDecide.mp3", DX_PLAYTYPE_BACK);
-		//	PlaySoundMem(m_decideSe, DX_PLAYTYPE_BACK, true);
-		//}
-		// タイトル画面を終了してSceneMainに移動する処理を書きたい!
+		// SE
+		m_pSoundManager->SoundButton();
 	}
 
 	// 背景スクロール
@@ -144,6 +154,11 @@ void SceneStageSelect::Draw()
 
 void SceneStageSelect::End()
 {
+	// 画像をメモリから削除
+	DeleteGraph(Graph);
+	DeleteGraph(Cursor);
+
+	m_pSoundManager->End();
 }
 
 void SceneStageSelect::StringDraw()
@@ -168,6 +183,10 @@ void SceneStageSelect::StringDraw()
 	// 選択中の部分を四角で描画
 	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
 		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
+	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
+		m_selectPos.x + kSelectSizeX + 20,
+		m_selectPos.y + kSelectSizeY + 20,
+		Cursor, true);
 
 	DrawString(kChirPosX + 25, kChirPosY, "ステージ1", 0x000000);
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "ステージ2", 0x000000);

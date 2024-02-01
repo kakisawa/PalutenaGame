@@ -8,6 +8,7 @@ class MozueyeEnemy;
 class DeathYourEnemy;
 class PumpkinEnemy;
 class Shot;
+class SoundManager;
 
 // 向いている方向
 enum Dir
@@ -56,14 +57,15 @@ public:
 	
 	// 敵の攻撃力を獲得するため
 	void SetMozu(MozueyeEnemy* pMozu) { m_mozueyeEnemy = pMozu; }
-	void SetDeath(DeathYourEnemy* pDeath) { m_dethYourEnemy = pDeath; }
-	void SetPump(PumpkinEnemy* pPump) { m_pumpkinEnemy = pPump; }
+	void SetDeath(DeathYourEnemy* pDeath) { m_pDeathYourEnemy = pDeath; }
+	void SetPump(PumpkinEnemy* pPump) { m_pPumpkinEnemy = pPump; }
 private:
 	SceneMain* m_pMain;
 	MozueyeEnemy* m_mozueyeEnemy;
-	DeathYourEnemy* m_dethYourEnemy;
-	PumpkinEnemy* m_pumpkinEnemy;
-	Shot* m_shot;
+	DeathYourEnemy* m_pDeathYourEnemy;
+	PumpkinEnemy* m_pPumpkinEnemy;
+	Shot* m_pShot;
+	SoundManager* m_pSoundManager;
 
 	int HP;		// プレイヤーの体力
 	int Atk;	// プレイヤーの攻撃力
@@ -76,6 +78,9 @@ private:
 	float Gravity;		// 重力
 	float JumpPower;	// ジャンプ移動量
 	float PlayerAnim;	// プレイヤーアニメーション
+
+	int SoundJump;		// ジャンプサウンド
+	int SoundAttack;	// 攻撃サウンド
 
 	Vec2 m_pos;			// 表示位置
 	Dir m_dir;			// 向いている方向

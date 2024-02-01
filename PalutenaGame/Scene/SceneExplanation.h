@@ -1,5 +1,8 @@
 #pragma once
 #include "SceneBase.h"
+
+class SoundManager;
+
 class SceneExplanation :
     public SceneBase
 {
@@ -19,5 +22,7 @@ public:
 private:
     int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
+
+    SoundManager* m_pSoundManager;
 };
 

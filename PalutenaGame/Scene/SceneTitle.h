@@ -3,6 +3,7 @@
 #include "Vec2.h"
 
 class Font;
+class SoundManager;
 
 class SceneTitle :
     public SceneBase
@@ -44,6 +45,7 @@ private:
 
     int x, y;           // タイトルロゴ座標
     int TitleGraph;     // タイトルロゴグラフ
+    int Cursor;         // カーソルグラフ
     float m_scrollX;    // スクロール移動量
 
     struct Size         // 背景のサイズ
@@ -67,4 +69,6 @@ private:
 
     // フォントのポインタ
     Font* m_pFont;
+    // SE/BGM
+    SoundManager* m_pSoundManager;
 };

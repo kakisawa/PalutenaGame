@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Back.cpp" />
     <ClCompile Include="Scene\SceneSecond.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Util\Font.cpp" />
     <ClCompile Include="Scene\SceneExplanation.cpp" />
     <ClCompile Include="Scene\SceneGameClear.cpp" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <ClInclude Include="Back.h" />
     <ClInclude Include="Scene\SceneSecond.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Util\Font.h" />
     <ClInclude Include="Scene\SceneExplanation.h" />
     <ClInclude Include="Scene\SceneGameClear.h" />

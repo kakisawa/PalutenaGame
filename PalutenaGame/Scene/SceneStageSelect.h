@@ -1,7 +1,7 @@
 #include "SceneBase.h"
 #include "Vec2.h"
 
-class SceneMain;
+class SoundManager;
 
 class SceneStageSelect :
     public SceneBase
@@ -42,6 +42,7 @@ private:
     int m_fadeAlpha;    // フェードイン、アウト
     int m_fadeLetter;   // 文字の点滅用カウンタ
     float m_scrollX;    // スクロール移動量
+    int Cursor;         // カーソルグラフ
 
     struct Size         // 背景のサイズ
     {
@@ -58,5 +59,8 @@ private:
     Vec2 m_selectPos;
     // 背景の表示位置
     Vec2 m_bgPos;
+
+    // SE/BGM
+    SoundManager* m_pSoundManager;
 };
 

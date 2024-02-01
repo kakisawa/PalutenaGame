@@ -9,6 +9,8 @@
 #include "SceneGameClear.h"
 #include "Pad.h"
 
+#include "SoundManager.h"
+
 SceneManager::SceneManager() :
 	m_runScene(kSceneKindTitle),
 	m_pTitle(),			// クラスの初期化時は()の中にコンストラクタの引数を書く

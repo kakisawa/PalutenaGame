@@ -1,6 +1,7 @@
 #include "SceneGameOver.h"
 #include "SceneManager.h"
 #include "SceneMain.h"
+#include "SoundManager.h"
 #include "Pad.h"
 #include "Game.h"
 #include "DxLib.h"
@@ -35,16 +36,21 @@ SceneGameOver::SceneGameOver() :
 	m_fadeLetter(0),
 	m_selectPos(kSelectPosX, kSelectPosY + kSelectMoveY)
 {
-
+	// SE/BGMメモリ確保
+	m_pSoundManager = new SoundManager;
 }
 
 SceneGameOver::~SceneGameOver()
 {
+	// メモリ解放
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
 }
 
 void SceneGameOver::Init()
 {
 	Graph = LoadGraph("data/Map/GameOverGraph.jpg");
+	Cursor = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
 
 	m_select= kScelectReturnHome;
 	m_isSceneEnd = false;
@@ -54,6 +60,9 @@ void SceneGameOver::Init()
 	m_fadeLetter = 0;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY + kSelectMoveY;
+
+	//サウンドマネージャーの初期化
+	m_pSoundManager->Init();
 }
 
 void SceneGameOver::Update()
@@ -160,6 +169,9 @@ void SceneGameOver::Draw()
 	// 選択中の部分を四角で描画
 	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
 		m_selectPos.y + kSelectSizeY, 0x00bfff, false);
+	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
+		m_selectPos.x + kSelectSizeX + 20, m_selectPos.y + kSelectSizeY + 20,
+		Cursor, true);
 
 	SetFontSize(64);
 
@@ -179,6 +191,9 @@ void SceneGameOver::End()
 {
 	// 背景をメモリから削除
 	DeleteGraph(Graph);
+
+	m_pSoundManager->End();
+
 }
 
 bool SceneGameOver::IsSceneEnd() const

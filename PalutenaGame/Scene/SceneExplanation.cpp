@@ -1,4 +1,5 @@
 #include "SceneExplanation.h"
+#include "SoundManager.h"
 #include "DxLib.h"
 #include "Pad.h"
 #include "Game.h"
@@ -14,10 +15,15 @@ SceneExplanation::SceneExplanation():
 	m_isSceneEnd(false),
 	m_fadeAlpha(255)
 {
+	// メモリ確保
+	m_pSoundManager = new SoundManager;
 }
 
 SceneExplanation::~SceneExplanation()
 {
+	// メモリ解放
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
 }
 
 void SceneExplanation::Init()
@@ -25,11 +31,13 @@ void SceneExplanation::Init()
 	Graph = LoadGraph("data/Explanation.png");
 	m_isSceneEnd = false;
 	m_fadeAlpha = 255;
+
+	//サウンドマネージャーの初期化
+	m_pSoundManager->Init();
 }
 
 void SceneExplanation::Update()
 {
-
 	if (Pad::IsTrigger(PAD_INPUT_4))
 	{
 		m_isSceneEnd = true;
@@ -39,6 +47,8 @@ void SceneExplanation::Update()
 		{
 			m_fadeAlpha = 255;
 		}
+
+		m_pSoundManager->SoundButton();
 	}
 
 	m_fadeAlpha -= 8;
@@ -68,6 +78,8 @@ void SceneExplanation::End()
 {
 	// 背景をメモリから削除
 	DeleteGraph(Graph);
+
+	m_pSoundManager->End();
 }
 
 bool SceneExplanation::IsSceneEnd() const

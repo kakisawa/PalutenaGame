@@ -3,6 +3,7 @@
 #include "Vec2.h"
 
 class SceneMain;
+class SoundManager;
 
 class SceneGameOver :
     public SceneBase
@@ -43,6 +44,7 @@ private:
     };
 
     int m_select;    // 選択中のメニュー
+    int Cursor;      // カーソルグラフ
 
     int m_fadeAlpha;    // フェードイン、アウト 
     int m_fadeLetter;   // 文字の点滅用カウンタ
@@ -55,5 +57,8 @@ private:
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;
 
+    // ステージ1画面
     SceneMain* m_pSceneMain;
+    // SE/BGM
+    SoundManager* m_pSoundManager;
 };

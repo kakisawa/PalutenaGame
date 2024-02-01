@@ -5,6 +5,7 @@
 #include "DeathYourEnemy.h"
 #include "PumpkinEnemy.h"
 #include "Shot/Shot.h"
+#include "SoundManager.h"
 #include "Time.h"
 #include "Back.h"
 #include "Game.h"
@@ -39,6 +40,8 @@ SceneMain::SceneMain() :
 
 	// 制限時間のメモリ確保
 	m_pTime = new Time;
+	// SE/BGMメモリ確保
+	m_pSoundManager = new SoundManager;
 
 	m_pMozueyeEnemy.resize(MozuMax);
 	m_pDeathYourEnemy.resize(DeathMax);
@@ -115,6 +118,7 @@ void SceneMain::Init()
 	m_pPlayer->Init();
 	m_pBack->Init();
 	m_pTime->Init();
+	m_pSoundManager->Init();
 
 	m_fadeAlpha = 255;
 	m_enemyInterval = 0;
@@ -127,6 +131,10 @@ void SceneMain::Update()
 	// プレイヤーが死亡したら(ゲームオーバー)
 	if (m_pPlayer->PlayerDeath())
 	{
+		Death();
+		//m_pPlayer->Update();
+		m_pPlayer->Death();
+
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
@@ -141,123 +149,167 @@ void SceneMain::Update()
 				m_fadeAlpha = 255;
 			}
 		}
-		m_pPlayer->Update();
-		m_pPlayer->Death();
-		Death();
 	}
+	else {
 
-	// 制限時間が終わったら(ゲームクリア)
-	if (m_pTime->TimeUp())
-	{
-		Clear();
-
-		// Aボタンが押されたらゲームオーバー画面へ遷移する
-		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
+		// 制限時間が終わったら(ゲームクリア)
+		if (m_pTime->TimeUp())
 		{
-			isFinishStage1 = true;
-			m_isSceneEnd = true;
-			isToGameClear = true;
+			Clear();
 
-			// フェードアウト
-			m_fadeAlpha += 8;
-			if (m_fadeAlpha < 255)
+			// Aボタンが押されたらゲームオーバー画面へ遷移する
+			if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 			{
-				m_fadeAlpha = 255;
-			}
-		}
-		return;
-	}
+				isFinishStage1 = true;
+				m_isSceneEnd = true;
+				isToGameClear = true;
 
-	m_pPlayer->Update();
-	m_pTime->Update();
-
-	// フェードイン
-	m_fadeAlpha -= 8;
-	if (m_fadeAlpha < 0)
-	{
-		m_fadeAlpha = 0;
-	}
-
-	Rect playerRect = m_pPlayer->GetColRect();
-
-	// 弾との当たり判定
-	for (int j = 0; j < kShotMax; j++)
-	{
-		// nullptrなら処理は行わない
-		if (!m_pShot[j])	continue;
-
-		m_pShot[j]->Update();
-		// 画面外に出たらメモリ解放
-		if (!m_pShot[j]->IsExist())
-		{
-			delete m_pShot[j];
-			m_pShot[j] = nullptr;
-		}
-	}
-
-	// モズアイ当たり判定等
-	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
-	{
-		if (m_pMozueyeEnemy[i])
-		{
-			m_pMozueyeEnemy[i]->Update();
-			m_pPlayer->SetMozu(m_pMozueyeEnemy[i]);
-
-			// 使用済みの敵を削除
-			if (!m_pMozueyeEnemy[i]->isExist())
-			{
-				delete m_pMozueyeEnemy[i];
-				m_pMozueyeEnemy[i] = nullptr;
-			}
-			else {			// 存在している敵とプレイヤーの当たり判定
-				Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
-				if (playerRect.IsCollsion(enemyRect))
+				// フェードアウト
+				m_fadeAlpha += 8;
+				if (m_fadeAlpha < 255)
 				{
-					m_pPlayer->OnDamage_Mozu();
-					m_pMozueyeEnemy[i]->OnDamage();
+					m_fadeAlpha = 255;
 				}
-				// 弾との当たり判定
-				for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
-				{
-					// nullptrなら処理は行わない
-					if (!m_pShot[shotIndex])	continue;
+			}
+			return;
+		}
 
-					if (m_pShot[shotIndex]->IsExist()) {
-						// 存在している敵との当たり判定
-						Rect shotRect = m_pShot[shotIndex]->GetColRect();
-						if (shotRect.IsCollsion(enemyRect))
-						{
-							m_pMozueyeEnemy[i]->OnDamage();
-							m_pShot[shotIndex]->colShot();
+		m_pPlayer->Update();
+		m_pTime->Update();
+
+		// フェードイン
+		m_fadeAlpha -= 8;
+		if (m_fadeAlpha < 0)
+		{
+			m_fadeAlpha = 0;
+		}
+
+		Rect playerRect = m_pPlayer->GetColRect();
+
+		// 弾との当たり判定
+		for (int j = 0; j < kShotMax; j++)
+		{
+			// nullptrなら処理は行わない
+			if (!m_pShot[j])	continue;
+
+			m_pShot[j]->Update();
+			// 画面外に出たらメモリ解放
+			if (!m_pShot[j]->IsExist())
+			{
+				delete m_pShot[j];
+				m_pShot[j] = nullptr;
+			}
+		}
+
+		// モズアイ当たり判定等
+		for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
+		{
+			if (m_pMozueyeEnemy[i])
+			{
+				m_pMozueyeEnemy[i]->Update();
+				m_pPlayer->SetMozu(m_pMozueyeEnemy[i]);
+
+				// 使用済みの敵を削除
+				if (!m_pMozueyeEnemy[i]->isExist())
+				{
+					delete m_pMozueyeEnemy[i];
+					m_pMozueyeEnemy[i] = nullptr;
+				}
+				else {			// 存在している敵とプレイヤーの当たり判定
+					Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
+					if (playerRect.IsCollsion(enemyRect))
+					{
+						m_pPlayer->OnDamage_Mozu();
+						m_pMozueyeEnemy[i]->OnDamage();
+					}
+					// 弾との当たり判定
+					for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
+					{
+						// nullptrなら処理は行わない
+						if (!m_pShot[shotIndex])	continue;
+
+						if (m_pShot[shotIndex]->IsExist()) {
+							// 存在している敵との当たり判定
+							Rect shotRect = m_pShot[shotIndex]->GetColRect();
+							if (shotRect.IsCollsion(enemyRect))
+							{
+								m_pMozueyeEnemy[i]->OnDamage();
+								m_pShot[shotIndex]->colShot();
+							}
 						}
 					}
 				}
 			}
 		}
-	}
 
-	// 死当たり判定等
-	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
-	{
-		if (m_pDeathYourEnemy[i])
+		// 死当たり判定等
+		for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
 		{
-			m_pDeathYourEnemy[i]->Update();
-			m_pPlayer->SetDeath(m_pDeathYourEnemy[i]);
+			if (m_pDeathYourEnemy[i])
+			{
+				m_pDeathYourEnemy[i]->Update();
+				m_pPlayer->SetDeath(m_pDeathYourEnemy[i]);
 
-			// 使用済みの敵を削除
-			if (!m_pDeathYourEnemy[i]->isExist())
-			{
-				delete m_pDeathYourEnemy[i];
-				m_pDeathYourEnemy[i] = nullptr;
-			}
-			else
-			{
-				// 存在している敵とプレイヤーの当たり判定
-				Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
-				if (playerRect.IsCollsion(enemyRect))
+				// 使用済みの敵を削除
+				if (!m_pDeathYourEnemy[i]->isExist())
 				{
-					m_pPlayer->OnDamage_Death();
-					m_pDeathYourEnemy[i]->OnDamage();
+					delete m_pDeathYourEnemy[i];
+					m_pDeathYourEnemy[i] = nullptr;
+				}
+				else
+				{
+					// 存在している敵とプレイヤーの当たり判定
+					Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
+					if (playerRect.IsCollsion(enemyRect))
+					{
+						m_pPlayer->OnDamage_Death();
+						m_pDeathYourEnemy[i]->OnDamage();
+
+						// 弾との当たり判定
+						for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
+						{
+							// nullptrなら処理は行わない
+							if (!m_pShot[shotIndex])	continue;
+
+							if (m_pShot[shotIndex]->IsExist()) {
+								// 存在している敵との当たり判定
+								Rect shotRect = m_pShot[shotIndex]->GetColRect();
+								if (shotRect.IsCollsion(enemyRect))
+								{
+									m_pDeathYourEnemy[i]->OnDamage();
+									m_pShot[shotIndex]->colShot();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// パンプキン当たり判定等
+		for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
+		{
+
+			if (m_pPumpkinEnemy[i])
+			{
+				m_pPumpkinEnemy[i]->SetPlayer(m_pPlayer);
+				m_pPumpkinEnemy[i]->Update();
+				m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
+
+				// 使用済みの敵を削除
+				if (!m_pPumpkinEnemy[i]->isExist())
+				{
+					delete m_pPumpkinEnemy[i];
+					m_pPumpkinEnemy[i] = nullptr;
+				}
+				else
+				{		// 存在している敵とプレイヤーの当たり判定
+					Rect enemyRect = m_pPumpkinEnemy[i]->GetColRect();
+					if (playerRect.IsCollsion(enemyRect))
+					{
+						m_pPlayer->OnDamage_Pump();
+						m_pPumpkinEnemy[i]->OnDamage();
+					}
 
 					// 弾との当たり判定
 					for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
@@ -270,7 +322,7 @@ void SceneMain::Update()
 							Rect shotRect = m_pShot[shotIndex]->GetColRect();
 							if (shotRect.IsCollsion(enemyRect))
 							{
-								m_pDeathYourEnemy[i]->OnDamage();
+								m_pPumpkinEnemy[i]->OnDamage();
 								m_pShot[shotIndex]->colShot();
 							}
 						}
@@ -278,72 +330,27 @@ void SceneMain::Update()
 				}
 			}
 		}
-	}
 
-	// パンプキン当たり判定等
-	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
-	{
-
-		if (m_pPumpkinEnemy[i])
+		//敵キャラクターの登場
+		m_enemyInterval++;
+		if (m_enemyInterval >= kEnemyInterval)
 		{
-			m_pPumpkinEnemy[i]->SetPlayer(m_pPlayer);
-			m_pPumpkinEnemy[i]->Update();
-			m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
-
-			// 使用済みの敵を削除
-			if (!m_pPumpkinEnemy[i]->isExist())
+			m_enemyInterval = 0;
+			// ランダムに生成する敵を選択
+			switch (GetRand(2))
 			{
-				delete m_pPumpkinEnemy[i];
-				m_pPumpkinEnemy[i] = nullptr;
-			}
-			else
-			{		// 存在している敵とプレイヤーの当たり判定
-				Rect enemyRect = m_pPumpkinEnemy[i]->GetColRect();
-				if (playerRect.IsCollsion(enemyRect))
-				{
-					m_pPlayer->OnDamage_Pump();
-					m_pPumpkinEnemy[i]->OnDamage();
-				}
-
-				// 弾との当たり判定
-				for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
-				{
-					// nullptrなら処理は行わない
-					if (!m_pShot[shotIndex])	continue;
-
-					if (m_pShot[shotIndex]->IsExist()) {
-						// 存在している敵との当たり判定
-						Rect shotRect = m_pShot[shotIndex]->GetColRect();
-						if (shotRect.IsCollsion(enemyRect))
-						{
-							m_pPumpkinEnemy[i]->OnDamage();
-							m_pShot[shotIndex]->colShot();
-						}
-					}
-				}
+			case 0:
+				CreateEnemyMozu();
+				break;
+			case 1:
+				CreateEnemyDeath();
+				break;
+			case 2:
+				CreateEnemyPump();
+				break;
 			}
 		}
 	}
-
-	// //敵キャラクターの登場
-	//m_enemyInterval++;
-	//if (m_enemyInterval >= kEnemyInterval)
-	//{
-	//	m_enemyInterval = 0;
-	//	// ランダムに生成する敵を選択
-	//	switch (GetRand(2))
-	//	{
-	//	case 0:
-	//		CreateEnemyMozu();
-	//		break;
-	//	case 1:
-	//		CreateEnemyDeath();
-	//		break;
-	//	case 2:
-	//		CreateEnemyPump();
-	//		break;
-	//	}
-	//}
 }
 
 void SceneMain::Draw()
@@ -410,17 +417,19 @@ void SceneMain::Clear()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
 
 	SetFontSize(64);
-	DrawString(kScreenWidth * 0.3, kScreenHeight * 0.4, "ゲームクリア！！！", GetColor(255, 255, 255));
+	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
 	SetFontSize(32);
-	DrawString(kScreenWidth * 0.4, kScreenHeight * 0.5, "Aキーを押してください", GetColor(255, 255, 255));
+	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 void SceneMain::Death()
 {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
+
 	SetFontSize(64);
 	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
 	SetFontSize(32);
-	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 65, "Aキーを押してください", GetColor(255, 255, 255));
+	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 void SceneMain::End()
@@ -457,6 +466,11 @@ void SceneMain::End()
 			m_pPumpkinEnemy[i] = nullptr;
 		}
 	}
+
+	m_pSoundManager->End();
+	// メモリ解放
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
 }
 
 bool SceneMain::IsSceneEnd() const
@@ -535,7 +549,9 @@ void SceneMain::CreateEnemyPump()
 
 			int EnemyX=0;
 
-			switch (GetRand(2))
+			EnemyX = kScreenWidth * 0.5f;
+
+			/*switch (GetRand(2))
 			{
 			case 0:
 				EnemyX = kScreenWidth * 0.1;
@@ -546,8 +562,10 @@ void SceneMain::CreateEnemyPump()
 			case 2:
 				EnemyX = kScreenWidth * 0.5;
 				break;
-			}
-			m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.5f);
+			}*/
+			//m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.5f);
+			m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.7f);
+
 			return;
 		}
 	}
