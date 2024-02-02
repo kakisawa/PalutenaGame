@@ -2,6 +2,8 @@
 #include "Vec2.h"
 #include "Rect.h"
 
+class Player;
+
 class EnemyBase {
 public:
 
@@ -52,4 +54,6 @@ protected:		// 派生クラスからアクセスできるように
 	Rect m_colRect;
 	// 移動量	1フレーム当たりの移動量を入れる
 	Vec2 m_vec;
+
+	Player* m_pPlayer;
 };

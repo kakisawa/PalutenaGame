@@ -54,6 +54,11 @@ Player::Player(SceneMain* pMain) :
 	m_pSoundManager = new SoundManager;
 }
 
+Player::Player():
+	Graph(-1)
+{
+}
+
 Player::~Player()
 {
 	// メモリ解放
@@ -157,7 +162,7 @@ void Player::Update()
 		// ジャンプボタンを押していて、地面についていたらジャンプ
 		if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == Ground)
 		{
-			
+
 			// ジャンプ加速度
 			for (int i = 0; i < kJump; i++) {
 				JumpPower += 0.5f;
@@ -380,19 +385,23 @@ void Player::Draw()
 
 	SetFontSize(16);
 	// プレイヤーの現在体力表示
-	DrawFormatString(80, 19, GetColor(255, 255, 255),
-		"PlayerHP:(%d)", HP);
-#ifdef _DEBUG
-	// プレイヤーの現在座標表示
 	DrawFormatString(80, 0, GetColor(255, 255, 255),
+		"PlayerHP:(%d)", HP);
+	DrawFormatString(80, 114 * 6, GetColor(255, 255, 255),
+		"Score:(%d)", Score);
+#ifdef _DEBUG
+	int y = 19;
+
+	// プレイヤーの現在座標表示
+	DrawFormatString(80, y*1, GetColor(255, 255, 255),
 		"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);
-	DrawFormatString(80, 38, GetColor(255, 255, 255),
+	DrawFormatString(80, y*2, GetColor(255, 255, 255),
 		"isMove:(%d)", isMove);
-	DrawFormatString(80, 57, GetColor(255, 255, 255),
+	DrawFormatString(80, y*3, GetColor(255, 255, 255),
 		"isAttack:(%d)", isAttack);
-	DrawFormatString(80, 76, GetColor(255, 255, 255),
+	DrawFormatString(80, y*4, GetColor(255, 255, 255),
 		"m_dir:(%d)", m_dir);
-	DrawFormatString(80, 88, GetColor(255, 255, 255),
+	DrawFormatString(80, y*5, GetColor(255, 255, 255),
 		"isTurn:(%d)", isTurn);
 
 	// 当たり判定の表示
@@ -448,7 +457,7 @@ void Player::OnDamage_Mozu()
 	if (m_damageFrame > 0)	return;
 
 	// プレイヤーのHPを、敵の攻撃力分減らす
-	HP -= m_mozueyeEnemy->GetEnemyAtk();
+	HP -= m_pMozueyeEnemy->GetEnemyAtk();
 
 	// HPが0以下になった場合、プレイヤーの死亡フラグをtrueにする
 	if (HP <= 0)

@@ -1,4 +1,6 @@
 #include "EnemyBase.h"
+#include "Player.h"
+
 #include "DxLib.h"
 #include <cassert>
 
@@ -21,6 +23,7 @@ EnemyBase::EnemyBase():
 	m_isExist(false), 
 	m_damageFrame(0)
 {
+	m_pPlayer = new Player();
 }
 
 void EnemyBase::Init(int x, int y)
@@ -47,6 +50,7 @@ void EnemyBase::OnDamage()
 	if (HP <= 0)
 	{
 		Death();
+ 		m_pPlayer->Score += Score;
 	}
 
 	// ダメージ演出中は再度食らわない
@@ -67,6 +71,8 @@ void EnemyBase::Death()
 {
 	isDeath = true;		// 死亡フラグをオンにする
 	m_isExist = false;
+
+	
 }
 
 void EnemyBase::Start(float x, float y)

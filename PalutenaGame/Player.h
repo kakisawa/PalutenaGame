@@ -32,6 +32,7 @@ class Player
 {
 public:
 	Player(SceneMain* pMain);
+	Player();
 	~Player();
 
 	void Init();
@@ -45,7 +46,6 @@ public:
 	void Death();		// プレイヤー死亡時処理
 
 public:
-
 	void SetHandle(int handle) { Graph = handle; }		// メンバー変数にアクセスする
 	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
 	Vec2 OutPos() const { return m_pos; }				// プレイヤーの座標を取得する
@@ -53,15 +53,15 @@ public:
 
 	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
 
-	int OutHp = HP;			// プレイヤーHP
-	
+	int Score;	// プレイヤーが敵を倒した際に獲得したスコア
+
 	// 敵の攻撃力を獲得するため
-	void SetMozu(MozueyeEnemy* pMozu) { m_mozueyeEnemy = pMozu; }
+	void SetMozu(MozueyeEnemy* pMozu) { m_pMozueyeEnemy = pMozu; }
 	void SetDeath(DeathYourEnemy* pDeath) { m_pDeathYourEnemy = pDeath; }
 	void SetPump(PumpkinEnemy* pPump) { m_pPumpkinEnemy = pPump; }
 private:
 	SceneMain* m_pMain;
-	MozueyeEnemy* m_mozueyeEnemy;
+	MozueyeEnemy* m_pMozueyeEnemy;
 	DeathYourEnemy* m_pDeathYourEnemy;
 	PumpkinEnemy* m_pPumpkinEnemy;
 	Shot* m_pShot;
@@ -69,7 +69,6 @@ private:
 
 	int HP;		// プレイヤーの体力
 	int Atk;	// プレイヤーの攻撃力
-	int Score;	// プレイヤーが敵を倒した際に獲得したスコア
 	int Graph;	// プレイヤーの画像
 	int W, H;	// プレイヤーの画像サイズ
 	int m_damageFrame;	// ダメージを受けてからのフレーム数
