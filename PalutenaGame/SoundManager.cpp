@@ -6,8 +6,9 @@ void SoundManager::Init()
 	// SE/BGMのロード
 	m_soundSelect= LoadSoundMem("data/Sound/button.mp3");	// セレクトサウンド
 	m_soundButton=LoadSoundMem("data/Sound/select.mp3");	// ボタンサウンド
-	m_soundJump = LoadSoundMem("data/Sound/jump.mp3");		//ジャンプサウンド
+	m_soundJump = LoadSoundMem("data/Sound/jump.mp3");		// ジャンプサウンド
 	m_soundAttack = LoadSoundMem("data/Sound/fire.mp3");	// 攻撃サウンド
+	m_soundDamage= LoadSoundMem("data/Sound/damage.mp3");	// 被ダメサウンド
 }
 
 void SoundManager::End()
@@ -16,6 +17,7 @@ void SoundManager::End()
 	DeleteSoundMem(m_soundButton);
 	DeleteSoundMem(m_soundAttack);
 	DeleteSoundMem(m_soundJump);
+	DeleteSoundMem(m_soundDamage);
 }
 
 void SoundManager::SoundSelect()
@@ -26,6 +28,11 @@ void SoundManager::SoundSelect()
 void SoundManager::SoundButton()
 {
 	PlaySoundMem(m_soundButton, DX_PLAYTYPE_BACK, true);
+}
+
+void SoundManager::SoundDamage()
+{
+	PlaySoundMem(m_soundDamage, DX_PLAYTYPE_BACK, true);
 }
 
 void SoundManager::SoundJump()

@@ -84,9 +84,8 @@ void SceneTitle::Init()
 	m_scrollX = 0;
 	m_bgPos.x = 0;
 	m_bgPos.y = 0;
+	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
-
-
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
@@ -97,6 +96,7 @@ void SceneTitle::Update()
 	// ↓キーを押したら選択状態を一つ下げる
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
 	{
+		// SE
 		m_pSoundManager->SoundSelect();
 
 		m_select = (m_select + 1) % kSclectNum;
@@ -111,6 +111,7 @@ void SceneTitle::Update()
 	// 上キーを押したら選択状態を一つ上げる
 	else if (Pad::IsTrigger(PAD_INPUT_UP))
 	{
+		// SE
 		m_pSoundManager->SoundSelect();
 
 		m_select = (m_select - 1) % kSclectNum;
@@ -145,7 +146,6 @@ void SceneTitle::Update()
 
 		// SE
 		m_pSoundManager->SoundButton();
-
 	}
 
 	// 背景スクロール
@@ -157,7 +157,7 @@ void SceneTitle::Update()
 	{
 		m_fadeLetter = 0;
 	}
-
+	// フェードイン
 	if (m_isSceneEnd)
 	{
 		m_fadeAlpha += 8;

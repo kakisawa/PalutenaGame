@@ -44,4 +44,3 @@ private:
 	SceneGameClear* m_pGameClear;
 	SceneExplanation* m_pExplanation;
 };
-

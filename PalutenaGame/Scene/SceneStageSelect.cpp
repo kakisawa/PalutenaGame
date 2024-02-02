@@ -109,6 +109,9 @@ void SceneStageSelect::Update()
 	// Aボタンが押されたらメイン画面へ遷移する
 	if (Pad::IsTrigger(PAD_INPUT_4))
 	{
+		// SE
+		m_pSoundManager->SoundButton();
+		
 		switch (m_select)
 		{
 		case kStage1:
@@ -123,10 +126,9 @@ void SceneStageSelect::Update()
 			isBackTitle = true;
 			m_isSceneEnd = true;
 			break;
+		default:
+			break;
 		}
-
-		// SE
-		m_pSoundManager->SoundButton();
 	}
 
 	// 背景スクロール
@@ -139,10 +141,21 @@ void SceneStageSelect::Update()
 		m_fadeLetter = 0;
 	}
 	// フェードイン
-	m_fadeAlpha -= 8;
-	if (m_fadeAlpha < 0)
+	if (m_isSceneEnd)
 	{
-		m_fadeAlpha = 0;
+		m_fadeAlpha += 8;
+		if (m_fadeAlpha > 255)
+		{
+			m_fadeAlpha = 255;
+		}
+	}
+	else 
+	{
+		m_fadeAlpha -= 8;
+		if (m_fadeAlpha < 0)
+		{
+			m_fadeAlpha = 0;
+		}
 	}
 }
 
@@ -163,13 +176,12 @@ void SceneStageSelect::End()
 
 void SceneStageSelect::StringDraw()
 {
-	SetFontSize(64);
-
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 
+	SetFontSize(64);
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -220,5 +232,5 @@ void SceneStageSelect::BackDraw()
 
 bool SceneStageSelect::IsSceneEnd() const
 {
-	return m_isSceneEnd;
+	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }

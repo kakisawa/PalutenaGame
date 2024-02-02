@@ -57,9 +57,6 @@ public:
 	// 登録できなかった場合は内部でpShot解放する
 	bool AddShot(Shot* pShot);
 	
-	// 直前にこのステージを遊んでいたかどうかのフラグ
-	bool JustFinishStage1() const { return isFinishStage1; }
-
 private:
 	// 敵キャラクターの生成
 	void CreateEnemyMozu();
@@ -84,14 +81,8 @@ private:
 	// シーン処理
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
 
-	bool isFinishStage1;	// 直前にプレイしたステージを判定するためのフラグ
-							// ゲーム終了時にtrueにする
-
-	int SoundSelect;		// セレクトボタンサウンド
-	int SoundButton;		// 決定ボタンサウンド
-
-	bool isToGameOver;		// ステージセレクト画面に行くか
-	bool isToGameClear;		// 説明シーンに行くか 
+	bool isToGameOver;		// ゲームオーバー画面に行くか
+	bool isToGameClear;		// ゲームクリア画面に行くか 
 
 	// プレイヤー
 	Player* m_pPlayer;

@@ -16,7 +16,6 @@
 
 SceneMain::SceneMain() :
 	m_isSceneEnd(false),
-	isFinishStage1(false),
 	m_fadeAlpha(255),		// 不透明で初期化
 	m_enemyInterval(0)
 {
@@ -106,6 +105,10 @@ SceneMain::~SceneMain()
 			m_pPumpkinEnemy[i] = nullptr;
 		}
 	}
+
+	// メモリ解放
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
 }
 
 void SceneMain::Init()
@@ -113,7 +116,6 @@ void SceneMain::Init()
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
 	m_isSceneEnd = false;
-	isFinishStage1 = false;
 
 	m_pPlayer->Init();
 	m_pBack->Init();
@@ -138,7 +140,6 @@ void SceneMain::Update()
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
-			isFinishStage1 = true;
 			m_isSceneEnd = true;
 			isToGameOver = true;
 
@@ -151,7 +152,6 @@ void SceneMain::Update()
 		}
 	}
 	else {
-
 		// 制限時間が終わったら(ゲームクリア)
 		if (m_pTime->TimeUp())
 		{
@@ -160,7 +160,6 @@ void SceneMain::Update()
 			// Aボタンが押されたらゲームオーバー画面へ遷移する
 			if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 			{
-				isFinishStage1 = true;
 				m_isSceneEnd = true;
 				isToGameClear = true;
 
@@ -405,11 +404,6 @@ void SceneMain::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
-
-#ifdef _DEBUG
-	DrawFormatString(100, 300, GetColor(255, 255, 255),
-		"isMove:(%d)", m_enemyInterval);
-#endif
 }
 
 void SceneMain::Clear()
@@ -467,10 +461,8 @@ void SceneMain::End()
 		}
 	}
 
+	// サウンドの解放
 	m_pSoundManager->End();
-	// メモリ解放
-	delete m_pSoundManager;
-	m_pSoundManager = nullptr;
 }
 
 bool SceneMain::IsSceneEnd() const
@@ -496,7 +488,7 @@ bool SceneMain::AddShot(Shot* pShot)
 	for (int i = 0; i < kShotMax; i++)
 	{
 		// 使用中なら次のチェックへ
-		if (m_pShot[i])	continue;
+ 		if (m_pShot[i])	continue;
 
 		// ここに来たということはm_pShot[i] == nullptr
 		m_pShot[i] = pShot;

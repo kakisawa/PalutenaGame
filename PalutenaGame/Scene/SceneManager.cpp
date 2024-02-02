@@ -83,6 +83,31 @@ void SceneManager::Update()
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:
+		m_pTitle->Update();			// タイトル画面の更新
+		break;
+	case kSceneKindExplanation:
+		m_pExplanation->Update();	// 操作説明画面の更新
+		break;
+	case kSceneKindStageSelect:
+		m_pStageSelect->Update();	// ステージセレクト画面の更新
+		break;
+	case kSceneKindMain:
+		m_pMain->Update();			// ステージ1画面の更新
+		break;
+	case kSceneKindSecond:
+		m_pSecond->Update();		// ステージ2画面の更新
+		break;
+	case kSceneKindGameOver:
+		m_pGameOver->Update();		// ゲームオーバー画面の更新
+		break;
+	case kSceneKindGameClear:
+		m_pGameClear->Update();		// ゲームクリア画面の更新
+		break;
+	}
+
+	switch (m_runScene)
+	{
+	case kSceneKindTitle:
 		if (m_pTitle->IsSceneEnd())					// タイトル画面の終了をチェック
 		{
 			m_pTitle->End();						// タイトル画面の終了処理
@@ -159,71 +184,21 @@ void SceneManager::Update()
 		}
 		break;
 	case kSceneKindGameOver:
-		if (m_pGameOver->IsSceneEnd())
+		m_pGameOver->End();						// ゲームオーバー画面の終了処理
+		if (m_pGameOver->IsSceneEnd()) 
 		{
-			m_pGameOver->End();						// ゲームオーバー画面の終了処理
-
-			if (m_pGameOver->AgainStage1())
-			{
-				m_runScene = kSceneKindMain;		// ステージ1画面へ行く
-				m_pMain->Init();
-			}
-			else if (m_pGameOver->AgainStage2())
-			{
-				m_runScene = kSceneKindSecond;		// ステージ2画面へ行く
-				m_pSecond->Init();
-			}
-			else if (!m_pGameOver->AgainStage1() || !m_pGameOver->AgainStage2()) {
-				m_runScene = kSceneKindTitle;		// タイトル画面へ行く
-				m_pTitle->Init();
-			}
+			m_runScene = kSceneKindTitle;		// タイトル画面へ行く
+			m_pTitle->Init();
 		}
 		break;
 	case kSceneKindGameClear:
 		if (m_pGameClear->IsSceneEnd())
 		{
-			m_pGameClear->End();					// ゲームクリア画面の終了処理
+			m_pGameClear->End();
 
-			if (m_pGameOver->AgainStage1())
-			{
-				m_runScene = kSceneKindMain;		// ステージ1画面へ行く
-				m_pMain->Init();
-			}
-			else if (m_pGameOver->AgainStage2())
-			{
-				m_runScene = kSceneKindSecond;		// ステージ2画面へ行く
-				m_pSecond->Init();
-			}
-			else if (!m_pGameOver->AgainStage1() || !m_pGameOver->AgainStage2()) {
-				m_runScene = kSceneKindTitle;		// タイトル画面へ行く
-				m_pTitle->Init();
-			}
+			m_runScene = kSceneKindTitle;		// タイトル画面へ行く
+			m_pTitle->Init();
 		}
-		break;
-	}
-
-	switch (m_runScene)
-	{
-	case kSceneKindTitle:
-		m_pTitle->Update();			// タイトル画面の更新
-		break;
-	case kSceneKindExplanation:
-		m_pExplanation->Update();	// 操作説明画面の更新
-		break;
-	case kSceneKindStageSelect:
-		m_pStageSelect->Update();	// ステージセレクト画面の更新
-		break;
-	case kSceneKindMain:
-		m_pMain->Update();			// ステージ1画面の更新
-		break;
-	case kSceneKindSecond:
-		m_pSecond->Update();		// ステージ2画面の更新
-		break;
-	case kSceneKindGameOver:
-		m_pGameOver->Update();		// ゲームオーバー画面の更新
-		break;
-	case kSceneKindGameClear:
-		m_pGameClear->Update();		// ゲームクリア画面の更新
 		break;
 	}
 }

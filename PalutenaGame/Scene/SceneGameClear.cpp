@@ -1,6 +1,8 @@
 #include "SceneGameClear.h"
 #include "SceneManager.h"
 #include "SceneMain.h"
+#include "SceneSecond.h"
+#include "SceneSecond.h"
 #include "SoundManager.h"
 #include "Pad.h"
 #include "Game.h"
@@ -29,12 +31,10 @@ namespace
 
 SceneGameClear::SceneGameClear():
 	m_isSceneEnd(false),
-	isStage1(false),
-	isStage2(false),
-	m_select(kScelectReturnHome),
+	m_select(kScelectBackTitle),
 	m_fadeAlpha(255),
 	m_fadeLetter(0),
-	m_selectPos(kSelectPosX, kSelectPosY+ kSelectMoveY)
+	m_selectPos(kSelectPosX, kSelectPosY)
 {
 	// SE/BGMメモリ確保
 	m_pSoundManager = new SoundManager;
@@ -52,14 +52,12 @@ void SceneGameClear::Init()
 	Graph = LoadGraph("data/Map/gg.jpg");
 	Cursor = LoadGraph("data/Cursor.png");	// カーソルロゴ読み込み
 
-	m_select = kScelectReturnHome;
+	m_select = kScelectBackTitle;
 	m_isSceneEnd = false;
-	isStage1 = false;
-	isStage2 = false;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
 	m_selectPos.x = kSelectPosX;
-	m_selectPos.y = kSelectPosY + kSelectMoveY;
+	m_selectPos.y = kSelectPosY;
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
@@ -70,6 +68,9 @@ void SceneGameClear::Update()
 	// ↓キーを押したら選択状態を一つ下げる
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
 	{
+		// SE
+		m_pSoundManager->SoundSelect();
+
 		m_select = (m_select + 1) % kSclectNum;
 		m_selectPos.y += kSelectMoveY;
 
@@ -82,6 +83,9 @@ void SceneGameClear::Update()
 	// 上キーを押したら選択状態を一つ上げる
 	else if (Pad::IsTrigger(PAD_INPUT_UP))
 	{
+		// SE
+		m_pSoundManager->SoundSelect();
+
 		m_select = (m_select - 1) % kSclectNum;
 		m_selectPos.y -= kSelectMoveY;
 
@@ -95,27 +99,9 @@ void SceneGameClear::Update()
 	// エンターキーが押されたらタイトル画面へ遷移する
 	if (Pad::IsTrigger(PAD_INPUT_4))
 	{
-		SceneMain* pSceneMain = new SceneMain;
-
 		switch (m_select)
 		{
-		case kScelectRestart:
-			if (pSceneMain->JustFinishStage1())
-			{
-				m_isSceneEnd = true;
-				isStage1 = true;
-				isStage2 = false;
-			}
-			//if(m_pSceneTwo->JustStage2())
-			//{
-			// m_isSceneEnd = true;
-			// isStage1=true;
-			// isStage2=true;
-			//}
-			break;
-		case kScelectReturnHome:
-			isStage1 = false;
-			isStage2 = false;
+		case kScelectBackTitle:
 			m_isSceneEnd = true;
 			break;
 		case kScelectEnd:
@@ -123,14 +109,14 @@ void SceneGameClear::Update()
 			break;
 		}
 
+		// SE
+		m_pSoundManager->SoundButton();
+
 		m_fadeAlpha += 8;
 		if (m_fadeAlpha > 255)
 		{
 			m_fadeAlpha = 255;
 		}
-
-		delete pSceneMain;
-		pSceneMain = nullptr;
 	}
 
 	// 文字の点滅
@@ -159,7 +145,7 @@ void SceneGameClear::Draw()
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
 			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
@@ -174,9 +160,8 @@ void SceneGameClear::Draw()
 
 	SetFontSize(64);
 
-	DrawString(kChirPosX, kChirPosY, "もう一度最初から遊ぶ", 0xffffff);
-	DrawString(kChirPosX, kChirPosY + kCharInterval, "タイトル画面に戻る", 0xffffff);
-	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0xffffff);
+	DrawString(kChirPosX, kChirPosY, "タイトル画面に戻る", 0xffffff);
+	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを終わる", 0xffffff);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
@@ -196,5 +181,5 @@ void SceneGameClear::End()
 
 bool SceneGameClear::IsSceneEnd() const
 {
-	return m_isSceneEnd;
+	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }

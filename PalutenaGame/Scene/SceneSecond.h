@@ -7,12 +7,15 @@ namespace
 	// モズアイ出現数
 	constexpr int MozuSecondMax = 5;	// 17
 	// 死出現数
-	constexpr int DeathSecondMax = 1;	// 3
+	constexpr int DeathSecondMax = 2;	// 3
 	// かぼちゃ出現数
-	constexpr int PumpSecondMax = 1;	// 10仮、覚えてない
+	constexpr int PumpSecondMax = 3;	// 10仮、覚えてない
 
 	// 画面内に同時に出せる弾の数
 	constexpr int kShotSecondMax = 30;
+
+	// 何フレームおきに敵が登場するか
+	constexpr int kEnemySecondInterval = 60;
 }
 
 // クラス宣言
@@ -24,6 +27,7 @@ class DeathYourEnemy;
 class PumpkinEnemy;
 class Shot;
 class Time;
+class SoundManager;
 
 class SceneSecond
 {
@@ -55,7 +59,7 @@ public:
 	bool AddShot(Shot* pShot);
 
 	// 直前にこのステージを遊んでいたかどうかのフラグ
-	bool JustFinishStage1() const { return isFinishStage2; }
+	bool JustFinishStage2() const { return isFinishStage2; }
 
 private:
 	// 敵キャラクターの生成
@@ -76,6 +80,7 @@ private:
 	int m_pumpkinEnemyGraph;	// パンプキン君
 
 	int m_fadeAlpha;		// フェードイン、アウト
+	int m_enemyInterval;	// 敵の登場間隔
 
 	// シーン処理
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
@@ -98,6 +103,8 @@ private:
 	Back* m_pBack;
 	// 制限時間
 	Time* m_pTime;
+	// SE/BGM
+	SoundManager* m_pSoundManager;
 
 	// エネミー
 	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;

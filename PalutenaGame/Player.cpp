@@ -402,6 +402,11 @@ void Player::Draw()
 
 void Player::Death()
 {
+	// SEを止める
+	StopSoundMem(m_pSoundManager->m_soundAttack);
+	StopSoundMem(m_pSoundManager->m_soundJump);
+	StopSoundMem(m_pSoundManager->m_soundDamage);
+
 	if (isDeath == true)
 	{
 		// 死亡時アニメーション
@@ -436,6 +441,9 @@ void Player::End()
 
 void Player::OnDamage_Mozu()
 {
+	// 被ダメージSE
+	m_pSoundManager->SoundDamage();
+
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0)	return;
 
@@ -459,6 +467,9 @@ void Player::OnDamage_Mozu()
 
 void Player::OnDamage_Death()
 {
+	// 被ダメージSE
+	m_pSoundManager->SoundDamage();
+
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0) return;
 
@@ -482,6 +493,9 @@ void Player::OnDamage_Death()
 
 void Player::OnDamage_Pump()
 {
+	// 被ダメージSE
+	m_pSoundManager->SoundDamage();
+
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0)	return;
 
