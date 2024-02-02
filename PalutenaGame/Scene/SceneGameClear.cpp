@@ -107,16 +107,14 @@ void SceneGameClear::Update()
 		case kScelectEnd:
 			DxLib_End();
 			break;
+		default:
+			break;
 		}
 
 		// SE
 		m_pSoundManager->SoundButton();
 
-		m_fadeAlpha += 8;
-		if (m_fadeAlpha > 255)
-		{
-			m_fadeAlpha = 255;
-		}
+		
 	}
 
 	// •¶Žš‚Ì“_–Å
@@ -126,25 +124,48 @@ void SceneGameClear::Update()
 		m_fadeLetter = 0;
 	}
 
-	m_fadeAlpha -= 8;
-	if (m_fadeAlpha < 0)
+	// ƒtƒF[ƒhƒCƒ“EƒAƒEƒg
+	if (m_isSceneEnd)
 	{
-		m_fadeAlpha = 0;
+		m_fadeAlpha += 8;
+		if (m_fadeAlpha > 255)
+		{
+			m_fadeAlpha = 255;
+		}
+	}
+	else {
+		m_fadeAlpha -= 8;
+		if (m_fadeAlpha < 0)
+		{
+			m_fadeAlpha = 0;
+		}
 	}
 }
 
 void SceneGameClear::Draw()
 {
-	SetFontSize(32);
-
-	DrawGraph(0, 0, Graph, false);
-	DrawString(120, 120, "ƒQ[ƒ€ƒNƒŠƒA‰æ–Ê", GetColor(255, 255, 255));
+	// ”wŒi‚Ì•`‰æ
+	BackDraw();
+	// ‘I‘ðŽˆ“™‚Ì•¶Žš‚Ì•`‰æ—p
+	StringDraw();
 
 	// ƒtƒF[ƒh‚Ì•`‰æ
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// ”¼“§–¾‚Å•\Ž¦ŠJŽn
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// •s“§–¾‚É–ß‚µ‚Ä‚¨‚­
 
+}
+
+void SceneGameClear::End()
+{
+	// ”wŒi‚ðƒƒ‚ƒŠ‚©‚çíœ
+	DeleteGraph(Graph);
+
+	m_pSoundManager->End();
+}
+
+void SceneGameClear::StringDraw()
+{
 	for (int i = 0; i < 2; i++)
 	{
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
@@ -152,8 +173,9 @@ void SceneGameClear::Draw()
 	}
 
 	// ‘I‘ð’†‚Ì•”•ª‚ðŽlŠp‚Å•`‰æ
-	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
-		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
+	DrawBox(m_selectPos.x, m_selectPos.y,
+		m_selectPos.x + kSelectSizeX, m_selectPos.y + kSelectSizeY,
+		0x00bfff, true);
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 20, m_selectPos.y + kSelectSizeY + 20,
 		Cursor, true);
@@ -171,12 +193,9 @@ void SceneGameClear::Draw()
 	}
 }
 
-void SceneGameClear::End()
+void SceneGameClear::BackDraw()
 {
-	// ”wŒi‚ðƒƒ‚ƒŠ‚©‚çíœ
-	DeleteGraph(Graph);
-
-	m_pSoundManager->End();
+	DrawGraph(0, 0, Graph, false);
 }
 
 bool SceneGameClear::IsSceneEnd() const

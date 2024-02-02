@@ -161,7 +161,9 @@ void SceneStageSelect::Update()
 
 void SceneStageSelect::Draw()
 {
-	BackDraw();
+	// 背景の描画
+	BackDraw();	
+	// 選択肢等の文字の描画用
 	StringDraw();
 }
 
@@ -176,13 +178,6 @@ void SceneStageSelect::End()
 
 void SceneStageSelect::StringDraw()
 {
-	// フェードの描画
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
-
-	SetFontSize(64);
-
 	for (int i = 0; i < 3; i++)
 	{
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
@@ -200,6 +195,8 @@ void SceneStageSelect::StringDraw()
 		m_selectPos.y + kSelectSizeY + 20,
 		Cursor, true);
 
+	SetFontSize(64);
+
 	DrawString(kChirPosX + 25, kChirPosY, "ステージ1", 0x000000);
 	DrawString(kChirPosX, kChirPosY + kCharInterval, "ステージ2", 0x000000);
 	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "タイトルに戻る", 0x000000);
@@ -210,6 +207,11 @@ void SceneStageSelect::StringDraw()
 		//SetFontSize(32);
 		DrawString(kChirPosX, kChirPosY + kCharInterval * 3, "Aキーで決定", 0xffffff);
 	}
+
+	// フェードの描画
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
 void SceneStageSelect::BackDraw()

@@ -17,7 +17,6 @@
 
 SceneSecond::SceneSecond() :
 	m_isSceneEnd(false),
-	isFinishStage2(false),
 	m_fadeAlpha(255),		// 不透明で初期化
 	m_enemyInterval(0)
 {
@@ -49,7 +48,6 @@ SceneSecond::SceneSecond() :
 	m_pDeathYourEnemy.resize(DeathSecondMax);
 	m_pPumpkinEnemy.resize(PumpSecondMax);
 
-	// 初期状態ではメモリを確保していないことが分かるようにしておく
 	// 未使用状態にする nullptrを入れておく
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
@@ -85,6 +83,9 @@ SceneSecond::~SceneSecond()
 	delete m_pTime;
 	m_pTime = nullptr;
 
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
+
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
 		if (m_pMozueyeEnemy[i] != nullptr)
@@ -109,10 +110,6 @@ SceneSecond::~SceneSecond()
 			m_pPumpkinEnemy[i] = nullptr;
 		}
 	}
-
-	// メモリ解放
-	delete m_pSoundManager;
-	m_pSoundManager = nullptr;
 }
 
 void SceneSecond::Init()
@@ -120,7 +117,6 @@ void SceneSecond::Init()
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
 	m_isSceneEnd = false;
-	isFinishStage2 = false;
 
 	m_pPlayer->Init();
 	m_pBack->Init();
@@ -144,12 +140,11 @@ void SceneSecond::Update()
 	{
 		Death();
 		m_pPlayer->Death();
-		m_pPlayer->Update();
+		//m_pPlayer->Update();
 
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
-			isFinishStage2 = true;
 			m_isSceneEnd = true;
 			isToGameOver = true;
 
@@ -165,10 +160,11 @@ void SceneSecond::Update()
 		// 制限時間が終わったら(ゲームクリア)
 		if (m_pTime->TimeUp())
 		{
+			Clear();
+
 			// Aボタンが押されたらゲームオーバー画面へ遷移する
 			if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 			{
-				isFinishStage2 = true;
 				m_isSceneEnd = true;
 				isToGameClear = true;
 
@@ -179,9 +175,11 @@ void SceneSecond::Update()
 					m_fadeAlpha = 255;
 				}
 			}
-			Clear();
 			return;
 		}
+
+		m_pPlayer->Update();
+		m_pTime->Update();
 
 		// フェードイン
 		m_fadeAlpha -= 8;
@@ -189,10 +187,6 @@ void SceneSecond::Update()
 		{
 			m_fadeAlpha = 0;
 		}
-
-
-		m_pPlayer->Update();
-		m_pTime->Update();
 
 		Rect playerRect = m_pPlayer->GetColRect();
 
@@ -340,49 +334,21 @@ void SceneSecond::Update()
 				break;
 			}
 		}
-
 	}
 }
 
 void SceneSecond::Draw()
 {
+	DrawGraph(0, 0, m_gameScreenHandle, true);
+
 	// 描画先スクリーンをクリアする
 	ClearDrawScreen();
 
-	if (m_pPlayer->PlayerDeath())
-	{
-		m_pPlayer->Death();
-		Death();
-	}
-	if (m_pTime->TimeUp())
-	{
-		Clear();
-	}
-
 	m_pBack->Draw();
-	m_pPlayer->Draw();
 	m_pTime->Draw();
 
-	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
-	{
-		if (m_pMozueyeEnemy[i]) {
-			m_pMozueyeEnemy[i]->Draw();
-		}
-	}
-	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
-	{
-		if (m_pDeathYourEnemy[i])
-		{
-			m_pDeathYourEnemy[i]->Draw();
-		}
-	}
-	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
-	{
-		if (m_pPumpkinEnemy[i])
-		{
-			m_pPumpkinEnemy[i]->Draw();
-		}
-	}
+	// プレイヤー・エネミー描画
+	CharactorDraw();
 
 	// 弾描画
 	for (int i = 0; i < kShotSecondMax; i++)
@@ -391,8 +357,6 @@ void SceneSecond::Draw()
 		if (!m_pShot[i])	continue;// nullptrなら以降の処理は行わない
 		m_pShot[i]->Draw();
 	}
-
-	DrawGraph(0, 0, m_gameScreenHandle, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
@@ -456,6 +420,43 @@ void SceneSecond::End()
 
 	// サウンドの解放
 	m_pSoundManager->End();
+}
+
+void SceneSecond::CharactorDraw()
+{
+	// プレイヤー描画
+	if (m_pPlayer->PlayerDeath())
+	{
+		m_pPlayer->Death();
+		Death();
+	}
+	if (m_pTime->TimeUp())
+	{
+		Clear();
+	}
+	m_pPlayer->Draw();
+
+	// エネミー描画
+	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
+	{
+		if (m_pMozueyeEnemy[i]) {
+			m_pMozueyeEnemy[i]->Draw();
+		}
+	}
+	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
+	{
+		if (m_pDeathYourEnemy[i])
+		{
+			m_pDeathYourEnemy[i]->Draw();
+		}
+	}
+	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
+	{
+		if (m_pPumpkinEnemy[i])
+		{
+			m_pPumpkinEnemy[i]->Draw();
+		}
+	}
 }
 
 bool SceneSecond::IsSceneEnd() const

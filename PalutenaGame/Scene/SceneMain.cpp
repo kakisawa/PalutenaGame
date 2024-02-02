@@ -81,6 +81,9 @@ SceneMain::~SceneMain()
 	delete m_pTime;
 	m_pTime = nullptr;
 
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
+
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
 		if (m_pMozueyeEnemy[i] != nullptr)
@@ -105,10 +108,6 @@ SceneMain::~SceneMain()
 			m_pPumpkinEnemy[i] = nullptr;
 		}
 	}
-
-	// メモリ解放
-	delete m_pSoundManager;
-	m_pSoundManager = nullptr;
 }
 
 void SceneMain::Init()
@@ -199,7 +198,6 @@ void SceneMain::Update()
 				m_pShot[j] = nullptr;
 			}
 		}
-
 		// モズアイ当たり判定等
 		for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 		{
@@ -240,7 +238,6 @@ void SceneMain::Update()
 				}
 			}
 		}
-
 		// 死当たり判定等
 		for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
 		{
@@ -284,7 +281,6 @@ void SceneMain::Update()
 				}
 			}
 		}
-
 		// パンプキン当たり判定等
 		for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
 		{
@@ -354,42 +350,16 @@ void SceneMain::Update()
 
 void SceneMain::Draw()
 {
+	DrawGraph(0, 0, m_gameScreenHandle, true);
+
 	// 描画先スクリーンをクリアする
 	ClearDrawScreen();
-	if (m_pPlayer->PlayerDeath())
-	{
-		m_pPlayer->Death();
-		Death();
-	}
-	if (m_pTime->TimeUp())
-	{
-		Clear();
-	}
 
 	m_pBack->Draw();
-	m_pPlayer->Draw();
 	m_pTime->Draw();
 
-	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
-	{
-		if (m_pMozueyeEnemy[i]) {
-			m_pMozueyeEnemy[i]->Draw();
-		}
-	}
-	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
-	{
-		if (m_pDeathYourEnemy[i])
-		{
-			m_pDeathYourEnemy[i]->Draw();
-		}
-	}
-	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
-	{
-		if (m_pPumpkinEnemy[i])
-		{
-			m_pPumpkinEnemy[i]->Draw();
-		}
-	}
+	// プレイヤー・エネミー描画
+	CharactorDraw();
 
 	// 弾描画
 	for (int i = 0; i < kShotMax; i++)
@@ -399,31 +369,9 @@ void SceneMain::Draw()
 		m_pShot[i]->Draw();
 	}
 
-	DrawGraph(0, 0, m_gameScreenHandle, true);
-
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
-}
-
-void SceneMain::Clear()
-{
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
-
-	SetFontSize(64);
-	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
-	SetFontSize(32);
-	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
-}
-
-void SceneMain::Death()
-{
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
-
-	SetFontSize(64);
-	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
-	SetFontSize(32);
-	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 void SceneMain::End()
@@ -463,6 +411,63 @@ void SceneMain::End()
 
 	// サウンドの解放
 	m_pSoundManager->End();
+}
+
+void SceneMain::CharactorDraw()
+{
+	// プレイヤーの描画
+	if (m_pPlayer->PlayerDeath())
+	{
+		m_pPlayer->Death();
+		Death();
+	}
+	if (m_pTime->TimeUp())
+	{
+		Clear();
+	}
+	m_pPlayer->Draw();
+
+	// エネミーの描画
+	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
+	{
+		if (m_pMozueyeEnemy[i]) {
+			m_pMozueyeEnemy[i]->Draw();
+		}
+	}
+	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
+	{
+		if (m_pDeathYourEnemy[i])
+		{
+			m_pDeathYourEnemy[i]->Draw();
+		}
+	}
+	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
+	{
+		if (m_pPumpkinEnemy[i])
+		{
+			m_pPumpkinEnemy[i]->Draw();
+		}
+	}
+}
+
+void SceneMain::Clear()
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
+
+	SetFontSize(64);
+	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
+	SetFontSize(32);
+	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
+}
+
+void SceneMain::Death()
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
+
+	SetFontSize(64);
+	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
+	SetFontSize(32);
+	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 bool SceneMain::IsSceneEnd() const
@@ -510,7 +515,7 @@ void SceneMain::CreateEnemyMozu()
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init();
-			m_pMozueyeEnemy[i]->Start(0, Ground - 32 * 0.5);
+			m_pMozueyeEnemy[i]->Start(kScreenWidth*0.3, Ground - 32 * 0.5);
 			return;
 		}
 	}

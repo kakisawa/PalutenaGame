@@ -180,7 +180,9 @@ void SceneTitle::Draw()
 {
 	// 背景・タイトルの描画
 	BackDraw();
-	DrawExtendGraph(kLogoPosX, kLogoPosY, kLogoPosX + kLogoSizeX, kLogoPosY + kLogoSizeY, TitleGraph, true);
+	DrawExtendGraph(kLogoPosX, kLogoPosY, 
+		kLogoPosX + kLogoSizeX, kLogoPosY + kLogoSizeY,
+		TitleGraph, true);
 
 	// 選択肢等の文字の描画用
 	StringDraw();
@@ -197,10 +199,6 @@ void SceneTitle::End()
 
 void SceneTitle::StringDraw()
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
-
 	for (int i = 0; i < 3; i++)
 	{
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
@@ -233,6 +231,10 @@ void SceneTitle::StringDraw()
 		SetFontSize(32);
 		DrawString(kChirPosX + 123, kChirPosY + kCharInterval * 3.0f, "Aキーで決定", 0xffffff);
 	}
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
 void SceneTitle::BackDraw()

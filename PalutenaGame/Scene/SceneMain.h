@@ -37,11 +37,12 @@ public:
 	void Init();
 	void Update();
 	void Draw();
+	void End();
+
+	void CharactorDraw();
 
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
-	void End();		
-
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;

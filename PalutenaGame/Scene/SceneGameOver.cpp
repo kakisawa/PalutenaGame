@@ -1,7 +1,5 @@
 #include "SceneGameOver.h"
 #include "SceneManager.h"
-#include "SceneMain.h"
-#include "SceneSecond.h"
 #include "SoundManager.h"
 #include "Pad.h"
 #include "Game.h"
@@ -26,11 +24,17 @@ namespace
 	// 文字を囲む四角のサイズ
 	constexpr int kSelectSizeX = 700;
 	constexpr int kSelectSizeY = 75;
+
+	// スクロール移動量
+	constexpr float backGround_scale = 1.2f;
+	// 背景の拡大率
+	constexpr int kBgScale = 1;
 }
 
 SceneGameOver::SceneGameOver() :
 	m_isSceneEnd(false),
 	m_select(kScelectBackTitle),
+	m_scrollX(0),
 	m_fadeAlpha(255),
 	m_fadeLetter(0),
 	m_selectPos(kSelectPosX, kSelectPosY)
@@ -48,11 +52,12 @@ SceneGameOver::~SceneGameOver()
 
 void SceneGameOver::Init()
 {
-	Graph = LoadGraph("data/Map/GameOverGraph.jpg");
+	Graph = LoadGraph("data/Map/patter3.png");
 	Cursor = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
 
 	m_select= kScelectBackTitle;
 	m_isSceneEnd = false;
+	m_scrollX = 0;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
 	m_selectPos.x = kSelectPosX;
@@ -107,18 +112,12 @@ void SceneGameOver::Update()
 			DxLib_End();
 			break;
 		}
-
 		// SE
 		m_pSoundManager->SoundButton();
-
-		m_isSceneEnd = true;
-
-		m_fadeAlpha += 8;
-		if (m_fadeAlpha > 255)
-		{
-			m_fadeAlpha = 255;
-		}
 	}
+
+	// 背景スクロール
+	m_scrollX += backGround_scale;
 
 	// 文字の点滅
 	m_fadeLetter++;
@@ -127,28 +126,60 @@ void SceneGameOver::Update()
 		m_fadeLetter = 0;
 	}
 
-	m_fadeAlpha -= 8;
-	if (m_fadeAlpha < 0)
+	// フェードイン・アウト
+	if (m_isSceneEnd)
 	{
-		m_fadeAlpha = 0;
+		m_fadeAlpha += 8;
+		if (m_fadeAlpha > 255)
+		{
+			m_fadeAlpha = 255;
+		}
+	}
+	else {
+		m_fadeAlpha -= 8;
+		if (m_fadeAlpha < 0)
+		{
+			m_fadeAlpha = 0;
+		}
 	}
 }
 
 void SceneGameOver::Draw()
 {
-	SetFontSize(32);
+	// 背景の描画
+	BackDraw();
+	// 選択肢等の文字の描画用
+	StringDraw();
 
-	DrawGraph(0, 0, Graph, false);
-	DrawString(120, 120, "ゲームオーバー画面", GetColor(255, 255, 255));
-	
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+}
+
+void SceneGameOver::End()
+{
+	// 背景をメモリから削除
+	DeleteGraph(Graph);
+
+	m_pSoundManager->End();
+}
+
+void SceneGameOver::StringDraw()
+{
+
+	for (int i = 0; i < 2; i++)
+	{
+		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
+			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xF4EADE, true);
+
+		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
+			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
+	}
 
 	// 選択中の部分を四角で描画
-	DrawBox(m_selectPos.x, m_selectPos.y, 
-		m_selectPos.x + kSelectSizeX, m_selectPos.y + kSelectSizeY, 
+	DrawBox(m_selectPos.x, m_selectPos.y,
+		m_selectPos.x + kSelectSizeX, m_selectPos.y + kSelectSizeY,
 		0x00bfff, false);
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 20, m_selectPos.y + kSelectSizeY + 20,
@@ -156,8 +187,8 @@ void SceneGameOver::Draw()
 
 	SetFontSize(64);
 
-	DrawString(kChirPosX, kChirPosY, "タイトル画面に戻る", 0xffffff);
-	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを終わる", 0xffffff);
+	DrawString(kChirPosX, kChirPosY, "タイトル画面に戻る", 0x000000);
+	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを終わる", 0x000000);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
@@ -167,12 +198,22 @@ void SceneGameOver::Draw()
 	}
 }
 
-void SceneGameOver::End()
+void SceneGameOver::BackDraw()
 {
-	// 背景をメモリから削除
-	DeleteGraph(Graph);
+	Size bg1Size;
+	GetGraphSize(Graph, &bg1Size.width, &bg1Size.height);
 
-	m_pSoundManager->End();
+	// スクロール量を計算
+	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
+
+	for (int index = 0; index < 4; index++)
+	{
+		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
+			kScreenHeight - bg1Size.height * kBgScale,
+			0, 0,
+			kBgScale, 0.0f,
+			Graph, true);
+	}
 }
 
 bool SceneGameOver::IsSceneEnd() const

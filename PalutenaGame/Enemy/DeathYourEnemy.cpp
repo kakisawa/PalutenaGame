@@ -71,13 +71,12 @@ void DeathYourEnemy::Update()
 	// ƒxƒNƒgƒ‹‚Ì’·‚³‚ðkSpeed‚É‚·‚é
 	move *= kSpeed;
 
-
 	//“GˆÚ“®
 	if (isTurn == false)
 	{
 		angle++;
 		float angle2 = angle * (DX_PI / 180);
-		m_pos.y = sin(angle2) * 200 + 320;
+		m_pos.y = sin(angle2) * 200 + 550;
 		m_pos.x += kSpeed;
 
 	}
@@ -124,7 +123,7 @@ void DeathYourEnemy::Draw()
 	{
 			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y,
 			m_pos.x, m_pos.y + kHeight,
-			srcX+2, 0,
+			srcX, 0,
 			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
@@ -132,7 +131,7 @@ void DeathYourEnemy::Draw()
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX+2, 0,
+			srcX , 0,
 			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
@@ -146,7 +145,6 @@ void DeathYourEnemy::Start(float x, float y)
 {
 	m_isExist = true;
 
-	m_pos.x = x;
+	m_pos.x =  x;
 	m_pos.y = y;
-
 }

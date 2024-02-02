@@ -17,6 +17,9 @@ public:
 	void Draw();
     void End();
 
+    void StringDraw();
+    void BackDraw();
+
 	// ƒV[ƒ“‚ğI—¹‚³‚¹‚½‚¢‚©
 	bool IsSceneEnd() const;
 

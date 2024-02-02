@@ -2,8 +2,6 @@
 #include "SceneBase.h"
 #include "Vec2.h"
 
-class SceneMain;
-class SceneSecond;
 class SoundManager;
 
 class SceneGameOver :
@@ -16,8 +14,10 @@ public:
     void Init();
     void Update();
     void Draw();
-
     void End();
+
+    void StringDraw();
+    void BackDraw();
 
     // シーンを終了させたいか
     bool IsSceneEnd() const;
@@ -35,6 +35,13 @@ private:
 
     int m_select;    // 選択中のメニュー
     int Cursor;      // カーソルグラフ
+    float m_scrollX;    // スクロール移動量
+
+    struct Size         // 背景のサイズ
+    {
+        int width;
+        int height;
+    };
 
     int m_fadeAlpha;    // フェードイン、アウト 
     int m_fadeLetter;   // 文字の点滅用カウンタ
@@ -43,9 +50,6 @@ private:
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;
 
-    // ステージ1画面
-    SceneMain* m_pSceneMain;
-    SceneSecond* m_pSceneSecond;
     // SE/BGM
     SoundManager* m_pSoundManager;
 };
