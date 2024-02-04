@@ -11,7 +11,6 @@ public:
 	void SoundSelect();
 	void SoundButton();
 	void SoundDamage();
-
 	void SoundJump();
 	void SoudndAttack();
 
@@ -22,7 +21,5 @@ public:
 
 	int m_soundSelect;
 	int m_soundButton;
-
-
 };
 

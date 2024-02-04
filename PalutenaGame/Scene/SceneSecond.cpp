@@ -1,6 +1,5 @@
 #include "SceneSecond.h"
 #include "DxLib.h"
-#include "SceneMain.h"
 #include "Player.h"
 #include "MozueyeEnemy.h"
 #include "DeathYourEnemy.h"
@@ -31,7 +30,7 @@ SceneSecond::SceneSecond() :
 	assert(m_backHandle != -1);
 
 	// プレイヤーのメモリ確保
-	m_pPlayer = new Player{m_pSceneMain};
+	m_pPlayer = new Player{this};
 	m_pPlayer->SetHandle(m_playerHandle);	// Playerにグラフィックのハンドルを渡す
 
 	// 背景のメモリ確保

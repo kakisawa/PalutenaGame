@@ -21,7 +21,6 @@ namespace
 // クラス宣言
 class Player;
 class Back;
-class SceneMain;
 class MozueyeEnemy;
 class DeathYourEnemy;
 class PumpkinEnemy;
@@ -42,10 +41,8 @@ public:
 
 	void CharactorDraw();
 
-
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
-	
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
@@ -96,9 +93,6 @@ private:
 	Time* m_pTime;
 	// SE/BGM
 	SoundManager* m_pSoundManager;
-
-	SceneMain* m_pSceneMain;
-
 	// エネミー
 	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;
 	std::vector<DeathYourEnemy*> m_pDeathYourEnemy;

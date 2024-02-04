@@ -200,8 +200,6 @@ void SceneManager::Update()
 		m_pGameClear->Update();		// ゲームクリア画面の更新
 		break;
 	}
-
-
 }
 
 void SceneManager::Draw()

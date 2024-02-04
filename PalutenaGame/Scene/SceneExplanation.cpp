@@ -48,22 +48,28 @@ void SceneExplanation::Update()
 	{
 		m_isSceneEnd = true;
 
-		m_fadeAlpha += 8;
-		if (m_fadeAlpha > 255)
-		{
-			m_fadeAlpha = 255;
-		}
-
 		m_pSoundManager->SoundButton();
 	}
 
 	// 背景スクロール
 	m_scrollX += backGround_scale;
 
-	m_fadeAlpha -= 8;
-	if (m_fadeAlpha < 0)
+	// フェードイン
+	if (m_isSceneEnd)
 	{
-		m_fadeAlpha = 0;
+		m_fadeAlpha += 8;
+		if (m_fadeAlpha > 255)
+		{
+			m_fadeAlpha = 255;
+		}
+	}
+	else
+	{
+		m_fadeAlpha -= 8;
+		if (m_fadeAlpha < 0)
+		{
+			m_fadeAlpha = 0;
+		}
 	}
 }
 
@@ -109,5 +115,5 @@ void SceneExplanation::End()
 
 bool SceneExplanation::IsSceneEnd() const
 {
-	return m_isSceneEnd;
+	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }

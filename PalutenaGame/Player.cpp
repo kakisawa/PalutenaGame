@@ -46,6 +46,11 @@ namespace
 	constexpr int kDamageFrame = 60;
 }
 
+Player::Player() :
+	Graph(-1)
+{
+}
+
 Player::Player(SceneMain* pMain) :
 	m_pMain(pMain),
 	Graph(-1)
@@ -54,9 +59,12 @@ Player::Player(SceneMain* pMain) :
 	m_pSoundManager = new SoundManager;
 }
 
-Player::Player():
+Player::Player(SceneSecond* pSceneSecond):
+	m_pSceneSecond(pSceneSecond),
 	Graph(-1)
 {
+	// ƒƒ‚ƒŠŠm•Û
+	m_pSoundManager = new SoundManager;
 }
 
 Player::~Player()

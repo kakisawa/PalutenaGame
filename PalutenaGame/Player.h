@@ -31,8 +31,10 @@ enum ShotDir
 class Player
 {
 public:
-	Player(SceneMain* pMain);
 	Player();
+	Player(SceneMain* pMain);
+	Player(SceneSecond* pSceneSecond);
+
 	~Player();
 
 	void Init();
@@ -61,6 +63,7 @@ public:
 	void SetPump(PumpkinEnemy* pPump) { m_pPumpkinEnemy = pPump; }
 private:
 	SceneMain* m_pMain;
+	SceneSecond* m_pSceneSecond;
 	MozueyeEnemy* m_pMozueyeEnemy;
 	DeathYourEnemy* m_pDeathYourEnemy;
 	PumpkinEnemy* m_pPumpkinEnemy;

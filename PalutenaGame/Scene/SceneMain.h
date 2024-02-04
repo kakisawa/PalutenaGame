@@ -46,9 +46,7 @@ public:
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
-	// ↑これはシーン終了時のフラグ
-	// クリアとゲームオーバーは別にした方がいいかもしれない。
-
+	
 	// 次どのステージに行くか
 	bool ToGameOver() const;
 	bool ToGameClear() const;

@@ -10,5 +10,5 @@ namespace
 	constexpr int kColorDepth = 32;
 
 	// ínñ ÇÃçÇÇ≥
-	constexpr int Ground = kScreenHeight - 80;		// 400
+	constexpr int Ground = kScreenHeight - 80;
 }
