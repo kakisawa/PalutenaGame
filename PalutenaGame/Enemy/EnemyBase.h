@@ -12,7 +12,7 @@ public:
 
 	virtual void Init(int x,int y);
 	virtual void Update();
-	virtual void Draw() {}
+	virtual void Draw(){}
 
 	virtual void OnDamage();	// “G‚ªƒ_ƒ[ƒW‚ğó‚¯‚½‚Ìˆ—
 	void Death();				// €‚ñ‚¾‚Æ‚«‚Ìˆ—

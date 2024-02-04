@@ -1,21 +1,10 @@
 #include "DxLib.h"
-#include "Vec2.h"
-#include "Game.h"
-
-#include "SceneMain.h"
-#include "Player.h"
-#include "SceneTitle.h"
-#include "SceneManager.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	// 画面モード変更(解像度・ビット数)
-	//SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
-
+	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
-	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
-	SetWindowText(_T("ミラージュ・ビット"));
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -23,10 +12,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	SetDrawScreen(DX_SCREEN_BACK);
-
-	// メモリ確保
-	SceneManager* m_pSceneManager = new SceneManager;
-	m_pSceneManager->Init();
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -37,11 +22,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画を行う前に画面をクリアする
 		ClearDrawScreen();
 
-		// シーンの更新
-		m_pSceneManager->Update();
+		// ゲームの処理
 
-		// シーンの描画
-		m_pSceneManager->Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
@@ -59,12 +41,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 	}
 
-	m_pSceneManager->End();
-
-	// メモリの解放
-	delete m_pSceneManager;
-	m_pSceneManager = nullptr;
-
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
+
 	return 0;				// ソフトの終了 
 }

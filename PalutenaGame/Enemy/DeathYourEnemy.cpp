@@ -7,8 +7,8 @@
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 42;
-	constexpr int kHeight = 69;
+	constexpr int kWidth = 63;
+	constexpr float kHeight = 103.5f;
 
 	// エネミーの画像元サイズ
 	constexpr int SrcWidth = 28;
@@ -37,6 +37,7 @@ DeathYourEnemy::DeathYourEnemy()
 	isTurn = false;				// 右を向いているのfalseを挿入
 	angle = 0;					// 敵の移動角度
 	EnemyAnim = 0;				// 敵のアニメーションの初期化
+	m_damageFrame = 0;
 }
 
 DeathYourEnemy::~DeathYourEnemy()
@@ -46,13 +47,14 @@ DeathYourEnemy::~DeathYourEnemy()
 
 void DeathYourEnemy::Init()
 {
-	HP = 10;		// HP
+	HP = 3;		// HP
 	Atk = 10;	// 攻撃力
 
 	Gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
 	angle = 0;					// 敵の移動角度
 	EnemyAnim = 0;				// 敵のアニメーション初期化
+	m_damageFrame = 0;
 }
 
 void DeathYourEnemy::Update()
@@ -60,8 +62,13 @@ void DeathYourEnemy::Update()
 	//m_basePos += m_vec;
 	//m_pos += m_basePos;
 
+	// ダメージ演出の進行
+	m_damageFrame--;
+	if (m_damageFrame < 0)	m_damageFrame = 0;
+
 	//当たり判定の更新
-	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
+	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2,
+		kWidth, kHeight);
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
@@ -76,7 +83,7 @@ void DeathYourEnemy::Update()
 	{
 		angle++;
 		float angle2 = angle * (DX_PI / 180);
-		m_pos.y = sin(angle2) * 200 + 550;
+		//m_pos.y = sin(angle2) * 200 + 550;
 		m_pos.x += kSpeed;
 
 	}

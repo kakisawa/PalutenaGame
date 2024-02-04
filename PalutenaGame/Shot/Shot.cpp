@@ -77,5 +77,5 @@ void Shot::Start(Vec2 pos)
 
 void Shot::colShot()
 {
-        m_isExist = false;
+    m_isExist = false;
 }

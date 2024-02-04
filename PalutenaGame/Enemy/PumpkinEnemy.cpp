@@ -8,8 +8,8 @@
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 32;
-	constexpr int kHeight = 44;
+	constexpr int kWidth = 48;
+	constexpr int kHeight = 66;
 
 	// エネミーの画像元サイズ
 	constexpr int SrcWidth = 16;
@@ -60,7 +60,8 @@ void PumpkinEnemy::Update()
 	m_pos += m_vec;
 
 	//当たり判定の更新
-	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
+	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, 
+		kWidth, kHeight);
 
 	if (m_pos.x<0 || m_pos.x > kScreenWidth + kWidth / 2)
 	{
@@ -72,8 +73,6 @@ void PumpkinEnemy::Update()
 	// 敵の初期位置からターゲット位置に向かうベクトルを生成する
 	// 始点から終点に向かうベクトルを求める場合、終点の座標-始点の座標で求める
 	Vec2 toTarget = target - m_pos;
-
-	// ベクトルの長さをkSpeedにしてやる
 
 	// ベクトルの正規化　長さを1にする
 	toTarget.normalize();

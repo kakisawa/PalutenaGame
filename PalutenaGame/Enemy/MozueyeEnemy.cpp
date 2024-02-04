@@ -8,8 +8,8 @@
 namespace
 {
 	// エネミーのサイズ
-	constexpr int kWidth = 72;
-	constexpr int kHeight = 50;
+	constexpr float kWidth = 93.6f;
+	constexpr int kHeight = 65;
 
 	// エネミーの画像元サイズ
 	constexpr int SrcWidth = 46;
@@ -47,7 +47,8 @@ MozueyeEnemy::~MozueyeEnemy()
 void MozueyeEnemy::Update()
 {
 	//当たり判定の更新
-	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
+	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2,
+		kWidth, kHeight);
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };

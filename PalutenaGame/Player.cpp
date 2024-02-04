@@ -14,8 +14,8 @@
 namespace
 {
 	// キャラクターのサイズ
-	constexpr int kWidth = 32;
-	constexpr int kHeight = 32;
+	constexpr int kWidth = 48;
+	constexpr int kHeight = 48;
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
@@ -269,6 +269,13 @@ void Player::Update()
 
 void Player::Draw()
 {
+	SetFontSize(16);
+	// プレイヤーの現在体力表示
+	DrawFormatString(80, 0, GetColor(255, 255, 255),
+		"PlayerHP:(%d)", HP);
+	DrawFormatString(80, 114 * 6, GetColor(255, 255, 255),
+		"Score:(%d)", Score);
+
 	if (!PlayerDeath()) {
 		// ダメージ演出 2フレーム間隔で表示非表示切り替え
 		// 0: 表示される
@@ -391,12 +398,7 @@ void Player::Draw()
 		}
 	}
 
-	SetFontSize(16);
-	// プレイヤーの現在体力表示
-	DrawFormatString(80, 0, GetColor(255, 255, 255),
-		"PlayerHP:(%d)", HP);
-	DrawFormatString(80, 114 * 6, GetColor(255, 255, 255),
-		"Score:(%d)", Score);
+	
 #ifdef _DEBUG
 	int y = 19;
 

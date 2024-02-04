@@ -43,28 +43,20 @@ void EnemyBase::Update()
 }
 
 void EnemyBase::OnDamage()
-{
+{	
+	// ダメージ演出中は再度食らわない
+	if (m_damageFrame > 0)	return;
 
 	HP -= 1;
+	// HP -= m_pPlayer->GetPlayerAtk();
 
 	if (HP <= 0)
 	{
 		Death();
  		m_pPlayer->Score += Score;
 	}
-
-	// ダメージ演出中は再度食らわない
-	if (m_damageFrame > 0)
-	{
-		return;
-	}
-	// HP -= m_pPlayer->GetPlayerAtk();
-
-	
-	
 	// 演出フレーム数を設定する
 	m_damageFrame = kDamageFrame;
-
 }
 
 void EnemyBase::Death()

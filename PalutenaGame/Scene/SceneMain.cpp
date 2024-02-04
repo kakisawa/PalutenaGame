@@ -252,29 +252,26 @@ void SceneMain::Update()
 					delete m_pDeathYourEnemy[i];
 					m_pDeathYourEnemy[i] = nullptr;
 				}
-				else
-				{
-					// 存在している敵とプレイヤーの当たり判定
+				else {			// 存在している敵とプレイヤーの当たり判定
 					Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
 					if (playerRect.IsCollsion(enemyRect))
 					{
 						m_pPlayer->OnDamage_Death();
 						m_pDeathYourEnemy[i]->OnDamage();
+					}
+					// 弾との当たり判定
+					for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
+					{
+						// nullptrなら処理は行わない
+						if (!m_pShot[shotIndex])	continue;
 
-						// 弾との当たり判定
-						for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
-						{
-							// nullptrなら処理は行わない
-							if (!m_pShot[shotIndex])	continue;
-
-							if (m_pShot[shotIndex]->IsExist()) {
-								// 存在している敵との当たり判定
-								Rect shotRect = m_pShot[shotIndex]->GetColRect();
-								if (shotRect.IsCollsion(enemyRect))
-								{
-									m_pDeathYourEnemy[i]->OnDamage();
-									m_pShot[shotIndex]->colShot();
-								}
+						if (m_pShot[shotIndex]->IsExist()) {
+							// 存在している敵との当たり判定
+							Rect shotRect = m_pShot[shotIndex]->GetColRect();
+							if (shotRect.IsCollsion(enemyRect))
+							{
+								m_pDeathYourEnemy[i]->OnDamage();
+								m_pShot[shotIndex]->colShot();
 							}
 						}
 					}
@@ -331,19 +328,22 @@ void SceneMain::Update()
 		if (m_enemyInterval >= kEnemyInterval)
 		{
 			m_enemyInterval = 0;
-			// ランダムに生成する敵を選択
-			switch (GetRand(2))
-			{
-			case 0:
-				CreateEnemyMozu();
-				break;
-			case 1:
-				CreateEnemyDeath();
-				break;
-			case 2:
-				CreateEnemyPump();
-				break;
-			}
+			//// ランダムに生成する敵を選択
+			//switch (GetRand(2))
+			//{
+			//case 0:
+			//	CreateEnemyMozu();
+			//	break;
+			//case 1:
+			//	CreateEnemyDeath();
+			//	break;
+			//case 2:
+			//	CreateEnemyPump();
+			//	break;
+			//}
+
+			// デバッグ用
+			CreateEnemyDeath();
 		}
 	}
 }
@@ -493,7 +493,7 @@ bool SceneMain::AddShot(Shot* pShot)
 	for (int i = 0; i < kShotMax; i++)
 	{
 		// 使用中なら次のチェックへ
- 		if (m_pShot[i])	continue;
+		if (m_pShot[i])	continue;
 
 		// ここに来たということはm_pShot[i] == nullptr
 		m_pShot[i] = pShot;
@@ -515,7 +515,7 @@ void SceneMain::CreateEnemyMozu()
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init();
-			m_pMozueyeEnemy[i]->Start(kScreenWidth*0.3, Ground - 32 * 0.5);
+			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.3, Ground - 32 * 0.5);
 			return;
 		}
 	}
@@ -544,7 +544,7 @@ void SceneMain::CreateEnemyPump()
 			m_pPumpkinEnemy[i] = new PumpkinEnemy;
 			m_pPumpkinEnemy[i]->Init();
 
-			int EnemyX=0;
+			int EnemyX = 0;
 
 			EnemyX = kScreenWidth * 0.5f;
 
