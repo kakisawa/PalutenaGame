@@ -10,16 +10,21 @@ Time::Time():
 {
 }
 
+Time::~Time()
+{
+}
+
 void Time::Init()
 {
-	Second =900.0f;		// ñ{óàÇÕ60ïb*60
-						// åªç›ÇÕâºÇ≈10ïb*60
+	Second =1000.0f;		// ñ{óàÇÕ60ïb*60
+							// åªç›ÇÕâºÇ≈10ïb*60
 	isTimeUp = false;
 }
 
 void Time::Update()
 {
-	if (Second <= 0.0f){
+	if (Second <= 0.0f)
+	{
 		isTimeUp = true;
 	}
 	Second--;

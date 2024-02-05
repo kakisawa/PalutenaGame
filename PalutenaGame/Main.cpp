@@ -1,5 +1,10 @@
 #include "DxLib.h"
+#include "Vec2.h"
 #include "Game.h"
+
+#include "SceneMain.h"
+#include "Player.h"
+#include "SceneTitle.h"
 #include "SceneManager.h"
 
 // プログラムは WinMain から始まります
@@ -53,6 +58,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 		}
 	}
+
 	m_pSceneManager->End();
 
 	// メモリの解放

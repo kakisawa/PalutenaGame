@@ -23,6 +23,7 @@ public:
 	// 敵の攻撃力,HP,スコアを渡す
 	int GetEnemyAtk() const { return Atk; }
 	int GetEnemyHP() const { return HP; }
+	int GetEnemyScore() const { return Score; }
 
 	bool isExist() const { return m_isExist; }
 
@@ -30,6 +31,7 @@ public:
 	virtual void Start(float x, float y) = 0;
 	
 protected:		// 派生クラスからアクセスできるように
+
 	int EGraph;	// 敵画像
 	int W, H;	// 敵画像サイズ
 	int HP;		// 敵HP
@@ -43,11 +45,8 @@ protected:		// 派生クラスからアクセスできるように
 							// 普段は0で、当たった時にフレーム数を設定して
 							// 以降毎フレーム減らしていく
 
-	bool isScore;		// スコア加算フラグ
-
 	bool m_isExist;		// 存在するかフラグ(使用中かどうか)
-	bool isDeath;		// 死亡フラグ
-
+	bool isDeath; // 死亡フラグ
 
 	// 表示位置
 	Vec2 m_pos;

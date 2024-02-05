@@ -7,24 +7,21 @@
 namespace
 {
 	// 文字の表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.08f;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.15f;
-
-	constexpr int kSelectBackChirPosX = kScreenWidth * 0.43f;
-	constexpr int kSelectBackChirPosY = kScreenHeight * 0.85f;
+	constexpr int kChirPosX = kScreenWidth * 0.1;
+	constexpr int kChirPosY = kScreenHeight * 0.2;
 
 	// 文字の表示幅
-	constexpr int kCharInterval = 180;
+	constexpr int kCharInterval = 120;
 
 	// 文字を囲む四角の初期位置
-	constexpr int kSelectPosX = kSelectChirPosX - 2;
-	constexpr int kSelectPosY = kSelectChirPosY - 2;
+	constexpr int kSelectPosX = kChirPosX - 2;
+	constexpr int kSelectPosY = kChirPosY - 2;
 
 	// 文字を囲む四角の移動量
-	constexpr int kSelectMoveY = 180;
+	constexpr int kSelectMoveY = 120;
 
 	// 文字を囲む四角のサイズ
-	constexpr int kSelectSizeX = kScreenWidth*0.245;
+	constexpr int kSelectSizeX = kScreenWidth*0.38;
 	constexpr int kSelectSizeY = 75;
 
 	// スクロール移動量
@@ -85,7 +82,6 @@ void SceneStageSelect::Update()
 		m_pSoundManager->SoundSelect();
 
 		m_select = (m_select + 1) % kSclectNum;
-
 		m_selectPos.y += kSelectMoveY;
 
 		// 選択中の四角が一番下にだったら四角を一番上に戻す
@@ -182,8 +178,7 @@ void SceneStageSelect::End()
 
 void SceneStageSelect::StringDraw()
 {
-	// ステージセレクトBox
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
 			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xF4EADE, true);
@@ -191,10 +186,6 @@ void SceneStageSelect::StringDraw()
 		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
 			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
 	}
-	// タイトルに戻るBox
-	DrawBox(kSelectBackChirPosX, kSelectBackChirPosY,
-		kSelectBackChirPosX + kSelectSizeX, kSelectBackChirPosY+75,
-		0xF4EADE, true);
 
 	// 選択中の部分を四角で描画
 	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
@@ -206,15 +197,15 @@ void SceneStageSelect::StringDraw()
 
 	SetFontSize(64);
 
-	DrawString(kSelectChirPosX, kSelectChirPosY, "ステージ1", 0x000000);
-	DrawString(kSelectChirPosX, kSelectChirPosY + kCharInterval, "ステージ2", 0x000000);
-	DrawString(kSelectBackChirPosX, kSelectBackChirPosY, "タイトルに戻る", 0x000000);
+	DrawString(kChirPosX + 25, kChirPosY, "ステージ1", 0x000000);
+	DrawString(kChirPosX, kChirPosY + kCharInterval, "ステージ2", 0x000000);
+	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "タイトルに戻る", 0x000000);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
 		//SetFontSize(32);
-		DrawString(kSelectChirPosX, kSelectChirPosY + kCharInterval * 3, "Aキーで決定", 0xffffff);
+		DrawString(kChirPosX, kChirPosY + kCharInterval * 3, "Aキーで決定", 0xffffff);
 	}
 
 	// フェードの描画
