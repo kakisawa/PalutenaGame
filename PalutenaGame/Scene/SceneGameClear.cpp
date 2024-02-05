@@ -10,28 +10,42 @@
 
 namespace
 {
+	// タイトル文字表示位置
+	constexpr int kTitleChirPosX = kScreenWidth * 0.03f;
+	constexpr int kTitleChirPosY = kScreenHeight * 0.05f;
+
+	// スコア文字表示位置
+	constexpr int kScoreChirPosX = kScreenWidth * 0.43f;
+	constexpr int kScoreChirPosY = kScreenHeight * 0.15f;
+
 	// 文字の表示位置
-	constexpr int kChirPosX = kScreenWidth * 0.4;
-	constexpr int kChirPosY = kScreenHeight * 0.3;
+	constexpr int kSelectChirPosX = kScreenWidth * 0.15;
+	constexpr int kSelectChirPosY = kScreenHeight * 0.85;
 
 	// 文字の表示幅
-	constexpr int kCharInterval = 120;
+	constexpr int kCharInterval = 770;
 
 	// 文字を囲む四角の初期位置
-	constexpr int kSelectPosX = kChirPosX - 2;
-	constexpr int kSelectPosY = kChirPosY - 2;
+	constexpr int kSelectPosX = kSelectChirPosX - 2;
+	constexpr int kSelectPosY = kSelectChirPosY - 2;
 
 	// 文字を囲む四角の移動量
-	constexpr int kSelectMoveY = 120;
+	constexpr int kSelectMoveX = 770;
 
 	// 文字を囲む四角のサイズ
-	constexpr int kSelectSizeX = 700;
+	constexpr int kSelectSizeX = kScreenWidth * 0.31;
 	constexpr int kSelectSizeY = 75;
+
+	// スクロール移動量
+	constexpr float backGround_scale = 1.2f;
+	// 背景の拡大率
+	constexpr int kBgScale = 1;
 }
 
 SceneGameClear::SceneGameClear():
 	m_isSceneEnd(false),
 	m_select(kScelectBackTitle),
+	m_scrollX(0),
 	m_fadeAlpha(255),
 	m_fadeLetter(0),
 	m_selectPos(kSelectPosX, kSelectPosY)
@@ -49,11 +63,12 @@ SceneGameClear::~SceneGameClear()
 
 void SceneGameClear::Init()
 {
-	Graph = LoadGraph("data/Map/gg.jpg");
+	Graph = LoadGraph("data/Map/patter4.png");
 	Cursor = LoadGraph("data/Cursor.png");	// カーソルロゴ読み込み
 
 	m_select = kScelectBackTitle;
 	m_isSceneEnd = false;
+	m_scrollX = 0;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
 	m_selectPos.x = kSelectPosX;
@@ -65,34 +80,34 @@ void SceneGameClear::Init()
 
 void SceneGameClear::Update()
 {
-	// ↓キーを押したら選択状態を一つ下げる
-	if (Pad::IsTrigger(PAD_INPUT_DOWN))
+	// 右キーを押したら選択状態を右に移す
+	if (Pad::IsTrigger(PAD_INPUT_RIGHT))
 	{
 		// SE
 		m_pSoundManager->SoundSelect();
 
 		m_select = (m_select + 1) % kSclectNum;
-		m_selectPos.y += kSelectMoveY;
+		m_selectPos.x += kSelectMoveX;
 
 		// 選択中の四角が一番下にだったら四角を一番上に戻す
-		if (m_selectPos.y > kSelectPosY + kSelectMoveY * (kSclectNum - 1))
+		if (m_selectPos.x > kSelectPosX + kSelectMoveX * (kSclectNum - 1))
 		{
-			m_selectPos.y = kSelectPosY;
+			m_selectPos.x = kSelectPosX;
 		}
 	}
-	// 上キーを押したら選択状態を一つ上げる
-	else if (Pad::IsTrigger(PAD_INPUT_UP))
+	// 左キーを押したら選択状態を左に移す
+	else if (Pad::IsTrigger(PAD_INPUT_LEFT))
 	{
 		// SE
 		m_pSoundManager->SoundSelect();
 
 		m_select = (m_select - 1) % kSclectNum;
-		m_selectPos.y -= kSelectMoveY;
+		m_selectPos.x -= kSelectMoveX;
 
 		// 選択中の四角が一番下にだったら四角を一番上に戻す
-		if (m_selectPos.y < kSelectPosY)
+		if (m_selectPos.x < kSelectPosX)
 		{
-			m_selectPos.y = kSelectPosY + kSelectMoveY * (kSclectNum - 1);
+			m_selectPos.x = kSelectPosX + kSelectMoveX * (kSclectNum - 1);
 		}
 	}
 
@@ -113,9 +128,10 @@ void SceneGameClear::Update()
 
 		// SE
 		m_pSoundManager->SoundButton();
-
-		
 	}
+
+	// 背景スクロール
+	m_scrollX += backGround_scale;
 
 	// 文字の点滅
 	m_fadeLetter++;
@@ -153,7 +169,6 @@ void SceneGameClear::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
-
 }
 
 void SceneGameClear::End()
@@ -168,8 +183,13 @@ void SceneGameClear::StringDraw()
 {
 	for (int i = 0; i < 2; i++)
 	{
-		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
-			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
+		DrawBox(kSelectPosX + (kCharInterval * i), kSelectPosY,
+			kSelectPosX + (kSelectSizeX + (kCharInterval * i)),kSelectPosY + kSelectSizeY,
+			0xF4EADE, true);
+
+		DrawBox(kSelectPosX + (kCharInterval * i), kSelectPosY,
+			kSelectPosX +( kSelectSizeX+(kCharInterval * i)),kSelectPosY + kSelectSizeY,
+			0x99e6ff, false);
 	}
 
 	// 選択中の部分を四角で描画
@@ -180,22 +200,39 @@ void SceneGameClear::StringDraw()
 		m_selectPos.x + kSelectSizeX + 20, m_selectPos.y + kSelectSizeY + 20,
 		Cursor, true);
 
+	SetFontSize(96);
+	DrawString(kScoreChirPosX, kScoreChirPosY, "スコア", 0x000000);
+
 	SetFontSize(64);
 
-	DrawString(kChirPosX, kChirPosY, "タイトル画面に戻る", 0xffffff);
-	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを終わる", 0xffffff);
+	DrawString(kTitleChirPosX, kTitleChirPosY, "ゲームクリア画面", 0x000000);
+	DrawString(kSelectChirPosX, kSelectChirPosY, "タイトル画面に戻る", 0x000000);
+	DrawString(kSelectChirPosX + kCharInterval, kSelectChirPosY, "ゲームを終わる", 0x000000);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
 		SetFontSize(32);
-		DrawString(kChirPosX + 123, kChirPosY + kCharInterval * 3.6, "Aキーで決定", 0xffffff);
+		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.6, "Aキーで決定", 0xffffff);
 	}
 }
 
 void SceneGameClear::BackDraw()
 {
-	DrawGraph(0, 0, Graph, false);
+	Size bg1Size;
+	GetGraphSize(Graph, &bg1Size.width, &bg1Size.height);
+
+	// スクロール量を計算
+	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
+
+	for (int index = 0; index < 4; index++)
+	{
+		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
+			kScreenHeight - bg1Size.height * kBgScale,
+			0, 0,
+			kBgScale, 0.0f,
+			Graph, true);
+	}
 }
 
 bool SceneGameClear::IsSceneEnd() const

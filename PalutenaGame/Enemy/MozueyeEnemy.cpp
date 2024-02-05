@@ -17,6 +17,10 @@ namespace
 
 	// 移動速度
 	float kSpeed = 3.0f;
+	// プレイヤーHP初期値
+	constexpr int kHP = 2;
+	// プレイヤーAtk初期値
+	constexpr int kAtk = 10;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
 	constexpr int DefFrame[] = { 0,1,2,3,4 };
@@ -30,8 +34,8 @@ MozueyeEnemy::MozueyeEnemy()
 {
 	EGraph= LoadGraph("data/Enemy/Mozueye.png");
 
-	HP = 3;		// HP
-	Atk = 10;	// 攻撃力
+	HP = kHP;		// HP
+	Atk = kAtk;	// 攻撃力
 	Score = 50;	// 倒した際に得られるスコア
 
 	Gravity = 0.0f;				// 敵の初期重力
@@ -46,12 +50,21 @@ MozueyeEnemy::~MozueyeEnemy()
 
 void MozueyeEnemy::Update()
 {
+	// ダメージ演出の進行
+	m_damageFrame--;
+	if (m_damageFrame < 0)	m_damageFrame = 0;
+
 	//当たり判定の更新
 	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2,
 		kWidth, kHeight);
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
+	// ベクトルの正規化
+	move.normalize();
+	// ベクトルの長さをkSpeedにする
+	move *= kSpeed;
+	m_pos += move;
 
 	//敵移動
 	if (isTurn == false)
@@ -68,13 +81,6 @@ void MozueyeEnemy::Update()
 	{
 		m_pos.x -= kSpeed;
 	}
-
-	// ベクトルの正規化
-	move.normalize();
-	// ベクトルの長さをkSpeedにする
-	move *= kSpeed;
-
-	m_pos += move;
 
 	// エネミーが画面端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
 	if (m_pos.x > kScreenWidth - kWidth)

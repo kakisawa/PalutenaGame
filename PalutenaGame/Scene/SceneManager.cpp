@@ -134,7 +134,7 @@ void SceneManager::Update()
 				m_runScene = kSceneKindGameOver;	// ゲームオーバー画面へ行く
 				m_pGameOver->Init();
 			}
-			else if (m_pMain->ToGameClear())
+			if (m_pMain->ToGameClear())
 			{
 				m_runScene = kSceneKindGameClear;	// ゲームクリア画面へ行く
 				m_pGameClear->Init();

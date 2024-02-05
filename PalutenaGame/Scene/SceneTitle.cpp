@@ -8,15 +8,15 @@
 namespace
 {
 	// 文字の表示位置
-	constexpr int kChirPosX = kScreenWidth * 0.38f;
-	constexpr int kChirPosY = kScreenHeight * 0.61f;
+	constexpr int kSelectChirPosX = kScreenWidth * 0.38f;
+	constexpr int kSelectChirPosY = kScreenHeight * 0.61f;
 
 	// 文字の表示幅
 	constexpr int kCharInterval = 110;
 
 	// 文字を囲む四角の初期位置
-	constexpr int kSelectPosX = kChirPosX - 2;
-	constexpr int kSelectPosY = kChirPosY - 2;
+	constexpr int kSelectPosX = kSelectChirPosX - 2;
+	constexpr int kSelectPosY = kSelectChirPosY - 2;
 
 	// 文字を囲む四角の移動量
 	constexpr int kSelectMoveY = 110;
@@ -219,17 +219,17 @@ void SceneTitle::StringDraw()
 
 	SetFontSize(64);
 
-	DrawString(kChirPosX + 100, kChirPosY, "操作説明", 0x000000);
+	DrawString(kSelectChirPosX + 100, kSelectChirPosY, "操作説明", 0x000000);
 
 	//DrawStringToHandle(kChirPosX + 100, kChirPosY, "操作説明", 0x000000, m_pFont->m_TitleFont);
-	DrawString(kChirPosX, kChirPosY + kCharInterval, "ゲームを始める", 0x000000);
-	DrawString(kChirPosX, kChirPosY + kCharInterval * 2, "ゲームを終わる", 0x000000);
+	DrawString(kSelectChirPosX, kSelectChirPosY + kCharInterval, "ゲームを始める", 0x000000);
+	DrawString(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2, "ゲームを終わる", 0x000000);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
 		SetFontSize(32);
-		DrawString(kChirPosX + 123, kChirPosY + kCharInterval * 3.0f, "Aキーで決定", 0xffffff);
+		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.0f, "Aキーで決定", 0xffffff);
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始

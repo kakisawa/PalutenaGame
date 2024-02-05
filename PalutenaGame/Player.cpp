@@ -17,10 +17,15 @@ namespace
 	constexpr int kWidth = 48;
 	constexpr int kHeight = 48;
 
+	// プレイヤーHP初期値
+	constexpr int kHP = 100;
+	// プレイヤーAtk初期値
+	constexpr int kAtk = 2;
+
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
 	// ジャンプ距離
-	constexpr float kJump = 13.0f;
+	constexpr float kJump = 18.0f;
 
 	// 基本キャラアニメーション
 	constexpr int DefFrame[] = { 0,1,2,3,4,5 };
@@ -28,40 +33,51 @@ namespace
 	constexpr int DefAnimFrameNum = 8;
 	// 基本キャラアニメーション1サイクルのフレーム数
 	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
-
 	// 攻撃時キャラアニメーション		
 	constexpr int AttackFrame[] = { 1,0,2,3,4,5 };
 	// 攻撃時キャラアニメーション1コマのフレーム数
 	constexpr int AttackAnimFrameNum = 8;
 	// 攻撃時キャラアニメーション1サイクルのフレーム数
 	constexpr int AttackFrameCycle = _countof(AttackFrame) * AttackAnimFrameNum;
-
-
 	// 死亡時キャラアニメーション1コマのフレーム数
 	constexpr int DeathAnimFrameNum = 4;
 	// 死亡時キャラアニメーション1サイクルのフレーム数
 	constexpr int DeathFrameCycle = _countof(DefFrame) * DeathAnimFrameNum;
-
 	// ダメージ演出フレーム数
 	constexpr int kDamageFrame = 60;
 }
 
 Player::Player() :
-	Graph(-1)
+	Graph(-1),
+	Atk(kAtk)
 {
 }
 
-Player::Player(SceneMain* pMain) :
-	m_pMain(pMain),
-	Graph(-1)
+Player::Player(SceneExplanation* pExplanation):
+	m_pExplanation(pExplanation),
+	Graph(-1),
+	Atk(kAtk)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
 }
 
+Player::Player(SceneMain* pMain) :
+	m_pMain(pMain),
+	Graph(-1),
+	Atk(kAtk)
+{
+	// メモリ確保
+	m_pSoundManager = new SoundManager;
+	m_pDeathYourEnemy = new DeathYourEnemy;
+	m_pMozueyeEnemy = new MozueyeEnemy;
+	m_pPumpkinEnemy = new PumpkinEnemy;
+}
+
 Player::Player(SceneSecond* pSceneSecond):
 	m_pSceneSecond(pSceneSecond),
-	Graph(-1)
+	Graph(-1),
+	Atk(kAtk)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
@@ -76,14 +92,14 @@ Player::~Player()
 
 void Player::Init()
 {
-	HP = 100;						// プレイヤーの初期HP
+	HP = kHP;					// プレイヤーの初期HP
 	m_pos.x = kScreenWidth / 2;	// プレイヤーの初期位置x
 	m_pos.y = 100;				// プレイヤーの初期位置y
 	m_dir = kDirFront;			// プレイヤーの初期方向(正面のflont)
 	m_shotDir = kShotDirRight;	// プレイヤーの攻撃初期方向
 	JumpPower = 0.0f;			// プレイヤーの初期ジャンプ
 	Gravity = 0.0f;				// プレイヤーの初期重力
-	Atk = 1;					// プレイヤーの初期攻撃力
+	Atk = kAtk;					// プレイヤーの初期攻撃力
 	Score = 0;					// プレイヤーが獲得しているスコアの初期化
 	PlayerAnim = 0;				// プレイヤーアニメーションの初期化
 	m_damageFrame = 0;			// プレイヤー被ダメアニメーション  
@@ -397,8 +413,6 @@ void Player::Draw()
 			// 　最終的には、1ループ分のアニメーションは動いてほしい
 		}
 	}
-
-	
 #ifdef _DEBUG
 	int y = 19;
 

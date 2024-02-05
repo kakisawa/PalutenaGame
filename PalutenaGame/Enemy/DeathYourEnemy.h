@@ -8,7 +8,7 @@ public:
     DeathYourEnemy();
     ~DeathYourEnemy();
 
-    void Init();
+    void Init() {}
     virtual void Update() override;
     virtual void Draw() override;
 
@@ -20,6 +20,9 @@ private:
     Vec2 m_basePos;
     // sin()‚É—^‚¦‚éˆø”
     float m_sinRate;
+
+    // ƒXƒRƒA
+    int m_Score;
 
     // “G‚ÌˆÚ“®Šp“x
     float angle;
