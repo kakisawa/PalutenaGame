@@ -34,8 +34,15 @@ private:
         kSclectNum,         // 項目数
     };
 
-    int m_select;    // 選択中のメニュー
+    int m_select;       // 選択中のメニュー
     int Cursor;         // カーソルグラフ
+    float m_scrollX;    // スクロール移動量
+
+    struct Size         // 背景のサイズ
+    {
+        int width;
+        int height;
+    };
 
     int m_fadeLetter;   // 文字の点滅用カウンタ
     int m_fadeAlpha;    // フェードイン、アウト

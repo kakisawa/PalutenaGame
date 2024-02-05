@@ -4,7 +4,7 @@ class Time
 {
 public:
 	Time();
-	~Time();
+	~Time(){}
 
 	void Init();
 	void Update();

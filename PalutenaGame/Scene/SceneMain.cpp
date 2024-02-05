@@ -328,22 +328,19 @@ void SceneMain::Update()
 		if (m_enemyInterval >= kEnemyInterval)
 		{
 			m_enemyInterval = 0;
-			//// ランダムに生成する敵を選択
-			//switch (GetRand(2))
-			//{
-			//case 0:
-			//	CreateEnemyMozu();
-			//	break;
-			//case 1:
-			//	CreateEnemyDeath();
-			//	break;
-			//case 2:
-			//	CreateEnemyPump();
-			//	break;
-			//}
-
-			// デバッグ用
-			CreateEnemyDeath();
+			// ランダムに生成する敵を選択
+			switch (GetRand(2))
+			{
+			case 0:
+				CreateEnemyMozu();
+				break;
+			case 1:
+				CreateEnemyDeath();
+				break;
+			case 2:
+				CreateEnemyPump();
+				break;
+			}
 		}
 	}
 }

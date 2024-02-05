@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 
+class SceneExplanation;
 class SceneMain;
 class SceneSecond;
 class MozueyeEnemy;
@@ -32,6 +33,7 @@ class Player
 {
 public:
 	Player();
+	Player(SceneExplanation* pExplanation);
 	Player(SceneMain* pMain);
 	Player(SceneSecond* pSceneSecond);
 
@@ -45,23 +47,22 @@ public:
 	void OnDamage_Mozu();	// プレイヤー被ダメ処理(敵_モズアイ)
 	void OnDamage_Death();	// プレイヤー被ダメ処理(敵_死)
 	void OnDamage_Pump();	// プレイヤー被ダメ処理(敵_パンプキン)
-	void Death();		// プレイヤー死亡時処理
+	void Death();			// プレイヤー死亡時処理
 
 public:
 	void SetHandle(int handle) { Graph = handle; }		// メンバー変数にアクセスする
 	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
 	Vec2 OutPos() const { return m_pos; }				// プレイヤーの座標を取得する
 	bool PlayerDeath() const { return isDeath; }		// プレイヤーの生死状態を取得する
-
+	int GetAtk() const { return Atk; }
 	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
-
-	int Score;	// プレイヤーが敵を倒した際に獲得したスコア
 
 	// 敵の攻撃力を獲得するため
 	void SetMozu(MozueyeEnemy* pMozu) { m_pMozueyeEnemy = pMozu; }
 	void SetDeath(DeathYourEnemy* pDeath) { m_pDeathYourEnemy = pDeath; }
 	void SetPump(PumpkinEnemy* pPump) { m_pPumpkinEnemy = pPump; }
 private:
+	SceneExplanation* m_pExplanation;
 	SceneMain* m_pMain;
 	SceneSecond* m_pSceneSecond;
 	MozueyeEnemy* m_pMozueyeEnemy;
@@ -72,11 +73,14 @@ private:
 
 	int HP;		// プレイヤーの体力
 	int Atk;	// プレイヤーの攻撃力
+	int Score;	// プレイヤーの獲得スコア
 	int Graph;	// プレイヤーの画像
 	int W, H;	// プレイヤーの画像サイズ
 	int m_damageFrame;	// ダメージを受けてからのフレーム数
 							// 普段は0で、当たった時にフレーム数を設定して
 							// 以降毎フレーム減らしていく
+
+
 	float Gravity;		// 重力
 	float JumpPower;	// ジャンプ移動量
 	float PlayerAnim;	// プレイヤーアニメーション

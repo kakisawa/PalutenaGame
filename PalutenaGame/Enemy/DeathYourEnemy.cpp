@@ -16,6 +16,13 @@ namespace
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
+	// プレイヤーHP初期値
+	constexpr int kHP = 2;
+	// プレイヤーAtk初期値
+	constexpr int kAtk = 10;
+
+	// 所持スコア
+	constexpr int kScore = 100;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
 	constexpr int DefFrame[] = { 0,1,2,3,4,5,6 };
@@ -25,36 +32,25 @@ namespace
 	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
 }
 
-DeathYourEnemy::DeathYourEnemy()
+DeathYourEnemy::DeathYourEnemy():
+	m_Score(kScore)
 {
 	EGraph = LoadGraph("data/Enemy/DeathYourEnemy.png");
 
-	HP = 10;		// HP
-	Atk = 10;	// 攻撃力
-	Score = 100;	// 倒した際に得られるスコア
+	HP = kHP;			// HP
+	Atk = kAtk;			// 攻撃力
+	Score = kScore;		// 倒した際に得られるスコア
 
-	Gravity = 0.0f;				// 敵の初期重力
-	isTurn = false;				// 右を向いているのfalseを挿入
-	angle = 0;					// 敵の移動角度
-	EnemyAnim = 0;				// 敵のアニメーションの初期化
+	Gravity = 0.0f;		// 敵の初期重力
+	isTurn = false;		// 右を向いているのfalseを挿入
+	angle = 0;			// 敵の移動角度
+	EnemyAnim = 0;		// 敵のアニメーションの初期化
 	m_damageFrame = 0;
 }
 
 DeathYourEnemy::~DeathYourEnemy()
 {
 	DeleteGraph(EGraph);
-}
-
-void DeathYourEnemy::Init()
-{
-	HP = 3;		// HP
-	Atk = 10;	// 攻撃力
-
-	Gravity = 0.0f;				// 敵の初期重力
-	isTurn = false;				// 右を向いているのfalseを挿入
-	angle = 0;					// 敵の移動角度
-	EnemyAnim = 0;				// 敵のアニメーション初期化
-	m_damageFrame = 0;
 }
 
 void DeathYourEnemy::Update()
@@ -72,7 +68,6 @@ void DeathYourEnemy::Update()
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
-
 	// ベクトルの正規化
 	move.normalize();
 	// ベクトルの長さをkSpeedにする

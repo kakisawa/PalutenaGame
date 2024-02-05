@@ -17,6 +17,12 @@ namespace
 
 	// 移動速度
 	constexpr float kSpeed = 1.0f;
+
+	// プレイヤーHP初期値
+	constexpr int kHP = 1;
+	// プレイヤーAtk初期値
+	constexpr int kAtk = 100;
+
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
 	constexpr int DefFrame[] = { 0,1,2,3,4,5,6,7 };
 	// 基本キャラアニメーションの1コマのフレーム数
@@ -27,16 +33,15 @@ namespace
 
 PumpkinEnemy::PumpkinEnemy()
 {
-
 	EGraph= LoadGraph("data/Enemy/Pumpkin.png");
 
-	HP = 1;		// HP
-	Atk = 100;	// 攻撃力
-	Score = 10;	// 倒した際に得られるスコア
+	HP = kHP;			// HP
+	Atk = kAtk;			// 攻撃力
+	Score = 10;			// 倒した際に得られるスコア
 
-	Gravity = 0.0f;				// 敵の初期重力
-	isTurn = false;				// 右を向いているのfalseを挿入
-	EnemyAnim = 0;				// 敵のアニメーションの初期化
+	Gravity = 0.0f;		// 敵の初期重力
+	isTurn = false;		// 右を向いているのfalseを挿入
+	EnemyAnim = 0;		// 敵のアニメーションの初期化
 }
 
 PumpkinEnemy::~PumpkinEnemy()
@@ -57,16 +62,15 @@ void PumpkinEnemy::Init()
 
 void PumpkinEnemy::Update()
 {
-	m_pos += m_vec;
+	// ダメージ演出の進行
+	m_damageFrame--;
+	if (m_damageFrame < 0)	m_damageFrame = 0;
 
 	//当たり判定の更新
-	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, 
+	m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2,
 		kWidth, kHeight);
 
-	if (m_pos.x<0 || m_pos.x > kScreenWidth + kWidth / 2)
-	{
-		m_isExist = false;
-	}
+	m_pos += m_vec;
 
 	const Vec2 target = m_pPlayer->OutPos();
 
@@ -78,6 +82,11 @@ void PumpkinEnemy::Update()
 	toTarget.normalize();
 	// kSpeedでかける
 	m_vec = toTarget * kSpeed;
+
+	if (m_pos.x<0 || m_pos.x > kScreenWidth + kWidth / 2)
+	{
+		m_isExist = false;
+	}
 
 	// アニメーションフレーム
 	EnemyAnim++;
