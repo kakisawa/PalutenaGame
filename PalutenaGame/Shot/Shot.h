@@ -4,15 +4,13 @@
 
 class Player;
 class SceneMain;
+class SceneSecond;
 
 namespace
 {
 	// プレイヤーのサイズ
 	constexpr int kPlayerWidth = 32;
 	constexpr int kPlayerHeight = 32;
-
-	// 正直ここのプレイヤーサイズはRectクラスとか活用した方がいい
-	// 要改善
 
 	// 弾のサイズ
 	constexpr int kShotWidth = 20;
@@ -40,9 +38,9 @@ public:
 	bool IsExist() const { return m_isExist; }
 	
 	void SetMain(SceneMain* pMain) { m_pMain = pMain; }
+	void SetSecond(SceneSecond* pSecond) { m_pSecond = pSecond; }
 	// プレイヤーの向いている方向を取得する為
 	void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
-
 private:
 	int Se;
 
@@ -63,4 +61,5 @@ public:
 	Player* m_pPlayer;
 	// SceneMainの関数を呼び出すためにポインタを覚えておく
 	SceneMain* m_pMain;
+	SceneSecond* m_pSecond;
 };

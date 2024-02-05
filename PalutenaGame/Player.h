@@ -33,7 +33,6 @@ class Player
 {
 public:
 	Player();
-	Player(SceneExplanation* pExplanation);
 	Player(SceneMain* pMain);
 	Player(SceneSecond* pSceneSecond);
 
@@ -64,7 +63,7 @@ public:
 private:
 	SceneExplanation* m_pExplanation;
 	SceneMain* m_pMain;
-	SceneSecond* m_pSceneSecond;
+	SceneSecond* m_pSecond;
 	MozueyeEnemy* m_pMozueyeEnemy;
 	DeathYourEnemy* m_pDeathYourEnemy;
 	PumpkinEnemy* m_pPumpkinEnemy;

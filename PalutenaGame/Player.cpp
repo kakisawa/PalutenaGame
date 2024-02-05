@@ -53,15 +53,6 @@ Player::Player() :
 {
 }
 
-Player::Player(SceneExplanation* pExplanation):
-	m_pExplanation(pExplanation),
-	Graph(-1),
-	Atk(kAtk)
-{
-	// メモリ確保
-	m_pSoundManager = new SoundManager;
-}
-
 Player::Player(SceneMain* pMain) :
 	m_pMain(pMain),
 	Graph(-1),
@@ -75,12 +66,15 @@ Player::Player(SceneMain* pMain) :
 }
 
 Player::Player(SceneSecond* pSceneSecond):
-	m_pSceneSecond(pSceneSecond),
+	m_pSecond(pSceneSecond),
 	Graph(-1),
 	Atk(kAtk)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
+	m_pDeathYourEnemy = new DeathYourEnemy;
+	m_pMozueyeEnemy = new MozueyeEnemy;
+	m_pPumpkinEnemy = new PumpkinEnemy;
 }
 
 Player::~Player()
@@ -201,14 +195,17 @@ void Player::Update()
 		{
 			// ショットメモリの確保
 			Shot* pShot = new Shot();
-
+			
 			pShot->SetMain(m_pMain);
+			pShot->SetSecond(m_pSecond);
 			pShot->SetPlayer(this);
 			pShot->init();
 			pShot->Start(m_pos);
 			isAttack = true;
 			// 以降更新やメモリの開放はSceneMainに任せる
 			m_pMain->AddShot(pShot);
+			m_pSecond->AddShot(pShot);
+
 			m_pSoundManager->SoudndAttack();
 		}
 
