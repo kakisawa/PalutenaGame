@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include "Sound.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -13,6 +14,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
+	Sound* m_pSound = new Sound;
+	m_pSound->Init();
+
 	// ゲームループ
 	while (ProcessMessage() != -1)
 	{
@@ -23,7 +27,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		// ゲームの処理
-
+		m_pSound->Update();
+		m_pSound->Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
@@ -40,6 +45,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 		}
 	}
+
+	delete m_pSound;
+	m_pSound = nullptr;
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

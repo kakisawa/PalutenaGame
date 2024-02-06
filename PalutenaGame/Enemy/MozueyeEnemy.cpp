@@ -18,7 +18,7 @@ namespace
 	// 移動速度
 	float kSpeed = 3.0f;
 	// プレイヤーHP初期値
-	constexpr int kHP = 2;
+	constexpr int kHP = 1;
 	// プレイヤーAtk初期値
 	constexpr int kAtk = 10;
 

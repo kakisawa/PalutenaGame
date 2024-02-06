@@ -2,14 +2,17 @@
 class Sound
 {
 public:
-	Sound(){}
-	~Sound(){}
+	Sound();
+	~Sound();
 
 	void Init();
 	void Update();
 	void Draw();
 
+	void BGMDefo();
+
 private:
 	int Volume;
 
+	int m_bgmDefo;
 };

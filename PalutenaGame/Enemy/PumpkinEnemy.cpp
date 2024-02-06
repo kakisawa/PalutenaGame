@@ -19,7 +19,7 @@ namespace
 	constexpr float kSpeed = 1.0f;
 
 	// プレイヤーHP初期値
-	constexpr int kHP = 2;
+	constexpr int kHP = 1;
 	// プレイヤーAtk初期値
 	constexpr int kAtk = 100;
 
