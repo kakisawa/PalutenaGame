@@ -1,10 +1,12 @@
 #pragma once
 
+class FontManager;
+
 class Time
 {
 public:
 	Time();
-	~Time(){}
+	~Time();
 
 	void Init();
 	void Update();
@@ -18,5 +20,7 @@ private:
 	float Count;		// カウント秒数*60
 
 	bool isTimeUp;		// 制限時間が終了したか
+
+	FontManager* m_pFontManager;
 };
 

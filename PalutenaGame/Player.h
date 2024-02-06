@@ -56,6 +56,8 @@ public:
 	int GetAtk() const { return Atk; }
 	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
 
+	void AddScore(int Score) { m_Score += Score; }		// スコア
+
 	// 敵の攻撃力を獲得するため
 	void SetMozu(MozueyeEnemy* pMozu) { m_pMozueyeEnemy = pMozu; }
 	void SetDeath(DeathYourEnemy* pDeath) { m_pDeathYourEnemy = pDeath; }
@@ -72,7 +74,7 @@ private:
 
 	int HP;		// プレイヤーの体力
 	int Atk;	// プレイヤーの攻撃力
-	int Score;	// プレイヤーの獲得スコア
+	int m_Score;	// プレイヤーの獲得スコア
 	int Graph;	// プレイヤーの画像
 	int W, H;	// プレイヤーの画像サイズ
 	int m_damageFrame;	// ダメージを受けてからのフレーム数

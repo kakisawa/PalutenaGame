@@ -123,6 +123,8 @@ void SceneMain::Init()
 
 	m_fadeAlpha = 255;
 	m_enemyInterval = 0;
+
+	m_pSoundManager->BGMButtle();
 }
 
 void SceneMain::Update()
@@ -135,41 +137,11 @@ void SceneMain::Update()
 		Death();
 		//m_pPlayer->Update();
 		m_pPlayer->Death();
-
-		// Aボタンが押されたらゲームオーバー画面へ遷移する
-		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
-		{
-			m_isSceneEnd = true;
-			isToGameOver = true;
-
-			// フェードアウト
-			m_fadeAlpha += 8;
-			if (m_fadeAlpha < 255)
-			{
-				m_fadeAlpha = 255;
-			}
-		}
 	}
 	else {
 		// 制限時間が終わったら(ゲームクリア)
-		if (m_pTime->TimeUp())
-		{
+		if (m_pTime->TimeUp()){
 			Clear();
-
-			// Aボタンが押されたらゲームオーバー画面へ遷移する
-			if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
-			{
-				m_isSceneEnd = true;
-				isToGameClear = true;
-
-				// フェードアウト
-				m_fadeAlpha += 8;
-				if (m_fadeAlpha < 255)
-				{
-					m_fadeAlpha = 255;
-				}
-			}
-			return;
 		}
 
 		m_pPlayer->Update();
@@ -449,22 +421,43 @@ void SceneMain::CharactorDraw()
 
 void SceneMain::Clear()
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
+	StopSoundMem(m_pSoundManager->m_bgmButtle);
 
-	SetFontSize(64);
-	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
-	SetFontSize(32);
-	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
+	m_isSceneEnd = true;
+	isToGameClear = true;
+
+	// フェードアウト
+	m_fadeAlpha += 1;
+	if (m_fadeAlpha < 255)
+	{
+		m_fadeAlpha = 255;
+	}
+
+	//StopSoundMem(m_pSoundManager->m_bgmButtle);
+	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
+	//SetFontSize(64);
+	//DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
+	//SetFontSize(32);
+	//DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 void SceneMain::Death()
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
+	m_isSceneEnd = true;
+	isToGameOver = true;
 
-	SetFontSize(64);
-	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
-	SetFontSize(32);
-	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
+	// フェードアウト
+	m_fadeAlpha += 8;
+	if (m_fadeAlpha < 255)
+	{
+		m_fadeAlpha = 255;
+	}
+
+	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);	// 半透明で表示開始
+	//SetFontSize(64);
+	//DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
+	//SetFontSize(32);
+	//DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 bool SceneMain::IsSceneEnd() const

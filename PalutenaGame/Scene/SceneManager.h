@@ -7,6 +7,8 @@ class SceneSecond;
 class SceneGameOver;
 class SceneGameClear;
 
+class SoundManager;
+
 class SceneManager
 {
 public:
@@ -43,4 +45,6 @@ private:
 	SceneGameOver* m_pGameOver;
 	SceneGameClear* m_pGameClear;
 	SceneExplanation* m_pExplanation;
+
+	SoundManager* m_pSoundManager;
 };

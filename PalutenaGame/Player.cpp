@@ -20,7 +20,7 @@ namespace
 	// プレイヤーHP初期値
 	constexpr int kHP = 100;
 	// プレイヤーAtk初期値
-	constexpr int kAtk = 2;
+	constexpr int kAtk = 1;
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
@@ -94,7 +94,7 @@ void Player::Init()
 	JumpPower = 0.0f;			// プレイヤーの初期ジャンプ
 	Gravity = 0.0f;				// プレイヤーの初期重力
 	Atk = kAtk;					// プレイヤーの初期攻撃力
-	Score = 0;					// プレイヤーが獲得しているスコアの初期化
+	m_Score = 0;					// プレイヤーが獲得しているスコアの初期化
 	PlayerAnim = 0;				// プレイヤーアニメーションの初期化
 	m_damageFrame = 0;			// プレイヤー被ダメアニメーション  
 	isMove = false;				// 移動状態フラグ(否定のfalse)
@@ -197,14 +197,14 @@ void Player::Update()
 			Shot* pShot = new Shot();
 			
 			pShot->SetMain(m_pMain);
-			pShot->SetSecond(m_pSecond);
+			//pShot->SetSecond(m_pSecond);
 			pShot->SetPlayer(this);
 			pShot->init();
 			pShot->Start(m_pos);
 			isAttack = true;
 			// 以降更新やメモリの開放はSceneMainに任せる
 			m_pMain->AddShot(pShot);
-			m_pSecond->AddShot(pShot);
+			//m_pSecond->AddShot(pShot);
 
 			m_pSoundManager->SoudndAttack();
 		}
@@ -287,7 +287,7 @@ void Player::Draw()
 	DrawFormatString(80, 0, GetColor(255, 255, 255),
 		"PlayerHP:(%d)", HP);
 	DrawFormatString(80, 114 * 6, GetColor(255, 255, 255),
-		"Score:(%d)", Score);
+		"Score:(%d)", m_Score);
 
 	if (!PlayerDeath()) {
 		// ダメージ演出 2フレーム間隔で表示非表示切り替え

@@ -2,6 +2,7 @@
 #include "Vec2.h"
 
 class SoundManager;
+class FontManager;
 
 class SceneStageSelect :
     public SceneBase
@@ -29,6 +30,9 @@ public:
     bool ToBackTitke() const { return isBackTitle; }
 
 private:
+    int Cursor;         // カーソルグラフ
+    int PushA;          // 「Aボタンで決定」
+
     enum Select
     {
         kStage1,        // ステージ1
@@ -41,8 +45,7 @@ private:
     int m_select;       // 選択中のメニュー
     int m_fadeAlpha;    // フェードイン、アウト
     int m_fadeLetter;   // 文字の点滅用カウンタ
-    float m_scrollX;    // スクロール移動量
-    int Cursor;         // カーソルグラフ
+    float m_scrollX;    // スクロール移動量グラフ
 
     struct Size         // 背景のサイズ
     {
@@ -62,5 +65,7 @@ private:
 
     // SE/BGM
     SoundManager* m_pSoundManager;
+    // フォント
+    FontManager* m_pFontManager;
 };
 

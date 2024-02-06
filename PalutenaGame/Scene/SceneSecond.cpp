@@ -128,6 +128,8 @@ void SceneSecond::Init()
 
 	m_fadeAlpha = 255;
 	m_enemyInterval = 0;
+
+	m_pSoundManager->BGMButtle();
 }
 
 void SceneSecond::Update()
@@ -481,7 +483,7 @@ bool SceneSecond::AddShot(Shot* pShot)
 	for (int i = 0; i < kShotSecondMax; i++)
 	{
 		// 使用中なら次のチェックへ
-		if (m_pShot[i])	continue;
+ 		if (m_pShot[i])	continue;
 
 		// ここに来たということはm_pShot[i] == nullptr
 		m_pShot[i] = pShot;

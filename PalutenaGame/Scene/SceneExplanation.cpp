@@ -36,6 +36,8 @@ void SceneExplanation::Init()
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
 
+	m_pSoundManager->BGMExplanation();
+
 	Graph = LoadGraph("data/Explanation.png");
 	BgGraph = LoadGraph("data/Map/patter2.png");
 	m_isSceneEnd = false;
@@ -110,6 +112,7 @@ void SceneExplanation::End()
 	// 背景をメモリから削除
 	DeleteGraph(Graph);
 
+	StopSoundMem(m_pSoundManager->m_bgmExplanation);
 	m_pSoundManager->End();
 }
 

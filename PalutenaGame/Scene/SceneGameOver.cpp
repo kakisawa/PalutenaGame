@@ -1,6 +1,7 @@
 #include "SceneGameOver.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
+#include "FontManager.h"
 #include "Pad.h"
 #include "Game.h"
 #include "DxLib.h"
@@ -47,8 +48,10 @@ SceneGameOver::SceneGameOver() :
 	m_fadeLetter(0),
 	m_selectPos(kSelectPosX, kSelectPosY)
 {
-	// SE/BGMメモリ確保
+	// SE・BGMメモリ確保
 	m_pSoundManager = new SoundManager;
+	// フォントメモリ
+	m_pFontManager = new FontManager;
 }
 
 SceneGameOver::~SceneGameOver()
@@ -56,6 +59,8 @@ SceneGameOver::~SceneGameOver()
 	// メモリ解放
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
+	delete m_pFontManager;
+	m_pFontManager = nullptr;
 }
 
 void SceneGameOver::Init()
@@ -73,6 +78,8 @@ void SceneGameOver::Init()
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
+
+	m_pSoundManager->BGMGameOver();
 }
 
 void SceneGameOver::Update()
@@ -201,8 +208,11 @@ void SceneGameOver::StringDraw()
 	SetFontSize(64);
 
 	DrawString(kTitleChirPosX, kTitleChirPosY, "ゲームオーバー画面", 0x000000);
-	DrawString(kSelectChirPosX, kSelectChirPosY, "タイトル画面に戻る", 0x000000);
-	DrawString(kSelectChirPosX + kCharInterval, kSelectChirPosY, "ゲームを終わる", 0x000000);
+
+	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY, "タイトル画面に戻る", 
+		0x000000, m_pFontManager->GetFont());
+	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "　ゲームを終わる", 
+		0x000000, m_pFontManager->GetFont());
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)

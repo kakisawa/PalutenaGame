@@ -59,8 +59,8 @@ void EnemyBase::OnDamage()
 }
 
 void EnemyBase::Death()
-{
-	//m_pPlayer->Score += Score;
+{  
+	m_pPlayer->AddScore(Score);
 
 	isDeath = true;		// €–Sƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é
 	m_isExist = false;

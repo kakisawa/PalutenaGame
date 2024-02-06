@@ -26,6 +26,8 @@ SceneManager::SceneManager() :
 	m_pGameOver = new SceneGameOver;
 	m_pGameClear = new SceneGameClear;
 	m_pExplanation = new SceneExplanation;
+
+	m_pSoundManager = new SoundManager;
 }
 
 SceneManager::~SceneManager()
@@ -45,6 +47,9 @@ SceneManager::~SceneManager()
 	m_pGameClear = nullptr;
 	delete m_pExplanation;
 	m_pExplanation = nullptr;
+
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
 }
 
 void SceneManager::Init()
@@ -74,6 +79,8 @@ void SceneManager::Init()
 		m_pGameClear->Init();		// ゲームクリア画面の初期化
 		break;
 	}
+
+	m_pSoundManager->Init();
 }
 
 void SceneManager::Update()
@@ -91,14 +98,16 @@ void SceneManager::Update()
 				m_runScene = kSceneKindExplanation;	// 説明画面へ行く
 				m_pExplanation->Init();
 			}
-			else if (m_pTitle->ToStage())
+			else if (m_pTitle->ToStage()) {
 				m_runScene = kSceneKindStageSelect;	// ステージセレクト画面へ行く
-			m_pStageSelect->Init();
+				m_pStageSelect->Init();
+			}
 		}
 		break;
 	case kSceneKindExplanation:
 		if (m_pExplanation->IsSceneEnd())			// 操作説明画面の終了処理
 		{
+			m_pExplanation->End();
 			m_runScene = kSceneKindTitle;			// タイトル画面に戻る
 			m_pTitle->Init();
 		}
@@ -232,6 +241,8 @@ void SceneManager::Draw()
 
 void SceneManager::End()
 {
+	m_pSoundManager->End();
+
 	switch (m_runScene)
 	{
 	case kSceneKindTitle:

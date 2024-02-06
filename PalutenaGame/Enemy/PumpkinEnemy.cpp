@@ -19,7 +19,7 @@ namespace
 	constexpr float kSpeed = 1.0f;
 
 	// プレイヤーHP初期値
-	constexpr int kHP = 1;
+	constexpr int kHP = 2;
 	// プレイヤーAtk初期値
 	constexpr int kAtk = 100;
 
@@ -51,7 +51,7 @@ PumpkinEnemy::~PumpkinEnemy()
 
 void PumpkinEnemy::Init()
 {
-	HP = 1;		// HP
+	HP = kHP;		// HP
 	Atk = 100;	// 攻撃力
 	Score = 10;	// 倒した際に得られるスコア
 

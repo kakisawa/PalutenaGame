@@ -2,8 +2,8 @@
 #include "SceneBase.h"
 #include "Vec2.h"
 
-class Font;
 class SoundManager;
+class FontManager;
 
 class SceneTitle :
     public SceneBase
@@ -42,10 +42,11 @@ private:
         kSclectBack,        // 戻る
     };
 
-
-    int x, y;           // タイトルロゴ座標
     int TitleGraph;     // タイトルロゴグラフ
     int Cursor;         // カーソルグラフ
+    int PushA;          // 「Aボタンで決定」グラフ
+
+    int x, y;           // タイトルロゴ座標
     float m_scrollX;    // スクロール移動量
 
     struct Size         // 背景のサイズ
@@ -68,7 +69,7 @@ private:
     Vec2 m_bgPos;
 
     // フォントのポインタ
-    Font* m_pFont;
+    FontManager* m_pFontManager;
     // SE/BGM
     SoundManager* m_pSoundManager;
 };

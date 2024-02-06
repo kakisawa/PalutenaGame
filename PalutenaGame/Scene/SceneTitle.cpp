@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Game.h"
 #include "Pad.h"
-#include "Util/Font.h"
+#include "FontManager.h"
 #include "SoundManager.h"
 
 namespace
@@ -53,7 +53,7 @@ SceneTitle::SceneTitle() :
 	m_fadeLetter(0)
 {
 	// フォントのメモリ確保
-	m_pFont = new Font;
+	m_pFontManager = new FontManager;
 	// SE/BGMメモリ確保
 	m_pSoundManager = new SoundManager;
 }
@@ -61,8 +61,8 @@ SceneTitle::SceneTitle() :
 SceneTitle::~SceneTitle()
 {
 	// フォントメモリの解放
-	delete m_pFont;
-	m_pFont = nullptr;
+	delete m_pFontManager;
+	m_pFontManager = nullptr;
 	// メモリ解放
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
@@ -73,6 +73,7 @@ void SceneTitle::Init()
 	Graph = LoadGraph("data/Map/patter.png");			// 背景読み込み
 	TitleGraph = LoadGraph("data/TitleGraph3.png");		// タイトルロゴ読み込み
 	Cursor = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
+	PushA= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
 
 	m_select = kSelectGameStart;
 
@@ -89,6 +90,7 @@ void SceneTitle::Init()
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
+	m_pSoundManager->BGMDefo();
 }
 
 void SceneTitle::Update()
@@ -146,6 +148,7 @@ void SceneTitle::Update()
 
 		// SE
 		m_pSoundManager->SoundButton();
+
 	}
 
 	// 背景スクロール
@@ -193,7 +196,10 @@ void SceneTitle::End()
 	// 画像をメモリから削除
 	DeleteGraph(Graph);
 	DeleteGraph(TitleGraph);
+	DeleteGraph(Cursor);
+	DeleteGraph(PushA);
 
+	StopSoundMem(m_pSoundManager->m_bgmDefo);
 	m_pSoundManager->End();
 }
 
@@ -217,19 +223,16 @@ void SceneTitle::StringDraw()
 		Cursor, true);
 
 
-	SetFontSize(64);
-
-	DrawString(kSelectChirPosX + 100, kSelectChirPosY, "操作説明", 0x000000);
-
-	//DrawStringToHandle(kChirPosX + 100, kChirPosY, "操作説明", 0x000000, m_pFont->m_TitleFont);
-	DrawString(kSelectChirPosX, kSelectChirPosY + kCharInterval, "ゲームを始める", 0x000000);
-	DrawString(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2, "ゲームを終わる", 0x000000);
+	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY, 
+		"操作説明", 0x000000, m_pFontManager->GetFont());
+	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval, 
+		"ゲームを始める", 0x000000, m_pFontManager->GetFont());
+	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2, 
+		"ゲームを終わる", 0x000000, m_pFontManager->GetFont());
 
 	// 文字の点滅描画
-	if (m_fadeLetter < 60)
-	{
-		SetFontSize(32);
-		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.0f, "Aキーで決定", 0xffffff);
+	if (m_fadeLetter < 60){
+		DrawGraph(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2.8f, PushA,true);
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始

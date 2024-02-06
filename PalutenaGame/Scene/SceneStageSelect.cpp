@@ -1,5 +1,6 @@
 #include "SceneStageSelect.h"
 #include "SoundManager.h"
+#include "FontManager.h"
 #include "DxLib.h"
 #include "Game.h"
 #include "Pad.h"
@@ -46,6 +47,8 @@ SceneStageSelect::SceneStageSelect() :
 {
 	// SE/BGMメモリ確保
 	m_pSoundManager = new SoundManager;
+	// フォントメモリ確保
+	m_pFontManager = new FontManager;
 }
 
 SceneStageSelect::~SceneStageSelect()
@@ -53,12 +56,15 @@ SceneStageSelect::~SceneStageSelect()
 	// メモリ解放
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
+	delete m_pFontManager;
+	m_pFontManager = nullptr;
 }
 
 void SceneStageSelect::Init()
 {
 	Graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
 	Cursor = LoadGraph("data/Cursor.png");		// カーソルロゴ読み込み
+	PushA = LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
 
 	m_select = kStage1;
 	m_isSceneEnd = false;
@@ -75,6 +81,8 @@ void SceneStageSelect::Init()
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
+
+	m_pSoundManager->BGMDefo();
 }
 
 void SceneStageSelect::Update()
@@ -86,14 +94,19 @@ void SceneStageSelect::Update()
 
 		m_select = (m_select + 1) % kSclectNum;
 
-		m_selectPos.y += kSelectMoveY;
-
-		// 選択中の四角が一番下にだったら四角を一番上に戻す
-		if (m_selectPos.y > kSelectPosY + kSelectMoveY * (kSclectNum - 1))
-		{
+		// 選択中の四角が一番下だったら四角を一番上に戻す
+		if (m_selectPos.y >= 918){
+			m_selectPos.x = kSelectPosX;
 			m_selectPos.y = kSelectPosY;
+			return;
 		}
-
+		if (m_selectPos.y == kSelectPosY) {
+			m_selectPos.y += kSelectMoveY;
+		}
+		else if(m_selectPos.y == 340){
+			m_selectPos.x = 825;
+			m_selectPos.y = 918;
+		}
 	}
 	// 上キーを押したら選択状態を一つ上げる
 	else if (Pad::IsTrigger(PAD_INPUT_UP))
@@ -101,12 +114,24 @@ void SceneStageSelect::Update()
 		m_pSoundManager->SoundSelect();
 
 		m_select = (m_select - 1) % kSclectNum;
-		m_selectPos.y -= kSelectMoveY;
 
-		// 選択中の四角が一番下にだったら四角を一番上に戻す
-		if (m_selectPos.y < kSelectPosY)
+		// 選択中の四角が一番上だったら四角を一番下に戻す
+		if (m_selectPos.y == kSelectPosY)
 		{
-			m_selectPos.y = kSelectPosY + kSelectMoveY * (kSclectNum - 1);
+			m_selectPos.x = 825;
+			m_selectPos.y = 918;
+			m_select = kBackTitle;
+			return;
+		}
+
+		if (m_selectPos.y == 340) {
+			m_selectPos.y -= kSelectMoveY;
+		}
+		else if (m_selectPos.y == 918)
+		{
+			m_selectPos.x = kSelectPosX;
+			m_selectPos.y = 340;
+			return;
 		}
 	}
 
@@ -185,10 +210,10 @@ void SceneStageSelect::StringDraw()
 	// ステージセレクトBox
 	for (int i = 0; i < 2; i++)
 	{
-		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
+		DrawBox(kSelectPosX, kSelectPosY + (kCharInterval * i), kSelectPosX + kSelectSizeX,
 			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xF4EADE, true);
 
-		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
+		DrawBox(kSelectPosX, kSelectPosY + (kCharInterval * i), kSelectPosX + kSelectSizeX,
 			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
 	}
 	// タイトルに戻るBox
@@ -204,17 +229,16 @@ void SceneStageSelect::StringDraw()
 		m_selectPos.y + kSelectSizeY + 20,
 		Cursor, true);
 
-	SetFontSize(64);
-
-	DrawString(kSelectChirPosX, kSelectChirPosY, "ステージ1", 0x000000);
-	DrawString(kSelectChirPosX, kSelectChirPosY + kCharInterval, "ステージ2", 0x000000);
-	DrawString(kSelectBackChirPosX, kSelectBackChirPosY, "タイトルに戻る", 0x000000);
+	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY,
+		"　ステージ1", 0x000000, m_pFontManager->GetFont());
+	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval,
+		"　ステージ2", 0x000000, m_pFontManager->GetFont());
+	DrawStringToHandle(kSelectBackChirPosX, kSelectBackChirPosY, 
+		"タイトルに戻る", 0x000000, m_pFontManager->GetFont());
 
 	// 文字の点滅描画
-	if (m_fadeLetter < 60)
-	{
-		//SetFontSize(32);
-		DrawString(kSelectChirPosX, kSelectChirPosY + kCharInterval * 3, "Aキーで決定", 0xffffff);
+	if (m_fadeLetter < 60){
+		DrawGraph(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2.8f, PushA, true);
 	}
 
 	// フェードの描画

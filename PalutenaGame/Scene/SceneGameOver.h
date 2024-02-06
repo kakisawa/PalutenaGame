@@ -3,6 +3,7 @@
 #include "Vec2.h"
 
 class SoundManager;
+class FontManager;
 
 class SceneGameOver :
     public SceneBase
@@ -50,6 +51,8 @@ private:
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;
 
-    // SE/BGM
+    // SE・BGM
     SoundManager* m_pSoundManager;
+    // フォント
+    FontManager* m_pFontManager;
 };

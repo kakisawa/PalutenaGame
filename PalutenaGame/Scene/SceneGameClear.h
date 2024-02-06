@@ -3,6 +3,7 @@
 #include "Vec2.h"
 
 class SoundManager;
+class FontManager;
 
 class SceneGameClear :
     public SceneBase
@@ -53,5 +54,7 @@ private:
 
     // SE/BGM
     SoundManager* m_pSoundManager;
+    // ƒtƒHƒ“ƒg
+    FontManager* m_pFontManager;
 };
 
