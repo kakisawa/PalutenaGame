@@ -20,7 +20,7 @@ Time::~Time()
 
 void Time::Init()
 {
-	Second =600.0f;		// –{—ˆ‚Í60•b*60
+	Second =120.0f;		// –{—ˆ‚Í60•b*60
 						// Œ»İ‚Í‰¼‚Å10•b*60
 	isTimeUp = false;
 }
@@ -35,6 +35,7 @@ void Time::Update()
 
 void Time::Draw()
 {
-	DrawFormatStringToHandle(kScreenWidth * 0.4, kScreenHeight * 0.2, GetColor(255, 255, 255),
+	SetFontSize(82);
+	DrawFormatStringToHandle(kScreenWidth * 0.47f, kScreenHeight * 0.1f, GetColor(255, 255, 255),
 		m_pFontManager->GetFont2(),"c‚èŠÔ:%.1f", Second/60);
 }

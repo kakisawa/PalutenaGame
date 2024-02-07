@@ -30,8 +30,11 @@ public:
     bool ToBackTitke() const { return isBackTitle; }
 
 private:
-    int Cursor;         // カーソルグラフ
-    int PushA;          // 「Aボタンで決定」
+    int ExplanationGraph;   // 操作説明グラフ
+    int Cursor;             // カーソルグラフ
+    int PushA;              // 「Aボタンで決定」
+    int SelectUI;        // UI
+    int SelectUI2;       // UI
 
     enum Select
     {

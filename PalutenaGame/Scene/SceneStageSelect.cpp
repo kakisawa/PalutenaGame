@@ -65,6 +65,9 @@ void SceneStageSelect::Init()
 	Graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
 	Cursor = LoadGraph("data/Cursor.png");		// カーソルロゴ読み込み
 	PushA = LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
+	ExplanationGraph = LoadGraph("data/Explanation.png");
+	SelectUI= LoadGraph("data/SelectUI.png");
+	SelectUI2=LoadGraph("data/SelectUI2.png");
 
 	m_select = kStage1;
 	m_isSceneEnd = false;
@@ -148,9 +151,9 @@ void SceneStageSelect::Update()
 			isStage1 = true;
 			break;
 		case kStage2:
-			m_isSceneEnd = true;
+			/*m_isSceneEnd = true;
 			isStage2 = true;
-			break;
+			break;*/
 		case kBackTitle:
 			isBackTitle = true;
 			m_isSceneEnd = true;
@@ -201,40 +204,36 @@ void SceneStageSelect::End()
 	// 画像をメモリから削除
 	DeleteGraph(Graph);
 	DeleteGraph(Cursor);
+	DeleteGraph(ExplanationGraph);
 
 	m_pSoundManager->End();
 }
 
 void SceneStageSelect::StringDraw()
 {
-	// ステージセレクトBox
+	// ステージセレクト・タイトルに戻るBox
 	for (int i = 0; i < 2; i++)
 	{
-		DrawBox(kSelectPosX, kSelectPosY + (kCharInterval * i), kSelectPosX + kSelectSizeX,
-			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xF4EADE, true);
-
-		DrawBox(kSelectPosX, kSelectPosY + (kCharInterval * i), kSelectPosX + kSelectSizeX,
-			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
+		DrawGraph(kSelectPosX, kSelectPosY + (kCharInterval * i),
+			SelectUI, false);
+		DrawGraph(kSelectBackChirPosX, kSelectBackChirPosY,
+			SelectUI, false);
 	}
-	// タイトルに戻るBox
-	DrawBox(kSelectBackChirPosX, kSelectBackChirPosY,
-		kSelectBackChirPosX + kSelectSizeX, kSelectBackChirPosY+75,
-		0xF4EADE, true);
 
-	// 選択中の部分を四角で描画
-	DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + kSelectSizeX,
-		m_selectPos.y + kSelectSizeY, 0x00bfff, true);
+	// 選択中のBox・カーソル描画
+	DrawGraph(m_selectPos.x, m_selectPos.y,
+		SelectUI2, false);
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 20,
 		m_selectPos.y + kSelectSizeY + 20,
 		Cursor, true);
 
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY,
-		"　ステージ1", 0x000000, m_pFontManager->GetFont());
+		"　   ステージ1", 0x000000, m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval,
-		"　ステージ2", 0x000000, m_pFontManager->GetFont());
+		"   ComingSoon", 0x000000, m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectBackChirPosX, kSelectBackChirPosY, 
-		"タイトルに戻る", 0x000000, m_pFontManager->GetFont());
+		"  タイトルに戻る", 0x000000, m_pFontManager->GetFont());
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60){
@@ -263,6 +262,8 @@ void SceneStageSelect::BackDraw()
 			kBgScale, 0.0f,
 			Graph, true);
 	}
+
+	DrawGraph(700, 100, ExplanationGraph, true);
 }
 
 bool SceneStageSelect::IsSceneEnd() const

@@ -26,8 +26,10 @@ SceneMain::SceneMain() :
 	// グラフィックのロード
 	m_playerHandle = LoadGraph("data/Player.png");
 	assert(m_playerHandle != -1);
-	m_backHandle = LoadGraph("data/Map/Back.png");
+	m_backHandle = LoadGraph("data/Map/Back1.png");
 	assert(m_backHandle != -1);
+	m_backHandle2 = LoadGraph("data/Map/Ground.png");
+	assert(m_backHandle2 != -1);
 
 	// プレイヤーのメモリ確保
 	m_pPlayer = new Player{ this };
@@ -36,6 +38,8 @@ SceneMain::SceneMain() :
 	// 背景のメモリ確保
 	m_pBack = new Back;
 	m_pBack->SetHandle(m_backHandle);
+	m_pBack->SetHandle2(m_backHandle2);
+
 
 	// 制限時間のメモリ確保
 	m_pTime = new Time;
@@ -130,6 +134,8 @@ void SceneMain::Init()
 void SceneMain::Update()
 {
 	m_pBack->Update();
+
+	//if(Pad::IsTrigger())
 
 	// プレイヤーが死亡したら(ゲームオーバー)
 	if (m_pPlayer->PlayerDeath())
@@ -296,24 +302,24 @@ void SceneMain::Update()
 		}
 
 		//敵キャラクターの登場
-		m_enemyInterval++;
-		if (m_enemyInterval >= kEnemyInterval)
-		{
-			m_enemyInterval = 0;
-			// ランダムに生成する敵を選択
-			switch (GetRand(2))
-			{
-			case 0:
-				CreateEnemyMozu();
-				break;
-			case 1:
-				CreateEnemyDeath();
-				break;
-			case 2:
-				CreateEnemyPump();
-				break;
-			}
-		}
+		//m_enemyInterval++;
+		//if (m_enemyInterval >= kEnemyInterval)
+		//{
+		//	m_enemyInterval = 0;
+		//	// ランダムに生成する敵を選択
+		//	switch (GetRand(2))
+		//	{
+		//	case 0:
+		//		CreateEnemyMozu();
+		//		break;
+		//	case 1:
+		//		CreateEnemyDeath();
+		//		break;
+		//	case 2:
+		//		CreateEnemyPump();
+		//		break;
+		//	}
+		//}
 	}
 }
 
@@ -324,7 +330,7 @@ void SceneMain::Draw()
 	// 描画先スクリーンをクリアする
 	ClearDrawScreen();
 
-	m_pBack->Draw();
+	m_pBack->DrawBg();
 	m_pTime->Draw();
 
 	// プレイヤー・エネミー描画
@@ -337,6 +343,8 @@ void SceneMain::Draw()
 		if (!m_pShot[i])	continue;// nullptrなら以降の処理は行わない
 		m_pShot[i]->Draw();
 	}
+
+	m_pBack->DrawGround();
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
@@ -458,6 +466,10 @@ void SceneMain::Death()
 	//DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
 	//SetFontSize(32);
 	//DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
+}
+
+void SceneMain::Pause()
+{
 }
 
 bool SceneMain::IsSceneEnd() const

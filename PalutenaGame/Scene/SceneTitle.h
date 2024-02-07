@@ -45,6 +45,9 @@ private:
     int TitleGraph;     // タイトルロゴグラフ
     int Cursor;         // カーソルグラフ
     int PushA;          // 「Aボタンで決定」グラフ
+    int SelectUI;       // UI
+    int SelectUI2;       // UI
+
 
     int x, y;           // タイトルロゴ座標
     float m_scrollX;    // スクロール移動量

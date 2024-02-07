@@ -17,7 +17,7 @@ namespace
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
 	// プレイヤーHP初期値
-	constexpr int kHP = 2;
+	constexpr int kHP = 1;
 	// プレイヤーAtk初期値
 	constexpr int kAtk = 10;
 
@@ -78,7 +78,7 @@ void DeathYourEnemy::Update()
 	{
 		angle++;
 		float angle2 = angle * (DX_PI / 180);
-		//m_pos.y = sin(angle2) * 200 + 550;
+		m_pos.y = sin(angle2) * 200 + 550;
 		m_pos.x += kSpeed;
 
 	}

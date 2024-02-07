@@ -36,6 +36,9 @@ private:
 
     int m_select;    // 選択中のメニュー
     int Cursor;      // カーソルグラフ
+    int SelectUI;       // UI
+    int SelectUI2;       // UI
+
     float m_scrollX;    // スクロール移動量
 
     struct Size         // 背景のサイズ

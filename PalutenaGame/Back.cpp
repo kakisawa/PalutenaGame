@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "Back.h"
+#include "Game.h"
 
 Back::Back():
 	Bg(0),
@@ -12,15 +13,12 @@ Back::~Back()
 {
 }
 
-void Back::Init()
+void Back::DrawBg()
 {
+	DrawGraph(x, y, Bg, false);
 }
 
-void Back::Update()
+void Back::DrawGround()
 {
-}
-
-void Back::Draw()
-{
-	DrawGraph(x, y, Bg, FALSE);
+	DrawGraph(0, 0, Bg2, true);
 }

@@ -14,6 +14,18 @@ namespace {
 
 	constexpr int UpBoxWidth = 100;
 	constexpr int UpBoxHeight = 20;
+
+	constexpr int PauseBoxX = 350;
+	constexpr int PauseBoxY = 50;
+
+	constexpr int OriginY = 200;
+
+	constexpr int PauseBoxWight = 200;
+	constexpr int PauseBoxHeight = 350;
+
+	// Y...100
+	// X...		350__550
+	// Y...500
 }
 
 Sound::Sound()
@@ -51,6 +63,13 @@ void Sound::Update()
 			Volume = 0;
 		}
 	}
+
+	for (int i = 0; i < 200; i++)
+	{
+		DrawBox(PauseBoxX, OriginY - i,
+			PauseBoxX + PauseBoxWight, OriginY + i,
+			0xFFFFFF, false);
+	}
 }
 
 void Sound::Draw()
@@ -64,6 +83,10 @@ void Sound::Draw()
 
 	DrawFormatString(100, 100, 0xFFFFFF,
 		"Volume=%d", Volume);
+
+
+
+	
 }
 
 void Sound::BGMDefo()

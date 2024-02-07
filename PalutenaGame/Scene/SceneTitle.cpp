@@ -74,6 +74,8 @@ void SceneTitle::Init()
 	TitleGraph = LoadGraph("data/TitleGraph3.png");		// タイトルロゴ読み込み
 	Cursor = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
 	PushA= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
+	SelectUI= LoadGraph("data/SelectUI.png");
+	SelectUI2 = LoadGraph("data/SelectUI2.png");
 
 	m_select = kSelectGameStart;
 
@@ -205,30 +207,23 @@ void SceneTitle::End()
 
 void SceneTitle::StringDraw()
 {
-	for (int i = 0; i < 3; i++)
-	{
-		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
-			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0xF4EADE, true);
-
-		DrawBox(m_selectPos.x, kSelectPosY + (kCharInterval * i), m_selectPos.x + kSelectSizeX,
-			kSelectPosY + (kSelectSizeY + (kCharInterval * i)), 0x99e6ff, false);
+	for (int i = 0; i < 3; i++){
+		DrawGraph(m_selectPos.x, kSelectPosY + (kCharInterval * i),
+			SelectUI, false);
 	}
 
-	// 選択中の部分を四角で描画
-	DrawBox(m_selectPos.x, m_selectPos.y,
-		m_selectPos.x + kSelectSizeX, m_selectPos.y + kSelectSizeY, 
-		0x00bfff, true);
+	DrawGraph(m_selectPos.x, m_selectPos.y, SelectUI2, true);
+
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 20, m_selectPos.y + kSelectSizeY + 20, 
 		Cursor, true);
 
-
 	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY, 
-		"操作説明", 0x000000, m_pFontManager->GetFont());
+		" 操作説明", 0x000000, m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval, 
-		"ゲームを始める", 0x000000, m_pFontManager->GetFont());
+		"  ゲームを始める", 0x000000, m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2, 
-		"ゲームを終わる", 0x000000, m_pFontManager->GetFont());
+		"  ゲームを終わる", 0x000000, m_pFontManager->GetFont());
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60){
@@ -248,8 +243,7 @@ void SceneTitle::BackDraw()
 	// スクロール量を計算
 	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
 
-	for (int index = 0; index < 4; index++)
-	{
+	for (int index = 0; index < 4; index++){
 		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
 			kScreenHeight - bg1Size.height * kBgScale,
 			0, 0,

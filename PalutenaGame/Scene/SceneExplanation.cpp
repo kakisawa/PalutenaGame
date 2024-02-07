@@ -78,7 +78,7 @@ void SceneExplanation::Update()
 void SceneExplanation::Draw()
 {
 	BackDraw();
-	DrawGraph(0, 0, Graph, false);
+	DrawGraph(0, 0, Graph, true);
 
 	SetFontSize(64);
 	DrawString(kSelectChirPosX, kSelectChirPosY, "Aボタンでタイトルに戻る", 0xffffff);

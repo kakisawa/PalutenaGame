@@ -285,8 +285,10 @@ void Player::Draw()
 	SetFontSize(16);
 	// プレイヤーの現在体力表示
 	DrawFormatString(80, 0, GetColor(255, 255, 255),
-		"PlayerHP:(%d)", HP);
-	DrawFormatString(80, 114 * 6, GetColor(255, 255, 255),
+		"PlayerHP:%d", HP);
+
+	SetFontSize(64);
+	DrawFormatString(kScreenWidth*0.45f, kScreenHeight*0.15f, GetColor(255, 255, 255),
 		"Score:(%d)", m_Score);
 
 	if (!PlayerDeath()) {
@@ -413,6 +415,7 @@ void Player::Draw()
 #ifdef _DEBUG
 	int y = 19;
 
+	SetFontSize(16);
 	// プレイヤーの現在座標表示
 	DrawFormatString(80, y*1, GetColor(255, 255, 255),
 		"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);

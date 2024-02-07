@@ -34,7 +34,7 @@ namespace
 	constexpr int kSelectMoveX = 770;
 
 	// 文字を囲む四角のサイズ
-	constexpr int kSelectSizeX = kScreenWidth * 0.31;
+	constexpr int kSelectSizeX = 470;
 	constexpr int kSelectSizeY = 75;
 
 	// スクロール移動量
@@ -70,6 +70,8 @@ void SceneGameClear::Init()
 {
 	Graph = LoadGraph("data/Map/patter4.png");
 	Cursor = LoadGraph("data/Cursor.png");	// カーソルロゴ読み込み
+	SelectUI = LoadGraph("data/SelectUI.png");
+	SelectUI2 = LoadGraph("data/SelectUI2.png");
 
 	m_select = kScelectBackTitle;
 	m_isSceneEnd = false;
@@ -188,24 +190,20 @@ void SceneGameClear::End()
 
 void SceneGameClear::StringDraw()
 {
-	for (int i = 0; i < 2; i++)
-	{
-		DrawBox(kSelectPosX + (kCharInterval * i), kSelectPosY,
-			kSelectPosX + (kSelectSizeX + (kCharInterval * i)),kSelectPosY + kSelectSizeY,
-			0xF4EADE, true);
-
-		DrawBox(kSelectPosX + (kCharInterval * i), kSelectPosY,
-			kSelectPosX +( kSelectSizeX+(kCharInterval * i)),kSelectPosY + kSelectSizeY,
-			0x99e6ff, false);
+	// タイトルに戻る・ゲームを終了するBOX
+	for (int i = 0; i < 2; i++){
+		DrawGraph(kSelectPosX + (kCharInterval * i), kSelectPosY,
+			SelectUI, false);
 	}
 
 	// 選択中の部分を四角で描画
-	DrawBox(m_selectPos.x, m_selectPos.y,
-		m_selectPos.x + kSelectSizeX, m_selectPos.y + kSelectSizeY,
-		0x00bfff, true);
+	DrawGraph(m_selectPos.x, m_selectPos.y,
+		SelectUI2, false);
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
-		m_selectPos.x + kSelectSizeX + 20, m_selectPos.y + kSelectSizeY + 20,
+		m_selectPos.x + kSelectSizeX + 20,
+		m_selectPos.y + kSelectSizeY + 20,
 		Cursor, true);
+
 
 	SetFontSize(96);
 	DrawString(kScoreChirPosX, kScoreChirPosY, "スコア", 0x000000);
@@ -214,9 +212,9 @@ void SceneGameClear::StringDraw()
 
 	DrawString(kTitleChirPosX, kTitleChirPosY, "ゲームクリア画面", 0x000000);
 
-	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY, "タイトル画面に戻る",
+	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY, "  タイトルに戻る",
 		0x000000, m_pFontManager->GetFont());
-	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "　ゲームを終わる",
+	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "  ゲームを終わる",
 		0x000000, m_pFontManager->GetFont());
 
 	// 文字の点滅描画

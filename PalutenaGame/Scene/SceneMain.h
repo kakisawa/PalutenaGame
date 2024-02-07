@@ -5,9 +5,9 @@
 namespace
 {
 	// モズアイ最大出現数
-	constexpr int MozuMax = 7;
+	constexpr int MozuMax = 4;
 	// 死最大出現数
-	constexpr int DeathMax = 5;
+	constexpr int DeathMax = 10;
 	// かぼちゃ最大出現数
 	constexpr int PumpMax = 3;
 
@@ -15,7 +15,7 @@ namespace
 	constexpr int kShotMax = 30;
 
 	// 何フレームおきに敵が登場するか
-	constexpr int kEnemyInterval = 60;
+	constexpr int kEnemyInterval = 50;
 }
 
 // クラス宣言
@@ -44,6 +44,8 @@ public:
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
 
+	void Pause();	// ポーズ時処理
+
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
 	
@@ -68,6 +70,7 @@ private:
 	int m_playerHandle;		// プレイヤー
 	int m_enemyHandle;		// 敵
 	int m_backHandle;		// 背景
+	int m_backHandle2;		// 背景(床)
 
 	// エネミー
 	int m_mozueyeEnemy;			// モズアイ
