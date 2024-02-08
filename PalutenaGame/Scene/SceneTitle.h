@@ -4,6 +4,7 @@
 
 class SoundManager;
 class FontManager;
+class ColorManager;
 
 class SceneTitle :
     public SceneBase
@@ -75,4 +76,6 @@ private:
     FontManager* m_pFontManager;
     // SE/BGM
     SoundManager* m_pSoundManager;
+    // F
+    ColorManager* m_pColorManager;
 };

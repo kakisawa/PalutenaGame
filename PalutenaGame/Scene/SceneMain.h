@@ -27,6 +27,7 @@ class PumpkinEnemy;
 class Shot;
 class Time;
 class SoundManager;
+class ColorManager;
 
 class SceneMain
 {
@@ -39,12 +40,17 @@ public:
 	void Draw();
 	void End();
 
+	// キャラクター系の描画
 	void CharactorDraw();
 
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
-
 	void Pause();	// ポーズ時処理
+
+	// ショットを追加する
+		// 登録できなかった場合はfalseを返す
+		// 登録できなかった場合は内部でpShot解放する
+	bool AddShot(Shot* pShot);
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
@@ -53,11 +59,6 @@ public:
 	bool ToGameOver() const;
 	bool ToGameClear() const;
 
-	// ショットを追加する
-	// 登録できなかった場合はfalseを返す
-	// 登録できなかった場合は内部でpShot解放する
-	bool AddShot(Shot* pShot);
-	
 private:
 	// 敵キャラクターの生成
 	void CreateEnemyMozu();
@@ -96,6 +97,8 @@ private:
 	Time* m_pTime;
 	// SE/BGM
 	SoundManager* m_pSoundManager;
+	// 色
+	ColorManager* m_pColorManager;
 	// エネミー
 	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;
 	std::vector<DeathYourEnemy*> m_pDeathYourEnemy;

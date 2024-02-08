@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Back.cpp" />
+    <ClCompile Include="ColorManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Scene\SceneSecond.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -45,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Back.h" />
+    <ClInclude Include="ColorManager.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Scene\SceneSecond.h" />
     <ClInclude Include="SoundManager.h" />

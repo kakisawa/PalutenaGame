@@ -4,6 +4,7 @@
 #include <vector>
 
 class SoundManager;
+class ColorManager;
 
 class SceneExplanation :
     public SceneBase
@@ -36,6 +37,9 @@ private:
         int height;
     };
 
+    // SE/BGM
     SoundManager* m_pSoundManager;
+    // F
+    ColorManager* m_pColorManager;
 };
 

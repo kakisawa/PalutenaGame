@@ -3,6 +3,7 @@
 
 class SoundManager;
 class FontManager;
+class ColorManager;
 
 class SceneStageSelect :
     public SceneBase
@@ -70,5 +71,7 @@ private:
     SoundManager* m_pSoundManager;
     // フォント
     FontManager* m_pFontManager;
+    // 色
+    ColorManager* m_pColorManager;
 };
 

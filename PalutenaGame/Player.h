@@ -55,8 +55,9 @@ public:
 	bool PlayerDeath() const { return isDeath; }		// プレイヤーの生死状態を取得する
  	int GetAtk() const { return Atk; }					// プレイヤーの攻撃力を取得する
 	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
-
 	void AddScore(int Score) { m_Score += Score; }		// スコア
+	
+ 	int GetScore() const { return m_Score; }
 
 	// 敵の攻撃力を獲得するため
 	void SetMozu(MozueyeEnemy* pMozu) { m_pMozueyeEnemy = pMozu; }

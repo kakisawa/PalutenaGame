@@ -23,6 +23,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SceneManager* m_pSceneManager = new SceneManager;
 	m_pSceneManager->Init();
 
+
+
 	// ƒQ[ƒ€ƒ‹[ƒv
 	while (ProcessMessage() != -1)
 	{

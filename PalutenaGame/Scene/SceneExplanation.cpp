@@ -1,5 +1,6 @@
 #include "SceneExplanation.h"
 #include "SoundManager.h"
+#include "ColorManager.h"
 #include "DxLib.h"
 #include "Pad.h"
 #include "Game.h"
@@ -23,12 +24,18 @@ SceneExplanation::SceneExplanation():
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
+	// 色メモリ確保
+	m_pColorManager = new ColorManager;
 }
 
 SceneExplanation::~SceneExplanation()
 {
+	// サウンドメモリ解放
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
+	// 色メモリ解放
+	delete m_pColorManager;
+	m_pColorManager = nullptr;
 }
 
 void SceneExplanation::Init()
@@ -81,11 +88,13 @@ void SceneExplanation::Draw()
 	DrawGraph(0, 0, Graph, true);
 
 	SetFontSize(64);
-	DrawString(kSelectChirPosX, kSelectChirPosY, "Aボタンでタイトルに戻る", 0xffffff);
+	DrawString(kSelectChirPosX, kSelectChirPosY, 
+		"Aボタンでタイトルに戻る", m_pColorManager->GetColor2());
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, 
+		m_pColorManager->GetColor(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
