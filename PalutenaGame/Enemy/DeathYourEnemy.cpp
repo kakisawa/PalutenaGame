@@ -32,8 +32,7 @@ namespace
 	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
 }
 
-DeathYourEnemy::DeathYourEnemy():
-	m_Score(kScore)
+DeathYourEnemy::DeathYourEnemy()
 {
 	EGraph = LoadGraph("data/Enemy/DeathYourEnemy.png");
 
@@ -51,6 +50,11 @@ DeathYourEnemy::DeathYourEnemy():
 DeathYourEnemy::~DeathYourEnemy()
 {
 	DeleteGraph(EGraph);
+}
+
+void DeathYourEnemy::Init(Player* pPlayer)
+{
+	m_pPlayer = pPlayer;
 }
 
 void DeathYourEnemy::Update()

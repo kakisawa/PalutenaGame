@@ -48,6 +48,12 @@ MozueyeEnemy::~MozueyeEnemy()
 	DeleteGraph(EGraph);
 }
 
+void MozueyeEnemy::Init(Player* pPlayer)
+{
+	m_pPlayer = pPlayer;
+
+}
+
 void MozueyeEnemy::Update()
 {
 	// ダメージ演出の進行

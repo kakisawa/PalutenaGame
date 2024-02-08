@@ -12,15 +12,15 @@
 namespace
 {
 	// タイトル文字表示位置
-	constexpr int kTitleChirPosX = kScreenWidth * 0.03f;
+	constexpr int kTitleChirPosX = kScreenWidth * 0.27;
 	constexpr int kTitleChirPosY = kScreenHeight * 0.05f;
 
 	// スコア文字表示位置
-	constexpr int kScoreChirPosX = kScreenWidth * 0.43f;
-	constexpr int kScoreChirPosY = kScreenHeight * 0.15f;
+	constexpr int kScoreChirPosX = kScreenWidth * 0.25f;
+	constexpr int kScoreChirPosY = kScreenHeight * 0.55f;
 
 	// 文字の表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.15;
+	constexpr int kSelectChirPosX = kScreenWidth * 0.2;
 	constexpr int kSelectChirPosY = kScreenHeight * 0.85;
 
 	// 文字の表示幅
@@ -69,7 +69,9 @@ SceneGameClear::~SceneGameClear()
 void SceneGameClear::Init()
 {
 	Graph = LoadGraph("data/Map/patter4.png");
-	Cursor = LoadGraph("data/Cursor.png");	// カーソルロゴ読み込み
+	TitleGraph= LoadGraph("data/GameClear.png");
+	ScoreGraph= LoadGraph("data/Score.png");
+	Cursor = LoadGraph("data/Cursor.png");
 	SelectUI = LoadGraph("data/SelectUI.png");
 	SelectUI2 = LoadGraph("data/SelectUI2.png");
 
@@ -171,6 +173,10 @@ void SceneGameClear::Draw()
 {
 	// 背景の描画
 	BackDraw();
+
+	// 画像描画
+	UIDraw();
+
 	// 選択肢等の文字の描画用
 	StringDraw();
 
@@ -190,28 +196,6 @@ void SceneGameClear::End()
 
 void SceneGameClear::StringDraw()
 {
-	// タイトルに戻る・ゲームを終了するBOX
-	for (int i = 0; i < 2; i++){
-		DrawGraph(kSelectPosX + (kCharInterval * i), kSelectPosY,
-			SelectUI, false);
-	}
-
-	// 選択中の部分を四角で描画
-	DrawGraph(m_selectPos.x, m_selectPos.y,
-		SelectUI2, false);
-	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
-		m_selectPos.x + kSelectSizeX + 20,
-		m_selectPos.y + kSelectSizeY + 20,
-		Cursor, true);
-
-
-	SetFontSize(96);
-	DrawString(kScoreChirPosX, kScoreChirPosY, "スコア", 0x000000);
-
-	SetFontSize(64);
-
-	DrawString(kTitleChirPosX, kTitleChirPosY, "ゲームクリア画面", 0x000000);
-
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY, "  タイトルに戻る",
 		0x000000, m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "  ゲームを終わる",
@@ -241,6 +225,26 @@ void SceneGameClear::BackDraw()
 			kBgScale, 0.0f,
 			Graph, true);
 	}
+}
+
+void SceneGameClear::UIDraw()
+{
+	DrawGraph(kTitleChirPosX, kTitleChirPosY, TitleGraph, true);
+	DrawGraph(kScoreChirPosX, kScoreChirPosY, ScoreGraph, true);
+
+	// タイトルに戻る・ゲームを終了するBOX
+	for (int i = 0; i < 2; i++) {
+		DrawGraph(kSelectPosX + (kCharInterval * i), kSelectPosY,
+			SelectUI, false);
+	}
+
+	// 選択中の部分を四角で描画
+	DrawGraph(m_selectPos.x, m_selectPos.y,
+		SelectUI2, false);
+	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
+		m_selectPos.x + kSelectSizeX + 20,
+		m_selectPos.y + kSelectSizeY + 20,
+		Cursor, true);
 }
 
 bool SceneGameClear::IsSceneEnd() const

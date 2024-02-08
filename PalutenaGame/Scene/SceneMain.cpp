@@ -262,7 +262,7 @@ void SceneMain::Update()
 
 			if (m_pPumpkinEnemy[i])
 			{
-				m_pPumpkinEnemy[i]->SetPlayer(m_pPlayer);
+				//m_pPumpkinEnemy[i]->SetPlayer(m_pPlayer);
 				m_pPumpkinEnemy[i]->Update();
 				m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
 
@@ -300,7 +300,11 @@ void SceneMain::Update()
 				}
 			}
 		}
-
+		m_enemyInterval++;
+		if (m_enemyInterval >= kEnemyInterval)
+		{
+			CreateEnemyPump();
+		}
 		//敵キャラクターの登場
 		//m_enemyInterval++;
 		//if (m_enemyInterval >= kEnemyInterval)
@@ -516,7 +520,7 @@ void SceneMain::CreateEnemyMozu()
 		if (!m_pMozueyeEnemy[i])	// nullptrであることをチェック
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
-			m_pMozueyeEnemy[i]->Init();
+			m_pMozueyeEnemy[i]->Init(m_pPlayer);
 			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.3, Ground - 32 * 0.5);
 			return;
 		}
@@ -530,7 +534,7 @@ void SceneMain::CreateEnemyDeath()
 		if (!m_pDeathYourEnemy[i])	// nullptrであることをチェック
 		{
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
-			m_pDeathYourEnemy[i]->Init();
+			m_pDeathYourEnemy[i]->Init(m_pPlayer);
 			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5f, kScreenHeight * 0.5f);
 			return;
 		}
@@ -544,12 +548,9 @@ void SceneMain::CreateEnemyPump()
 		if (!m_pPumpkinEnemy[i])
 		{
 			m_pPumpkinEnemy[i] = new PumpkinEnemy;
-			m_pPumpkinEnemy[i]->Init();
+			m_pPumpkinEnemy[i]->Init(m_pPlayer);
 
-			int EnemyX = 0;
-
-			EnemyX = kScreenWidth * 0.5f;
-
+			int EnemyX = kScreenWidth * 0.5f;
 			/*switch (GetRand(2))
 			{
 			case 0:
@@ -564,7 +565,6 @@ void SceneMain::CreateEnemyPump()
 			}*/
 			//m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.5f);
 			m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.7f);
-
 			return;
 		}
 	}

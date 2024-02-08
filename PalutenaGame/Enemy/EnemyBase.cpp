@@ -23,13 +23,11 @@ EnemyBase::EnemyBase():
 	m_isExist(false), 
 	m_damageFrame(0)
 {
-	m_pPlayer = new Player();
 }
 
-void EnemyBase::Init(int x, int y)
+void EnemyBase::Init(Player* pPlayer)
 {
-	m_pos.x = x;
-	m_pos.y = y;
+	m_pPlayer = pPlayer;
 }
 
 void EnemyBase::Update()
@@ -47,7 +45,6 @@ void EnemyBase::OnDamage()
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0)	return;
 
-	//HP -= 1;
 	HP -= m_pPlayer->GetAtk();
 	
 	if (HP <= 0)

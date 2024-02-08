@@ -20,7 +20,7 @@ Time::~Time()
 
 void Time::Init()
 {
-	Second =120.0f;		// –{—ˆ‚Í60•b*60
+	Second =600.0f;		// –{—ˆ‚Í60•b*60
 						// Œ»İ‚Í‰¼‚Å10•b*60
 	isTimeUp = false;
 }

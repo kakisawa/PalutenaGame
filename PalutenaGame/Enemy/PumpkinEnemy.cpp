@@ -21,7 +21,9 @@ namespace
 	// プレイヤーHP初期値
 	constexpr int kHP = 1;
 	// プレイヤーAtk初期値
-	constexpr int kAtk = 100;
+	constexpr int kAtk = 30;
+	// 所持スコア
+	constexpr int kScore = 100;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
 	constexpr int DefFrame[] = { 0,1,2,3,4,5,6,7 };
@@ -37,7 +39,7 @@ PumpkinEnemy::PumpkinEnemy()
 
 	HP = kHP;			// HP
 	Atk = kAtk;			// 攻撃力
-	Score = 10;			// 倒した際に得られるスコア
+	Score = kScore;			// 倒した際に得られるスコア
 
 	Gravity = 0.0f;		// 敵の初期重力
 	isTurn = false;		// 右を向いているのfalseを挿入
@@ -47,17 +49,6 @@ PumpkinEnemy::PumpkinEnemy()
 PumpkinEnemy::~PumpkinEnemy()
 {
 	DeleteGraph(EGraph);
-}
-
-void PumpkinEnemy::Init()
-{
-	HP = kHP;		// HP
-	Atk = 100;	// 攻撃力
-	Score = 10;	// 倒した際に得られるスコア
-
-	Gravity = 0.0f;				// 敵の初期重力
-	isTurn = false;				// 右を向いているのfalseを挿入
-	EnemyAnim = 0;				// 敵のアニメーションの初期化
 }
 
 void PumpkinEnemy::Update()

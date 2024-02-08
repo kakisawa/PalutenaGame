@@ -26,7 +26,7 @@ SceneSecond::SceneSecond() :
 	// グラフィックのロード
 	m_playerHandle = LoadGraph("data/Player.png");
 	assert(m_playerHandle != -1);
-	m_backHandle = LoadGraph("data/Map/Back.png");
+	m_backHandle = LoadGraph("data/Map/Back1.png");
 	assert(m_backHandle != -1);
 
 	// プレイヤーのメモリ確保
@@ -282,7 +282,7 @@ void SceneSecond::Update()
 		{
 			if (m_pPumpkinEnemy[i])
 			{
-				m_pPumpkinEnemy[i]->SetPlayer(m_pPlayer);
+				//m_pPumpkinEnemy[i]->SetPlayer(m_pPlayer);
 
 				m_pPumpkinEnemy[i]->Update();
 				m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
@@ -504,7 +504,7 @@ void SceneSecond::CreateEnemyMozu()
 		if (!m_pMozueyeEnemy[i])	// nullptrであることをチェック
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
-			m_pMozueyeEnemy[i]->Init();
+			m_pMozueyeEnemy[i]->Init(m_pPlayer);
 			m_pMozueyeEnemy[i]->Start(0, Ground - 32 * 0.5);
 			return;
 		}
@@ -518,7 +518,7 @@ void SceneSecond::CreateEnemyDeath()
 		if (!m_pDeathYourEnemy[i])	// nullptrであることをチェック
 		{
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
-			m_pDeathYourEnemy[i]->Init();
+			m_pDeathYourEnemy[i]->Init(m_pPlayer);
 			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5f, kScreenHeight * 0.5f);
 			return;
 		}
@@ -533,7 +533,7 @@ void SceneSecond::CreateEnemyPump()
 		if (!m_pPumpkinEnemy[i])
 		{
 			m_pPumpkinEnemy[i] = new PumpkinEnemy;
-			m_pPumpkinEnemy[i]->Init();
+			m_pPumpkinEnemy[i]->Init(m_pPlayer);
 
 			int EnemyX = 0;
 

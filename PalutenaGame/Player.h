@@ -53,7 +53,7 @@ public:
 	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
 	Vec2 OutPos() const { return m_pos; }				// プレイヤーの座標を取得する
 	bool PlayerDeath() const { return isDeath; }		// プレイヤーの生死状態を取得する
-	int GetAtk() const { return Atk; }
+ 	int GetAtk() const { return Atk; }					// プレイヤーの攻撃力を取得する
 	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
 
 	void AddScore(int Score) { m_Score += Score; }		// スコア
@@ -80,7 +80,6 @@ private:
 	int m_damageFrame;	// ダメージを受けてからのフレーム数
 							// 普段は0で、当たった時にフレーム数を設定して
 							// 以降毎フレーム減らしていく
-
 
 	float Gravity;		// 重力
 	float JumpPower;	// ジャンプ移動量

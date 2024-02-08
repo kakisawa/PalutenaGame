@@ -18,8 +18,9 @@ public:
 	void Draw();
     void End();
 
-    void StringDraw();
-    void BackDraw();
+    void StringDraw();  // 文字系の描画
+    void BackDraw();    // 背景の描画
+    void UIDraw();      // UI等の描画
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
@@ -35,10 +36,12 @@ private:
         kSclectNum,         // 項目数
     };
 
+    int TitleGraph;     // タイトルグラフ
+    int ScoreGraph;     // スコアグラフ
     int m_select;       // 選択中のメニュー
     int Cursor;         // カーソルグラフ
     int SelectUI;       // UI
-    int SelectUI2;       // UI
+    int SelectUI2;      // UI
 
     float m_scrollX;    // スクロール移動量
 

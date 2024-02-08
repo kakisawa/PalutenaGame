@@ -17,7 +17,7 @@ namespace
 	constexpr int kScoreChirPosY = kScreenHeight * 0.15f;
 
 	// 選択文字の表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.15;
+	constexpr int kSelectChirPosX = kScreenWidth * 0.2;
 	constexpr int kSelectChirPosY = kScreenHeight * 0.83;
 
 	// 文字の表示幅

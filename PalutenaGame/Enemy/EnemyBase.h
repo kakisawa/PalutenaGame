@@ -10,7 +10,7 @@ public:
 	EnemyBase();			
 	virtual ~EnemyBase(){}
 
-	virtual void Init(int x,int y);
+	virtual void Init(Player* pPlayer);
 	virtual void Update();
 	virtual void Draw(){}
 

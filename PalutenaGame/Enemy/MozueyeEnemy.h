@@ -7,7 +7,7 @@ public:
     MozueyeEnemy();
     ~MozueyeEnemy();
 
-    void Init() {}
+    void Init(Player* pPlayer) override;
     void Update() override;
     void Draw() override;
 
