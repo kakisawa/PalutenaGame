@@ -54,9 +54,7 @@ void Sound::Update()
 	Pad::Update();
 
 	Pause();
-	ChangePanSoundMem(Volume, m_bgmDefo);
-
-	//ChangeVolumeSoundMem(Volume, m_bgmDefo) ;
+	ChangeVolumeSoundMem(Volume, m_bgmDefo) ;
 }
 
 void Sound::Draw()
@@ -125,6 +123,4 @@ void Sound::Pause()
 			}
 		}
 	}
-
-
 }

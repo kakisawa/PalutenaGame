@@ -307,31 +307,31 @@ void SceneMain::Update()
 				}
 			}
 		}
-		m_enemyInterval++;
-		if (m_enemyInterval >= kEnemyInterval)
-		{
-			CreateEnemyPump();
-			m_enemyInterval = 0;
-		}
-		//敵キャラクターの登場
 		//m_enemyInterval++;
 		//if (m_enemyInterval >= kEnemyInterval)
 		//{
+		//	CreateEnemyPump();
 		//	m_enemyInterval = 0;
-		//	// ランダムに生成する敵を選択
-		//	switch (GetRand(2))
-		//	{
-		//	case 0:
-		//		CreateEnemyMozu();
-		//		break;
-		//	case 1:
-		//		CreateEnemyDeath();
-		//		break;
-		//	case 2:
-		//		CreateEnemyPump();
-		//		break;
-		//	}
 		//}
+		//敵キャラクターの登場
+		m_enemyInterval++;
+		if (m_enemyInterval >= kEnemyInterval)
+		{
+			m_enemyInterval = 0;
+			// ランダムに生成する敵を選択
+			switch (GetRand(2))
+			{
+			case 0:
+				CreateEnemyMozu();
+				break;
+			case 1:
+				CreateEnemyDeath();
+				break;
+			case 2:
+				CreateEnemyPump();
+				break;
+			}
+		}
 	}
 }
 
