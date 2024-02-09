@@ -11,8 +11,14 @@ public:
 
 	void BGMDefo();
 
+	void Pause();
+
 private:
 	int Volume;
+	int MiniWindowTime;
+	int PauseCount;
+
+	bool m_pause;
 
 	int m_bgmDefo;
 };
