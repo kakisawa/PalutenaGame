@@ -94,6 +94,7 @@ void Player::Init()
 	m_shotDir = kShotDirRight;	// プレイヤーの攻撃初期方向
 	JumpPower = 0.0f;			// プレイヤーの初期ジャンプ
 	Gravity = 0.0f;				// プレイヤーの初期重力
+	m_Score = 0;
 	Atk = kAtk;					// プレイヤーの初期攻撃力
 	PlayerAnim = 0;				// プレイヤーアニメーションの初期化
 	m_damageFrame = 0;			// プレイヤー被ダメアニメーション  

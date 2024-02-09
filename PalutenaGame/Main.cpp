@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "Game.h"
 #include "SceneManager.h"
+#include "resource.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -11,6 +12,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(true);
 	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
 	SetWindowText(_T("ミラージュ・ビット"));
+
+	DxLib::SetWindowIconID(IDI_ICON1);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{

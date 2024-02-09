@@ -53,7 +53,7 @@ SceneGameClear::SceneGameClear() :
 	m_scrollX(0),
 	m_fadeAlpha(255),
 	m_fadeLetter(0),
-	ResultScore(0000),
+	ResultScore(0),
 	m_selectPos(kSelectPosX, kSelectPosY)
 {
 	// SE・BGMメモリ確保
@@ -89,7 +89,7 @@ void SceneGameClear::Init()
 	m_scrollX = 0;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
-	ResultScore = SceneManager::s_ResultScore;
+	ResultScore = 0;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
 
@@ -190,14 +190,13 @@ void SceneGameClear::Draw()
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, m_pColorManager->GetColor(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
 void SceneGameClear::End()
 {
 	DeleteGraph(Graph);		// 背景をメモリから削除
-
 	m_pSoundManager->End();
 }
 
@@ -208,6 +207,7 @@ void SceneGameClear::StringDraw()
 	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "  ゲームを終わる",
 		m_pColorManager->GetColor(), m_pFontManager->GetFont());
 
+	ResultScore = SceneManager::s_ResultScore;
 	DrawFormatStringToHandle(kScorePosX, kScorePosY,
 		m_pColorManager->GetColor(), m_pFontManager->GetFont3(),
 		"%4d", ResultScore);
@@ -216,7 +216,8 @@ void SceneGameClear::StringDraw()
 	if (m_fadeLetter < 60)
 	{
 		SetFontSize(32);
-		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.6, "Aキーで決定", m_pColorManager->GetColor2());
+		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.6,
+			"Aキーで決定", m_pColorManager->GetColor2());
 	}
 }
 

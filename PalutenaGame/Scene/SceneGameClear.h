@@ -28,9 +28,7 @@ public:
 	bool IsSceneEnd() const;
 
 	void SetHandle(int handle) { Graph = handle; }
-    void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
-
-    void AddScore(int Score) { ResultScore += Score; }
+   // void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
 
 private:
     enum Select
@@ -71,6 +69,6 @@ private:
     // êF
     ColorManager* m_pColorManager;
 
-    Player* m_pPlayer;
+    //Player* m_pPlayer;
 };
 

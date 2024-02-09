@@ -48,6 +48,7 @@
     <ClInclude Include="Back.h" />
     <ClInclude Include="ColorManager.h" />
     <ClInclude Include="FontManager.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\SceneSecond.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Scene\SceneExplanation.h" />
@@ -69,6 +70,12 @@
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Util\Vec2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PalutenaGame.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

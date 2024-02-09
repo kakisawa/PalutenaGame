@@ -18,6 +18,8 @@
 
 SceneMain::SceneMain() :
 	m_isSceneEnd(false),
+	isToGameClear(false),
+	isToGameOver(false),
 	m_fadeAlpha(255),		// 不透明で初期化
 	m_enemyInterval(0)
 {
@@ -121,6 +123,8 @@ void SceneMain::Init()
 {
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
+	isToGameClear = false;
+	isToGameOver = false;
 	m_isSceneEnd = false;
 
 	m_pPlayer->Init();
@@ -362,7 +366,8 @@ void SceneMain::Draw()
 
 void SceneMain::End()
 {
-	SceneManager::s_ResultScore = m_pPlayer->GetScore();
+	// プレイヤーが獲得したスコアを他のシーンに入れる
+	SceneManager::s_ResultScore = m_pPlayer->GetScore();	
 
 	// 弾との当たり判定
 	for (int j = 0; j < kShotMax; j++)
