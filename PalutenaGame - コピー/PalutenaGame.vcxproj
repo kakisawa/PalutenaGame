@@ -20,9 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Back.cpp" />
-    <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="Manager\ColorManager.cpp" />
+    <ClCompile Include="Manager\FontManager.cpp" />
     <ClCompile Include="Scene\SceneSecond.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Manager\SoundManager.cpp" />
     <ClCompile Include="Scene\SceneExplanation.cpp" />
     <ClCompile Include="Scene\SceneGameClear.cpp" />
     <ClCompile Include="Shot\Shot.cpp" />
@@ -33,7 +34,7 @@
     <ClCompile Include="Scene\SceneStageSelect.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="System\Time.cpp" />
     <ClCompile Include="Util\Pad.cpp" />
     <ClCompile Include="Util\Rect.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
@@ -45,9 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Back.h" />
-    <ClInclude Include="FontManager.h" />
+    <ClInclude Include="Manager\ColorManager.h" />
+    <ClInclude Include="Manager\FontManager.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\SceneSecond.h" />
-    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="Manager\SoundManager.h" />
     <ClInclude Include="Scene\SceneExplanation.h" />
     <ClInclude Include="Scene\SceneGameClear.h" />
     <ClInclude Include="Shot\Shot.h" />
@@ -58,7 +61,7 @@
     <ClInclude Include="Scene\SceneStageSelect.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="System\Time.h" />
     <ClInclude Include="Util\Pad.h" />
     <ClInclude Include="Util\Rect.h" />
     <ClInclude Include="Scene\SceneBase.h" />
@@ -67,6 +70,12 @@
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Util\Vec2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PalutenaGame.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -154,7 +163,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir);$(ProjectDir)Enemy;$(ProjectDir)Scene;$(ProjectDir)Util</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir);$(ProjectDir)Enemy;$(ProjectDir)Scene;$(ProjectDir)Manager;$(ProjectDir)Util;$(ProjectDir)System</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -171,7 +180,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir);$(ProjectDir)Enemy;$(ProjectDir)Scene;$(ProjectDir)Shot;$(ProjectDir)Util</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir);$(ProjectDir)Enemy;$(ProjectDir)Scene;$(ProjectDir)Manager;$(ProjectDir)Util;$(ProjectDir)System</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

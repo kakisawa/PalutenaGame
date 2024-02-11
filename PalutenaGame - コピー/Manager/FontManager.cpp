@@ -19,7 +19,7 @@ FontManager::FontManager()
 
     m_fontHandle = CreateFontToHandle("Kaisei HarunoUmi", 58, -1);
     m_fontHandle2 = CreateFontToHandle("Kaisei HarunoUmi", 32, -1);
-    m_fontHandle3 = CreateFontToHandle("廻想体 ネクスト UP B", 45, -1);
+    m_fontHandle3 = CreateFontToHandle("Kaisei HarunoUmi", 105, -1);
     m_fontStaging = CreateFontToHandle("廻想体 ネクスト UP B", 85, -1);
 
 }

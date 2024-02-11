@@ -27,6 +27,7 @@ class PumpkinEnemy;
 class Shot;
 class Time;
 class SoundManager;
+class ColorManager;
 
 class SceneMain
 {
@@ -96,6 +97,8 @@ private:
 	Time* m_pTime;
 	// SE/BGM
 	SoundManager* m_pSoundManager;
+	// 色
+	ColorManager* m_pColorManager;
 	// エネミー
 	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;
 	std::vector<DeathYourEnemy*> m_pDeathYourEnemy;

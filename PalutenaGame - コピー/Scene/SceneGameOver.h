@@ -4,6 +4,7 @@
 
 class SoundManager;
 class FontManager;
+class ColorManager;
 
 class SceneGameOver :
     public SceneBase
@@ -19,6 +20,7 @@ public:
 
     void StringDraw();
     void BackDraw();
+    void UIDraw();      // UI等の描画
 
     // シーンを終了させたいか
     bool IsSceneEnd() const;
@@ -34,10 +36,14 @@ private:
         kSclectNum,         // 項目数
     };
 
-    int m_select;    // 選択中のメニュー
-    int Cursor;      // カーソルグラフ
+    int ResultScore;    // 獲得スコア
+
+    int TitleGraph;     // タイトルグラフ
+    int ScoreGraph;     // スコアグラフ
+    int m_select;       // 選択中のメニュー
+    int Cursor;         // カーソルグラフ
     int SelectUI;       // UI
-    int SelectUI2;       // UI
+    int SelectUI2;      // UI
 
     float m_scrollX;    // スクロール移動量
 
@@ -58,4 +64,6 @@ private:
     SoundManager* m_pSoundManager;
     // フォント
     FontManager* m_pFontManager;
+    // 色
+    ColorManager* m_pColorManager;
 };

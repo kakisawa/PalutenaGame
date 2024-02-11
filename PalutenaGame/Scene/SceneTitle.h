@@ -5,6 +5,7 @@
 class SoundManager;
 class FontManager;
 class ColorManager;
+class Pause;
 
 class SceneTitle :
     public SceneBase
@@ -74,8 +75,11 @@ private:
 
     // フォントのポインタ
     FontManager* m_pFontManager;
-    // SE/BGM
+    // SE・BGM
     SoundManager* m_pSoundManager;
     // 色
     ColorManager* m_pColorManager;
+
+    // ポーズ仮設定
+    Pause* m_pPause;
 };

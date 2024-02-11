@@ -8,8 +8,9 @@
 #include "SceneStageSelect.h"
 #include "SceneGameClear.h"
 #include "Pad.h"
-
 #include "SoundManager.h"
+
+int SceneManager::s_ResultScore = 0;	// ゲーム画面内に出したスコアを他のシーンでも出す用
 
 SceneManager::SceneManager() :
 	m_runScene(kSceneKindTitle),

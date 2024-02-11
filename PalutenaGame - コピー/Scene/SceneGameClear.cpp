@@ -2,9 +2,9 @@
 #include "SceneManager.h"
 #include "SceneMain.h"
 #include "SceneSecond.h"
-#include "SceneSecond.h"
 #include "SoundManager.h"
 #include "FontManager.h"
+#include "ColorManager.h"
 #include "Player.h"
 #include "Pad.h"
 #include "Game.h"
@@ -19,6 +19,9 @@ namespace
 	// スコア文字表示位置
 	constexpr int kScoreChirPosX = kScreenWidth * 0.25f;
 	constexpr int kScoreChirPosY = kScreenHeight * 0.55f;
+	// スコア数値表示位置
+	constexpr int kScorePosX = kScreenWidth * 0.5f;
+	constexpr int kScorePosY = kScreenHeight * 0.55f;
 
 	// 文字の表示位置
 	constexpr int kSelectChirPosX = kScreenWidth * 0.2;
@@ -44,7 +47,7 @@ namespace
 	constexpr int kBgScale = 1;
 }
 
-SceneGameClear::SceneGameClear():
+SceneGameClear::SceneGameClear() :
 	m_isSceneEnd(false),
 	m_select(kScelectBackTitle),
 	m_scrollX(0),
@@ -57,6 +60,8 @@ SceneGameClear::SceneGameClear():
 	m_pSoundManager = new SoundManager;
 	// フォントメモリ
 	m_pFontManager = new FontManager;
+	// 色メモリ確保
+	m_pColorManager = new ColorManager;
 }
 
 SceneGameClear::~SceneGameClear()
@@ -66,13 +71,15 @@ SceneGameClear::~SceneGameClear()
 	m_pSoundManager = nullptr;
 	delete m_pFontManager;
 	m_pFontManager = nullptr;
+	delete m_pColorManager;
+	m_pColorManager = nullptr;
 }
 
 void SceneGameClear::Init()
 {
 	Graph = LoadGraph("data/Map/patter4.png");
-	TitleGraph= LoadGraph("data/GameClear.png");
-	ScoreGraph= LoadGraph("data/Score.png");
+	TitleGraph = LoadGraph("data/GameClear.png");
+	ScoreGraph = LoadGraph("data/Score.png");
 	Cursor = LoadGraph("data/Cursor.png");
 	SelectUI = LoadGraph("data/SelectUI.png");
 	SelectUI2 = LoadGraph("data/SelectUI2.png");
@@ -85,9 +92,6 @@ void SceneGameClear::Init()
 	ResultScore = 0;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
-
-	
-
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
@@ -179,43 +183,41 @@ void SceneGameClear::Draw()
 {
 	// 背景の描画
 	BackDraw();
-
 	// 画像描画
 	UIDraw();
-
 	// 選択肢等の文字の描画用
 	StringDraw();
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, m_pColorManager->GetColor(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
 void SceneGameClear::End()
 {
-	// 背景をメモリから削除
-	DeleteGraph(Graph);
-
+	DeleteGraph(Graph);		// 背景をメモリから削除
 	m_pSoundManager->End();
 }
 
 void SceneGameClear::StringDraw()
 {
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY, "  タイトルに戻る",
-		0x000000, m_pFontManager->GetFont());
+		m_pColorManager->GetColor(), m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "  ゲームを終わる",
-		0x000000, m_pFontManager->GetFont());
+		m_pColorManager->GetColor(), m_pFontManager->GetFont());
 
-	ResultScore = m_pPlayer->GetScore();
-	DrawFormatString(500, 500, 0xFFFFFF,
-		"%d", ResultScore);
+	ResultScore = SceneManager::s_ResultScore;
+	DrawFormatStringToHandle(kScorePosX, kScorePosY,
+		m_pColorManager->GetColor(), m_pFontManager->GetFont3(),
+		"%4d", ResultScore);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
 		SetFontSize(32);
-		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.6, "Aキーで決定", 0xffffff);
+		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.6,
+			"Aキーで決定", m_pColorManager->GetColor2());
 	}
 }
 

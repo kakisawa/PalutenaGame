@@ -6,6 +6,8 @@
 #include "PumpkinEnemy.h"
 #include "Shot/Shot.h"
 #include "SoundManager.h"
+#include "SceneManager.h"
+#include "ColorManager.h"
 #include "Time.h"
 #include "Back.h"
 #include "Game.h"
@@ -16,6 +18,8 @@
 
 SceneMain::SceneMain() :
 	m_isSceneEnd(false),
+	isToGameClear(false),
+	isToGameOver(false),
 	m_fadeAlpha(255),		// 不透明で初期化
 	m_enemyInterval(0)
 {
@@ -40,11 +44,12 @@ SceneMain::SceneMain() :
 	m_pBack->SetHandle(m_backHandle);
 	m_pBack->SetHandle2(m_backHandle2);
 
-
 	// 制限時間のメモリ確保
 	m_pTime = new Time;
 	// SE/BGMメモリ確保
 	m_pSoundManager = new SoundManager;
+	// 色メモリ確保
+	m_pColorManager = new ColorManager;
 
 	m_pMozueyeEnemy.resize(MozuMax);
 	m_pDeathYourEnemy.resize(DeathMax);
@@ -78,15 +83,15 @@ SceneMain::~SceneMain()
 	// メモリの解放
 	delete m_pPlayer;
 	m_pPlayer = nullptr;
-
 	delete m_pBack;
 	m_pBack = nullptr;
-
 	delete m_pTime;
 	m_pTime = nullptr;
-
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
+	// 色メモリ解放
+	delete m_pColorManager;
+	m_pColorManager = nullptr;
 
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
@@ -118,6 +123,8 @@ void SceneMain::Init()
 {
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
+	isToGameClear = false;
+	isToGameOver = false;
 	m_isSceneEnd = false;
 
 	m_pPlayer->Init();
@@ -300,30 +307,31 @@ void SceneMain::Update()
 				}
 			}
 		}
-		m_enemyInterval++;
-		if (m_enemyInterval >= kEnemyInterval)
-		{
-			CreateEnemyPump();
-		}
-		//敵キャラクターの登場
 		//m_enemyInterval++;
 		//if (m_enemyInterval >= kEnemyInterval)
 		//{
+		//	CreateEnemyPump();
 		//	m_enemyInterval = 0;
-		//	// ランダムに生成する敵を選択
-		//	switch (GetRand(2))
-		//	{
-		//	case 0:
-		//		CreateEnemyMozu();
-		//		break;
-		//	case 1:
-		//		CreateEnemyDeath();
-		//		break;
-		//	case 2:
-		//		CreateEnemyPump();
-		//		break;
-		//	}
 		//}
+		//敵キャラクターの登場
+		m_enemyInterval++;
+		if (m_enemyInterval >= kEnemyInterval)
+		{
+			m_enemyInterval = 0;
+			// ランダムに生成する敵を選択
+			switch (GetRand(2))
+			{
+			case 0:
+				CreateEnemyMozu();
+				break;
+			case 1:
+				CreateEnemyDeath();
+				break;
+			case 2:
+				CreateEnemyPump();
+				break;
+			}
+		}
 	}
 }
 
@@ -351,12 +359,16 @@ void SceneMain::Draw()
 	m_pBack->DrawGround();
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, 
+		m_pColorManager->GetColor(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
 void SceneMain::End()
 {
+	// プレイヤーが獲得したスコアを他のシーンに入れる
+	SceneManager::s_ResultScore = m_pPlayer->GetScore();	
+
 	// 弾との当たり判定
 	for (int j = 0; j < kShotMax; j++)
 	{
@@ -550,7 +562,7 @@ void SceneMain::CreateEnemyPump()
 			m_pPumpkinEnemy[i] = new PumpkinEnemy;
 			m_pPumpkinEnemy[i]->Init(m_pPlayer);
 
-			int EnemyX = kScreenWidth * 0.5f;
+			int EnemyX = kScreenWidth * 0.3f;
 			/*switch (GetRand(2))
 			{
 			case 0:

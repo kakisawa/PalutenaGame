@@ -8,6 +8,7 @@ class SceneGameOver;
 class SceneGameClear;
 
 class SoundManager;
+class Player;
 
 class SceneManager
 {
@@ -19,6 +20,10 @@ public:
 	void Update();
 	void Draw();
 	void End();
+
+
+	static int s_ResultScore;
+
 
 private:
 
@@ -47,4 +52,5 @@ private:
 	SceneExplanation* m_pExplanation;
 
 	SoundManager* m_pSoundManager;
+	Player* m_pPlayer;
 };

@@ -5,6 +5,7 @@
 class SoundManager;
 class FontManager;
 class Player;
+class ColorManager;
 
 class SceneGameClear :
     public SceneBase
@@ -27,9 +28,7 @@ public:
 	bool IsSceneEnd() const;
 
 	void SetHandle(int handle) { Graph = handle; }
-    void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
-
-    void AddScore(int Score) { ResultScore += Score; }
+   // void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
 
 private:
     enum Select
@@ -67,7 +66,9 @@ private:
     SoundManager* m_pSoundManager;
     // フォント
     FontManager* m_pFontManager;
+    // 色
+    ColorManager* m_pColorManager;
 
-    Player* m_pPlayer;
+    //Player* m_pPlayer;
 };
 

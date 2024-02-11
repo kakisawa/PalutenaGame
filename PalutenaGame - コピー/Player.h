@@ -57,7 +57,7 @@ public:
 	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
 	void AddScore(int Score) { m_Score += Score; }		// スコア
 	
-	int GetScore() const { return m_Score; }
+ 	int GetScore() const { return m_Score; }
 
 	// 敵の攻撃力を獲得するため
 	void SetMozu(MozueyeEnemy* pMozu) { m_pMozueyeEnemy = pMozu; }

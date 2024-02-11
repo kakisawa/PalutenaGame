@@ -4,6 +4,7 @@
 #include "Pad.h"
 #include "FontManager.h"
 #include "SoundManager.h"
+#include "ColorManager.h"
 
 namespace
 {
@@ -56,6 +57,8 @@ SceneTitle::SceneTitle() :
 	m_pFontManager = new FontManager;
 	// SE/BGMメモリ確保
 	m_pSoundManager = new SoundManager;
+	// 色メモリ確保
+	m_pColorManager = new ColorManager;
 }
 
 SceneTitle::~SceneTitle()
@@ -63,9 +66,12 @@ SceneTitle::~SceneTitle()
 	// フォントメモリの解放
 	delete m_pFontManager;
 	m_pFontManager = nullptr;
-	// メモリ解放
+	// サウンドメモリ解放
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
+	// 色メモリ解放
+	delete m_pColorManager;
+	m_pColorManager = nullptr;
 }
 
 void SceneTitle::Init()
@@ -218,20 +224,25 @@ void SceneTitle::StringDraw()
 		m_selectPos.x + kSelectSizeX + 20, m_selectPos.y + kSelectSizeY + 20, 
 		Cursor, true);
 
-	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY, 
-		" 操作説明", 0x000000, m_pFontManager->GetFont());
+	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY,
+		" 操作説明", m_pColorManager->GetColor(),
+		m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval, 
-		"  ゲームを始める", 0x000000, m_pFontManager->GetFont());
+		"  ゲームを始める", m_pColorManager->GetColor(), 
+		m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2, 
-		"  ゲームを終わる", 0x000000, m_pFontManager->GetFont());
+		"  ゲームを終わる", m_pColorManager->GetColor(), 
+		m_pFontManager->GetFont());
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60){
-		DrawGraph(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2.8f, PushA,true);
+		DrawGraph(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2.8f,
+			PushA, true);
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, GetColor(255, 255, 255), true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, 
+		m_pColorManager->GetColor(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
