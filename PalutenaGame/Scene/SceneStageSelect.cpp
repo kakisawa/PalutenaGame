@@ -89,12 +89,14 @@ void SceneStageSelect::Init()
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
-
 	m_pSoundManager->BGMDefo();
 }
 
 void SceneStageSelect::Update()
 {
+	m_pSoundManager->SetBgmVolume();
+	m_pSoundManager->SetSeVolume();
+
 	// ↓キーを押したら選択状態を一つ下げる
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
 	{

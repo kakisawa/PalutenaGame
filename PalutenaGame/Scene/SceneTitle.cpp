@@ -5,7 +5,6 @@
 #include "FontManager.h"
 #include "SoundManager.h"
 #include "ColorManager.h"
-#include "Pause.h"
 
 namespace
 {
@@ -60,9 +59,6 @@ SceneTitle::SceneTitle() :
 	m_pSoundManager = new SoundManager;
 	// 色メモリ確保
 	m_pColorManager = new ColorManager;
-
-	// ポーズ仮設定
-	m_pPause = new Pause;
 }
 
 SceneTitle::~SceneTitle()
@@ -76,10 +72,6 @@ SceneTitle::~SceneTitle()
 	// 色メモリ解放
 	delete m_pColorManager;
 	m_pColorManager = nullptr;
-
-	// ポーズ仮設定
-	delete m_pPause;
-	m_pPause = nullptr;
 }
 
 void SceneTitle::Init()
@@ -107,12 +99,12 @@ void SceneTitle::Init()
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
 	m_pSoundManager->BGMDefo();
-	m_pPause->Init();
 }
 
 void SceneTitle::Update()
 {
-	m_pPause->Update();
+	m_pSoundManager->SetBgmVolume();
+	m_pSoundManager->SetSeVolume();
 
 	// ↓キーを押したら選択状態を一つ下げる
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
@@ -207,8 +199,6 @@ void SceneTitle::Draw()
 
 	// 選択肢等の文字の描画用
 	StringDraw();
-
-	m_pPause->Draw();
 }
 
 void SceneTitle::End()

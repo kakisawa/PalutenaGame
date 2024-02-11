@@ -83,18 +83,18 @@ void Sound::Draw()
 			0xFFFFFF, false);
 
 		if (MiniWindowTime >= 150) {
-			for (int i = 0; i < 2; i++)
-			{
-				DrawBox(UnderBoxX, UnderBoxY + (kSelectMoveY * i),
-					UnderBoxX + UnderBoxWidth, UnderBoxY + UnderBoxHeight + (kSelectMoveY * i),
-					0xFFFFFF, false);
-			}
 			DrawBox(UpBoxX, UpBoxY + (kSelectMoveY * 0),
 				UpBoxX + Volume, UpBoxY + UpBoxHeight + (kSelectMoveY * 0),
 				0x0095d9, true);
 			DrawBox(UpBoxX, UpBoxY + (kSelectMoveY * 1),
 				UpBoxX + SeVolume, UpBoxY + UpBoxHeight + (kSelectMoveY * 1),
 				0x0095d9, true);
+			for (int i = 0; i < 2; i++)
+			{
+				DrawBox(UnderBoxX, UnderBoxY + (kSelectMoveY * i),
+					UnderBoxX + UnderBoxWidth, UnderBoxY + UnderBoxHeight + (kSelectMoveY * i),
+					0xFFFFFF, false);
+			}
 
 			DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + SelectSizeX, m_selectPos.y + SelectSizeY, 0xffffff, false);
 

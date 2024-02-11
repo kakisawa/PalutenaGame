@@ -4,26 +4,29 @@
 #include "DxLib.h"
 #include "SoundManager.h"
 
+int ChangeBgm= InitBgmVolume;		// 変更後音量保存
+int ChangeSe=InitSeVolume;
+
 namespace {
 	// ポーズ初期位置
-	constexpr int PauseBoxX = kScreenWidth*0.1f;
-	constexpr int PauseBoxY = kScreenHeight*0.5f;
+	constexpr int PauseBoxX = kScreenWidth * 0.1f;
+	constexpr int PauseBoxY = kScreenHeight * 0.5f;
 	// ポーズの最大長さ
 	constexpr int PauseBoxWight = kScreenWidth * 0.8f;
 	constexpr int PauseBoxHeight = kScreenHeight * 0.8f;
 
 	// 下の箱
-	constexpr int UnderBoxX = PauseBoxX*1.1f;
-	constexpr int UnderBoxY = PauseBoxY*0.2f;
+	constexpr int UnderBoxX = PauseBoxX * 1.4f;
+	constexpr int UnderBoxY = PauseBoxY * 0.4f;
 	// 下の箱の長さ
-	constexpr int UnderBoxWidth = PauseBoxWight*0.8f;
-	constexpr int UnderBoxHeight = PauseBoxHeight*0.2f;
+	constexpr int UnderBoxWidth = PauseBoxWight * 0.897f;
+	constexpr int UnderBoxHeight = PauseBoxHeight * 0.1f;
 	// 上の箱
-	constexpr int UpBoxX = PauseBoxX * 1.1f;
-	constexpr int UpBoxY = PauseBoxY * 0.2f;
+	constexpr int UpBoxX = PauseBoxX * 1.4f;
+	constexpr int UpBoxY = PauseBoxY * 0.4f;
 	// 上の箱の長さ
-	constexpr int UpBoxWidth = PauseBoxWight * 0.8f;
-	constexpr int UpBoxHeight = PauseBoxHeight * 0.2f;
+	constexpr int UpBoxWidth = PauseBoxWight * 0.897f;
+	constexpr int UpBoxHeight = PauseBoxHeight * 0.1f;
 
 	// 選択中の箱を表示する箱座標
 	constexpr int SelectBoxX = UnderBoxX - 2;
@@ -33,14 +36,21 @@ namespace {
 	constexpr int SelectSizeY = UnderBoxHeight + 4;
 
 	// 箱の上下移動量
-	constexpr int kSelectMoveY = 60;
+	constexpr int kSelectMoveY = 150;
 
-	// 音量の最大
-	constexpr int MaxVolume = 255;
+	// BGM文字位置
+	constexpr int BgmStringX = UnderBoxX;
+	constexpr int BgmStringY = UnderBoxY - 30;
+	// SE文字位置
+	constexpr int SeStringX = UnderBoxX;
+	constexpr int SeStringY = UnderBoxY + kSelectMoveY - 30;
 }
 
-Pause::Pause():
+Pause::Pause(SoundManager* soundManager) :
+	m_pSoundManager(soundManager),
 	MiniWindowTime(0),
+	BgmVolume(InitBgmVolume),
+	SeVolume(InitSeVolume),
 	PauseCount(0),
 	m_pause(false),
 	m_select(kBgmVolume),
@@ -59,47 +69,11 @@ void Pause::Init()
 	m_pause = false;
 	m_select = kBgmVolume;
 
-	BgmVolume = MaxVolume * 0.5f;
-	SeVolume= MaxVolume * 0.5f;
+	BgmVolume = ChangeBgm;
+	SeVolume = ChangeSe;
 }
 
 void Pause::Update()
-{
-	PushPause();
-}
-
-void Pause::Draw()
-{
-	if (m_pause == true)
-	{
-		DrawBox(PauseBoxX, PauseBoxY - MiniWindowTime,
-			PauseBoxX + PauseBoxWight, PauseBoxY + MiniWindowTime,
-			0xFFFFFF, false);
-
-		if (MiniWindowTime >= PauseBoxHeight*0.5f) {
-			for (int i = 0; i < 2; i++)
-			{
-				DrawBox(UnderBoxX, UnderBoxY + (kSelectMoveY * i),
-					UnderBoxX + UnderBoxWidth, UnderBoxY + UnderBoxHeight + (kSelectMoveY * i),
-					0xFFFFFF, false);
-			}
-			DrawBox(UpBoxX, UpBoxY + (kSelectMoveY * 0),
-				UpBoxX + BgmVolume, UpBoxY + UpBoxHeight + (kSelectMoveY * 0),
-				0x0095d9, true);
-			DrawBox(UpBoxX, UpBoxY + (kSelectMoveY * 1),
-				UpBoxX + BgmVolume, UpBoxY + UpBoxHeight + (kSelectMoveY * 1),
-				0x0095d9, true);
-
-			DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + SelectSizeX, m_selectPos.y + SelectSizeY, 0xffffff, false);
-		}
-		DrawFormatString(100, 170, 0xFFFFFF,
-			"BgmVolume=%d", BgmVolume);
-		DrawFormatString(100, 170 + kSelectMoveY, 0xFFFFFF,
-			"SeVolume=%d", BgmVolume);
-	}
-}
-
-void Pause::PushPause()
 {
 	if (Pad::IsTrigger(PAD_INPUT_8))
 	{
@@ -144,39 +118,107 @@ void Pause::PushPause()
 			}
 		}
 
-		if (m_select == kBgmVolume && Pad::IsTrigger(PAD_INPUT_RIGHT))
+		if (Pad::IsTrigger(PAD_INPUT_RIGHT))
 		{
-			BgmVolume += MaxVolume * 0.08f;
-			if (BgmVolume >= MaxVolume)
+			if (m_select == kSeVolume)
 			{
-				BgmVolume = MaxVolume;
+				SeVolume+=MaxVolume * 0.08f;
+				m_pSoundManager->ChangeSEVolume(SeVolume);
+				m_pSoundManager->SetSeVolume();
+				m_pSoundManager->SoundSelect();
+				// 本来ここでSEを鳴らしたい
+				if (SeVolume >= MaxVolume)
+				{
+					SeVolume = MaxVolume;
+				}
+				ChangeSe = SeVolume;
+			}
+			else if (m_select == kBgmVolume)
+			{
+				BgmVolume +=MaxVolume * 0.08f;
+				m_pSoundManager->ChangeBGMVolume(BgmVolume);
+				m_pSoundManager->SetBgmVolume();
+				m_pSoundManager->SoundSelect();
+				if (BgmVolume >= MaxVolume)
+				{
+					BgmVolume = MaxVolume;
+				}
+				ChangeBgm = BgmVolume;
 			}
 		}
-		else if (m_select == kBgmVolume && Pad::IsTrigger(PAD_INPUT_LEFT))
+
+		else if (Pad::IsTrigger(PAD_INPUT_LEFT))
 		{
-			BgmVolume -= MaxVolume * 0.1f;
-			if (BgmVolume <= 0)
+			if (m_select == kBgmVolume)
 			{
-				BgmVolume = 0;
+				BgmVolume -=MaxVolume * 0.08f;
+				m_pSoundManager->ChangeBGMVolume(BgmVolume);
+				m_pSoundManager->SetBgmVolume();
+				m_pSoundManager->SoundSelect();
+				if (BgmVolume <= 0)
+				{
+					BgmVolume = 0;
+				}
+				ChangeBgm = BgmVolume;
 			}
-		}
-		if (m_select == kSeVolume && Pad::IsTrigger(PAD_INPUT_RIGHT))
-		{
-			BgmVolume += MaxVolume * 0.08f;
-			// 本来ここでSEを鳴らしたい
-			if (BgmVolume >= MaxVolume)
+			else if (m_select == kSeVolume)
 			{
-				BgmVolume = MaxVolume;
-			}
-		}
-		else if (m_select == kSeVolume && Pad::IsTrigger(PAD_INPUT_LEFT))
-		{
-			SeVolume -= MaxVolume * 0.1f;
-			// 本来ここでSEを鳴らしたい
-			if (SeVolume <= 0)
-			{
-				SeVolume = 0;
+				SeVolume-=MaxVolume * 0.08f;
+				m_pSoundManager->ChangeSEVolume(SeVolume);
+				m_pSoundManager->SetSeVolume();
+				m_pSoundManager->SoundSelect();
+				// 本来ここでSEを鳴らしたい
+				if (SeVolume <= 0)
+				{
+					SeVolume = 0;
+				}
+				ChangeSe = SeVolume;
 			}
 		}
 	}
+}
+
+void Pause::Draw()
+{
+	if (m_pause == true)
+	{
+		DrawBox(PauseBoxX, PauseBoxY - MiniWindowTime,
+			PauseBoxX + PauseBoxWight, PauseBoxY + MiniWindowTime,
+			0x000000, true);
+
+		if (MiniWindowTime >= PauseBoxHeight * 0.5f) {
+			DrawBox(UpBoxX, UpBoxY + (kSelectMoveY * 0),
+				UpBoxX + BgmVolume * 3.6, UpBoxY + UpBoxHeight + (kSelectMoveY * 0),
+				0x0095d9, true);
+			DrawBox(UpBoxX, UpBoxY + (kSelectMoveY * 1),
+				UpBoxX + SeVolume * 3.6, UpBoxY + UpBoxHeight + (kSelectMoveY * 1),
+				0x0095d9, true);
+
+			for (int i = 0; i < 2; i++)
+			{
+				DrawBox(UnderBoxX, UnderBoxY + (kSelectMoveY * i),
+					UnderBoxX + UnderBoxWidth, UnderBoxY + UnderBoxHeight + (kSelectMoveY * i),
+					0xFFFFFF, false);
+			}
+
+			DrawBox(m_selectPos.x, m_selectPos.y, m_selectPos.x + SelectSizeX, m_selectPos.y + SelectSizeY, 0xffffff, false);
+
+			DrawFormatString(BgmStringX, BgmStringY, 0xFFFFFF,
+				"BgmVolume=%d", BgmVolume);
+			DrawFormatString(SeStringX, SeStringY, 0xFFFFFF,
+				"SeVolume=%d", SeVolume);
+		}
+
+
+	}
+}
+
+int Pause::SetBgmVolume() const
+{
+	return ChangeBgm;
+}
+
+int Pause::SetSeVolume() const
+{
+	return ChangeSe;
 }

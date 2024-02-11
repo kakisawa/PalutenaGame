@@ -1,6 +1,7 @@
 #include "SceneExplanation.h"
 #include "SoundManager.h"
 #include "ColorManager.h"
+#include "Pause.h"
 #include "DxLib.h"
 #include "Pad.h"
 #include "Game.h"
@@ -26,6 +27,8 @@ SceneExplanation::SceneExplanation():
 	m_pSoundManager = new SoundManager;
 	// 色メモリ確保
 	m_pColorManager = new ColorManager;
+	// ポーズ
+	m_pPause = new Pause(m_pSoundManager);
 }
 
 SceneExplanation::~SceneExplanation()
@@ -36,6 +39,9 @@ SceneExplanation::~SceneExplanation()
 	// 色メモリ解放
 	delete m_pColorManager;
 	m_pColorManager = nullptr;
+	// ポーズ
+	delete m_pPause;
+	m_pPause = nullptr;
 }
 
 void SceneExplanation::Init()
@@ -49,10 +55,16 @@ void SceneExplanation::Init()
 	BgGraph = LoadGraph("data/Map/patter2.png");
 	m_isSceneEnd = false;
 	m_fadeAlpha = 255;
+	m_pPause->Init();
 }
 
 void SceneExplanation::Update()
 {
+	m_pPause->Update();
+
+	m_pSoundManager->SetBgmVolume();
+	m_pSoundManager->SetSeVolume();
+
 	if (Pad::IsTrigger(PAD_INPUT_4))
 	{
 		m_isSceneEnd = true;
@@ -90,6 +102,8 @@ void SceneExplanation::Draw()
 	SetFontSize(64);
 	DrawString(kSelectChirPosX, kSelectChirPosY, 
 		"Aボタンでタイトルに戻る", m_pColorManager->GetColor2());
+
+	m_pPause->Draw();
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始

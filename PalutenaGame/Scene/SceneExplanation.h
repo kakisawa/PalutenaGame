@@ -5,6 +5,7 @@
 
 class SoundManager;
 class ColorManager;
+class Pause;
 
 class SceneExplanation :
     public SceneBase
@@ -41,5 +42,7 @@ private:
     SoundManager* m_pSoundManager;
     // 色
     ColorManager* m_pColorManager;
+    // ポーズ画面
+    Pause* m_pPause;
 };
 

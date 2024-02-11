@@ -28,6 +28,7 @@ class Shot;
 class Time;
 class SoundManager;
 class ColorManager;
+class Pause;
 
 class SceneMain
 {
@@ -45,7 +46,6 @@ public:
 
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
-	void Pause();	// ポーズ時処理
 
 	// ショットを追加する
 		// 登録できなかった場合はfalseを返す
@@ -99,6 +99,8 @@ private:
 	SoundManager* m_pSoundManager;
 	// 色
 	ColorManager* m_pColorManager;
+	// ポーズ
+	Pause* m_pPause;
 	// エネミー
 	std::vector<MozueyeEnemy*> m_pMozueyeEnemy;
 	std::vector<DeathYourEnemy*> m_pDeathYourEnemy;

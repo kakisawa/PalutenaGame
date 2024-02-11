@@ -1,14 +1,29 @@
 #include "SoundManager.h"
+#include "Pause.h"
 #include "DxLib.h"
+
+SoundManager::SoundManager()
+{
+	m_pPause = new Pause(this);
+}
+
+SoundManager::~SoundManager()
+{
+	delete m_pPause;
+	m_pPause = nullptr;
+}
 
 void SoundManager::Init()
 {
-	// SE/BGMのロード
+	// SEのロード
 	m_soundSelect = LoadSoundMem("data/Sound/SE/button.mp3");	// セレクトサウンド
 	m_soundButton = LoadSoundMem("data/Sound/SE/select.mp3");	// ボタンサウンド
 	m_soundJump = LoadSoundMem("data/Sound/SE/jump.mp3");		// ジャンプサウンド
 	m_soundAttack = LoadSoundMem("data/Sound/SE/fire.mp3");		// 攻撃サウンド
 	m_soundDamage = LoadSoundMem("data/Sound/SE/damage.mp3");	// 被ダメサウンド
+
+	SeVolume = m_pPause->SetSeVolume();	
+	BgmVolume = m_pPause->SetBgmVolume();
 }
 
 void SoundManager::End()
@@ -51,8 +66,6 @@ void SoundManager::SoudndAttack()
 	PlaySoundMem(m_soundAttack, DX_PLAYTYPE_BACK, true);
 }
 
-
-
 void SoundManager::BGMDefo()
 {
 	m_bgmDefo = LoadSoundMem("data/Sound/BGM/BGM_Defo.mp3");		// デフォBGM
@@ -81,4 +94,32 @@ void SoundManager::BGMExplanation()
 {
 	m_bgmExplanation = LoadSoundMem("data/Sound/BGM/BGM_Explanation.mp3");// 操作説明画面BGM
 	PlaySoundMem(m_bgmExplanation, DX_PLAYTYPE_LOOP, true);
+}
+
+void SoundManager::ChangeBGMVolume(int volume)
+{
+	BgmVolume = volume;
+}
+
+void SoundManager::ChangeSEVolume(int volume)
+{
+	SeVolume = volume;
+}
+
+void SoundManager::SetBgmVolume()
+{
+	ChangeVolumeSoundMem(BgmVolume, m_bgmDefo);
+	ChangeVolumeSoundMem(BgmVolume, m_bgmButtle);
+	ChangeVolumeSoundMem(BgmVolume, m_bgmGameClear);
+	ChangeVolumeSoundMem(BgmVolume, m_bgmGameOver);
+	ChangeVolumeSoundMem(BgmVolume, m_bgmExplanation);
+}
+
+void SoundManager::SetSeVolume()
+{
+	ChangeVolumeSoundMem(SeVolume, m_soundSelect);
+	ChangeVolumeSoundMem(SeVolume, m_soundButton);
+	ChangeVolumeSoundMem(SeVolume, m_soundJump);
+	ChangeVolumeSoundMem(SeVolume, m_soundAttack);
+	ChangeVolumeSoundMem(SeVolume, m_soundDamage);
 }

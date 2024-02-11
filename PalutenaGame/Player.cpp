@@ -110,6 +110,9 @@ void Player::Init()
 
 void Player::Update()
 {
+	m_pSoundManager->SetBgmVolume();
+	m_pSoundManager->SetSeVolume();
+
 	// ダメージ演出の進行
 	m_damageFrame--;
 	if (m_damageFrame < 0)	m_damageFrame = 0;

@@ -99,6 +99,9 @@ void SceneGameOver::Init()
 
 void SceneGameOver::Update()
 {
+	m_pSoundManager->SetBgmVolume();
+	m_pSoundManager->SetSeVolume();
+
 	// 右キーを押したら選択状態を右に移す
 	if (Pad::IsTrigger(PAD_INPUT_RIGHT))
 	{
