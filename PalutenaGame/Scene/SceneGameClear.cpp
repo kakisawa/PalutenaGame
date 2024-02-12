@@ -211,6 +211,9 @@ void SceneGameClear::StringDraw()
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont());
 
 	ResultScore = SceneManager::s_ResultScore;
+	DrawFormatStringToHandle(kScorePosX-3, kScorePosY-3,
+		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont4(),
+		"%4d", ResultScore);
 	DrawFormatStringToHandle(kScorePosX, kScorePosY,
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont3(),
 		"%4d", ResultScore);

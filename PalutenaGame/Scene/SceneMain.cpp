@@ -19,8 +19,7 @@
 
 namespace {
 	constexpr int ExplanationX = kScreenWidth * 0.1f;
-	constexpr int ExplanationY = kScreenHeight * 0.2f;
-
+	constexpr int ExplanationY = kScreenHeight * 0.1f;
 }
 
 SceneMain::SceneMain() :
@@ -496,7 +495,7 @@ void SceneMain::StartDraw()
 	if (m_isStartFlag == false)
 	{
 		DrawExtendGraph(ExplanationX, ExplanationY,
-			ExplanationX + kScreenWidth * 0.8f, ExplanationY + kScreenHeight * 0.6f ,
+			ExplanationX + kScreenWidth * 0.8f, ExplanationY + kScreenHeight * 0.8f ,
 			m_explanation, false);
 	}
 }
