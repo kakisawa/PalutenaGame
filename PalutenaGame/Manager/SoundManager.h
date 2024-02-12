@@ -65,9 +65,15 @@ public:
 	void SetBgmVolume();
 	void SetSeVolume();
 
+	bool GetSceneEnd() { return IsSceneEnd; }
+
 private:
 	int SeVolume;
 	int BgmVolume;
+
+	bool IsSceneEnd;
+
+	int Graph;
 
 	enum Select
 	{

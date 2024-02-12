@@ -219,7 +219,7 @@ void SceneTitle::StringDraw()
 	DrawGraph(m_selectPos.x, m_selectPos.y, SelectUI2, true);
 
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
-		m_selectPos.x + kSelectSizeX + 20, m_selectPos.y + kSelectSizeY + 20, 
+		m_selectPos.x + kSelectSizeX + 30, m_selectPos.y + kSelectSizeY + 20, 
 		Cursor, true);
 
 	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY,

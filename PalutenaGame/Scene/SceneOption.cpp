@@ -31,7 +31,6 @@ SceneOption::SceneOption():
 	m_pFontManager = new FontManager;
 }
 
-
 SceneOption::~SceneOption()
 {
 	// サウンドメモリ解放
@@ -62,11 +61,9 @@ void SceneOption::Update()
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
-	if (Pad::IsTrigger(PAD_INPUT_4))
+	if (m_pSoundManager->GetSceneEnd())
 	{
 		m_isSceneEnd = true;
-
-		m_pSoundManager->SoundButton();
 	}
 
 	// 背景スクロール
@@ -101,7 +98,6 @@ void SceneOption::Draw()
 	DrawBox(kScreenWidth * 0.1f, kScreenHeight * 0.1f, 
 		kScreenWidth * 0.9f, kScreenHeight * 0.8f, 
 		m_pColorManager->GetColorBlack(), true);
-
 
 	m_pSoundManager->Draw();
 

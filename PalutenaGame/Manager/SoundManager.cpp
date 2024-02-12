@@ -5,12 +5,16 @@
 #include"Game.h"
 #include "Pad.h"
 #include "DxLib.h"
+#include <cassert>
 
 int ChangeBgm = InitBgmVolume;		// 変更後音量保存
 int ChangeSe = InitSeVolume;
 
 namespace
 {
+	// 箱の上下移動量
+	constexpr int kSelectMoveY = 230;
+
 	// 下の箱
 	constexpr int UnderBoxX = (kScreenWidth * 0.1f) * 1.4f;
 	constexpr int UnderBoxY = (kScreenHeight * 0.5f) * 0.5f;
@@ -23,6 +27,10 @@ namespace
 	// 上の箱の長さ
 	constexpr int UpBoxWidth = UnderBoxWidth;
 	constexpr int UpBoxHeight = UnderBoxHeight;
+	
+	// タイトルに戻るBox位置
+	constexpr int BackBoxX = UnderBoxX * 2.3f;
+	constexpr int BackBoxY = UnderBoxY +(kSelectMoveY * 2);
 
 	// 選択中の箱を表示する箱座標
 	constexpr int SelectBoxX = UnderBoxX - 2;
@@ -31,15 +39,15 @@ namespace
 	constexpr int SelectSizeX = UnderBoxWidth + 4;
 	constexpr int SelectSizeY = UnderBoxHeight + 4;
 
-	// 箱の上下移動量
-	constexpr int kSelectMoveY = 230;
-
 	// BGM文字位置
 	constexpr int BgmStringX = UnderBoxX;
 	constexpr int BgmStringY = UnderBoxY - 80;
 	// SE文字位置
 	constexpr int SeStringX = UnderBoxX;
 	constexpr int SeStringY = BgmStringY + kSelectMoveY;
+	// タイトルに戻る文字位置
+	constexpr int BackStringX = BackBoxX+140;
+	constexpr int BackStringY= BackBoxY+10;
 }
 
 SoundManager::SoundManager() :
@@ -63,6 +71,8 @@ SoundManager::~SoundManager()
 	// 色メモリ解放
 	delete m_pColorManager;
 	m_pColorManager = nullptr;
+
+	DeleteGraph(Graph);
 }
 
 void SoundManager::Init()
@@ -74,6 +84,11 @@ void SoundManager::Init()
 	m_soundAttack = LoadSoundMem("data/Sound/SE/fire.mp3");		// 攻撃サウンド
 	m_soundDamage = LoadSoundMem("data/Sound/SE/damage.mp3");	// 被ダメサウンド
 
+	Graph = LoadGraph("data/SelectUI.png");
+	assert(Graph != -1);
+
+	IsSceneEnd = false;
+
 	m_select = kBgmVolume;
 
 	BgmVolume = ChangeBgm;
@@ -83,12 +98,14 @@ void SoundManager::Init()
 void SoundManager::Draw()
 {
 	DrawBoxAA(UpBoxX, UpBoxY + (kSelectMoveY * 0),
-		UpBoxX + BgmVolume * 3.6, UpBoxY + UpBoxHeight + (kSelectMoveY * 0),
+		UpBoxX + BgmVolume * 5.4, UpBoxY + UpBoxHeight + (kSelectMoveY * 0),
 		0x0095d9, true, 2.0f);
 	DrawBoxAA(UpBoxX, UpBoxY + (kSelectMoveY * 1),
-		UpBoxX + SeVolume * 3.6, UpBoxY + UpBoxHeight + (kSelectMoveY * 1),
+		UpBoxX + SeVolume * 5.4, UpBoxY + UpBoxHeight + (kSelectMoveY * 1),
 		0x0095d9, true, 2.0f);
-
+	DrawExtendGraph(BackBoxX, BackBoxY,
+		BackBoxX+ UnderBoxWidth*0.5f, BackBoxY + UpBoxHeight,
+		Graph, false);
 	for (int i = 0; i < 2; i++)
 	{
 		DrawBoxAA(UnderBoxX, UnderBoxY + (kSelectMoveY * i),
@@ -96,14 +113,25 @@ void SoundManager::Draw()
 			0xFFFFFF, false, 2.0f);
 	}
 
-	DrawBoxAA(m_selectPos.x, m_selectPos.y, 
-		m_selectPos.x + SelectSizeX, m_selectPos.y + SelectSizeY, 
-		0xff0000, false, 3.0f);
+	if (m_select == kBack)
+	{
+		DrawBoxAA(BackBoxX-3, BackBoxY-3,
+			BackBoxX+UnderBoxWidth * 0.5f, BackBoxY + UpBoxHeight,
+			0xff0000, false, 3.0f);
+	}
+	else {
+		DrawBoxAA(m_selectPos.x, m_selectPos.y,
+			m_selectPos.x + SelectSizeX, m_selectPos.y + SelectSizeY,
+			0xff0000, false, 3.0f);
+	}
 
 	DrawFormatStringToHandle(BgmStringX, BgmStringY, m_pColorManager->GetColorWhite(),
 		m_pFontManager->GetFont(), "BgmVolume=%d", BgmVolume);
 	DrawFormatStringToHandle(SeStringX, SeStringY, m_pColorManager->GetColorWhite(),
 		m_pFontManager->GetFont(), "SeVolume=%d", SeVolume);
+	DrawStringToHandle(BackStringX, BackStringY,
+		"タイトルに戻る", m_pColorManager->GetColorBlack(),
+		m_pFontManager->GetFont());
 }
 
 void SoundManager::End()
@@ -257,6 +285,15 @@ void SoundManager::ChangeSound()
 				SeVolume = 0;
 			}
 			ChangeSe = SeVolume;
+		}
+	}
+
+	if (Pad::IsTrigger(PAD_INPUT_4))
+	{
+		if (m_select == kBack)
+		{
+			IsSceneEnd = true;
+			SoundButton();
 		}
 	}
 }
