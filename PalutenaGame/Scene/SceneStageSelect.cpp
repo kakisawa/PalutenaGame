@@ -10,20 +10,20 @@ namespace
 {
 	// 文字の表示位置
 	constexpr int kSelectChirPosX = kScreenWidth * 0.08f;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.15f;
+	constexpr int kSelectChirPosY = kScreenHeight * 0.25f;
 
 	constexpr int kSelectBackChirPosX = kScreenWidth * 0.43f;
 	constexpr int kSelectBackChirPosY = kScreenHeight * 0.85f;
 
 	// 文字の表示幅
-	constexpr int kCharInterval = 180;
+	constexpr int kCharInterval = 300;
 
 	// 文字を囲む四角の初期位置
 	constexpr int kSelectPosX = kSelectChirPosX - 2;
 	constexpr int kSelectPosY = kSelectChirPosY - 2;
 
 	// 文字を囲む四角の移動量
-	constexpr int kSelectMoveY = 180;
+	constexpr int kSelectMoveY = 300;
 
 	// 文字を囲む四角のサイズ
 	constexpr int kSelectSizeX = kScreenWidth*0.245;
@@ -105,7 +105,7 @@ void SceneStageSelect::Update()
 		m_select = (m_select + 1) % kSclectNum;
 
 		// 選択中の四角が一番下だったら四角を一番上に戻す
-		if (m_selectPos.y >= 918){
+		if (m_selectPos.y >= kSelectBackChirPosY){
 			m_selectPos.x = kSelectPosX;
 			m_selectPos.y = kSelectPosY;
 			return;
@@ -113,9 +113,9 @@ void SceneStageSelect::Update()
 		if (m_selectPos.y == kSelectPosY) {
 			m_selectPos.y += kSelectMoveY;
 		}
-		else if(m_selectPos.y == 340){
-			m_selectPos.x = 825;
-			m_selectPos.y = 918;
+		else if(m_selectPos.y == kSelectPosY + (kCharInterval * 1)){
+			m_selectPos.x = kSelectBackChirPosX;
+			m_selectPos.y = kSelectBackChirPosY;
 		}
 	}
 	// 上キーを押したら選択状態を一つ上げる
@@ -128,19 +128,19 @@ void SceneStageSelect::Update()
 		// 選択中の四角が一番上だったら四角を一番下に戻す
 		if (m_selectPos.y == kSelectPosY)
 		{
-			m_selectPos.x = 825;
-			m_selectPos.y = 918;
+			m_selectPos.x = kSelectBackChirPosX;
+			m_selectPos.y = kSelectBackChirPosY;
 			m_select = kBackTitle;
 			return;
 		}
 
-		if (m_selectPos.y == 340) {
+		if (m_selectPos.y == kSelectPosY + (kCharInterval * 1)) {
 			m_selectPos.y -= kSelectMoveY;
 		}
-		else if (m_selectPos.y == 918)
+		else if (m_selectPos.y == kSelectBackChirPosY)
 		{
 			m_selectPos.x = kSelectPosX;
-			m_selectPos.y = 340;
+			m_selectPos.y = kSelectPosY + (kCharInterval * 1);
 			return;
 		}
 	}
@@ -248,7 +248,7 @@ void SceneStageSelect::StringDraw()
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
-		DrawGraph(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2.8f,
+		DrawGraph(kSelectChirPosX, kSelectBackChirPosY,
 			PushA, true);
 	}
 

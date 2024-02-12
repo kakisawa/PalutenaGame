@@ -45,10 +45,8 @@ SceneOption::~SceneOption()
 
 void SceneOption::Init()
 {
-	//サウンドマネージャーの初期化
-	m_pSoundManager->Init();
 	m_pSoundManager->BGMExplanation();
-
+	m_pSoundManager->Init();
 	BgGraph = LoadGraph("data/Map/patter.png");
 	m_isSceneEnd = false;
 	m_fadeAlpha = 255;

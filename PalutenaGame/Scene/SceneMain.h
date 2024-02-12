@@ -43,6 +43,8 @@ public:
 
 	// キャラクター系の描画
 	void CharactorDraw();
+	void StartDraw();
+	void CoundownDraw();
 
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
@@ -73,6 +75,11 @@ private:
 	int m_backHandle;		// 背景
 	int m_backHandle2;		// 背景(床)
 
+	int m_explanation;		// 説明
+	int m_count1;			// カウント1
+	int m_count2;			// カウント2
+	int m_count3;			// カウント3
+
 	// エネミー
 	int m_mozueyeEnemy;			// モズアイ
 	int m_deathYourEnemyGraph;	// お前たちの死
@@ -80,8 +87,11 @@ private:
 
 	int m_fadeAlpha;		// フェードイン、アウト
 	int m_enemyInterval;	// 敵の登場間隔
+	int m_startCount;		// ゲームスタートカウント
 
 	// シーン処理
+	bool m_isStartFlag;		// ゲームが始まる前の説明
+	bool m_isStartCountFlag;
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
 
 	bool isToGameOver;		// ゲームオーバー画面に行くか

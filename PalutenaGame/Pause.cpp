@@ -51,7 +51,7 @@ void Pause::Update()
 		{
 			MiniWindowTime = PauseBoxHeight * 0.5f;
 		}
-		MiniWindowTime += 10;
+		MiniWindowTime += 15;
 
 		m_pSoundManager->ChangeSound();
 	}

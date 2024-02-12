@@ -84,12 +84,14 @@ void SoundManager::Init()
 	m_soundAttack = LoadSoundMem("data/Sound/SE/fire.mp3");		// 攻撃サウンド
 	m_soundDamage = LoadSoundMem("data/Sound/SE/damage.mp3");	// 被ダメサウンド
 
-	Graph = LoadGraph("data/SelectUI.png");
+	Graph = LoadGraph("data/SelectUI2.png");
 	assert(Graph != -1);
 
 	IsSceneEnd = false;
 
 	m_select = kBgmVolume;
+	m_selectPos.x = SelectBoxX;
+	m_selectPos.y = SelectBoxY;
 
 	BgmVolume = ChangeBgm;
 	SeVolume = ChangeSe;
