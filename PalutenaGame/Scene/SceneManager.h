@@ -1,6 +1,6 @@
 #pragma once
 class SceneTitle;
-class SceneExplanation;
+class SceneOption;
 class SceneStageSelect;
 class SceneMain;
 class SceneSecond;
@@ -21,17 +21,14 @@ public:
 	void Draw();
 	void End();
 
-
 	static int s_ResultScore;
 
-
 private:
-
 	// シーンの種類
 	enum SceneKind
 	{
 		kSceneKindTitle,		// タイトルシーン
-		kSceneKindExplanation,	// 操作説明シーン
+		kSceneKindOption,		// 設定シーン
 		kSceneKindStageSelect,	// ステージセレクト
 		kSceneKindMain,			// ゲーム1シーン
 		kSceneKindSecond,		// ゲーム2シーン
@@ -49,7 +46,7 @@ private:
 	SceneSecond* m_pSecond;
 	SceneGameOver* m_pGameOver;
 	SceneGameClear* m_pGameClear;
-	SceneExplanation* m_pExplanation;
+	SceneOption* m_pOption;
 
 	SoundManager* m_pSoundManager;
 	Player* m_pPlayer;

@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include "DxLib.h"
 #include "SceneTitle.h"
-#include "SceneExplanation.h"
+#include "SceneOption.h"
 #include "SceneMain.h"
 #include "SceneSecond.h"
 #include "SceneGameOver.h"
@@ -26,7 +26,7 @@ SceneManager::SceneManager() :
 	m_pSecond = new SceneSecond;
 	m_pGameOver = new SceneGameOver;
 	m_pGameClear = new SceneGameClear;
-	m_pExplanation = new SceneExplanation;
+	m_pOption = new SceneOption;
 
 	m_pSoundManager = new SoundManager;
 }
@@ -46,8 +46,8 @@ SceneManager::~SceneManager()
 	m_pGameOver = nullptr;
 	delete m_pGameClear;
 	m_pGameClear = nullptr;
-	delete m_pExplanation;
-	m_pExplanation = nullptr;
+	delete m_pOption;
+	m_pOption = nullptr;
 
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
@@ -61,8 +61,8 @@ void SceneManager::Init()
 	case kSceneKindTitle:
 		m_pTitle->Init();			// タイトル画面の初期化
 		break;
-	case kSceneKindExplanation:
-		m_pExplanation->Init();		// 操作説明画面の初期化
+	case kSceneKindOption:
+		m_pOption->Init();		// 操作説明画面の初期化
 		break;
 	case kSceneKindStageSelect:
 		m_pStageSelect->Init();		// ステージセレクト画面の初期化
@@ -96,8 +96,8 @@ void SceneManager::Update()
 			m_pTitle->End();						// タイトル画面の終了処理
 
 			if (m_pTitle->ToExplanation()) {
-				m_runScene = kSceneKindExplanation;	// 説明画面へ行く
-				m_pExplanation->Init();
+				m_runScene = kSceneKindOption;	// 説明画面へ行く
+				m_pOption->Init();
 			}
 			else if (m_pTitle->ToStage()) {
 				m_runScene = kSceneKindStageSelect;	// ステージセレクト画面へ行く
@@ -105,10 +105,10 @@ void SceneManager::Update()
 			}
 		}
 		break;
-	case kSceneKindExplanation:
-		if (m_pExplanation->IsSceneEnd())			// 操作説明画面の終了処理
+	case kSceneKindOption:
+		if (m_pOption->IsSceneEnd())			// 操作説明画面の終了処理
 		{
-			m_pExplanation->End();
+			m_pOption->End();
 			m_runScene = kSceneKindTitle;			// タイトル画面に戻る
 			m_pTitle->Init();
 		}
@@ -191,8 +191,8 @@ void SceneManager::Update()
 	case kSceneKindTitle:
 		m_pTitle->Update();			// タイトル画面の更新
 		break;
-	case kSceneKindExplanation:
-		m_pExplanation->Update();	// 操作説明画面の更新
+	case kSceneKindOption:
+		m_pOption->Update();	// 操作説明画面の更新
 		break;
 	case kSceneKindStageSelect:
 		m_pStageSelect->Update();	// ステージセレクト画面の更新
@@ -219,8 +219,8 @@ void SceneManager::Draw()
 	case kSceneKindTitle:
 		m_pTitle->Draw();			// タイトル画面の描画
 		break;
-	case kSceneKindExplanation:
-		m_pExplanation->Draw();		// 操作説明画面の描画
+	case kSceneKindOption:
+		m_pOption->Draw();		// 操作説明画面の描画
 		break;
 	case kSceneKindStageSelect:
 		m_pStageSelect->Draw();		// ステージセレクト画面の描画
@@ -249,8 +249,8 @@ void SceneManager::End()
 	case kSceneKindTitle:
 		m_pTitle->End();			// タイトル画面の終了
 		break;
-	case kSceneKindExplanation:
-		m_pExplanation->End();		// 操作説明画面の終了
+	case kSceneKindOption:
+		m_pOption->End();		// 操作説明画面の終了
 		break;
 	case kSceneKindStageSelect:
 		m_pStageSelect->End();		// ステージセレクト画面の終了

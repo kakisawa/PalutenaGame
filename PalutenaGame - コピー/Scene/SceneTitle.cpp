@@ -11,17 +11,14 @@ namespace
 	// 文字の表示位置
 	constexpr int kSelectChirPosX = kScreenWidth * 0.38f;
 	constexpr int kSelectChirPosY = kScreenHeight * 0.61f;
-
 	// 文字の表示幅
 	constexpr int kCharInterval = 110;
 
 	// 文字を囲む四角の初期位置
 	constexpr int kSelectPosX = kSelectChirPosX - 2;
 	constexpr int kSelectPosY = kSelectChirPosY - 2;
-
 	// 文字を囲む四角の移動量
 	constexpr int kSelectMoveY = 110;
-
 	// 文字を囲む四角のサイズ
 	constexpr int kSelectSizeX = 460;
 	constexpr int kSelectSizeY = 80;
@@ -29,7 +26,6 @@ namespace
 	// タイトルロゴ表示位置
 	constexpr int kLogoPosX = kScreenWidth * 0.08;
 	constexpr int kLogoPosY = kScreenHeight * (-0.17f);
-
 	// タイトルロゴサイズ
 	constexpr int kLogoSizeX = 1637;
 	constexpr int kLogoSizeY = 1089;
@@ -103,6 +99,9 @@ void SceneTitle::Init()
 
 void SceneTitle::Update()
 {
+	m_pSoundManager->SetBgmVolume();
+	m_pSoundManager->SetSeVolume();
+
 	// ↓キーを押したら選択状態を一つ下げる
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
 	{
@@ -156,7 +155,6 @@ void SceneTitle::Update()
 
 		// SE
 		m_pSoundManager->SoundButton();
-
 	}
 
 	// 背景スクロール
@@ -225,13 +223,13 @@ void SceneTitle::StringDraw()
 		Cursor, true);
 
 	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY,
-		" 操作説明", m_pColorManager->GetColor(),
+		"オプション", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval, 
-		"  ゲームを始める", m_pColorManager->GetColor(), 
+		"  ゲームを始める", m_pColorManager->GetColorBlack(), 
 		m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2, 
-		"  ゲームを終わる", m_pColorManager->GetColor(), 
+		"  ゲームを終わる", m_pColorManager->GetColorBlack(), 
 		m_pFontManager->GetFont());
 
 	// 文字の点滅描画
@@ -242,7 +240,7 @@ void SceneTitle::StringDraw()
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, 
-		m_pColorManager->GetColor(), true);
+		m_pColorManager->GetColorBlack(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 

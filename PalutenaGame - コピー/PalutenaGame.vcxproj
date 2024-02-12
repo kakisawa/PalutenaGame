@@ -22,9 +22,10 @@
     <ClCompile Include="Back.cpp" />
     <ClCompile Include="Manager\ColorManager.cpp" />
     <ClCompile Include="Manager\FontManager.cpp" />
+    <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="Scene\SceneOption.cpp" />
     <ClCompile Include="Scene\SceneSecond.cpp" />
     <ClCompile Include="Manager\SoundManager.cpp" />
-    <ClCompile Include="Scene\SceneExplanation.cpp" />
     <ClCompile Include="Scene\SceneGameClear.cpp" />
     <ClCompile Include="Shot\Shot.cpp" />
     <ClCompile Include="Enemy\DeathYourEnemy.cpp" />
@@ -48,10 +49,11 @@
     <ClInclude Include="Back.h" />
     <ClInclude Include="Manager\ColorManager.h" />
     <ClInclude Include="Manager\FontManager.h" />
+    <ClInclude Include="Pause.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene\SceneOption.h" />
     <ClInclude Include="Scene\SceneSecond.h" />
     <ClInclude Include="Manager\SoundManager.h" />
-    <ClInclude Include="Scene\SceneExplanation.h" />
     <ClInclude Include="Scene\SceneGameClear.h" />
     <ClInclude Include="Shot\Shot.h" />
     <ClInclude Include="Enemy\DeathYourEnemy.h" />

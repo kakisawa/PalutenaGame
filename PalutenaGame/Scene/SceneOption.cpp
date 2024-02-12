@@ -1,7 +1,7 @@
-#include "SceneExplanation.h"
+#include "SceneOption.h"
 #include "SoundManager.h"
 #include "ColorManager.h"
-#include "Pause.h"
+#include "FontManager.h"
 #include "DxLib.h"
 #include "Pad.h"
 #include "Game.h"
@@ -10,8 +10,8 @@
 namespace
 {
 	// 文字の表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.4;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.8;
+	constexpr int kSelectChirPosX = kScreenWidth * 0.2;
+	constexpr int kSelectChirPosY = kScreenHeight * 0.87;
 
 	// スクロール移動量
 	constexpr float backGround_scale = 1.2f;
@@ -19,7 +19,7 @@ namespace
 	constexpr int kBgScale = 1;
 }
 
-SceneExplanation::SceneExplanation():
+SceneOption::SceneOption():
 	m_isSceneEnd(false),
 	m_fadeAlpha(255)
 {
@@ -27,11 +27,12 @@ SceneExplanation::SceneExplanation():
 	m_pSoundManager = new SoundManager;
 	// 色メモリ確保
 	m_pColorManager = new ColorManager;
-	// ポーズ
-	m_pPause = new Pause(m_pSoundManager);
+	// フォントメモリ
+	m_pFontManager = new FontManager;
 }
 
-SceneExplanation::~SceneExplanation()
+
+SceneOption::~SceneOption()
 {
 	// サウンドメモリ解放
 	delete m_pSoundManager;
@@ -39,28 +40,24 @@ SceneExplanation::~SceneExplanation()
 	// 色メモリ解放
 	delete m_pColorManager;
 	m_pColorManager = nullptr;
-	// ポーズ
-	delete m_pPause;
-	m_pPause = nullptr;
+	delete m_pFontManager;
+	m_pFontManager = nullptr;
 }
 
-void SceneExplanation::Init()
+void SceneOption::Init()
 {
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
-
 	m_pSoundManager->BGMExplanation();
 
-	Graph = LoadGraph("data/Explanation.png");
-	BgGraph = LoadGraph("data/Map/patter2.png");
+	BgGraph = LoadGraph("data/Map/patter.png");
 	m_isSceneEnd = false;
 	m_fadeAlpha = 255;
-	m_pPause->Init();
 }
 
-void SceneExplanation::Update()
+void SceneOption::Update()
 {
-	m_pPause->Update();
+	m_pSoundManager->ChangeSound();
 
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
@@ -94,25 +91,41 @@ void SceneExplanation::Update()
 	}
 }
 
-void SceneExplanation::Draw()
+void SceneOption::Draw()
 {
 	BackDraw();
-	DrawGraph(0, 0, Graph, true);
+
+	DrawBox(kScreenWidth * 0.1f-3, kScreenHeight * 0.1f-3,
+		kScreenWidth * 0.9f+3, kScreenHeight * 0.8f+3,
+		m_pColorManager->GetColorWhite(), true);
+	DrawBox(kScreenWidth * 0.1f, kScreenHeight * 0.1f, 
+		kScreenWidth * 0.9f, kScreenHeight * 0.8f, 
+		m_pColorManager->GetColorBlack(), true);
+
+
+	m_pSoundManager->Draw();
 
 	SetFontSize(64);
-	DrawString(kSelectChirPosX, kSelectChirPosY, 
-		"Aボタンでタイトルに戻る", m_pColorManager->GetColor2());
-
-	m_pPause->Draw();
+	DrawString(kSelectChirPosX, kSelectChirPosY,
+		"Aボタンでタイトルに戻る", m_pColorManager->GetColorWhite(), m_pFontManager->GetFont());
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, 
-		m_pColorManager->GetColor(), true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight,
+		m_pColorManager->GetColorBlack(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
-void SceneExplanation::BackDraw()
+void SceneOption::End()
+{
+	// 背景をメモリから削除
+	DeleteGraph(Graph);
+
+	StopSoundMem(m_pSoundManager->m_bgmExplanation);
+	m_pSoundManager->End();
+}
+
+void SceneOption::BackDraw()
 {
 	Size bg1Size;
 	GetGraphSize(BgGraph, &bg1Size.width, &bg1Size.height);
@@ -130,16 +143,7 @@ void SceneExplanation::BackDraw()
 	}
 }
 
-void SceneExplanation::End()
-{
-	// 背景をメモリから削除
-	DeleteGraph(Graph);
-
-	StopSoundMem(m_pSoundManager->m_bgmExplanation);
-	m_pSoundManager->End();
-}
-
-bool SceneExplanation::IsSceneEnd() const
+bool SceneOption::IsSceneEnd() const
 {
 	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }

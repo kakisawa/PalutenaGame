@@ -74,7 +74,7 @@ private:
 
     // フォントのポインタ
     FontManager* m_pFontManager;
-    // SE/BGM
+    // SE・BGM
     SoundManager* m_pSoundManager;
     // 色
     ColorManager* m_pColorManager;

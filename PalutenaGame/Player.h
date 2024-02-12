@@ -64,7 +64,7 @@ public:
 	void SetDeath(DeathYourEnemy* pDeath) { m_pDeathYourEnemy = pDeath; }
 	void SetPump(PumpkinEnemy* pPump) { m_pPumpkinEnemy = pPump; }
 private:
-	SceneExplanation* m_pExplanation;
+	SceneExplanation* m_pOption;
 	SceneMain* m_pMain;
 	SceneSecond* m_pSecond;
 	MozueyeEnemy* m_pMozueyeEnemy;

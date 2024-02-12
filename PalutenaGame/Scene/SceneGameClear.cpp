@@ -193,7 +193,7 @@ void SceneGameClear::Draw()
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, m_pColorManager->GetColor(), true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, m_pColorManager->GetColorBlack(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
@@ -206,13 +206,13 @@ void SceneGameClear::End()
 void SceneGameClear::StringDraw()
 {
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY, "  タイトルに戻る",
-		m_pColorManager->GetColor(), m_pFontManager->GetFont());
+		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont());
 	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "  ゲームを終わる",
-		m_pColorManager->GetColor(), m_pFontManager->GetFont());
+		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont());
 
 	ResultScore = SceneManager::s_ResultScore;
 	DrawFormatStringToHandle(kScorePosX, kScorePosY,
-		m_pColorManager->GetColor(), m_pFontManager->GetFont3(),
+		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont3(),
 		"%4d", ResultScore);
 
 	// 文字の点滅描画
@@ -220,7 +220,7 @@ void SceneGameClear::StringDraw()
 	{
 		SetFontSize(32);
 		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.6,
-			"Aキーで決定", m_pColorManager->GetColor2());
+			"Aキーで決定", m_pColorManager->GetColorWhite());
 	}
 }
 
