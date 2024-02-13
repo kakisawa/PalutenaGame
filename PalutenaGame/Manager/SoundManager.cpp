@@ -218,6 +218,7 @@ void SoundManager::ChangeSound()
 		{
 			m_selectPos.y = SelectBoxY;
 		}
+		SoundSelect();
 	}
 	// 上キーを押したら選択状態を一つ上げる
 	else if (Pad::IsTrigger(PAD_INPUT_UP))
@@ -230,6 +231,7 @@ void SoundManager::ChangeSound()
 		{
 			m_selectPos.y = SelectBoxY + kSelectMoveY * (kSclectNum - 1);
 		}
+		SoundSelect();
 	}
 
 	if (Pad::IsTrigger(PAD_INPUT_RIGHT))
@@ -240,7 +242,6 @@ void SoundManager::ChangeSound()
 			ChangeSEVolume(SeVolume);
 			SetSeVolume();
 			SoundSelect();
-			// 本来ここでSEを鳴らしたい
 			if (SeVolume >= MaxVolume)
 			{
 				SeVolume = MaxVolume;
@@ -281,7 +282,6 @@ void SoundManager::ChangeSound()
 			ChangeSEVolume(SeVolume);
 			SetSeVolume();
 			SoundSelect();
-			// 本来ここでSEを鳴らしたい
 			if (SeVolume <= 0)
 			{
 				SeVolume = 0;

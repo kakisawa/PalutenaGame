@@ -10,7 +10,7 @@
 namespace
 {
 	// 文字の表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.2;
+	constexpr int kSelectChirPosX = kScreenWidth * 0.4;
 	constexpr int kSelectChirPosY = kScreenHeight * 0.87;
 
 	// スクロール移動量
@@ -21,7 +21,8 @@ namespace
 
 SceneOption::SceneOption():
 	m_isSceneEnd(false),
-	m_fadeAlpha(255)
+	m_fadeAlpha(255),
+	m_fadeLetter(0)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
@@ -48,8 +49,10 @@ void SceneOption::Init()
 	m_pSoundManager->BGMExplanation();
 	m_pSoundManager->Init();
 	BgGraph = LoadGraph("data/Map/patter.png");
+	PushA = LoadGraph("data/PushA.png");		// 「Aボタンで決定」グラフ読み込み
 	m_isSceneEnd = false;
 	m_fadeAlpha = 255;
+	m_fadeLetter = 0;
 }
 
 void SceneOption::Update()
@@ -66,6 +69,12 @@ void SceneOption::Update()
 
 	// 背景スクロール
 	m_scrollX += backGround_scale;
+	// 文字の点滅
+	m_fadeLetter++;
+	if (m_fadeLetter == 80)
+	{
+		m_fadeLetter = 0;
+	}
 
 	// フェードイン
 	if (m_isSceneEnd)
@@ -99,9 +108,11 @@ void SceneOption::Draw()
 
 	m_pSoundManager->Draw();
 
-	SetFontSize(64);
-	DrawString(kSelectChirPosX, kSelectChirPosY,
-		"Aボタンでタイトルに戻る", m_pColorManager->GetColorWhite(), m_pFontManager->GetFont());
+	// 文字の点滅描画
+	if (m_fadeLetter < 60) {
+		DrawGraph(kSelectChirPosX, kSelectChirPosY,
+			PushA, true);
+	}
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始

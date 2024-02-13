@@ -22,7 +22,7 @@
     <ClCompile Include="Back.cpp" />
     <ClCompile Include="Manager\ColorManager.cpp" />
     <ClCompile Include="Manager\FontManager.cpp" />
-    <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="System\Pause.cpp" />
     <ClCompile Include="Scene\SceneOption.cpp" />
     <ClCompile Include="Scene\SceneSecond.cpp" />
     <ClCompile Include="Manager\SoundManager.cpp" />
@@ -49,8 +49,8 @@
     <ClInclude Include="Back.h" />
     <ClInclude Include="Manager\ColorManager.h" />
     <ClInclude Include="Manager\FontManager.h" />
-    <ClInclude Include="Pause.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="System\Pause.h" />
     <ClInclude Include="Scene\SceneOption.h" />
     <ClInclude Include="Scene\SceneSecond.h" />
     <ClInclude Include="Manager\SoundManager.h" />
@@ -77,7 +77,7 @@
     <ResourceCompile Include="PalutenaGame.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico" />
+    <Image Include="data\Icon.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

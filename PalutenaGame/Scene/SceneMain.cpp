@@ -18,8 +18,8 @@
 #include <cassert>
 
 namespace {
-	constexpr int ExplanationX = kScreenWidth * 0.1f;
-	constexpr int ExplanationY = kScreenHeight * 0.1f;
+	constexpr int ExplanationX = kScreenWidth * 0.05f;
+	constexpr int ExplanationY = kScreenHeight * 0.05f;
 }
 
 SceneMain::SceneMain() :
@@ -43,7 +43,7 @@ SceneMain::SceneMain() :
 	assert(m_backHandle != -1);
 	m_backHandle2 = LoadGraph("data/Map/Ground.png");
 	assert(m_backHandle2 != -1);
-	m_explanation = LoadGraph("data/explanation 2.png");
+	m_explanation = LoadGraph("data/explanation2.png");
 	assert(m_explanation != -1);
 	m_count1= LoadGraph("data/Count1.png");
 	assert(m_count1 != -1);
@@ -495,7 +495,7 @@ void SceneMain::StartDraw()
 	if (m_isStartFlag == false)
 	{
 		DrawExtendGraph(ExplanationX, ExplanationY,
-			ExplanationX + kScreenWidth * 0.8f, ExplanationY + kScreenHeight * 0.8f ,
+			ExplanationX + kScreenWidth * 0.9f, ExplanationY + kScreenHeight * 0.9f ,
 			m_explanation, false);
 	}
 }

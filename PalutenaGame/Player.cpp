@@ -87,21 +87,21 @@ Player::~Player()
 
 void Player::Init()
 {
-	HP = kHP;					// プレイヤーの初期HP
-	m_pos.x = kScreenWidth / 2;	// プレイヤーの初期位置x
-	m_pos.y = 100;				// プレイヤーの初期位置y
-	m_dir = kDirFront;			// プレイヤーの初期方向(正面のflont)
-	m_shotDir = kShotDirRight;	// プレイヤーの攻撃初期方向
-	JumpPower = 0.0f;			// プレイヤーの初期ジャンプ
-	Gravity = 0.0f;				// プレイヤーの初期重力
+	HP = kHP;						// プレイヤーの初期HP
+	m_pos.x = kScreenWidth *0.5f;	// プレイヤーの初期位置x
+	m_pos.y = kScreenHeight*0.8f;	// プレイヤーの初期位置y
+	m_dir = kDirFront;				// プレイヤーの初期方向(正面のflont)
+	m_shotDir = kShotDirRight;		// プレイヤーの攻撃初期方向
+	JumpPower = 0.0f;				// プレイヤーの初期ジャンプ
+	Gravity = 0.0f;					// プレイヤーの初期重力
 	m_Score = 0;
-	Atk = kAtk;					// プレイヤーの初期攻撃力
-	PlayerAnim = 0;				// プレイヤーアニメーションの初期化
-	m_damageFrame = 0;			// プレイヤー被ダメアニメーション  
-	isMove = false;				// 移動状態フラグ(否定のfalse)
-	isTurn = false;				// 左右反転フラグ(否定のfalse)
-	isAttack = false;			// 攻撃フラグ(否定のfalse)
-	isDeath = false;			// 死亡フラグ(否定のfalse)
+	Atk = kAtk;						// プレイヤーの初期攻撃力
+	PlayerAnim = 0;					// プレイヤーアニメーションの初期化
+	m_damageFrame = 0;				// プレイヤー被ダメアニメーション  
+	isMove = false;					// 移動状態フラグ(否定のfalse)
+	isTurn = false;					// 左右反転フラグ(否定のfalse)
+	isAttack = false;				// 攻撃フラグ(否定のfalse)
+	isDeath = false;				// 死亡フラグ(否定のfalse)
 	m_damageFrame = 0;
 
 	//サウンドマネージャーの初期化

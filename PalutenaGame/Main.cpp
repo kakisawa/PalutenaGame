@@ -1,19 +1,19 @@
 #include "DxLib.h"
 #include "Game.h"
-#include "SceneManager.h"
 #include "resource.h"
+#include "SceneManager.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	SetWindowIconID(IDI_ICON1);
+
 	// 画面モード変更(解像度・ビット数)
 	//SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
 
 	//ChangeWindowMode(true);
 	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
 	SetWindowText(_T("ミラージュ・ビット"));
-
-	DxLib::SetWindowIconID(IDI_ICON1);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -25,8 +25,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// メモリ確保
 	SceneManager* m_pSceneManager = new SceneManager;
 	m_pSceneManager->Init();
-
-
 
 	// ゲームループ
 	while (ProcessMessage() != -1)

@@ -27,9 +27,11 @@ public:
 
 private:
 	int BgGraph;
+	int PushA;          // 「Aボタンで決定」グラフ
 	float m_scrollX;    // スクロール移動量
 
 	int m_fadeAlpha;    // フェードイン、アウト
+	int m_fadeLetter;   // 文字の点滅用カウンタ
 	bool m_isSceneEnd;	// シーン終了フラグ
 
 	struct Size         // 背景のサイズ
