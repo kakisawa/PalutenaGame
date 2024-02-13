@@ -10,6 +10,7 @@ class DeathYourEnemy;
 class PumpkinEnemy;
 class Shot;
 class SoundManager;
+class FontManager;
 
 // 向いている方向
 enum Dir
@@ -72,6 +73,8 @@ private:
 	PumpkinEnemy* m_pPumpkinEnemy;
 	Shot* m_pShot;
 	SoundManager* m_pSoundManager;
+	// フォントのポインタ
+	FontManager* m_pFontManager;
 
 	int HP;		// プレイヤーの体力
 	int Atk;	// プレイヤーの攻撃力

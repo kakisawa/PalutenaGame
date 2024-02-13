@@ -8,6 +8,7 @@
 #include "PumpkinEnemy.h"
 #include "Shot/Shot.h"
 #include "SoundManager.h"
+#include "FontManager.h"
 #include "Game.h"
 #include "Pad.h"
 
@@ -286,14 +287,17 @@ void Player::Update()
 
 void Player::Draw()
 {
-	SetFontSize(16);
-	// プレイヤーの現在体力表示
-	DrawFormatString(80, 0, GetColor(255, 255, 255),
-		"PlayerHP:%d", HP);
-
 	SetFontSize(64);
+	// プレイヤーの現在体力表示
+	DrawFormatString(80, 10, GetColor(255, 255, 255),
+		"PlayerHP:%d", HP);
+	
 	DrawFormatString(kScreenWidth*0.45f, kScreenHeight*0.15f, GetColor(255, 255, 255),
 		"Score:%d", m_Score);
+
+	/*DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval,
+		"  ゲームを始める", m_pColorManager->GetColorBlack(),
+		m_pFontManager->GetFont());*/
 
 	if (!PlayerDeath()) {
 		// ダメージ演出 2フレーム間隔で表示非表示切り替え
