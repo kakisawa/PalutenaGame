@@ -45,6 +45,8 @@ SceneMain::SceneMain() :
 	assert(m_backHandle2 != -1);
 	m_explanation = LoadGraph("data/explanation2.png");
 	assert(m_explanation != -1);
+	m_key_A = LoadGraph("data/pxkb_a.png");
+	assert(m_key_A != -1);
 	m_count1= LoadGraph("data/Count1.png");
 	assert(m_count1 != -1);
 	m_count2 = LoadGraph("data/Count2.png");
@@ -497,6 +499,9 @@ void SceneMain::StartDraw()
 		DrawExtendGraph(ExplanationX, ExplanationY,
 			ExplanationX + kScreenWidth * 0.9f, ExplanationY + kScreenHeight * 0.9f ,
 			m_explanation, false);
+		DrawExtendGraph((ExplanationX + kScreenWidth * 0.9f) - 150, (ExplanationY + kScreenHeight * 0.9f) - 150,
+			ExplanationX + kScreenWidth * 0.9f, ExplanationY + kScreenHeight * 0.9f,
+			m_key_A, true);
 	}
 }
 

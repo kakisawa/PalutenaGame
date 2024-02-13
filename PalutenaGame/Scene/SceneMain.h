@@ -76,6 +76,7 @@ private:
 	int m_backHandle2;		// 背景(床)
 
 	int m_explanation;		// 説明
+	int m_key_A;
 	int m_count1;			// カウント1
 	int m_count2;			// カウント2
 	int m_count3;			// カウント3
