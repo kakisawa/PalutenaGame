@@ -18,8 +18,8 @@
 #include <cassert>
 
 namespace {
-	constexpr int ExplanationX = kScreenWidth * 0.05f;
-	constexpr int ExplanationY = kScreenHeight * 0.05f;
+	constexpr int ExplanationX = kScreenWidth * 0.07f;
+	constexpr int ExplanationY = kScreenHeight * 0.07f;
 }
 
 SceneMain::SceneMain() :
@@ -497,10 +497,10 @@ void SceneMain::StartDraw()
 	if (m_isStartFlag == false)
 	{
 		DrawExtendGraph(ExplanationX, ExplanationY,
-			ExplanationX + kScreenWidth * 0.9f, ExplanationY + kScreenHeight * 0.9f ,
+			ExplanationX + kScreenWidth * 0.85f, ExplanationY + kScreenHeight * 0.85f,
 			m_explanation, false);
-		DrawExtendGraph((ExplanationX + kScreenWidth * 0.9f) - 150, (ExplanationY + kScreenHeight * 0.9f) - 150,
-			ExplanationX + kScreenWidth * 0.9f, ExplanationY + kScreenHeight * 0.9f,
+		DrawExtendGraph((ExplanationX + kScreenWidth * 0.8f) - 65, (ExplanationY + kScreenHeight * 0.8f) - 75,
+			ExplanationX + kScreenWidth * 0.83f, ExplanationY + kScreenHeight * 0.83f,
 			m_key_A, true);
 	}
 }
