@@ -15,8 +15,8 @@
 namespace
 {
 	// キャラクターのサイズ
-	constexpr int kWidth = 48;
-	constexpr int kHeight = 48;
+	constexpr int kWidth = 72;
+	constexpr int kHeight = 72;
 
 	// プレイヤーHP初期値
 	constexpr int kHP = 100;
@@ -90,7 +90,7 @@ void Player::Init()
 {
 	HP = kHP;						// プレイヤーの初期HP
 	m_pos.x = kScreenWidth *0.5f;	// プレイヤーの初期位置x
-	m_pos.y = kScreenHeight*0.8f;	// プレイヤーの初期位置y
+	m_pos.y = kScreenHeight*0.5f;	// プレイヤーの初期位置y
 	m_dir = kDirFront;				// プレイヤーの初期方向(正面のflont)
 	m_shotDir = kShotDirRight;		// プレイヤーの攻撃初期方向
 	JumpPower = 0.0f;				// プレイヤーの初期ジャンプ
@@ -134,7 +134,7 @@ void Player::Update()
 	Gravity += 0.3f;
 
 	// もし地面についていたら止まる
-	if (m_pos.y > Ground)
+	if (m_pos.y >= Ground)
 	{
 		m_pos.y = Ground;
 

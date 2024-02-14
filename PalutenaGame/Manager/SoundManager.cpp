@@ -128,9 +128,9 @@ void SoundManager::Draw()
 	}
 
 	DrawFormatStringToHandle(BgmStringX, BgmStringY, m_pColorManager->GetColorWhite(),
-		m_pFontManager->GetFont(), "BgmVolume=%d", BgmVolume);
+		m_pFontManager->GetFont(), "BGM");
 	DrawFormatStringToHandle(SeStringX, SeStringY, m_pColorManager->GetColorWhite(),
-		m_pFontManager->GetFont(), "SeVolume=%d", SeVolume);
+		m_pFontManager->GetFont(), "SeVolume");
 	DrawStringToHandle(BackStringX, BackStringY,
 		"ƒ^ƒCƒgƒ‹‚É–ß‚é", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());

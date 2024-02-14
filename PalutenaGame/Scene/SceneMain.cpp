@@ -391,7 +391,7 @@ void SceneMain::Draw()
 
 	m_pBack->DrawBg();			// 背景描画
 	m_pTime->Draw();			// 制限時間描画
-
+	m_pBack->DrawGround();		// 背景地面描画
 	CharactorDraw();			// プレイヤー・エネミー描画
 
 	// 弾描画
@@ -401,7 +401,7 @@ void SceneMain::Draw()
 		m_pShot[i]->Draw();
 	}
 
-	m_pBack->DrawGround();		// 背景地面描画
+	
 	m_pPause->Draw();			// ポーズ画面描画
 
 	CoundownDraw();				// ゲーム開始前のカウントダウン描画

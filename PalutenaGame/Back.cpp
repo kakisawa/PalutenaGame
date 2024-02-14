@@ -20,5 +20,5 @@ void Back::DrawBg()
 
 void Back::DrawGround()
 {
-	DrawGraph(0, 0, Bg2, true);
+	DrawGraph(0, kScreenHeight - 215, Bg2, true);
 }

@@ -9,5 +9,6 @@ namespace
 	constexpr int kColorDepth = 32;
 
 	// 地面の高さ
-	constexpr int Ground = kScreenHeight - 145;
+	constexpr int Ground = kScreenHeight - 215 - 72;	// 地面とプレイヤーのサイズを
+														// 引いた結果が地面の高さ
 }

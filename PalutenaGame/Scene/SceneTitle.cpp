@@ -44,7 +44,7 @@ SceneTitle::SceneTitle() :
 	isToSelect(false),
 	m_scrollX(0),
 	m_select(kSelectGameStart),
-	m_selectPos(kSelectPosX, kSelectPosY + kSelectMoveY),
+	m_selectPos(kSelectPosX, kSelectPosY),
 	m_bgPos(0, 0),
 	m_fadeAlpha(255),
 	m_fadeLetter(0)
@@ -85,7 +85,7 @@ void SceneTitle::Init()
 	isToExplanation = false;
 	isToSelect = false;
 	m_selectPos.x = kSelectPosX;
-	m_selectPos.y = kSelectPosY + kSelectMoveY;
+	m_selectPos.y = kSelectPosY;
 	m_scrollX = 0;
 	m_bgPos.x = 0;
 	m_bgPos.y = 0;
@@ -222,14 +222,14 @@ void SceneTitle::StringDraw()
 		m_selectPos.x + kSelectSizeX + 30, m_selectPos.y + kSelectSizeY + 20, 
 		Cursor, true);
 
-	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY,
-		"オプション", m_pColorManager->GetColorBlack(),
+	DrawStringToHandle(kSelectChirPosX+31, kSelectChirPosY,
+		"ゲームを始める", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());
-	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval, 
-		"  ゲームを始める", m_pColorManager->GetColorBlack(), 
+	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY + kCharInterval,
+		"オプション", m_pColorManager->GetColorBlack(), 
 		m_pFontManager->GetFont());
-	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2, 
-		"  ゲームを終わる", m_pColorManager->GetColorBlack(), 
+	DrawStringToHandle(kSelectChirPosX + 31, kSelectChirPosY + kCharInterval * 2,
+		"ゲームを終わる", m_pColorManager->GetColorBlack(), 
 		m_pFontManager->GetFont());
 
 	// 文字の点滅描画

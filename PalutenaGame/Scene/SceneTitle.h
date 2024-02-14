@@ -34,12 +34,11 @@ public:
 private:
     enum Select
     {
-        kSclectOperation,   // 操作方法
         kSelectGameStart,   // ゲームスタート
+        kSclectOperation,   // 操作方法
         kSclectEnd,         // ゲームを終わる
 
         kSclectNum,         // 項目数
-
         kSclectBack,        // 戻る
     };
 
