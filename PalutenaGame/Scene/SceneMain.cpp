@@ -14,7 +14,6 @@
 #include "Game.h"
 #include "Rect.h"
 #include "Pad.h"
-
 #include <cassert>
 
 namespace {
@@ -23,6 +22,9 @@ namespace {
 }
 
 SceneMain::SceneMain() :
+	m_deathYourEnemyGraph(-1),
+	m_enemyHandle(-1),
+	m_mozueyeEnemy(-1),
 	m_isSceneEnd(false),
 	isToGameClear(false),
 	isToGameOver(false),
@@ -400,8 +402,6 @@ void SceneMain::Draw()
 		if (!m_pShot[i])	continue;
 		m_pShot[i]->Draw();
 	}
-
-	
 	m_pPause->Draw();			// ポーズ画面描画
 
 	CoundownDraw();				// ゲーム開始前のカウントダウン描画
@@ -507,22 +507,22 @@ void SceneMain::StartDraw()
 
 void SceneMain::CoundownDraw()
 {
-	if(m_startCount>=121)
+	if (m_startCount >= 121)
 	{
-		DrawExtendGraph(kScreenWidth * 0.5f - 100, kScreenHeight * 0.5f - 100,
-			kScreenWidth * 0.5f+100, kScreenHeight * 0.5f+100,
+		DrawExtendGraph(kScreenWidth * 0.5f - 53, kScreenHeight * 0.5f - 114,
+			kScreenWidth * 0.5f + 53, kScreenHeight * 0.5f + 114,
 			m_count3, true);
 	}
 	else if (m_startCount <= 120 && m_startCount >= 61)
 	{
-		DrawExtendGraph(kScreenWidth * 0.5f - 100, kScreenHeight * 0.5f - 100,
-			kScreenWidth * 0.5f+100, kScreenHeight * 0.5f+100,
+		DrawExtendGraph(kScreenWidth * 0.5f - 53, kScreenHeight * 0.5f - 114,
+			kScreenWidth * 0.5f + 53, kScreenHeight * 0.5f + 114,
 			m_count2, true);
 	}
 	else if (m_startCount <= 60 && m_startCount >= 1)
 	{
-		DrawExtendGraph(kScreenWidth * 0.5f - 100, kScreenHeight * 0.5f - 100,
-			kScreenWidth * 0.5f+100, kScreenHeight * 0.5f+100,
+		DrawExtendGraph(kScreenWidth * 0.5f - 53, kScreenHeight * 0.5f - 114,
+			kScreenWidth * 0.5f + 53, kScreenHeight * 0.5f + 114,
 			m_count1, true);
 	}
 }
@@ -600,7 +600,7 @@ void SceneMain::CreateEnemyMozu()
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init(m_pPlayer);
-			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.3, Ground - 32 * 0.5);
+			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.15, Ground+9);
 			return;
 		}
 	}
@@ -614,7 +614,7 @@ void SceneMain::CreateEnemyDeath()
 		{
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
 			m_pDeathYourEnemy[i]->Init(m_pPlayer);
-			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5f, kScreenHeight * 0.5f);
+			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5f, kScreenHeight * 0.4f);
 			return;
 		}
 	}
@@ -630,21 +630,25 @@ void SceneMain::CreateEnemyPump()
 			m_pPumpkinEnemy[i]->Init(m_pPlayer);
 
 			int EnemyX = kScreenWidth * 0.3f;
-			/*switch (GetRand(2))
+			switch (GetRand(2))
 			{
 			case 0:
-				EnemyX = kScreenWidth * 0.1;
+				EnemyX = kScreenWidth * 0.4;
 				break;
 			case 1:
-				EnemyX = kScreenWidth * 0.9;
+				EnemyX = kScreenWidth * 0.8;
 				break;
 			case 2:
 				EnemyX = kScreenWidth * 0.5;
 				break;
-			}*/
-			//m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.5f);
-			m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.7f);
+			}
+			m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.5f);
+			//m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.7f);
 			return;
 		}
 	}
+}
+
+void SceneMain::AppEnemyAnim()
+{
 }

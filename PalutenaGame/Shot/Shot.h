@@ -1,6 +1,7 @@
 #pragma once
 #include "Rect.h"
 #include "Vec2.h"
+#include <vector>
 
 class Player;
 class SceneMain;
@@ -9,12 +10,12 @@ class SceneSecond;
 namespace
 {
 	// プレイヤーのサイズ
-	constexpr int kPlayerWidth = 32;
-	constexpr int kPlayerHeight = 32;
+	constexpr int kPlayerWidth = 72;
+	constexpr int kPlayerHeight = 72;
 
 	// 弾のサイズ
-	constexpr int kShotWidth = 20;
-	constexpr int kShotHeight = 20;
+	constexpr int kShotWidth = 30;
+	constexpr int kShotHeight = 30;
 
 	// 弾の移動速度
 	constexpr float kShotSpeed = 8.0f;
@@ -55,6 +56,10 @@ private:
 	Vec2 m_pos;
 	// 当たり判定の矩形
 	Rect m_colRect;
+	// 移動量	1フレーム当たりの移動量を入れる
+	Vec2 m_vec;
+private:
+	std::vector<Vec2> m_posLog;
 
 public:
 	// ショットを打ったプレイヤーのポインタを覚えておく

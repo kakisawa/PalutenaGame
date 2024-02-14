@@ -3,8 +3,10 @@
 #include "Pad.h"
 #include "DxLib.h"
 #include "SoundManager.h"
+#include "ColorManager.h"
 
-namespace {
+namespace 
+{
 	// ポーズ初期位置
 	constexpr int PauseBoxX = kScreenWidth * 0.1f;
 	constexpr int PauseBoxY = kScreenHeight * 0.5f;
@@ -19,10 +21,15 @@ Pause::Pause(SoundManager* soundManager) :
 	PauseCount(0),
 	m_pause(false)
 {
+	// 色メモリ確保
+	m_pColorManager = new ColorManager;
 }
 
 Pause::~Pause()
 {
+	// 色メモリ解放
+	delete m_pColorManager;
+	m_pColorManager = nullptr;
 }
 
 void Pause::Init()
@@ -63,12 +70,13 @@ void Pause::Draw()
 	{
 		DrawBox(PauseBoxX-3, PauseBoxY - MiniWindowTime-3,
 			PauseBoxX + PauseBoxWight+3, PauseBoxY + MiniWindowTime+3,
-			0xFFFFFF, true);
+			m_pColorManager->GetColorWhite(), true);
 		DrawBox(PauseBoxX, PauseBoxY - MiniWindowTime,
 			PauseBoxX + PauseBoxWight, PauseBoxY + MiniWindowTime,
-			0x000000, true);
+			m_pColorManager->GetColorBlack(), true);
 
-		if (MiniWindowTime >= PauseBoxHeight * 0.5f) {
+		if (MiniWindowTime >= PauseBoxHeight * 0.5f)
+		{
 			m_pSoundManager->Draw();
 		}
 	}

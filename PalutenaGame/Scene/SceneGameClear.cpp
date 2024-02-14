@@ -12,34 +12,34 @@
 
 namespace
 {
-	// タイトル文字表示位置
-	constexpr int kTitleChirPosX = kScreenWidth * 0.27;
-	constexpr int kTitleChirPosY = kScreenHeight * 0.05f;
+	// タイトル画像表示位置
+	constexpr int kTitleGraphPosX = kScreenWidth * 0.27;
+	constexpr int kTitleGraphPosY = kScreenHeight * 0.08f;
+	// スコア画像表示位置
+	constexpr int kScoreGraphPosX = kScreenWidth * 0.25f;
+	constexpr int kScoreGraphPosY = kScreenHeight * 0.58f;
+	// PushAキー画像表示位置
+	constexpr int kPushAX = kScreenWidth * 0.398f;
+	constexpr int kPushAY = kScreenHeight * 0.901f;
 
-	// スコア文字表示位置
-	constexpr int kScoreChirPosX = kScreenWidth * 0.25f;
-	constexpr int kScoreChirPosY = kScreenHeight * 0.55f;
 	// スコア数値表示位置
-	constexpr int kScorePosX = kScreenWidth * 0.5f;
-	constexpr int kScorePosY = kScreenHeight * 0.55f;
+	constexpr int kScorePosX = kScoreGraphPosX * 2.2f;
+	constexpr int kScorePosY = kScoreGraphPosY;
 
-	// 文字の表示位置
+	// 選択肢四角内の文字表示位置
 	constexpr int kSelectChirPosX = kScreenWidth * 0.2;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.85;
-
-	// 文字の表示幅
+	constexpr int kSelectChirPosY = kScreenHeight * 0.8f;
+	// 選択肢四角内の文字表示幅
 	constexpr int kCharInterval = 770;
-
-	// 文字を囲む四角の初期位置
+	// 選択肢四角の初期位置
 	constexpr int kSelectPosX = kSelectChirPosX - 2;
 	constexpr int kSelectPosY = kSelectChirPosY - 2;
-
-	// 文字を囲む四角の移動量
-	constexpr int kSelectMoveX = 770;
-
-	// 文字を囲む四角のサイズ
+	// 選択肢四角の移動量
+	constexpr int kSelectMoveX = kCharInterval;
+	// 選択肢四角のサイズ
 	constexpr int kSelectSizeX = 470;
 	constexpr int kSelectSizeY = 75;
+
 
 	// スクロール移動量
 	constexpr float backGround_scale = 1.2f;
@@ -83,6 +83,7 @@ void SceneGameClear::Init()
 	Cursor = LoadGraph("data/Cursor.png");
 	SelectUI = LoadGraph("data/SelectUI.png");
 	SelectUI2 = LoadGraph("data/SelectUI2.png");
+	PushA= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
 
 	m_select = kScelectBackTitle;
 	m_isSceneEnd = false;
@@ -211,8 +212,8 @@ void SceneGameClear::StringDraw()
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont());
 
 	ResultScore = SceneManager::s_ResultScore;
-	DrawFormatStringToHandle(kScorePosX-4, kScorePosY-3,
-		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont4(),
+	DrawFormatStringToHandle(kScorePosX+2, kScorePosY+2,
+		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
 		"%4d", ResultScore);
 	DrawFormatStringToHandle(kScorePosX, kScorePosY,
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont3(),
@@ -221,9 +222,9 @@ void SceneGameClear::StringDraw()
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
-		SetFontSize(32);
-		DrawString(kSelectChirPosX + 123, kSelectChirPosY + kCharInterval * 3.6,
-			"Aキーで決定", m_pColorManager->GetColorWhite());
+		DrawExtendGraph(kPushAX, kPushAY,
+			kPushAX + 560, kPushAY + 80,
+			PushA, true);
 	}
 }
 
@@ -247,8 +248,8 @@ void SceneGameClear::BackDraw()
 
 void SceneGameClear::UIDraw()
 {
-	DrawGraph(kTitleChirPosX, kTitleChirPosY, TitleGraph, true);
-	DrawGraph(kScoreChirPosX, kScoreChirPosY, ScoreGraph, true);
+	DrawGraph(kTitleGraphPosX, kTitleGraphPosY, TitleGraph, true);
+	DrawGraph(kScoreGraphPosX, kScoreGraphPosY, ScoreGraph, true);
 
 	// タイトルに戻る・ゲームを終了するBOX
 	for (int i = 0; i < 2; i++) {

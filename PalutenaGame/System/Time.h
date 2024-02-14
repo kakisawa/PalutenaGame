@@ -1,6 +1,7 @@
 #pragma once
 
 class FontManager;
+class ColorManager;
 
 class Time
 {
@@ -21,6 +22,9 @@ private:
 
 	bool isTimeUp;		// 制限時間が終了したか
 
+	// フォント
 	FontManager* m_pFontManager;
+	// 色
+	ColorManager* m_pColorManager;
 };
 

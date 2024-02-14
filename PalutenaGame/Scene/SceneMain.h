@@ -67,6 +67,8 @@ private:
 	void CreateEnemyDeath();
 	void CreateEnemyPump();
 
+	void AppEnemyAnim();
+
 	// グラフィックのハンドル
 	int m_gameScreenHandle;	
 

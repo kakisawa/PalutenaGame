@@ -45,6 +45,7 @@ private:
     int Cursor;         // カーソルグラフ
     int SelectUI;       // UI
     int SelectUI2;      // UI
+    int PushA;          // Aボタンを押すグラフ
 
     float m_scrollX;    // スクロール移動量
     int ResultScore;    // 獲得スコア

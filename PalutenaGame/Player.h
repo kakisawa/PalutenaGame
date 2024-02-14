@@ -11,6 +11,7 @@ class PumpkinEnemy;
 class Shot;
 class SoundManager;
 class FontManager;
+class ColorManager;
 
 // 向いている方向
 enum Dir
@@ -49,6 +50,7 @@ public:
 	void OnDamage_Pump();	// プレイヤー被ダメ処理(敵_パンプキン)
 	void Death();			// プレイヤー死亡時処理
 
+	void HpDraw();			// プレイヤーのHP描画
 public:
 	void SetHandle(int handle) { Graph = handle; }		// メンバー変数にアクセスする
 	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
@@ -73,8 +75,8 @@ private:
 	PumpkinEnemy* m_pPumpkinEnemy;
 	Shot* m_pShot;
 	SoundManager* m_pSoundManager;
-	// フォントのポインタ
 	FontManager* m_pFontManager;
+	ColorManager* m_pColorManager;
 
 	int HP;		// プレイヤーの体力
 	int Atk;	// プレイヤーの攻撃力

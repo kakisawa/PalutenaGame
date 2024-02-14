@@ -8,9 +8,7 @@ FontManager::FontManager()
    // 読み込むフォントファイルのパス
     LPCSTR font_path = "data/Font/KaiseiHarunoUmi-Bold.ttf";
 
-    if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0)
-    {
-    }
+    if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0){}
     else
     {
         // フォント読込エラー処理

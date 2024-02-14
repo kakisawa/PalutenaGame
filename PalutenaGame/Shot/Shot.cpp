@@ -53,14 +53,16 @@ void Shot::Update()
 	}
 
 	// ìñÇΩÇËîªíËÇÃçXêV
-	m_colRect.SetCenter(m_pos.x + kPlayerWidth * 0.5, m_pos.y + kPlayerHeight * 0.5, kShotWidth, kShotHeight);
+	m_colRect.SetCenter(m_pos.x + kPlayerWidth*0.5f,
+		m_pos.y + kPlayerHeight*0.5f,
+		kShotWidth*0.5f, kShotHeight*0.5f);
 }
 
 void Shot::Draw()
 {
 	if (!m_isExist) return;		// ë∂ç›Ç∑ÇÈÇ©
 
-	DrawBox(m_pos.x + kPlayerWidth * 0.5, m_pos.y + kPlayerHeight * 0.5, m_pos.x + kShotWidth, m_pos.y + kShotHeight, GetColor(255, 255, 0),true);
+	m_colRect.Draw(GetColor(255, 255, 0),true);
 
 #ifdef _DEBUG
 	// ìñÇΩÇËîªíËÇÃï\é¶

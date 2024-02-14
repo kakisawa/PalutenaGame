@@ -30,6 +30,10 @@ namespace
 	constexpr int kLogoSizeX = 1637;
 	constexpr int kLogoSizeY = 1089;
 
+	// PushAキー表示位置
+	constexpr int kPushAX = kScreenWidth * 0.354f;
+	constexpr int kPushAY = kScreenHeight * 0.895;
+
 	// スクロール移動量
 	constexpr float backGround_scale = 1.2f;
 	// 背景の拡大率
@@ -233,8 +237,10 @@ void SceneTitle::StringDraw()
 		m_pFontManager->GetFont());
 
 	// 文字の点滅描画
-	if (m_fadeLetter < 60){
-		DrawGraph(kSelectChirPosX, kSelectChirPosY + kCharInterval * 2.8f,
+	if (m_fadeLetter < 60)
+	{
+		DrawExtendGraph(kPushAX, kPushAY,
+			kPushAX + 560, kPushAY + 80,
 			PushA, true);
 	}
 
@@ -252,7 +258,8 @@ void SceneTitle::BackDraw()
 	// スクロール量を計算
 	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
 
-	for (int index = 0; index < 4; index++){
+	for (int index = 0; index < 4; index++)
+	{
 		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
 			kScreenHeight - bg1Size.height * kBgScale,
 			0, 0,

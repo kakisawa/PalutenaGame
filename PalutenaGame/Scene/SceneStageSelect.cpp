@@ -11,9 +11,10 @@ namespace
 	// 文字の表示位置
 	constexpr int kSelectChirPosX = kScreenWidth * 0.08f;
 	constexpr int kSelectChirPosY = kScreenHeight * 0.25f;
-
-	constexpr int kSelectBackChirPosX = kScreenWidth * 0.43f;
+	constexpr int kSelectBackChirPosX = kScreenWidth * 0.39f;
 	constexpr int kSelectBackChirPosY = kScreenHeight * 0.85f;
+	constexpr int kPushAX = kScreenWidth * 0.04f;
+	constexpr int kPushAY = kScreenHeight * 0.8f;
 
 	// 文字の表示幅
 	constexpr int kCharInterval = 300;
@@ -27,7 +28,7 @@ namespace
 
 	// 文字を囲む四角のサイズ
 	constexpr int kSelectSizeX = kScreenWidth*0.245;
-	constexpr int kSelectSizeY = 75;
+	constexpr int kSelectSizeY = kScreenHeight * 0.07f;
 
 	// スクロール移動量
 	constexpr float backGround_scale = 1.2f;
@@ -248,7 +249,8 @@ void SceneStageSelect::StringDraw()
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
-		DrawGraph(kSelectChirPosX, kSelectBackChirPosY,
+		DrawExtendGraph(kPushAX, kPushAY,
+			kPushAX + 590, kPushAY + 80,
 			PushA, true);
 	}
 

@@ -1,6 +1,5 @@
 #include "DxLib.h"
 #include "Player.h"
-
 #include "SceneMain.h"
 #include "SceneSecond.h"
 #include "MozueyeEnemy.h"
@@ -9,6 +8,7 @@
 #include "Shot/Shot.h"
 #include "SoundManager.h"
 #include "FontManager.h"
+#include "ColorManager.h"
 #include "Game.h"
 #include "Pad.h"
 
@@ -46,6 +46,10 @@ namespace
 	constexpr int DeathFrameCycle = _countof(DefFrame) * DeathAnimFrameNum;
 	// ダメージ演出フレーム数
 	constexpr int kDamageFrame = 60;
+
+	// 獲得スコア描画位置
+	constexpr int kScoreX = kScreenWidth * 0.4f;
+	constexpr int kScoreY = kScreenHeight * 0.1f;
 }
 
 Player::Player() :
@@ -62,6 +66,8 @@ Player::Player(SceneMain* pMain) :
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
+	m_pColorManager = new ColorManager;
+	m_pFontManager = new FontManager;
 	m_pDeathYourEnemy = new DeathYourEnemy;
 	m_pMozueyeEnemy = new MozueyeEnemy;
 	m_pPumpkinEnemy = new PumpkinEnemy;
@@ -74,6 +80,8 @@ Player::Player(SceneSecond* pSceneSecond):
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
+	m_pColorManager = new ColorManager;
+	m_pFontManager = new FontManager;
 	m_pDeathYourEnemy = new DeathYourEnemy;
 	m_pMozueyeEnemy = new MozueyeEnemy;
 	m_pPumpkinEnemy = new PumpkinEnemy;
@@ -84,18 +92,22 @@ Player::~Player()
 	// メモリ解放
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
+	delete m_pColorManager;
+	m_pColorManager = nullptr;
+	delete m_pFontManager;
+	m_pFontManager = nullptr;
 }
 
 void Player::Init()
 {
 	HP = kHP;						// プレイヤーの初期HP
 	m_pos.x = kScreenWidth *0.5f;	// プレイヤーの初期位置x
-	m_pos.y = kScreenHeight*0.5f;	// プレイヤーの初期位置y
+	m_pos.y = kScreenHeight*0.7f;	// プレイヤーの初期位置y
 	m_dir = kDirFront;				// プレイヤーの初期方向(正面のflont)
 	m_shotDir = kShotDirRight;		// プレイヤーの攻撃初期方向
 	JumpPower = 0.0f;				// プレイヤーの初期ジャンプ
 	Gravity = 0.0f;					// プレイヤーの初期重力
-	m_Score = 0;
+	m_Score = 0;					// プレイヤーの獲得スコア
 	Atk = kAtk;						// プレイヤーの初期攻撃力
 	PlayerAnim = 0;					// プレイヤーアニメーションの初期化
 	m_damageFrame = 0;				// プレイヤー被ダメアニメーション  
@@ -287,17 +299,11 @@ void Player::Update()
 
 void Player::Draw()
 {
-	SetFontSize(64);
-	// プレイヤーの現在体力表示
-	DrawFormatString(80, 10, GetColor(255, 255, 255),
-		"PlayerHP:%d", HP);
-	
-	DrawFormatString(kScreenWidth*0.45f, kScreenHeight*0.15f, GetColor(255, 255, 255),
-		"Score:%d", m_Score);
+	HpDraw();
 
-	/*DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval,
-		"  ゲームを始める", m_pColorManager->GetColorBlack(),
-		m_pFontManager->GetFont());*/
+	DrawFormatStringToHandle(kScoreX, kScoreY,
+		m_pColorManager->GetColorWhite(),m_pFontManager->GetFont3(),
+		"Score:%d", m_Score);
 
 	if (!PlayerDeath()) {
 		// ダメージ演出 2フレーム間隔で表示非表示切り替え
@@ -423,18 +429,18 @@ void Player::Draw()
 #ifdef _DEBUG
 	int y = 19;
 
-	SetFontSize(16);
-	// プレイヤーの現在座標表示
-	DrawFormatString(80, y*1, GetColor(255, 255, 255),
-		"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);
-	DrawFormatString(80, y*2, GetColor(255, 255, 255),
-		"isMove:(%d)", isMove);
-	DrawFormatString(80, y*3, GetColor(255, 255, 255),
-		"isAttack:(%d)", isAttack);
-	DrawFormatString(80, y*4, GetColor(255, 255, 255),
-		"m_dir:(%d)", m_dir);
-	DrawFormatString(80, y*5, GetColor(255, 255, 255),
-		"isTurn:(%d)", isTurn);
+	//SetFontSize(16);
+	//// プレイヤーの現在座標表示
+	//DrawFormatString(80, y*1, GetColor(255, 255, 255),
+	//	"現在座標:(%.2f,%.2f)", m_pos.x, m_pos.y);
+	//DrawFormatString(80, y*2, GetColor(255, 255, 255),
+	//	"isMove:(%d)", isMove);
+	//DrawFormatString(80, y*3, GetColor(255, 255, 255),
+	//	"isAttack:(%d)", isAttack);
+	//DrawFormatString(80, y*4, GetColor(255, 255, 255),
+	//	"m_dir:(%d)", m_dir);
+	//DrawFormatString(80, y*5, GetColor(255, 255, 255),
+	//	"isTurn:(%d)", isTurn);
 
 	// 当たり判定の表示
 	m_colRect.Draw(GetColor(255, 0, 0), false);
@@ -470,6 +476,22 @@ void Player::Death()
 			srcX2, 48, 15, 17,
 			Graph, true);
 	}
+}
+
+void Player::HpDraw()
+{
+	// プレイヤーの現在体力表示
+	DrawFormatStringToHandle(80, 30,
+		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
+		"HP:%d", HP);
+
+	DrawBoxAA(120, 50,
+		120 + HP*4, 50 + 50,			
+		0xFF0000, true, 1.0f);
+
+	DrawBoxAA(120, 50,
+		120+400, 50+50,
+		0x0095d9, false, 2.5f);
 }
 
 void Player::End()
@@ -527,8 +549,8 @@ void Player::OnDamage_Death()
 	m_damageFrame = kDamageFrame;
 
 #ifdef _DEBUG
-	// 敵とプレイヤーの当たり判定が反応したか
-	printfDx("当たった\n");
+	//// 敵とプレイヤーの当たり判定が反応したか
+	//printfDx("当たった\n");
 #endif
 }
 

@@ -261,7 +261,6 @@ void SoundManager::ChangeSound()
 			ChangeBgm = BgmVolume;
 		}
 	}
-
 	else if (Pad::IsTrigger(PAD_INPUT_LEFT))
 	{
 		if (m_select == kBgmVolume)

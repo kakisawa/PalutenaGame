@@ -2,6 +2,7 @@
 #include "Vec2.h"
 
 class SoundManager;
+class ColorManager;
 
 class Pause
 {
@@ -21,5 +22,8 @@ private:
 
 	bool m_pause;
 
+	// BGMESE
 	SoundManager* m_pSoundManager;
+	// F
+	ColorManager* m_pColorManager;
 };
