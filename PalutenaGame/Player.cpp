@@ -481,16 +481,19 @@ void Player::Death()
 void Player::HpDraw()
 {
 	// プレイヤーの現在体力表示
-	DrawFormatStringToHandle(80, 30,
+	/*DrawFormatStringToHandle(80, 30,
 		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
-		"HP:%d", HP);
+		"HP:%d", HP);*/
 
-	DrawBoxAA(120, 50,
-		120 + HP*4, 50 + 50,			
+	DrawStringToHandle(30, 40, "HP:", m_pColorManager->GetColorBlack(),
+		m_pFontManager->GetFont());
+
+	DrawBoxAA(135, 50,
+		135 + HP*4, 50 + 50,			
 		0xFF0000, true, 1.0f);
 
-	DrawBoxAA(120, 50,
-		120+400, 50+50,
+	DrawBoxAA(135, 50,
+		135+400, 50+50,
 		0x0095d9, false, 2.5f);
 }
 

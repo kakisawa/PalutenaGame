@@ -21,7 +21,7 @@ namespace
 	// プレイヤーHP初期値
 	constexpr int kHP = 1;
 	// プレイヤーAtk初期値
-	constexpr int kAtk = 100;
+	constexpr int kAtk = 30;
 	// 所持スコア
 	constexpr int kScore = 100;
 
