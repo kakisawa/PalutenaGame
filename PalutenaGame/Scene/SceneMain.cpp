@@ -16,9 +16,23 @@
 #include "Pad.h"
 #include <cassert>
 
-namespace {
+namespace 
+{
+	// ゲーム内容説明描画位置
 	constexpr int ExplanationX = kScreenWidth * 0.07f;
 	constexpr int ExplanationY = kScreenHeight * 0.07f;
+
+	// モズアイ出現位置
+	constexpr int MozuX = kScreenWidth * 0.15f;
+	constexpr int MozuY = Ground + 9;
+	// 死出現位置
+	constexpr int DeathX = kScreenWidth * 0.3f;
+	constexpr int DeathY = kScreenHeight * 0.4f;
+	// パンプキン出現位置
+	constexpr int PumpX_1 = kScreenWidth * 0.4;
+	constexpr int PumpX_2 = kScreenWidth * 0.8;
+	constexpr int PumpX_3 = kScreenWidth * 0.5;
+	constexpr int PumpY = kScreenHeight * 0.5f;
 }
 
 SceneMain::SceneMain() :
@@ -31,6 +45,7 @@ SceneMain::SceneMain() :
 	m_fadeAlpha(255),		// 不透明で初期化
 	m_enemyInterval(0),
 	m_startCount(180),
+	m_doorCount(0),
 	m_isStartFlag(false),
 	m_isStartCountFlag(false)
 {
@@ -55,6 +70,8 @@ SceneMain::SceneMain() :
 	assert(m_count2 != -1);
 	m_count3 = LoadGraph("data/Count3.png");
 	assert(m_count3 != -1);
+	m_door = LoadGraph("data/01.png");
+	assert(m_door != -1);
 
 	// プレイヤーのメモリ確保
 	m_pPlayer = new Player{ this };
@@ -102,6 +119,11 @@ SceneMain::~SceneMain()
 	DeleteGraph(m_playerHandle);
 	DeleteGraph(m_enemyHandle);
 	DeleteGraph(m_backHandle);
+	DeleteGraph(m_count1);
+	DeleteGraph(m_count2);
+	DeleteGraph(m_count3);
+	DeleteGraph(m_explanation);
+	DeleteGraph(m_key_A);
 
 	// メモリの解放
 	delete m_pPlayer;
@@ -163,6 +185,7 @@ void SceneMain::Init()
 	m_fadeAlpha = 255;
 	m_enemyInterval = 0;
 	m_startCount = 180;
+	m_doorCount = 0;
 
 	m_pSoundManager->BGMButtle();
 	m_pPause->Init();
@@ -192,6 +215,7 @@ void SceneMain::Update()
 		m_startCount--;
 	}
 
+	// スタートのカウントダウンを始めるフラグ
 	if (m_isStartFlag == false)
 	{
 		if (Pad::IsTrigger(PAD_INPUT_4)) {
@@ -378,6 +402,13 @@ void SceneMain::Update()
 						break;
 					}
 				}
+
+				// 敵出現扉の点滅
+				m_doorCount++;
+				if (m_doorCount >= 80)
+				{
+					m_doorCount = 0;
+				}
 			}
 		}
 	}
@@ -394,6 +425,7 @@ void SceneMain::Draw()
 	m_pBack->DrawBg();			// 背景描画
 	m_pTime->Draw();			// 制限時間描画
 	m_pBack->DrawGround();		// 背景地面描画
+	DrawDoor();					// 敵出現扉描画
 	CharactorDraw();			// プレイヤー・エネミー描画
 
 	// 弾描画
@@ -527,6 +559,34 @@ void SceneMain::CoundownDraw()
 	}
 }
 
+void SceneMain::DrawDoor()
+{
+	// 文字の点滅描画
+	if (m_doorCount < 40)
+	{
+		// モズアイ出現
+		DrawExtendGraph(MozuX, MozuY,
+			MozuX+56, MozuY+60,
+			m_door, true);
+
+		// 死出現位置
+		DrawExtendGraph(DeathX, DeathY,
+			DeathX + 56, DeathY + 60,
+			m_door, true);
+
+		// パンプキン出現
+		DrawExtendGraph(PumpX_1, PumpY,
+			PumpX_1+56, PumpY+60,
+			m_door, true);
+		DrawExtendGraph(PumpX_2, PumpY,
+			PumpX_2 + 56, PumpY + 60,
+			m_door, true);
+		DrawExtendGraph(PumpX_3, PumpY,
+			PumpX_3 + 56, PumpY + 60,
+			m_door, true);
+	}
+}
+
 void SceneMain::Clear()
 {
 	StopSoundMem(m_pSoundManager->m_bgmButtle);
@@ -600,7 +660,7 @@ void SceneMain::CreateEnemyMozu()
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init(m_pPlayer);
-			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.15, Ground+9);
+			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.15f, Ground+9);
 			return;
 		}
 	}
@@ -614,7 +674,7 @@ void SceneMain::CreateEnemyDeath()
 		{
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
 			m_pDeathYourEnemy[i]->Init(m_pPlayer);
-			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.5f, kScreenHeight * 0.4f);
+			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.3f, kScreenHeight * 0.4f);
 			return;
 		}
 	}
@@ -643,7 +703,6 @@ void SceneMain::CreateEnemyPump()
 				break;
 			}
 			m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.5f);
-			//m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.7f);
 			return;
 		}
 	}

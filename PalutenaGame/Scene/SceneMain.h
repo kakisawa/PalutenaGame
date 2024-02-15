@@ -46,6 +46,8 @@ public:
 	void StartDraw();
 	void CoundownDraw();
 
+	void DrawDoor();
+
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
 
@@ -76,6 +78,7 @@ private:
 	int m_enemyHandle;		// 敵
 	int m_backHandle;		// 背景
 	int m_backHandle2;		// 背景(床)
+	int m_door;				// 敵出現扉
 
 	int m_explanation;		// 説明
 	int m_key_A;
@@ -91,6 +94,8 @@ private:
 	int m_fadeAlpha;		// フェードイン、アウト
 	int m_enemyInterval;	// 敵の登場間隔
 	int m_startCount;		// ゲームスタートカウント
+
+	int m_doorCount;		// 敵出現扉の描画カウント
 
 	// シーン処理
 	bool m_isStartFlag;		// ゲームが始まる前の説明
