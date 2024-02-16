@@ -420,7 +420,6 @@ void Player::Draw()
 					srcX2 + 3, 0, 26, 32,
 					Graph, true);
 			}
-
 			// 攻撃ボタンをIsTriggerにしている為、isAttackが一瞬しか反応していない。
 			// 　なので恐らく、一瞬描画した後にデフォルトの描画に戻っている模様。
 			// 　最終的には、1ループ分のアニメーションは動いてほしい
@@ -480,11 +479,6 @@ void Player::Death()
 
 void Player::HpDraw()
 {
-	// プレイヤーの現在体力表示
-	/*DrawFormatStringToHandle(80, 30,
-		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
-		"HP:%d", HP);*/
-
 	DrawStringToHandle(30, 40, "HP:", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());
 
