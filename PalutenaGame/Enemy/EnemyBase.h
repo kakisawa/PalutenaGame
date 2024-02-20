@@ -21,8 +21,8 @@ public:
 	Rect GetColRect() const { return m_colRect; }	// 当たり判定の矩形を取得する
 
 	// 敵の攻撃力,HP,スコアを渡す
-	int GetEnemyAtk() const { return Atk; }
-	int GetEnemyHP() const { return HP; }
+	int GetEnemyAtk() const { return m_atk; }
+	int GetEnemyHP() const { return m_hp; }
 
 	bool isExist() const { return m_isExist; }
 
@@ -31,14 +31,14 @@ public:
 	
 protected:		// 派生クラスからアクセスできるように
 	int EGraph;	// 敵画像
-	int W, H;	// 敵画像サイズ
-	int HP;		// 敵HP
-	int Atk;	// 敵攻撃力	
+	int m_w, m_h;	// 敵画像サイズ
+	int m_hp;		// 敵HP
+	int m_atk;	// 敵攻撃力	
 	int Score;	// 敵を倒した際に得られるスコア
 	int isTurn;	// 左右どちらを向いているか
 
 	float EnemyAnim;	// エネミーアニメーション
-	float Gravity;		// 重力
+	float m_gravity;		// 重力
 	int m_damageFrame;	// ダメージを受けてからのフレーム数
 							// 普段は0で、当たった時にフレーム数を設定して
 							// 以降毎フレーム減らしていく

@@ -37,7 +37,6 @@ public:
 	Player();
 	Player(SceneMain* pMain);
 	Player(SceneSecond* pSceneSecond);
-
 	~Player();
 
 	void Init();
@@ -49,23 +48,22 @@ public:
 	void OnDamage_Death();	// プレイヤー被ダメ処理(敵_死)
 	void OnDamage_Pump();	// プレイヤー被ダメ処理(敵_パンプキン)
 	void Death();			// プレイヤー死亡時処理
-
 	void HpDraw();			// プレイヤーのHP描画
-public:
-	void SetHandle(int handle) { Graph = handle; }		// メンバー変数にアクセスする
-	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
-	Vec2 OutPos() const { return m_pos; }				// プレイヤーの座標を取得する
-	bool PlayerDeath() const { return isDeath; }		// プレイヤーの生死状態を取得する
- 	int GetAtk() const { return Atk; }					// プレイヤーの攻撃力を取得する
-	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
-	void AddScore(int Score) { m_Score += Score; }		// スコア
-	
- 	int GetScore() const { return m_Score; }
 
-	// 敵の攻撃力を獲得するため
+public:
+	void SetHandle(int handle) { m_graph = handle; }		// メンバー変数にアクセスする
+	void AddScore(int Score) { m_score += Score; }		// スコアを追加する
+	// 敵の攻撃力を獲得する
 	void SetMozu(MozueyeEnemy* pMozu) { m_pMozueyeEnemy = pMozu; }
 	void SetDeath(DeathYourEnemy* pDeath) { m_pDeathYourEnemy = pDeath; }
 	void SetPump(PumpkinEnemy* pPump) { m_pPumpkinEnemy = pPump; }
+	int GetAtk() const { return m_atk; }					// プレイヤーの攻撃力を取得する
+	int GetScore() const { return m_score; }			// スコアを取得する
+	bool PlayerDeath() const { return isDeath; }		// プレイヤーの生死状態を取得する
+	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
+	Vec2 OutPos() const { return m_pos; }				// プレイヤーの座標を取得する 	
+	ShotDir OutShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
+
 private:
 	SceneExplanation* m_pOption;
 	SceneMain* m_pMain;
@@ -78,28 +76,24 @@ private:
 	FontManager* m_pFontManager;
 	ColorManager* m_pColorManager;
 
-	int HP;		// プレイヤーの体力
-	int Atk;	// プレイヤーの攻撃力
-	int m_Score;	// プレイヤーの獲得スコア
-	int Graph;	// プレイヤーの画像
-	int W, H;	// プレイヤーの画像サイズ
+	int m_hp;				// プレイヤーの体力
+	int m_atk;			// プレイヤーの攻撃力
+	int m_score;		// プレイヤーの獲得スコア
+	int m_graph;		// プレイヤーの画像
 	int m_damageFrame;	// ダメージを受けてからのフレーム数
 							// 普段は0で、当たった時にフレーム数を設定して
 							// 以降毎フレーム減らしていく
 
-	float Gravity;		// 重力
-	float JumpPower;	// ジャンプ移動量
-	float PlayerAnim;	// プレイヤーアニメーション
-
-	int SoundJump;		// ジャンプサウンド
-	int SoundAttack;	// 攻撃サウンド
+	float m_gravity;	// 重力
+	float m_jumpPower;	// ジャンプ移動量
+	float m_playerAnim;	// プレイヤーアニメーション
 
 	Vec2 m_pos;			// 表示位置
 	Dir m_dir;			// 向いている方向
-	ShotDir m_shotDir;	
+	ShotDir m_shotDir;	// 弾を打つ方向
 	Rect m_colRect;		// 当たり判定用の矩形
 
-	bool isMove;		// プレイヤーが移動中かどうかのフラグ
+	bool m_isMove;		// プレイヤーが移動中かどうかのフラグ
 	bool isTurn;		// プレイヤーの左右反転状況についてのフラグ
 	bool isJumpFlag;	// プレイヤーがジャンプ中かどうかのフラグ
 	bool isAttack;		// プレイヤーが攻撃したかどうかのフラグ

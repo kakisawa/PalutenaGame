@@ -68,7 +68,7 @@ SceneStageSelect::~SceneStageSelect()
 
 void SceneStageSelect::Init()
 {
-	Graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
+	m_graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
 	Cursor = LoadGraph("data/Cursor.png");		// カーソルロゴ読み込み
 	PushA = LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
 	ExplanationGraph = LoadGraph("data/Explanation.png");
@@ -210,7 +210,7 @@ void SceneStageSelect::Draw()
 void SceneStageSelect::End()
 {
 	// 画像をメモリから削除
-	DeleteGraph(Graph);
+	DeleteGraph(m_graph);
 	DeleteGraph(Cursor);
 	DeleteGraph(ExplanationGraph);
 
@@ -264,7 +264,7 @@ void SceneStageSelect::StringDraw()
 void SceneStageSelect::BackDraw()
 {
 	Size bg1Size;
-	GetGraphSize(Graph, &bg1Size.width, &bg1Size.height);
+	GetGraphSize(m_graph, &bg1Size.width, &bg1Size.height);
 
 	// スクロール量を計算
 	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
@@ -275,7 +275,7 @@ void SceneStageSelect::BackDraw()
 			kScreenHeight - bg1Size.height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,
-			Graph, true);
+			m_graph, true);
 	}
 
 	DrawGraph(700, 100, ExplanationGraph, true);

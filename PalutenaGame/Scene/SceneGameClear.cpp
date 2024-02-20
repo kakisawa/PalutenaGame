@@ -77,7 +77,7 @@ SceneGameClear::~SceneGameClear()
 
 void SceneGameClear::Init()
 {
-	Graph = LoadGraph("data/Map/patter4.png");
+	m_graph = LoadGraph("data/Map/patter4.png");
 	TitleGraph = LoadGraph("data/GameClear.png");
 	ScoreGraph = LoadGraph("data/Score.png");
 	Cursor = LoadGraph("data/Cursor.png");
@@ -200,7 +200,7 @@ void SceneGameClear::Draw()
 
 void SceneGameClear::End()
 {
-	DeleteGraph(Graph);		// îwåiÇÉÅÉÇÉäÇ©ÇÁçÌèú
+	DeleteGraph(m_graph);		// îwåiÇÉÅÉÇÉäÇ©ÇÁçÌèú
 	m_pSoundManager->End();
 }
 
@@ -231,7 +231,7 @@ void SceneGameClear::StringDraw()
 void SceneGameClear::BackDraw()
 {
 	Size bg1Size;
-	GetGraphSize(Graph, &bg1Size.width, &bg1Size.height);
+	GetGraphSize(m_graph, &bg1Size.width, &bg1Size.height);
 
 	// ÉXÉNÉçÅ[Éãó ÇåvéZ
 	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
@@ -242,7 +242,7 @@ void SceneGameClear::BackDraw()
 			kScreenHeight - bg1Size.height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,
-			Graph, true);
+			m_graph, true);
 	}
 }
 

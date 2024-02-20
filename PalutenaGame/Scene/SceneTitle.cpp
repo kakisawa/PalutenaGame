@@ -76,7 +76,7 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Init()
 {
-	Graph = LoadGraph("data/Map/patter.png");			// 背景読み込み
+	m_graph = LoadGraph("data/Map/patter.png");			// 背景読み込み
 	TitleGraph = LoadGraph("data/TitleGraph3.png");		// タイトルロゴ読み込み
 	Cursor = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
 	PushA= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
@@ -204,7 +204,7 @@ void SceneTitle::Draw()
 void SceneTitle::End()
 {
 	// 画像をメモリから削除
-	DeleteGraph(Graph);
+	DeleteGraph(m_graph);
 	DeleteGraph(TitleGraph);
 	DeleteGraph(Cursor);
 	DeleteGraph(PushA);
@@ -253,7 +253,7 @@ void SceneTitle::StringDraw()
 void SceneTitle::BackDraw()
 {
 	Size bg1Size;
-	GetGraphSize(Graph, &bg1Size.width, &bg1Size.height);
+	GetGraphSize(m_graph, &bg1Size.width, &bg1Size.height);
 
 	// スクロール量を計算
 	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
@@ -264,7 +264,7 @@ void SceneTitle::BackDraw()
 			kScreenHeight - bg1Size.height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,
-			Graph, true);
+			m_graph, true);
 	}
 }
 

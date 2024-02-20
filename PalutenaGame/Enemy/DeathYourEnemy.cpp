@@ -36,11 +36,11 @@ DeathYourEnemy::DeathYourEnemy()
 {
 	EGraph = LoadGraph("data/Enemy/DeathYourEnemy.png");
 
-	HP = kHP;			// HP
-	Atk = kAtk;			// 攻撃力
+	m_hp = kHP;			// HP
+	m_atk = kAtk;			// 攻撃力
 	Score = kScore;		// 倒した際に得られるスコア
 
-	Gravity = 0.0f;		// 敵の初期重力
+	m_gravity = 0.0f;		// 敵の初期重力
 	isTurn = false;		// 右を向いているのfalseを挿入
 	angle = 0;			// 敵の移動角度
 	EnemyAnim = 0;		// 敵のアニメーションの初期化

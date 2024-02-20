@@ -20,7 +20,7 @@ public:
     void StringDraw();      // 文字の描画
     void BackDraw();        // 背景のスクロール描画
 
-    void SetHandle(int handle) { Graph = handle; }
+    void SetHandle(int handle) { m_graph = handle; }
 
     // シーンを終了させたいか
     bool IsSceneEnd() const;

@@ -4,23 +4,15 @@
 
 namespace
 {
-	// モズアイ最大出現数
-	constexpr int MozuMax = 4;
-	// 死最大出現数
-	constexpr int DeathMax = 10;
-	// かぼちゃ最大出現数
-	constexpr int PumpMax = 3;
-
-	// 画面内に同時に出せる弾の数
-	constexpr int kShotMax = 30;
-
-	// 何フレームおきに敵が登場するか
-	constexpr int kEnemyInterval = 50;
+	constexpr int MozuMax = 4;			// モズアイ最大出現数
+	constexpr int DeathMax = 10;		// 死最大出現数
+	constexpr int PumpMax = 3;			// かぼちゃ最大出現数
+	constexpr int kShotMax = 30;		// 画面内に同時に出せる弾の数
+	constexpr int kEnemyInterval = 50;	// 何フレームおきに敵が登場するか
 }
 
 // クラス宣言
 class Player;
-class Back;
 class MozueyeEnemy;
 class DeathYourEnemy;
 class PumpkinEnemy;
@@ -41,76 +33,59 @@ public:
 	void Draw();
 	void End();
 
-	// キャラクター系の描画
-	void CharactorDraw();
-	void StartDraw();
-	void CoundownDraw();
-
-	void DrawDoor();
+	void BgDraw();			// 背景の描画
+	void DrawDoor();		// 敵の出現位置扉描画
+	void CharactorDraw();	// キャラクター系の描画
+	void StartDraw();		// ゲーム開始前の説明描画
+	void CoundownDraw();	// 説明後ゲーム開始カウントダウン描画
 
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
 
-	// ショットを追加する
-		// 登録できなかった場合はfalseを返す
-		// 登録できなかった場合は内部でpShot解放する
-	bool AddShot(Shot* pShot);
+	bool AddShot(Shot* pShot);	// ショットを追加する
 
-	// シーンを終了させたいか
-	bool IsSceneEnd() const;
-	
-	// 次どのステージに行くか
-	bool ToGameOver() const;
-	bool ToGameClear() const;
+	bool IsSceneEnd() const;	// シーンを終了させるか
+	bool IsToGameOver() const;	// ゲーム終了時ゲームオーバーシーンに向かう
+	bool IsToGameClear() const;	// ゲームクリア時ゲームクリアシーンに向かう
 
 private:
 	// 敵キャラクターの生成
-	void CreateEnemyMozu();
-	void CreateEnemyDeath();
-	void CreateEnemyPump();
+	void CreateEnemyMozu();	// モズアイ
+	void CreateEnemyDeath();// 死
+	void CreateEnemyPump();	// パンプキン
 
-	void AppEnemyAnim();
-
-	// グラフィックのハンドル
-	int m_gameScreenHandle;	
-
-	int m_playerHandle;		// プレイヤー
+	int m_gameScreenHandle;	// ゲーム画面サイズのグラフィックデータ
 	int m_enemyHandle;		// 敵
 	int m_backHandle;		// 背景
-	int m_backHandle2;		// 背景(床)
+	int m_backGroundHandle;	// 背景(床)
 	int m_door;				// 敵出現扉
 
 	int m_explanation;		// 説明
-	int m_key_A;
+	int m_key_A;			//「Aボタンで決定」グラフ
 	int m_count1;			// カウント1
 	int m_count2;			// カウント2
 	int m_count3;			// カウント3
 
-	// エネミー
 	int m_mozueyeEnemy;			// モズアイ
-	int m_deathYourEnemyGraph;	// お前たちの死
-	int m_pumpkinEnemyGraph;	// パンプキン君
+	int m_deathYourEnemyGraph;	// 死
+	int m_pumpkinEnemyGraph;	// パンプキン
 
 	int m_fadeAlpha;		// フェードイン、アウト
 	int m_enemyInterval;	// 敵の登場間隔
 	int m_startCount;		// ゲームスタートカウント
-
 	int m_doorCount;		// 敵出現扉の描画カウント
 
-	// シーン処理
-	bool m_isStartFlag;		// ゲームが始まる前の説明
-	bool m_isStartCountFlag;
-	bool m_isSceneEnd;		// シーンを終了する時trueにする
+	bool m_isStartFlag;		// ゲームが始まる前の説明フラグ
+	bool m_isStartCountFlag;// 説明後ゲーム開始カウントフラグ
+	bool m_isSceneEnd;		// シーンフラグ
 
-	bool isToGameOver;		// ゲームオーバー画面に行くか
-	bool isToGameClear;		// ゲームクリア画面に行くか 
+	bool m_isToGameOver;		// ゲームオーバー画面に行くかのフラグ
+	bool m_isToGameClear;		// ゲームクリア画面に行くかのフラグ
 
 	// プレイヤー
 	Player* m_pPlayer;
 	// 弾
 	Shot* m_pShot[kShotMax];
-	// 背景
-	Back* m_pBack;
 	// 制限時間
 	Time* m_pTime;
 	// SE/BGM

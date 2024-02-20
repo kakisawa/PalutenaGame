@@ -44,14 +44,10 @@ namespace
 	constexpr int kBgScale = 1;
 }
 
-SceneGameOver::SceneGameOver() :
-	m_isSceneEnd(false),
-	m_select(kScelectBackTitle),
-	m_scrollX(0),
-	m_fadeAlpha(255),
-	m_fadeLetter(0),
-	ResultScore(0),
-	m_selectPos(kSelectPosX, kSelectPosY)
+SceneGameOver::SceneGameOver() :m_isSceneEnd(false),m_select(kScelectBackTitle),
+	m_scrollX(0),m_fadeAlpha(255),m_fadeLetter(0),ResultScore(0),
+	m_selectPos(kSelectPosX, kSelectPosY),Cursor(0),PushA(0),ScoreGraph(0),
+	SelectUI(0),SelectUI2(0),TitleGraph(0)
 {
 	// SE・BGMメモリ確保
 	m_pSoundManager = new SoundManager;
@@ -74,7 +70,7 @@ SceneGameOver::~SceneGameOver()
 
 void SceneGameOver::Init()
 {
-	Graph = LoadGraph("data/Map/patter3.png");
+	m_graph = LoadGraph("data/Map/patter3.png");
 	TitleGraph = LoadGraph("data/GameOver.png");
 	ScoreGraph = LoadGraph("data/Score.png");
 	Cursor = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
@@ -196,7 +192,7 @@ void SceneGameOver::Draw()
 void SceneGameOver::End()
 {
 	// 背景をメモリから削除
-	DeleteGraph(Graph);
+	DeleteGraph(m_graph);
 	m_pSoundManager->End();
 }
 
@@ -227,7 +223,7 @@ void SceneGameOver::StringDraw()
 void SceneGameOver::BackDraw()
 {
 	Size bg1Size;
-	GetGraphSize(Graph, &bg1Size.width, &bg1Size.height);
+	GetGraphSize(m_graph, &bg1Size.width, &bg1Size.height);
 
 	// スクロール量を計算
 	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
@@ -238,7 +234,7 @@ void SceneGameOver::BackDraw()
 			kScreenHeight - bg1Size.height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,
-			Graph, true);
+			m_graph, true);
 	}
 }
 

@@ -72,7 +72,7 @@ SoundManager::~SoundManager()
 	delete m_pColorManager;
 	m_pColorManager = nullptr;
 
-	DeleteGraph(Graph);
+	DeleteGraph(m_graph);
 }
 
 void SoundManager::Init()
@@ -84,8 +84,8 @@ void SoundManager::Init()
 	m_soundAttack = LoadSoundMem("data/Sound/SE/fire.mp3");		// 攻撃サウンド
 	m_soundDamage = LoadSoundMem("data/Sound/SE/damage.mp3");	// 被ダメサウンド
 
-	Graph = LoadGraph("data/SelectUI2.png");
-	assert(Graph != -1);
+	m_graph = LoadGraph("data/SelectUI2.png");
+	assert(m_graph != -1);
 
 	IsSceneEnd = false;
 
@@ -107,7 +107,7 @@ void SoundManager::Draw()
 		0x0095d9, true, 2.0f);
 	DrawExtendGraph(BackBoxX, BackBoxY,
 		BackBoxX+ UnderBoxWidth*0.5f, BackBoxY + UpBoxHeight,
-		Graph, false);
+		m_graph, false);
 	for (int i = 0; i < 2; i++)
 	{
 		DrawBoxAA(UnderBoxX, UnderBoxY + (kSelectMoveY * i),

@@ -29,7 +29,7 @@ public:
     bool ToStage() const;
     bool ToExplanation() const;
 
-    void SetHandle(int handle) { Graph = handle; }
+    void SetHandle(int handle) { m_graph = handle; }
 
 private:
     enum Select

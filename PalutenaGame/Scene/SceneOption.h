@@ -23,7 +23,7 @@ public:
 
 	// ƒV[ƒ“‚ğI—¹‚³‚¹‚½‚¢‚©
 	bool IsSceneEnd() const;
-	void SetHandle(int handle) { Graph = handle; }
+	void SetHandle(int handle) { m_graph = handle; }
 
 private:
 	int BgGraph;

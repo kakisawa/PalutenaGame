@@ -12,12 +12,12 @@ namespace
 
 EnemyBase::EnemyBase():
 	EGraph(-1),
-	W(0),
-	H(0),
-	HP(0),
-	Atk(0), 
+	m_w(0),
+	m_h(0),
+	m_hp(0),
+	m_atk(0), 
 	EnemyAnim(0),
-	Gravity(0),
+	m_gravity(0),
 	isTurn(false),	// エネミーの向きフラグ,右を向いているのfalseを挿入
 	isDeath(false),	// 死亡フラグ,死んでいないのfalseを挿入
 	m_isExist(false), 
@@ -45,9 +45,9 @@ void EnemyBase::OnDamage()
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0)	return;
 
-	HP -= m_pPlayer->GetAtk();
+	m_hp -= m_pPlayer->GetAtk();
 	
-	if (HP <= 0)
+	if (m_hp <= 0)
 	{
 		Death();
 	}

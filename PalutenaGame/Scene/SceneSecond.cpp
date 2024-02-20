@@ -7,7 +7,6 @@
 #include "Shot/Shot.h"
 #include "SoundManager.h"
 #include "Time.h"
-#include "Back.h"
 #include "Game.h"
 #include "Rect.h"
 #include "Pad.h"
@@ -34,8 +33,8 @@ SceneSecond::SceneSecond() :
 	m_pPlayer->SetHandle(m_playerHandle);	// Playerにグラフィックのハンドルを渡す
 
 	// 背景のメモリ確保
-	m_pBack = new Back;
-	m_pBack->SetHandle(m_backHandle);
+	//m_pBack = new Back;
+	//m_pBack->SetHandle(m_backHandle);
 
 	// 制限時間のメモリ確保
 	m_pTime = new Time;
@@ -118,7 +117,7 @@ void SceneSecond::Init()
 	m_isSceneEnd = false;
 
 	m_pPlayer->Init();
-	m_pBack->Init();
+	//m_pBack->Init();
 	m_pTime->Init();
 	m_pSoundManager->Init();
 
@@ -134,7 +133,7 @@ void SceneSecond::Init()
 
 void SceneSecond::Update()
 {
-	m_pBack->Update();
+	//m_pBack->Update();
 
 	// プレイヤーが死亡したら(ゲームオーバー)
 	if (m_pPlayer->PlayerDeath())
@@ -147,7 +146,7 @@ void SceneSecond::Update()
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 		{
 			m_isSceneEnd = true;
-			isToGameOver = true;
+			m_isToGameOver = true;
 
 			// フェードアウト
 			m_fadeAlpha += 8;
@@ -167,7 +166,7 @@ void SceneSecond::Update()
 			if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
 			{
 				m_isSceneEnd = true;
-				isToGameClear = true;
+				m_isToGameClear = true;
 
 				// フェードアウト
 				m_fadeAlpha += 8;
@@ -345,7 +344,7 @@ void SceneSecond::Draw()
 	// 描画先スクリーンをクリアする
 	ClearDrawScreen();
 
-	m_pBack->Draw();
+	//m_pBack->Draw();
 	m_pTime->Draw();
 
 	// プレイヤー・エネミー描画
@@ -465,14 +464,14 @@ bool SceneSecond::IsSceneEnd() const
 	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }
 
-bool SceneSecond::ToGameOver() const
+bool SceneSecond::IsToGameOver() const
 {
-	return isToGameOver;
+	return m_isToGameOver;
 }
 
-bool SceneSecond::ToGameClear() const
+bool SceneSecond::IsToGameClear() const
 {
-	return isToGameClear;
+	return m_isToGameClear;
 }
 
 bool SceneSecond::AddShot(Shot* pShot)

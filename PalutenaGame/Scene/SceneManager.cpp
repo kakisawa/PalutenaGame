@@ -139,12 +139,12 @@ void SceneManager::Update()
 		{
 			m_pMain->End();							// ステージ1画面の終了処理
 
-			if (m_pMain->ToGameOver())
+			if (m_pMain->IsToGameOver())
 			{
 				m_runScene = kSceneKindGameOver;	// ゲームオーバー画面へ行く
 				m_pGameOver->Init();
 			}
-			if (m_pMain->ToGameClear())
+			if (m_pMain->IsToGameClear())
 			{
 				m_runScene = kSceneKindGameClear;	// ゲームクリア画面へ行く
 				m_pGameClear->Init();
@@ -156,12 +156,12 @@ void SceneManager::Update()
 		{
 			m_pSecond->End();
 
-			if (m_pSecond->ToGameOver())
+			if (m_pSecond->IsToGameOver())
 			{
 				m_runScene = kSceneKindGameOver;	// ゲームオーバー画面へ行く
 				m_pGameOver->Init();
 			}
-			else if (m_pSecond->ToGameClear())
+			else if (m_pSecond->IsToGameClear())
 			{
 				m_runScene = kSceneKindGameClear;	// ゲームクリア画面へ行く
 				m_pGameClear->Init();

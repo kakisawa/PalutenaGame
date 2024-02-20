@@ -34,11 +34,11 @@ MozueyeEnemy::MozueyeEnemy()
 {
 	EGraph= LoadGraph("data/Enemy/Mozueye.png");
 
-	HP = kHP;		// HP
-	Atk = kAtk;	// 攻撃力
+	m_hp = kHP;		// HP
+	m_atk = kAtk;	// 攻撃力
 	Score = 50;	// 倒した際に得られるスコア
 
-	Gravity = 0.0f;				// 敵の初期重力
+	m_gravity = 0.0f;				// 敵の初期重力
 	isTurn = false;				// 右を向いているのfalseを挿入
 	EnemyAnim = 0;				// 敵のアニメーションの初期化
 }

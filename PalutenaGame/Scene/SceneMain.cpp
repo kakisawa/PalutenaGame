@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "SceneMain.h"
 #include "Player.h"
 #include "MozueyeEnemy.h"
@@ -10,7 +10,6 @@
 #include "ColorManager.h"
 #include "Pause.h"
 #include "Time.h"
-#include "Back.h"
 #include "Game.h"
 #include "Rect.h"
 #include "Pad.h"
@@ -18,48 +17,52 @@
 
 namespace 
 {
-	// ƒQ[ƒ€“à—eà–¾•`‰æˆÊ’u
-	constexpr int ExplanationX = kScreenWidth * 0.07f;
-	constexpr int ExplanationY = kScreenHeight * 0.07f;
+	// èƒŒæ™¯æç”»ä½ç½®(åœ°é¢)
+	constexpr float BgGroundX = 0;
+	constexpr float BgGroundY = static_cast<float>(kScreenHeight) * 0.815f;
+	// ã‚²ãƒ¼ãƒ å†…å®¹èª¬æ˜æç”»ä½ç½®
+	constexpr float ExplanationX = static_cast<float>(kScreenWidth) * 0.07f;
+	constexpr float ExplanationY = static_cast<float>(kScreenHeight) * 0.07f;
+	// ãƒ¢ã‚ºã‚¢ã‚¤å‡ºç¾ä½ç½®
+	constexpr float MozuX = static_cast<float>(kScreenWidth) * 0.15f;
+	constexpr float MozuY = Ground + 9.0f;
+	// æ­»å‡ºç¾ä½ç½®
+	constexpr float DeathX = static_cast<float>(kScreenWidth) * 0.3f;
+	constexpr float DeathY = static_cast<float>(kScreenHeight) * 0.4f;
+	// ãƒ‘ãƒ³ãƒ—ã‚­ãƒ³å‡ºç¾ä½ç½®
+	constexpr float PumpX_1 = static_cast<float>(kScreenWidth) * 0.4;
+	constexpr float PumpX_2 = static_cast<float>(kScreenWidth) * 0.8;
+	constexpr float PumpX_3 = static_cast<float>(kScreenWidth) * 0.5;
+	constexpr float PumpY = static_cast<float>(kScreenHeight) * 0.5f;
 
-	// ƒ‚ƒYƒAƒCoŒ»ˆÊ’u
-	constexpr int MozuX = kScreenWidth * 0.15f;
-	constexpr int MozuY = Ground + 9;
-	// €oŒ»ˆÊ’u
-	constexpr int DeathX = kScreenWidth * 0.3f;
-	constexpr int DeathY = kScreenHeight * 0.4f;
-	// ƒpƒ“ƒvƒLƒ“oŒ»ˆÊ’u
-	constexpr int PumpX_1 = kScreenWidth * 0.4;
-	constexpr int PumpX_2 = kScreenWidth * 0.8;
-	constexpr int PumpX_3 = kScreenWidth * 0.5;
-	constexpr int PumpY = kScreenHeight * 0.5f;
+	// ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ç”»åƒæç”»ä½ç½®
+	constexpr float CountDownX = static_cast<float>(kScreenWidth) * 0.5f - 53;
+	constexpr float CountDownY = static_cast<float>(kScreenHeight) * 0.5f - 114;
 }
 
 SceneMain::SceneMain() :
 	m_deathYourEnemyGraph(-1),
 	m_enemyHandle(-1),
 	m_mozueyeEnemy(-1),
+	m_pumpkinEnemyGraph(-1),
 	m_isSceneEnd(false),
-	isToGameClear(false),
-	isToGameOver(false),
-	m_fadeAlpha(255),		// •s“§–¾‚Å‰Šú‰»
+	m_isToGameClear(false),
+	m_isToGameOver(false),
+	m_fadeAlpha(255),		// ä¸é€æ˜ã§åˆæœŸåŒ–
 	m_enemyInterval(0),
 	m_startCount(180),
 	m_doorCount(0),
 	m_isStartFlag(false),
 	m_isStartCountFlag(false)
 {
-	// ƒQ[ƒ€‰æ–Ê•`‰ææ‚Ì¶¬
-	// ‰æ–ÊƒTƒCƒY‚Æ“¯‚¶‘å‚«‚³‚ÌƒOƒ‰ƒtƒBƒbƒNƒf[ƒ^‚ğì¬‚·‚é
+	// ã‚²ãƒ¼ãƒ ç”»é¢æç”»å…ˆã®ç”Ÿæˆ
 	m_gameScreenHandle = MakeScreen(kScreenWidth, kScreenHeight, true);
 
-	// ƒOƒ‰ƒtƒBƒbƒN‚Ìƒ[ƒh
-	m_playerHandle = LoadGraph("data/Player.png");
-	assert(m_playerHandle != -1);
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®ãƒ­ãƒ¼ãƒ‰
 	m_backHandle = LoadGraph("data/Map/Back1.png");
 	assert(m_backHandle != -1);
-	m_backHandle2 = LoadGraph("data/Map/Ground.png");
-	assert(m_backHandle2 != -1);
+	m_backGroundHandle = LoadGraph("data/Map/Ground.png");
+	assert(m_backGroundHandle != -1);
 	m_explanation = LoadGraph("data/explanation2.png");
 	assert(m_explanation != -1);
 	m_key_A = LoadGraph("data/pxkb_a.png");
@@ -73,29 +76,22 @@ SceneMain::SceneMain() :
 	m_door = LoadGraph("data/01.png");
 	assert(m_door != -1);
 
-	// ƒvƒŒƒCƒ„[‚Ìƒƒ‚ƒŠŠm•Û
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ¡ãƒ¢ãƒªç¢ºä¿
 	m_pPlayer = new Player{ this };
-	m_pPlayer->SetHandle(m_playerHandle);	// Player‚ÉƒOƒ‰ƒtƒBƒbƒN‚Ìƒnƒ“ƒhƒ‹‚ğ“n‚·
-
-	// ”wŒi‚Ìƒƒ‚ƒŠŠm•Û
-	m_pBack = new Back;
-	m_pBack->SetHandle(m_backHandle);
-	m_pBack->SetHandle2(m_backHandle2);
-
-	// §ŒÀŠÔ‚Ìƒƒ‚ƒŠŠm•Û
+	// åˆ¶é™æ™‚é–“ã®ãƒ¡ãƒ¢ãƒªç¢ºä¿
 	m_pTime = new Time;
-	// SE/BGMƒƒ‚ƒŠŠm•Û
+	// SE/BGMãƒ¡ãƒ¢ãƒªç¢ºä¿
 	m_pSoundManager = new SoundManager;
-	// Fƒƒ‚ƒŠŠm•Û
+	// è‰²ãƒ¡ãƒ¢ãƒªç¢ºä¿
 	m_pColorManager = new ColorManager;
-	// ƒ|[ƒY
+	// ãƒãƒ¼ã‚º
 	m_pPause = new Pause(m_pSoundManager);
 
 	m_pMozueyeEnemy.resize(MozuMax);
 	m_pDeathYourEnemy.resize(DeathMax);
 	m_pPumpkinEnemy.resize(PumpMax);
 
-	// –¢g—pó‘Ô‚É‚·‚é nullptr‚ğ“ü‚ê‚Ä‚¨‚­
+	// æœªä½¿ç”¨çŠ¶æ…‹ã«ã™ã‚‹ nullptrã‚’å…¥ã‚Œã¦ãŠã
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
 		m_pMozueyeEnemy[i] = nullptr;
@@ -112,12 +108,12 @@ SceneMain::SceneMain() :
 
 SceneMain::~SceneMain()
 {
-	// MakeScreen‚Åì¬‚µ‚½‚çƒOƒ‰ƒtƒBƒbƒN‚ğíœ‚·‚é
+	// MakeScreenã§ä½œæˆã—ãŸã‚‰ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚’å‰Šé™¤ã™ã‚‹
 	DeleteGraph(m_gameScreenHandle);
 
-	// ƒƒ‚ƒŠ‚©‚çƒOƒ‰ƒtƒBƒbƒN‚ğíœ
-	DeleteGraph(m_playerHandle);
+	// ãƒ¡ãƒ¢ãƒªã‹ã‚‰ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚’å‰Šé™¤
 	DeleteGraph(m_enemyHandle);
+	DeleteGraph(m_backGroundHandle);
 	DeleteGraph(m_backHandle);
 	DeleteGraph(m_count1);
 	DeleteGraph(m_count2);
@@ -125,19 +121,15 @@ SceneMain::~SceneMain()
 	DeleteGraph(m_explanation);
 	DeleteGraph(m_key_A);
 
-	// ƒƒ‚ƒŠ‚Ì‰ğ•ú
+	// ãƒ¡ãƒ¢ãƒªã®è§£æ”¾
 	delete m_pPlayer;
 	m_pPlayer = nullptr;
-	delete m_pBack;
-	m_pBack = nullptr;
 	delete m_pTime;
 	m_pTime = nullptr;
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
-	// Fƒƒ‚ƒŠ‰ğ•ú
 	delete m_pColorManager;
 	m_pColorManager = nullptr;
-	// ƒ|[ƒY
 	delete m_pPause;
 	m_pPause = nullptr;
 
@@ -169,16 +161,15 @@ SceneMain::~SceneMain()
 
 void SceneMain::Init()
 {
-	assert(m_pPlayer);	// m_pPlayer == nullptr	‚Ìê‡~‚Ü‚é
+	assert(m_pPlayer);	// m_pPlayer == nullptr	ã®å ´åˆæ­¢ã¾ã‚‹
 
-	isToGameClear = false;
-	isToGameOver = false;
+	m_isToGameClear = false;
+	m_isToGameOver = false;
 	m_isSceneEnd = false;
 	m_isStartFlag = false;
 	m_isStartCountFlag = false;
 
 	m_pPlayer->Init();
-	m_pBack->Init();
 	m_pTime->Init();
 	m_pSoundManager->Init();
 
@@ -193,12 +184,11 @@ void SceneMain::Init()
 
 void SceneMain::Update()
 {
-	m_pBack->Update();
 	m_pPause->Update();
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
-	// ƒtƒF[ƒhƒCƒ“
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³
 	m_fadeAlpha -= 8;
 	if (m_fadeAlpha < 0)
 	{
@@ -215,7 +205,7 @@ void SceneMain::Update()
 		m_startCount--;
 	}
 
-	// ƒXƒ^[ƒg‚ÌƒJƒEƒ“ƒgƒ_ƒEƒ“‚ğn‚ß‚éƒtƒ‰ƒO
+	// ã‚¹ã‚¿ãƒ¼ãƒˆã®ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’å§‹ã‚ã‚‹ãƒ•ãƒ©ã‚°
 	if (m_isStartFlag == false)
 	{
 		if (Pad::IsTrigger(PAD_INPUT_4)) {
@@ -227,14 +217,14 @@ void SceneMain::Update()
 	{
 		if (!m_pPause->GetPauseFlag())
 		{
-			// ƒvƒŒƒCƒ„[‚ª€–S‚µ‚½‚ç(ƒQ[ƒ€ƒI[ƒo[)
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ­»äº¡ã—ãŸã‚‰(ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼)
 			if (m_pPlayer->PlayerDeath())
 			{
 				Death();
 				m_pPlayer->Death();
 			}
 			else {
-				// §ŒÀŠÔ‚ªI‚í‚Á‚½‚ç(ƒQ[ƒ€ƒNƒŠƒA)
+				// åˆ¶é™æ™‚é–“ãŒçµ‚ã‚ã£ãŸã‚‰(ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢)
 				if (m_pTime->TimeUp()) {
 					Clear();
 				}
@@ -244,21 +234,21 @@ void SceneMain::Update()
 
 				Rect playerRect = m_pPlayer->GetColRect();
 
-				// ’e‚Æ‚Ì“–‚½‚è”»’è
+				// å¼¾ã¨ã®å½“ãŸã‚Šåˆ¤å®š
 				for (int j = 0; j < kShotMax; j++)
 				{
-					// nullptr‚È‚çˆ—‚Ís‚í‚È‚¢
+					// nullptrãªã‚‰å‡¦ç†ã¯è¡Œã‚ãªã„
 					if (!m_pShot[j])	continue;
 
 					m_pShot[j]->Update();
-					// ‰æ–ÊŠO‚Éo‚½‚çƒƒ‚ƒŠ‰ğ•ú
+					// ç”»é¢å¤–ã«å‡ºãŸã‚‰ãƒ¡ãƒ¢ãƒªè§£æ”¾
 					if (!m_pShot[j]->IsExist())
 					{
 						delete m_pShot[j];
 						m_pShot[j] = nullptr;
 					}
 				}
-				// ƒ‚ƒYƒAƒC“–‚½‚è”»’è“™
+				// ãƒ¢ã‚ºã‚¢ã‚¤å½“ãŸã‚Šåˆ¤å®šç­‰
 				for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 				{
 					if (m_pMozueyeEnemy[i])
@@ -266,27 +256,27 @@ void SceneMain::Update()
 						m_pMozueyeEnemy[i]->Update();
 						m_pPlayer->SetMozu(m_pMozueyeEnemy[i]);
 
-						// g—pÏ‚İ‚Ì“G‚ğíœ
+						// ä½¿ç”¨æ¸ˆã¿ã®æ•µã‚’å‰Šé™¤
 						if (!m_pMozueyeEnemy[i]->isExist())
 						{
 							delete m_pMozueyeEnemy[i];
 							m_pMozueyeEnemy[i] = nullptr;
 						}
-						else {			// ‘¶İ‚µ‚Ä‚¢‚é“G‚ÆƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’è
+						else {			// å­˜åœ¨ã—ã¦ã„ã‚‹æ•µã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®š
 							Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
 							if (playerRect.IsCollsion(enemyRect))
 							{
 								m_pPlayer->OnDamage_Mozu();
 								m_pMozueyeEnemy[i]->OnDamage();
 							}
-							// ’e‚Æ‚Ì“–‚½‚è”»’è
+							// å¼¾ã¨ã®å½“ãŸã‚Šåˆ¤å®š
 							for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
 							{
-								// nullptr‚È‚çˆ—‚Ís‚í‚È‚¢
+								// nullptrãªã‚‰å‡¦ç†ã¯è¡Œã‚ãªã„
 								if (!m_pShot[shotIndex])	continue;
 
 								if (m_pShot[shotIndex]->IsExist()) {
-									// ‘¶İ‚µ‚Ä‚¢‚é“G‚Æ‚Ì“–‚½‚è”»’è
+									// å­˜åœ¨ã—ã¦ã„ã‚‹æ•µã¨ã®å½“ãŸã‚Šåˆ¤å®š
 									Rect shotRect = m_pShot[shotIndex]->GetColRect();
 									if (shotRect.IsCollsion(enemyRect))
 									{
@@ -298,7 +288,7 @@ void SceneMain::Update()
 						}
 					}
 				}
-				// €“–‚½‚è”»’è“™
+				// æ­»å½“ãŸã‚Šåˆ¤å®šç­‰
 				for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
 				{
 					if (m_pDeathYourEnemy[i])
@@ -306,27 +296,27 @@ void SceneMain::Update()
 						m_pDeathYourEnemy[i]->Update();
 						m_pPlayer->SetDeath(m_pDeathYourEnemy[i]);
 
-						// g—pÏ‚İ‚Ì“G‚ğíœ
+						// ä½¿ç”¨æ¸ˆã¿ã®æ•µã‚’å‰Šé™¤
 						if (!m_pDeathYourEnemy[i]->isExist())
 						{
 							delete m_pDeathYourEnemy[i];
 							m_pDeathYourEnemy[i] = nullptr;
 						}
-						else {			// ‘¶İ‚µ‚Ä‚¢‚é“G‚ÆƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’è
+						else {			// å­˜åœ¨ã—ã¦ã„ã‚‹æ•µã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®š
 							Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
 							if (playerRect.IsCollsion(enemyRect))
 							{
 								m_pPlayer->OnDamage_Death();
 								m_pDeathYourEnemy[i]->OnDamage();
 							}
-							// ’e‚Æ‚Ì“–‚½‚è”»’è
+							// å¼¾ã¨ã®å½“ãŸã‚Šåˆ¤å®š
 							for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
 							{
-								// nullptr‚È‚çˆ—‚Ís‚í‚È‚¢
+								// nullptrãªã‚‰å‡¦ç†ã¯è¡Œã‚ãªã„
 								if (!m_pShot[shotIndex])	continue;
 
 								if (m_pShot[shotIndex]->IsExist()) {
-									// ‘¶İ‚µ‚Ä‚¢‚é“G‚Æ‚Ì“–‚½‚è”»’è
+									// å­˜åœ¨ã—ã¦ã„ã‚‹æ•µã¨ã®å½“ãŸã‚Šåˆ¤å®š
 									Rect shotRect = m_pShot[shotIndex]->GetColRect();
 									if (shotRect.IsCollsion(enemyRect))
 									{
@@ -338,7 +328,7 @@ void SceneMain::Update()
 						}
 					}
 				}
-				// ƒpƒ“ƒvƒLƒ““–‚½‚è”»’è“™
+				// ãƒ‘ãƒ³ãƒ—ã‚­ãƒ³å½“ãŸã‚Šåˆ¤å®šç­‰
 				for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
 				{
 
@@ -348,14 +338,14 @@ void SceneMain::Update()
 						m_pPumpkinEnemy[i]->Update();
 						m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
 
-						// g—pÏ‚İ‚Ì“G‚ğíœ
+						// ä½¿ç”¨æ¸ˆã¿ã®æ•µã‚’å‰Šé™¤
 						if (!m_pPumpkinEnemy[i]->isExist())
 						{
 							delete m_pPumpkinEnemy[i];
 							m_pPumpkinEnemy[i] = nullptr;
 						}
 						else
-						{		// ‘¶İ‚µ‚Ä‚¢‚é“G‚ÆƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’è
+						{		// å­˜åœ¨ã—ã¦ã„ã‚‹æ•µã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®š
 							Rect enemyRect = m_pPumpkinEnemy[i]->GetColRect();
 							if (playerRect.IsCollsion(enemyRect))
 							{
@@ -363,14 +353,14 @@ void SceneMain::Update()
 								m_pPumpkinEnemy[i]->OnDamage();
 							}
 
-							// ’e‚Æ‚Ì“–‚½‚è”»’è
+							// å¼¾ã¨ã®å½“ãŸã‚Šåˆ¤å®š
 							for (int shotIndex = 0; shotIndex < kShotMax; shotIndex++)
 							{
-								// nullptr‚È‚çˆ—‚Ís‚í‚È‚¢
+								// nullptrãªã‚‰å‡¦ç†ã¯è¡Œã‚ãªã„
 								if (!m_pShot[shotIndex])	continue;
 
 								if (m_pShot[shotIndex]->IsExist()) {
-									// ‘¶İ‚µ‚Ä‚¢‚é“G‚Æ‚Ì“–‚½‚è”»’è
+									// å­˜åœ¨ã—ã¦ã„ã‚‹æ•µã¨ã®å½“ãŸã‚Šåˆ¤å®š
 									Rect shotRect = m_pShot[shotIndex]->GetColRect();
 									if (shotRect.IsCollsion(enemyRect))
 									{
@@ -383,12 +373,12 @@ void SceneMain::Update()
 					}
 				}
 
-				//“GƒLƒƒƒ‰ƒNƒ^[‚Ì“oê
+				//æ•µã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ç™»å ´
 				m_enemyInterval++;
 				if (m_enemyInterval >= kEnemyInterval)
 				{
 					m_enemyInterval = 0;
-					// ƒ‰ƒ“ƒ_ƒ€‚É¶¬‚·‚é“G‚ğ‘I‘ğ
+					// ãƒ©ãƒ³ãƒ€ãƒ ã«ç”Ÿæˆã™ã‚‹æ•µã‚’é¸æŠ
 					switch (GetRand(2))
 					{
 					case 0:
@@ -403,7 +393,7 @@ void SceneMain::Update()
 					}
 				}
 
-				// “GoŒ»”à‚Ì“_–Å
+				// æ•µå‡ºç¾æ‰‰ã®ç‚¹æ»…
 				m_doorCount++;
 				if (m_doorCount >= 80)
 				{
@@ -419,45 +409,44 @@ void SceneMain::Draw()
 {
 	DrawGraph(0, 0, m_gameScreenHandle, true);
 
-	// •`‰ææƒXƒNƒŠ[ƒ“‚ğƒNƒŠƒA‚·‚é
+	// æç”»å…ˆã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	ClearDrawScreen();
 
-	m_pBack->DrawBg();			// ”wŒi•`‰æ
-	m_pTime->Draw();			// §ŒÀŠÔ•`‰æ
-	m_pBack->DrawGround();		// ”wŒi’n–Ê•`‰æ
-	DrawDoor();					// “GoŒ»”à•`‰æ
-	CharactorDraw();			// ƒvƒŒƒCƒ„[EƒGƒlƒ~[•`‰æ
+	BgDraw();			// èƒŒæ™¯æç”»	
+	m_pTime->Draw();	// åˆ¶é™æ™‚é–“æç”»
+	DrawDoor();			// æ•µå‡ºç¾æ‰‰æç”»
+	CharactorDraw();	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ»ã‚¨ãƒãƒŸãƒ¼æç”»
 
-	// ’e•`‰æ
+	// å¼¾æç”»
 	for (int i = 0; i < kShotMax; i++)
 	{
 		if (!m_pShot[i])	continue;
 		m_pShot[i]->Draw();
 	}
-	m_pPause->Draw();			// ƒ|[ƒY‰æ–Ê•`‰æ
 
-	CoundownDraw();				// ƒQ[ƒ€ŠJn‘O‚ÌƒJƒEƒ“ƒgƒ_ƒEƒ“•`‰æ
-	StartDraw();				// ƒQ[ƒ€ŠJn‘O‚Ìà–¾•`‰æ
+	m_pPause->Draw();			// ãƒãƒ¼ã‚ºç”»é¢æç”»
+	CoundownDraw();				// ã‚²ãƒ¼ãƒ é–‹å§‹å‰ã®ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³æç”»
+	StartDraw();				// ã‚²ãƒ¼ãƒ é–‹å§‹å‰ã®èª¬æ˜æç”»
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// ”¼“§–¾‚Å•\¦ŠJn
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// åŠé€æ˜ã§è¡¨ç¤ºé–‹å§‹
 	DrawBox(0, 0, kScreenWidth, kScreenHeight,
 		m_pColorManager->GetColorBlack(), true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// •s“§–¾‚É–ß‚µ‚Ä‚¨‚­
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// ä¸é€æ˜ã«æˆ»ã—ã¦ãŠã
 }
 
 void SceneMain::End()
 {
-	// ƒvƒŒƒCƒ„[‚ªŠl“¾‚µ‚½ƒXƒRƒA‚ğ‘¼‚ÌƒV[ƒ“‚É“ü‚ê‚é
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç²å¾—ã—ãŸã‚¹ã‚³ã‚¢ã‚’ä»–ã®ã‚·ãƒ¼ãƒ³ã«å…¥ã‚Œã‚‹
 	SceneManager::s_ResultScore = m_pPlayer->GetScore();
 
-	// ’e‚Æ‚Ì“–‚½‚è”»’è
+	// å¼¾ã¨ã®å½“ãŸã‚Šåˆ¤å®š
 	for (int j = 0; j < kShotMax; j++)
 	{
 		delete m_pShot[j];
 		m_pShot[j] = nullptr;
 	}
 
-	// ƒGƒlƒ~[‚Ì‰ğ•ú
+	// ã‚¨ãƒãƒŸãƒ¼ã®è§£æ”¾
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
 		if (m_pMozueyeEnemy[i] != nullptr)
@@ -483,13 +472,13 @@ void SceneMain::End()
 		}
 	}
 
-	// ƒTƒEƒ“ƒh‚Ì‰ğ•ú
+	// ã‚µã‚¦ãƒ³ãƒ‰ã®è§£æ”¾
 	m_pSoundManager->End();
 }
 
 void SceneMain::CharactorDraw()
 {
-	// ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æç”»
 	if (m_pPlayer->PlayerDeath())
 	{
 		m_pPlayer->Death();
@@ -501,7 +490,7 @@ void SceneMain::CharactorDraw()
 	}
 	m_pPlayer->Draw();
 
-	// ƒGƒlƒ~[‚Ì•`‰æ
+	// ã‚¨ãƒãƒŸãƒ¼ã®æç”»
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
 		if (m_pMozueyeEnemy[i]) {
@@ -528,11 +517,14 @@ void SceneMain::StartDraw()
 {
 	if (m_isStartFlag == false)
 	{
-		DrawExtendGraph(ExplanationX, ExplanationY,
-			ExplanationX + kScreenWidth * 0.85f, ExplanationY + kScreenHeight * 0.85f,
+		DrawExtendGraphF(ExplanationX, ExplanationY,
+			ExplanationX + static_cast<float>(kScreenWidth) * 0.85f,
+			ExplanationY + static_cast<float>(kScreenHeight) * 0.85f,
 			m_explanation, false);
-		DrawExtendGraph((ExplanationX + kScreenWidth * 0.8f) - 65, (ExplanationY + kScreenHeight * 0.8f) - 75,
-			ExplanationX + kScreenWidth * 0.83f, ExplanationY + kScreenHeight * 0.83f,
+		DrawExtendGraphF((ExplanationX + static_cast<float>(kScreenWidth) * 0.8f - 65),
+			ExplanationY + static_cast<float>(kScreenHeight * 0.8f) - 75,
+			ExplanationX + static_cast<float>(kScreenWidth) * 0.83f,
+			ExplanationY + static_cast<float>(kScreenHeight) * 0.83f,
 			m_key_A, true);
 	}
 }
@@ -541,50 +533,56 @@ void SceneMain::CoundownDraw()
 {
 	if (m_startCount >= 121)
 	{
-		DrawExtendGraph(kScreenWidth * 0.5f - 53, kScreenHeight * 0.5f - 114,
-			kScreenWidth * 0.5f + 53, kScreenHeight * 0.5f + 114,
+		DrawExtendGraphF(CountDownX,CountDownY,
+			CountDownX + 106, CountDownY + 228,
 			m_count3, true);
 	}
 	else if (m_startCount <= 120 && m_startCount >= 61)
 	{
-		DrawExtendGraph(kScreenWidth * 0.5f - 53, kScreenHeight * 0.5f - 114,
-			kScreenWidth * 0.5f + 53, kScreenHeight * 0.5f + 114,
+		DrawExtendGraphF(CountDownX, CountDownY,
+			CountDownX + 106, CountDownY + 228,
 			m_count2, true);
 	}
 	else if (m_startCount <= 60 && m_startCount >= 1)
 	{
-		DrawExtendGraph(kScreenWidth * 0.5f - 53, kScreenHeight * 0.5f - 114,
-			kScreenWidth * 0.5f + 53, kScreenHeight * 0.5f + 114,
+		DrawExtendGraphF(CountDownX, CountDownY,
+			CountDownX + 106, CountDownY + 228,
 			m_count1, true);
 	}
 }
 
 void SceneMain::DrawDoor()
 {
-	// •¶š‚Ì“_–Å•`‰æ
+	// æ–‡å­—ã®ç‚¹æ»…æç”»
 	if (m_doorCount < 40)
 	{
-		// ƒ‚ƒYƒAƒCoŒ»
-		DrawExtendGraph(MozuX, MozuY,
+		// ãƒ¢ã‚ºã‚¢ã‚¤å‡ºç¾
+		DrawExtendGraphF(static_cast<float>(MozuX), static_cast<float>(MozuY),
 			MozuX+56, MozuY+60,
 			m_door, true);
 
-		// €oŒ»ˆÊ’u
-		DrawExtendGraph(DeathX, DeathY,
+		// æ­»å‡ºç¾ä½ç½®
+		DrawExtendGraphF(static_cast<float>(DeathX), static_cast<float>(DeathY),
 			DeathX + 56, DeathY + 60,
 			m_door, true);
 
-		// ƒpƒ“ƒvƒLƒ“oŒ»
-		DrawExtendGraph(PumpX_1, PumpY,
+		// ãƒ‘ãƒ³ãƒ—ã‚­ãƒ³å‡ºç¾
+		DrawExtendGraphF(static_cast<float>(PumpX_1), static_cast<float>(PumpY),
 			PumpX_1+56, PumpY+60,
 			m_door, true);
-		DrawExtendGraph(PumpX_2, PumpY,
+		DrawExtendGraphF(static_cast<float>(PumpX_2), static_cast<float>(PumpY),
 			PumpX_2 + 56, PumpY + 60,
 			m_door, true);
-		DrawExtendGraph(PumpX_3, PumpY,
+		DrawExtendGraphF(static_cast<float>(PumpX_3), static_cast<float>(PumpY),
 			PumpX_3 + 56, PumpY + 60,
 			m_door, true);
 	}
+}
+
+void SceneMain::BgDraw()
+{
+	DrawGraphF(0, 0, m_backHandle, false);
+	DrawGraphF(BgGroundX, BgGroundY, m_backGroundHandle, true);
 }
 
 void SceneMain::Clear()
@@ -592,9 +590,9 @@ void SceneMain::Clear()
 	StopSoundMem(m_pSoundManager->m_bgmButtle);
 
 	m_isSceneEnd = true;
-	isToGameClear = true;
+	m_isToGameClear = true;
 
-	// ƒtƒF[ƒhƒAƒEƒg
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆ
 	m_fadeAlpha += 1;
 	if (m_fadeAlpha < 255)
 	{
@@ -605,9 +603,9 @@ void SceneMain::Clear()
 void SceneMain::Death()
 {
 	m_isSceneEnd = true;
-	isToGameOver = true;
+	m_isToGameOver = true;
 
-	// ƒtƒF[ƒhƒAƒEƒg
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆ
 	m_fadeAlpha += 8;
 	if (m_fadeAlpha < 255)
 	{
@@ -620,43 +618,43 @@ bool SceneMain::IsSceneEnd() const
 	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }
 
-bool SceneMain::ToGameOver() const
+bool SceneMain::IsToGameOver() const
 {
-	return isToGameOver;
+	return m_isToGameOver;
 }
 
-bool SceneMain::ToGameClear() const
+bool SceneMain::IsToGameClear() const
 {
-	return isToGameClear;
+	return m_isToGameClear;
 }
 
 bool SceneMain::AddShot(Shot* pShot)
 {
-	// nullptr‚ğ“n‚³‚ê‚½‚ç~‚Ü‚é
+	// nullptrã‚’æ¸¡ã•ã‚ŒãŸã‚‰æ­¢ã¾ã‚‹
 	assert(pShot);
 
 	for (int i = 0; i < kShotMax; i++)
 	{
-		// g—p’†‚È‚çŸ‚Ìƒ`ƒFƒbƒN‚Ö
+		// ä½¿ç”¨ä¸­ãªã‚‰æ¬¡ã®ãƒã‚§ãƒƒã‚¯ã¸
 		if (m_pShot[i])	continue;
 
-		// ‚±‚±‚É—ˆ‚½‚Æ‚¢‚¤‚±‚Æ‚Ím_pShot[i] == nullptr
+		// ã“ã“ã«æ¥ãŸã¨ã„ã†ã“ã¨ã¯m_pShot[i] == nullptr
 		m_pShot[i] = pShot;
-		// “o˜^‚µ‚½‚çI—¹
+		// ç™»éŒ²ã—ãŸã‚‰çµ‚äº†
 		return true;
 	}
 
-	// ‚±‚±‚É—ˆ‚½A‚Æ‚¢‚¤–‚Ím_pShot‚Éƒ|ƒCƒ“ƒ^‚ğ“o˜^‚Å‚«‚È‚©‚Á‚½
+	// ã“ã“ã«æ¥ãŸã€ã¨ã„ã†äº‹ã¯m_pShotã«ãƒã‚¤ãƒ³ã‚¿ã‚’ç™»éŒ²ã§ããªã‹ã£ãŸ
 	delete pShot;
 	return false;
 }
 
 void SceneMain::CreateEnemyMozu()
 {
-	// “G‚Ìƒƒ‚ƒŠŠm•Û
+	// æ•µã®ãƒ¡ãƒ¢ãƒªç¢ºä¿
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
-		if (!m_pMozueyeEnemy[i])	// nullptr‚Å‚ ‚é‚±‚Æ‚ğƒ`ƒFƒbƒN
+		if (!m_pMozueyeEnemy[i])	// nullptrã§ã‚ã‚‹ã“ã¨ã‚’ãƒã‚§ãƒƒã‚¯
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init(m_pPlayer);
@@ -670,7 +668,7 @@ void SceneMain::CreateEnemyDeath()
 {
 	for (int i = 0; i < m_pDeathYourEnemy.size(); i++)
 	{
-		if (!m_pDeathYourEnemy[i])	// nullptr‚Å‚ ‚é‚±‚Æ‚ğƒ`ƒFƒbƒN
+		if (!m_pDeathYourEnemy[i])	// nullptrã§ã‚ã‚‹ã“ã¨ã‚’ãƒã‚§ãƒƒã‚¯
 		{
 			m_pDeathYourEnemy[i] = new DeathYourEnemy;
 			m_pDeathYourEnemy[i]->Init(m_pPlayer);
@@ -689,25 +687,21 @@ void SceneMain::CreateEnemyPump()
 			m_pPumpkinEnemy[i] = new PumpkinEnemy;
 			m_pPumpkinEnemy[i]->Init(m_pPlayer);
 
-			int EnemyX = kScreenWidth * 0.3f;
+			float EnemyX = kScreenWidth * 0.3f;
 			switch (GetRand(2))
 			{
 			case 0:
-				EnemyX = kScreenWidth * 0.4;
+				EnemyX = kScreenWidth * 0.4f;
 				break;
 			case 1:
-				EnemyX = kScreenWidth * 0.8;
+				EnemyX = kScreenWidth * 0.8f;
 				break;
 			case 2:
-				EnemyX = kScreenWidth * 0.5;
+				EnemyX = kScreenWidth * 0.5f;
 				break;
 			}
-			m_pPumpkinEnemy[i]->Start(EnemyX, kScreenHeight * 0.5f);
+			m_pPumpkinEnemy[i]->Start(EnemyX, static_cast<float>(kScreenHeight) * 0.5f);
 			return;
 		}
 	}
-}
-
-void SceneMain::AppEnemyAnim()
-{
 }

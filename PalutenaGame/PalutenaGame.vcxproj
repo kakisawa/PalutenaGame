@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Back.cpp" />
     <ClCompile Include="Manager\ColorManager.cpp" />
     <ClCompile Include="Manager\FontManager.cpp" />
     <ClCompile Include="System\Pause.cpp" />
@@ -46,7 +45,6 @@
     <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Back.h" />
     <ClInclude Include="Manager\ColorManager.h" />
     <ClInclude Include="Manager\FontManager.h" />
     <ClInclude Include="resource.h" />

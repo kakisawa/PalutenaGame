@@ -48,8 +48,8 @@ public:
 	bool IsSceneEnd() const;
 
 	// 次どのステージに行くか
-	bool ToGameOver() const;
-	bool ToGameClear() const;
+	bool IsToGameOver() const;
+	bool IsToGameClear() const;
 
 	// ショットを追加する
 	// 登録できなかった場合はfalseを返す
@@ -80,8 +80,8 @@ private:
 	// シーン処理
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
 
-	bool isToGameOver;		// ステージセレクト画面に行くか
-	bool isToGameClear;		// 説明シーンに行くか 
+	bool m_isToGameOver;		// ステージセレクト画面に行くか
+	bool m_isToGameClear;		// 説明シーンに行くか 
 
 	// プレイヤー
 	Player* m_pPlayer;

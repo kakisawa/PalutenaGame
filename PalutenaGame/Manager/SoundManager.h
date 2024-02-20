@@ -73,7 +73,7 @@ private:
 
 	bool IsSceneEnd;
 
-	int Graph;
+	int m_graph;
 
 	enum Select
 	{
