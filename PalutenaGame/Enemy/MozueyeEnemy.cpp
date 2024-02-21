@@ -39,7 +39,7 @@ MozueyeEnemy::MozueyeEnemy()
 	Score = 50;	// 倒した際に得られるスコア
 
 	m_gravity = 0.0f;				// 敵の初期重力
-	isTurn = false;				// 右を向いているのfalseを挿入
+	m_isTurn = false;				// 右を向いているのfalseを挿入
 	EnemyAnim = 0;				// 敵のアニメーションの初期化
 }
 
@@ -73,7 +73,7 @@ void MozueyeEnemy::Update()
 	m_pos += move;
 
 	//敵移動
-	if (isTurn == false)
+	if (m_isTurn == false)
 	{
 		if (kSpeed <= 40.0f)
 		{
@@ -83,7 +83,7 @@ void MozueyeEnemy::Update()
 		kSpeed += 5.0f;
 		m_pos.x += kSpeed;
 	}
-	else if (isTurn == true)
+	else if (m_isTurn == true)
 	{
 		m_pos.x -= kSpeed;
 	}
@@ -92,12 +92,12 @@ void MozueyeEnemy::Update()
 	if (m_pos.x > kScreenWidth - kWidth)
 	{
 		m_pos.x = kScreenWidth - kWidth;
-		isTurn = true;
+		m_isTurn = true;
 	}
 	else if (m_pos.x < 0)
 	{
 		m_pos.x = 0;
-		isTurn = false;
+		m_isTurn = false;
 	}
 
 	// アニメーションフレーム
@@ -120,7 +120,7 @@ void MozueyeEnemy::Draw()
 
 	if (m_damageFrame % 4 >= 2) return;
 
-	if (isTurn == false)
+	if (m_isTurn == false)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
@@ -128,7 +128,7 @@ void MozueyeEnemy::Draw()
 			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
-	else if (isTurn == true)
+	else if (m_isTurn == true)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,

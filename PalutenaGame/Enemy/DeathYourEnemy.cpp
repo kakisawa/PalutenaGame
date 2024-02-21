@@ -41,7 +41,7 @@ DeathYourEnemy::DeathYourEnemy()
 	Score = kScore;		// “|‚µ‚½Û‚É“¾‚ç‚ê‚éƒXƒRƒA
 
 	m_gravity = 0.0f;		// “G‚Ì‰Šúd—Í
-	isTurn = false;		// ‰E‚ðŒü‚¢‚Ä‚¢‚é‚Ìfalse‚ð‘}“ü
+	m_isTurn = false;		// ‰E‚ðŒü‚¢‚Ä‚¢‚é‚Ìfalse‚ð‘}“ü
 	angle = 0;			// “G‚ÌˆÚ“®Šp“x
 	EnemyAnim = 0;		// “G‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‰Šú‰»
 	m_damageFrame = 0;
@@ -78,7 +78,7 @@ void DeathYourEnemy::Update()
 	move *= kSpeed;
 
 	//“GˆÚ“®
-	if (isTurn == false)
+	if (m_isTurn == false)
 	{
 		angle++;
 		float angle2 = angle * (DX_PI / 180);
@@ -86,7 +86,7 @@ void DeathYourEnemy::Update()
 		m_pos.x += kSpeed;
 
 	}
-	else if (isTurn == true)
+	else if (m_isTurn == true)
 	{
 		angle++;
 		float angle2 = angle * (DX_PI / 180);
@@ -97,12 +97,12 @@ void DeathYourEnemy::Update()
 	if (m_pos.x > kScreenWidth - kWidth)
 	{
 		m_pos.x = kScreenWidth - kWidth;
-		isTurn = true;
+		m_isTurn = true;
 	}
 	else if (m_pos.x < 0)
 	{
 		m_pos.x = 0;
-		isTurn = false;
+		m_isTurn = false;
 	}
 
 	// ƒAƒjƒ[ƒVƒ‡ƒ“ƒtƒŒ[ƒ€
@@ -125,7 +125,7 @@ void DeathYourEnemy::Draw()
 
 	if (m_damageFrame % 4 >= 2) return;
 
-	if (isTurn == false)
+	if (m_isTurn == false)
 	{
 			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y,
 			m_pos.x, m_pos.y + kHeight,
@@ -133,7 +133,7 @@ void DeathYourEnemy::Draw()
 			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
-	else if (isTurn == true)
+	else if (m_isTurn == true)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,

@@ -18,8 +18,8 @@ EnemyBase::EnemyBase():
 	m_atk(0), 
 	EnemyAnim(0),
 	m_gravity(0),
-	isTurn(false),	// エネミーの向きフラグ,右を向いているのfalseを挿入
-	isDeath(false),	// 死亡フラグ,死んでいないのfalseを挿入
+	m_isTurn(false),	// エネミーの向きフラグ,右を向いているのfalseを挿入
+	m_isDeath(false),	// 死亡フラグ,死んでいないのfalseを挿入
 	m_isExist(false), 
 	m_damageFrame(0)
 {
@@ -59,7 +59,7 @@ void EnemyBase::Death()
 {  
 	m_pPlayer->AddScore(Score);
 
-	isDeath = true;		// 死亡フラグをオンにする
+	m_isDeath = true;		// 死亡フラグをオンにする
 	m_isExist = false;
 }
 

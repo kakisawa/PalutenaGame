@@ -20,7 +20,7 @@ void Shot::init()
 	x = m_pos.x;
 	y = m_pos.y;
 
-	dir = m_pPlayer->OutShotDir();
+	dir = m_pPlayer->GetShotDir();
 }
 
 void Shot::Update()

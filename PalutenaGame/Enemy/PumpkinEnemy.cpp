@@ -42,7 +42,7 @@ PumpkinEnemy::PumpkinEnemy()
 	Score = kScore;			// 倒した際に得られるスコア
 
 	m_gravity = 0.0f;		// 敵の初期重力
-	isTurn = false;		// 右を向いているのfalseを挿入
+	m_isTurn = false;		// 右を向いているのfalseを挿入
 	EnemyAnim = 0;		// 敵のアニメーションの初期化
 }
 
@@ -63,7 +63,7 @@ void PumpkinEnemy::Update()
 
 	m_pos += m_vec;
 
-	const Vec2 target = m_pPlayer->OutPos();
+	const Vec2 target = m_pPlayer->GetPos();
 
 	// 敵の初期位置からターゲット位置に向かうベクトルを生成する
 	// 始点から終点に向かうベクトルを求める場合、終点の座標-始点の座標で求める
@@ -99,7 +99,7 @@ void PumpkinEnemy::Draw()
 
 	if (m_damageFrame % 4 >= 2) return;
 
-	if (isTurn == false)
+	if (m_isTurn == false)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
@@ -107,7 +107,7 @@ void PumpkinEnemy::Draw()
 			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
-	else if (isTurn == true)
+	else if (m_isTurn == true)
 	{
 		DrawRectExtendGraph(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,

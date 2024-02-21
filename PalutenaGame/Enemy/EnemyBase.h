@@ -35,7 +35,7 @@ protected:		// 派生クラスからアクセスできるように
 	int m_hp;		// 敵HP
 	int m_atk;	// 敵攻撃力	
 	int Score;	// 敵を倒した際に得られるスコア
-	int isTurn;	// 左右どちらを向いているか
+	int m_isTurn;	// 左右どちらを向いているか
 
 	float EnemyAnim;	// エネミーアニメーション
 	float m_gravity;		// 重力
@@ -46,7 +46,7 @@ protected:		// 派生クラスからアクセスできるように
 	bool isScore;		// スコア加算フラグ
 
 	bool m_isExist;		// 存在するかフラグ(使用中かどうか)
-	bool isDeath;		// 死亡フラグ
+	bool m_isDeath;		// 死亡フラグ
 
 
 	// 表示位置

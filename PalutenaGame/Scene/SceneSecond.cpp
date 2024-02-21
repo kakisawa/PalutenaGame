@@ -136,7 +136,7 @@ void SceneSecond::Update()
 	//m_pBack->Update();
 
 	// プレイヤーが死亡したら(ゲームオーバー)
-	if (m_pPlayer->PlayerDeath())
+	if (m_pPlayer->GetPlayerDeath())
 	{
 		Death();
 		m_pPlayer->Death();
@@ -425,7 +425,7 @@ void SceneSecond::End()
 void SceneSecond::CharactorDraw()
 {
 	// プレイヤー描画
-	if (m_pPlayer->PlayerDeath())
+	if (m_pPlayer->GetPlayerDeath())
 	{
 		m_pPlayer->Death();
 		Death();
