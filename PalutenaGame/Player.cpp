@@ -40,11 +40,36 @@ namespace
 	// 獲得スコア描画位置
 	constexpr float kScoreX = kScreenWidth * 0.4f;
 	constexpr float kScoreY = kScreenHeight * 0.1f;
+	// プレイヤーHP描画位置
+	constexpr float kHpX = kScreenWidth * 0.0157f;
+	constexpr float kHpY = kScreenHeight * 0.0371f;
+	// プレイヤーHPUI描画位置
+	constexpr float kHpUIX = kScreenWidth * 0.0704f;
+	constexpr float kHpUIY = kScreenHeight * 0.047f;
+	// プレイヤーHPUIのサイズ
+	constexpr float kHpUIWidth = 400.0f;
+	constexpr float kHpUIHeight = 50.0f;
+	// プレイヤーHPUIの太さ
+	constexpr float kHpUIUnderThick = 1.0f;
+	constexpr float kHpUIUpThick = 2.5f;
 }
 
 Player::Player() :
 	m_graph(-1),
-	m_atk(kAtk)
+	m_hp(kHP),
+	m_atk(kAtk),
+	m_gravity(0),
+	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
+	m_score(0),
+	m_damageFrame(0),
+	m_dir(kDirFront),
+	m_shotDir(kShotDirRight),
+	m_jumpPower(0),
+	m_isMove(false),
+	m_isTurn(false),
+	m_isJump(false),
+	m_isAttack(false),
+	m_isDeath(false)
 {
 }
 
@@ -53,8 +78,18 @@ Player::Player(SceneMain* pMain) :
 	m_graph(-1),
 	m_hp(kHP),
 	m_atk(kAtk),
+	m_gravity(0),
 	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
-	m_score(0)			// プレイヤーが獲得しているスコアの初期化
+	m_score(0),
+	m_damageFrame(0),
+	m_dir(kDirFront),
+	m_shotDir(kShotDirRight),
+	m_jumpPower(0),
+	m_isMove(false),
+	m_isTurn(false),
+	m_isJump(false),
+	m_isAttack(false),
+	m_isDeath(false)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
@@ -65,10 +100,23 @@ Player::Player(SceneMain* pMain) :
 	m_pPumpkinEnemy = new PumpkinEnemy;
 }
 
-Player::Player(SceneSecond* pSceneSecond):
+Player::Player(SceneSecond* pSceneSecond) :
 	m_pSecond(pSceneSecond),
 	m_graph(-1),
-	m_atk(kAtk)
+	m_hp(kHP),
+	m_atk(kAtk),
+	m_gravity(0),
+	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
+	m_score(0),
+	m_damageFrame(0),
+	m_dir(kDirFront),
+	m_shotDir(kShotDirRight),
+	m_jumpPower(0),
+	m_isMove(false),
+	m_isTurn(false),
+	m_isJump(false),
+	m_isAttack(false),
+	m_isDeath(false)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
@@ -100,8 +148,8 @@ void Player::Init()
 	m_hp = kHP;						// プレイヤーの初期HP
 	m_atk = kAtk;					// プレイヤーの初期攻撃力
 	m_score = 0;					// プレイヤーの初期獲得スコア
-	m_pos.x = kScreenWidth *0.5f;	// プレイヤーの初期位置x
-	m_pos.y = kScreenHeight*0.7f;	// プレイヤーの初期位置y
+	m_pos.x = kScreenWidth * 0.5f;	// プレイヤーの初期位置x
+	m_pos.y = kScreenHeight * 0.7f;	// プレイヤーの初期位置y
 	m_dir = kDirFront;				// プレイヤーの初期方向(正面のflont)
 	m_shotDir = kShotDirRight;		// プレイヤーの攻撃初期方向
 	m_jumpPower = 0.0f;				// プレイヤーの初期ジャンプ
@@ -110,9 +158,11 @@ void Player::Init()
 	m_damageFrame = 0;				// プレイヤー被ダメアニメーション  
 	m_isMove = false;				// 移動状態フラグ(否定のfalse)
 	m_isTurn = false;				// 左右反転フラグ(否定のfalse)
+	m_isJump = false;				// ジャンプフラグ(否定のfalse)
 	m_isAttack = false;				// 攻撃フラグ(否定のfalse)
 	m_isDeath = false;				// 死亡フラグ(否定のfalse)
 	m_damageFrame = 0;
+	
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
@@ -127,12 +177,9 @@ void Player::Update()
 	m_damageFrame--;
 	if (m_damageFrame < 0)	m_damageFrame = 0;
 
-	// プレイヤーが移動中かどうか
-	m_isMove = false;				// 移動していないのfalse
-	// プレイヤーが攻撃ボタンを押したかどうか
-	m_isAttack = false;			// 攻撃していないのfalse
-	// プレイヤーがどの方向を向いているか
-	m_dir = kDirFront;			// 正面を向いているの正面を向いているのkDirFront
+	m_isMove = false;			// プレイヤーが移動していないのfalse
+	m_isAttack = false;			// プレイヤーが攻撃していないのfalse
+	m_dir = kDirFront;			// プレイヤーが正面を向いているのkDirFront
 
 	// 移動量を持つようにする
 	Vec2 move{ 0.0f,0.0f };
@@ -160,21 +207,18 @@ void Player::Update()
 	if (!GetPlayerDeath()) {
 
 		// 矢印キーを押していたらプレイヤーを移動させる
-		// 上向き
-		if (CheckHitKey(KEY_INPUT_UP) == 1)
+		if (CheckHitKey(KEY_INPUT_UP) == 1)		// 上向き
 		{
 			m_isMove = false;
 			m_dir = kDirUp;
 			m_shotDir = kShotDirUp;
 		}
-		// 屈む
-		if (CheckHitKey(KEY_INPUT_DOWN) == 1)
+		if (CheckHitKey(KEY_INPUT_DOWN) == 1)		// 屈む
 		{
 			m_isMove = true;
 			m_dir = kDirDown;
 		}
-		// 左移動
-		if (CheckHitKey(KEY_INPUT_LEFT) == 1)
+		if (CheckHitKey(KEY_INPUT_LEFT) == 1)		// 左移動
 		{
 			m_pos.x -= kSpeed;
 			m_isMove = true;
@@ -182,8 +226,7 @@ void Player::Update()
 			m_dir = kDirLeft;
 			m_shotDir = kShotDirLeft;
 		}
-		// 右移動
-		if (CheckHitKey(KEY_INPUT_RIGHT) == 1)
+		if (CheckHitKey(KEY_INPUT_RIGHT) == 1)		// 右移動
 		{
 			m_pos.x += kSpeed;
 			m_isMove = true;
@@ -191,12 +234,11 @@ void Player::Update()
 			m_dir = kDirRight;
 			m_shotDir = kShotDirRight;
 		}
-		// ジャンプボタンを押していて、地面についていたらジャンプ
+		// ジャンプボタンを押していて、且つ地面についていたらジャンプ
 		if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == Ground)
 		{
-
-			// ジャンプ加速度
-			for (int i = 0; i < kJump; i++) {
+			for (int i = 0; i < kJump; i++)
+			{
 				m_jumpPower += 0.5f;
 			}
 			m_isJump = true;
@@ -209,23 +251,22 @@ void Player::Update()
 		{
 			// ショットメモリの確保
 			Shot* pShot = new Shot();
-			
 			pShot->SetMain(m_pMain);
 			//pShot->SetSecond(m_pSecond);
 			pShot->SetPlayer(this);
 			pShot->init();
 			pShot->Start(m_pos);
 			m_isAttack = true;
+
 			// 以降更新やメモリの開放はSceneMainに任せる
 			m_pMain->AddShot(pShot);
 			//m_pSecond->AddShot(pShot);
 
-			m_pSoundManager->SoudndAttack();
+			m_pSoundManager->SoudndAttack();	// 攻撃したときに音を鳴らす
 		}
 
 		// ジャンプ処理
 		m_pos.y -= m_jumpPower;
-
 		// ベクトルの正規化
 		move.normalize();
 		// ベクトルの長さをkSpeedにする
@@ -233,7 +274,8 @@ void Player::Update()
 		// 座標とベクトルの足し算
 		m_pos += move;
 		// 当たり判定の更新
-		m_colRect.SetCenter(m_pos.x + kWidth / 2, m_pos.y + kHeight / 2, kWidth, kHeight);
+		m_colRect.SetCenter(m_pos.x + kWidth * 0.5f, m_pos.y + kHeight * 0.5f,
+			kWidth, kHeight);
 
 		// x座標...プレイヤーが左右画面外に出ると、反対側からプレイヤーが出てくる
 		if (m_pos.x > kScreenWidth - kWidth)
@@ -246,45 +288,40 @@ void Player::Update()
 		}
 
 		// 待機&左右移動アニメーションフレーム
-		if (m_isMove == false)	//  && isJumpFlag == false
+		if (m_isMove == false)							// 待機状態アニメーション
 		{
-			// 待機状態アニメーション
 			m_playerAnim++;
 			if (m_playerAnim >= DefFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
 		}
-		else if (m_isMove == true)
+		else if (m_isMove == true)						// 左右移動アニメーション
 		{
-			// 左右移動アニメーション
 			m_playerAnim++;
 			if (m_playerAnim >= DefFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
 		}
-		else if (m_isMove == true && m_dir == kDirDown)
+		else if (m_isMove == true && m_dir == kDirDown)	// しゃがみアニメーション
 		{
-			// しゃがみアニメーション
 			m_playerAnim++;
 			if (m_playerAnim >= DefFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
 		}
-		else if (m_isJump == true)
+		else if (m_isJump == true)						// ジャンプアニメーション
 		{
-			// ジャンプアニメーション
 			m_playerAnim++;
 			if (m_playerAnim >= DefFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
 		}
-		else if (m_isAttack == true)
+		else if (m_isAttack == true)					// 攻撃アニメーション
 		{
-			// 攻撃アニメーション
 			m_playerAnim++;
 			if (m_playerAnim >= AttackFrameCycle)
 			{
@@ -296,20 +333,17 @@ void Player::Update()
 
 void Player::Draw()
 {
+	// HP描画
 	HpDraw();
-
+	// スコア描画
 	DrawFormatStringFToHandle(kScoreX, kScoreY,
-		m_pColorManager->GetColorWhite(),m_pFontManager->GetFont3(),
+		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
 		"Score:%d", m_score);
 
-	if (!GetPlayerDeath()) {
-		// ダメージ演出 2フレーム間隔で表示非表示切り替え
-		// 0: 表示される
-		// 1:表示される
-		// 2:非表示
-		// 3:非表示
-		// 4:表示される	...
-		// %4することで012301230123...に変換する
+	// プレイヤーが死んでいなかったら描画する
+	if (!GetPlayerDeath())
+	{
+		// ダメージ時の描画
 		if (m_damageFrame % 4 >= 2) return;
 
 		// プレイヤーアニメーション
@@ -321,16 +355,14 @@ void Player::Draw()
 		// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
 		if (m_isMove == false && m_dir == kDirFront || m_dir == kDirUp && m_isJump == false && m_isAttack == false && m_isDeath == false)
 		{
-			// 右向き
-			if (m_isTurn == false)
+			if (m_isTurn == false)								// 右向き
 			{
 				DrawRectExtendGraphF(m_pos.x, m_pos.y,
 					m_pos.x + kWidth, m_pos.y + kHeight,
 					srcX + 2, 64, 13, 16,
 					m_graph, true);
 			}
-			// 左向き
-			else if (m_isTurn == true)
+			else if (m_isTurn == true)							// 左向き
 			{
 				DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
 					m_pos.x, m_pos.y + kHeight,
@@ -341,16 +373,14 @@ void Player::Draw()
 		// プレイヤー移動
 		if (m_isMove == true && m_isJump == false && m_isAttack == false && m_isDeath == false)
 		{
-			// 右向き
-			if (m_dir == kDirRight)
+			if (m_dir == kDirRight)								// 右向き
 			{
 				DrawRectExtendGraphF(m_pos.x, m_pos.y,
 					m_pos.x + kWidth, m_pos.y + kHeight,
 					srcX + 2, 80, 13, 17,
 					m_graph, true);
 			}
-			// 左向き
-			else if (m_dir == kDirLeft)
+			else if (m_dir == kDirLeft)							// 左向き
 			{
 				DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
 					m_pos.x, m_pos.y + kHeight,
@@ -361,16 +391,14 @@ void Player::Draw()
 		// プレイヤーしゃがみ
 		if (m_isMove == true && m_dir == kDirDown && m_isAttack == false && m_isDeath == false)
 		{
-			// 右向き
-			if (m_isTurn == false)
+			if (m_isTurn == false)								// 右向き
 			{
 				DrawRectExtendGraphF(m_pos.x, m_pos.y,
 					m_pos.x + kWidth, m_pos.y + kHeight,
 					srcX + 2, 32, 13, 16,
 					m_graph, true);
 			}
-			// 左向き
-			else if (m_isTurn == true)
+			else if (m_isTurn == true)							// 左向き
 			{
 				DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
 					m_pos.x, m_pos.y + kHeight,
@@ -381,19 +409,17 @@ void Player::Draw()
 		// プレイヤージャンプ
 		if (m_isJump == true && m_isAttack == false && m_isDeath == false)
 		{
-			// 右向き
-			if (m_isTurn == false)
+			if (m_isTurn == false)								// 右向き
 			{
-				DrawRectExtendGraph(m_pos.x, m_pos.y,
-					m_pos.x + kWidth, m_pos.y + kHeight,
+				DrawRectExtendGraphF(static_cast<float>(m_pos.x), static_cast<float>(m_pos.y),
+					static_cast<float>(m_pos.x + kWidth), static_cast<float>( m_pos.y + kHeight),
 					srcX + 97, 64, 13, 16,
 					m_graph, true);
 			}
-			// 左向き
-			else if (m_isTurn == true)
+			else if (m_isTurn == true)							// 左向き
 			{
-				DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
-					m_pos.x, m_pos.y + kHeight,
+				DrawRectExtendGraphF(static_cast<float>(m_pos.x + kWidth), static_cast<float>(m_pos.y),
+					static_cast<float>(m_pos.x), static_cast<float>(m_pos.y + kHeight),
 					srcX + 97, 64, 13, 16,
 					m_graph, true);
 			}
@@ -401,19 +427,20 @@ void Player::Draw()
 		// プレイヤー攻撃
 		if (m_isAttack == true && m_isDeath == false)
 		{
-			// 右向き
-			if (m_isTurn == false)
+			if (m_isTurn == false)								// 右向き
 			{
-				DrawRectExtendGraphF(m_pos.x, m_pos.y - static_cast<float>(kWidth) * 1.1,
-					m_pos.x + kWidth, m_pos.y + static_cast<float>(kHeight),
+				DrawRectExtendGraphF(static_cast<float>(m_pos.x), 
+					static_cast<float>(m_pos.y- kWidth * 1.1),
+					static_cast<float>(m_pos.x + kWidth), 
+					static_cast<float>(m_pos.y + kHeight),
 					srcX2 + 3, 0, 26, 32,
 					m_graph, true);
 			}
-			// 左向き
-			else if (m_isTurn == true)
+			else if (m_isTurn == true)							// 左向き
 			{
-				DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y - kWidth * 1.1,
-					m_pos.x, m_pos.y + kHeight,
+				DrawRectExtendGraphF(static_cast<float>(m_pos.x + kWidth),
+					static_cast<float>(m_pos.y - kWidth * 1.1),
+					static_cast<float>(m_pos.x), static_cast<float>(m_pos.y + kHeight),
 					srcX2 + 3, 0, 26, 32,
 					m_graph, true);
 			}
@@ -453,23 +480,23 @@ void Player::Death()
 
 void Player::HpDraw()
 {
-	DrawStringToHandle(30, 40, "HP:", m_pColorManager->GetColorBlack(),
+	DrawStringFToHandle(kHpX, kHpY, "HP:",
+		m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());
 
-	DrawBoxAA(135, 50,
-		135 + m_hp*4, 50 + 50,			
-		0xFF0000, true, 1.0f);
+	DrawBoxAA(kHpUIX, kHpUIY,
+		kHpUIX + m_hp * 4, kHpUIY + kHpUIHeight,
+		m_pColorManager->GetColorRed(), true, kHpUIUnderThick);
 
-	DrawBoxAA(135, 50,
-		135+400, 50+50,
-		0x0095d9, false, 2.5f);
+	DrawBoxAA(kHpUIX, kHpUIY,
+		kHpUIX + kHpUIWidth, kHpUIY + kHpUIHeight,
+		m_pColorManager->GetColorBlue(), false, kHpUIUpThick);
 }
 
 void Player::End()
 {
 	// 背景をメモリから削除
 	DeleteGraph(m_graph);
-
 	m_pSoundManager->End();
 }
 

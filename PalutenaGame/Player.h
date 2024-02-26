@@ -95,6 +95,4 @@ private:
 	Dir m_dir;			// Œü‚¢‚Ä‚¢‚é•ûŒü
 	ShotDir m_shotDir;	// ’e‚ð‘Å‚Â•ûŒü
 	Rect m_colRect;		// “–‚½‚è”»’è—p‚Ì‹éŒ`
-
-	
 };

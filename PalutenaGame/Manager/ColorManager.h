@@ -13,7 +13,7 @@ public:
 	int GetColorBlack() { return m_colorHandle; }
 	int GetColorWhite() { return m_colorHandle2; }
 	int GetColorRed() { return m_colorHandle3; }
-	int GetColorYellow() { return m_colorHandle4; }
+	int GetColorBlue() { return m_colorHandle4; }
 
 private:
 	int m_colorHandle;
