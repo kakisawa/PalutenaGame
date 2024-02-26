@@ -10,8 +10,8 @@
 namespace
 {
 	// 文字の表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.4;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.87;
+	constexpr int kSelectChirPosX = kScreenWidth * 0.28f;
+	constexpr int kSelectChirPosY = kScreenHeight * 0.83f;
 
 	// スクロール移動量
 	constexpr float backGround_scale = 1.2f;

@@ -15,6 +15,10 @@ namespace
 	constexpr int SrcWidth = 16;
 	constexpr int SrcHeight = 22;
 
+	// 敵死亡時爆破の画像元サイズ
+	constexpr int ExpWidth = 32;
+	constexpr int ExpHeight = 32;
+
 	// 移動速度
 	constexpr float kSpeed = 1.0f;
 
@@ -31,16 +35,26 @@ namespace
 	constexpr int DefAnimFrameNum = 8;
 	// 基本キャラアニメーション1サイクルのフレーム数
 	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
+
+	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
+	constexpr int DeathFrame[] = { 0,1,2,3,4,5,6,7,8 };
+	// 基本キャラアニメーションの1コマのフレーム数
+	constexpr int DeathAnimFrameNum = 8;
+	// 基本キャラアニメーション1サイクルのフレーム数
+	constexpr int DeathFrameCycle = _countof(DeathFrame) * DeathAnimFrameNum;
 }
 
 PumpkinEnemy::PumpkinEnemy()
 {
 	EGraph= LoadGraph("data/Enemy/Pumpkin.png");
+	m_expGraph=LoadGraph("")
 
 	m_hp = kHP;			// HP
 	m_atk = kAtk;			// 攻撃力
 	Score = kScore;			// 倒した際に得られるスコア
+	m_enemyDeathAnim = 0;
 
+	m_isDeathAnim = false;	// 死亡時アニメーションフラグ
 	m_gravity = 0.0f;		// 敵の初期重力
 	m_isTurn = false;		// 右を向いているのfalseを挿入
 	EnemyAnim = 0;		// 敵のアニメーションの初期化
@@ -85,12 +99,25 @@ void PumpkinEnemy::Update()
 	{
 		EnemyAnim = 0;
 	}
+
+	if (m_isDeathAnim == true)
+	{
+		m_enemyDeathAnim++;
+		if (m_enemyDeathAnim >= DeathFrameCycle)
+		{
+			m_enemyDeathAnim = 0;
+			m_isDeathAnim = false;
+		}
+	}
 }
 
 void PumpkinEnemy::Draw()
 {
 	int EnemyFrame = EnemyAnim / DefAnimFrameNum;
 	int srcX = DefFrame[EnemyFrame] * SrcWidth;
+
+	int DeathExpFrame = m_enemyDeathAnim / DeathAnimFrameNum;
+	int DeathX = DeathFrame[DeathExpFrame] * ExpWidth;
 
 	// 存在しない敵は描画しない
 	if (!m_isExist) return;
@@ -115,6 +142,16 @@ void PumpkinEnemy::Draw()
 			SrcWidth, SrcHeight,
 			EGraph, true);
 	}
+
+	if (m_isDeathAnim == true)
+	{
+		DrawRectExtendGraph(m_pos.x,m_pos.y,
+			m_pos.x + kWidth, m_pos.y + kHeight,
+			DeathX-1,0,
+			ExpWidth, ExpHeight,
+			)
+	}
+
 #ifdef _DEBUG
 	// 当たり判定の表示
 	m_colRect.Draw(GetColor(255, 0, 0), false);

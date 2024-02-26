@@ -29,25 +29,26 @@ public:
 	// 敵キャラクターをスタートさせる
 	virtual void Start(float x, float y) = 0;
 	
-protected:		// 派生クラスからアクセスできるように
-	int EGraph;	// 敵画像
+protected:			// 派生クラスからアクセスできるように
+	int EGraph;		// 敵画像
 	int m_w, m_h;	// 敵画像サイズ
 	int m_hp;		// 敵HP
-	int m_atk;	// 敵攻撃力	
-	int Score;	// 敵を倒した際に得られるスコア
+	int m_atk;		// 敵攻撃力	
+	int Score;		// 敵を倒した際に得られるスコア
 	int m_isTurn;	// 左右どちらを向いているか
+	int m_expGraph;	// 敵死亡時爆破画像
 
-	float EnemyAnim;	// エネミーアニメーション
+	float EnemyAnim;		// 敵アニメーション
+	float m_enemyDeathAnim;	// 敵死亡アニメーション
 	float m_gravity;		// 重力
-	int m_damageFrame;	// ダメージを受けてからのフレーム数
-							// 普段は0で、当たった時にフレーム数を設定して
-							// 以降毎フレーム減らしていく
+	int m_damageFrame;		// ダメージを受けてからのフレーム数
+								// 普段は0で、当たった時にフレーム数を設定して
+								// 以降毎フレーム減らしていく
 
+	bool m_isDeathAnim;	// 敵死亡アニメーションフラグ
 	bool isScore;		// スコア加算フラグ
-
 	bool m_isExist;		// 存在するかフラグ(使用中かどうか)
 	bool m_isDeath;		// 死亡フラグ
-
 
 	// 表示位置
 	Vec2 m_pos;

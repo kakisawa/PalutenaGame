@@ -12,14 +12,15 @@ namespace
 
 EnemyBase::EnemyBase():
 	EGraph(-1),
+	m_expGraph(-1),
 	m_w(0),
 	m_h(0),
 	m_hp(0),
 	m_atk(0), 
 	EnemyAnim(0),
 	m_gravity(0),
-	m_isTurn(false),	// エネミーの向きフラグ,右を向いているのfalseを挿入
-	m_isDeath(false),	// 死亡フラグ,死んでいないのfalseを挿入
+	m_isTurn(false),		// エネミーの向きフラグ,右を向いているのfalseを挿入
+	m_isDeath(false),		// 死亡フラグ,死んでいないのfalseを挿入
 	m_isExist(false), 
 	m_damageFrame(0)
 {
@@ -34,7 +35,10 @@ void EnemyBase::Update()
 {
 	// ダメージ演出の進行
 	m_damageFrame--;
-	if (m_damageFrame < 0)	m_damageFrame = 0;
+	if (m_damageFrame < 0) 
+	{
+		m_damageFrame = 0;
+	}
 
 	// 存在しない敵の処理はしない
 	if (!m_isExist) return;
@@ -59,7 +63,9 @@ void EnemyBase::Death()
 {  
 	m_pPlayer->AddScore(Score);
 
+
 	m_isDeath = true;		// 死亡フラグをオンにする
+	m_isDeathAnim = true;
 	m_isExist = false;
 }
 
