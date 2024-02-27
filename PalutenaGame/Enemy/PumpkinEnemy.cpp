@@ -47,7 +47,7 @@ namespace
 PumpkinEnemy::PumpkinEnemy()
 {
 	EGraph= LoadGraph("data/Enemy/Pumpkin.png");
-	m_expGraph=LoadGraph("")
+	m_expGraph = LoadGraph("");
 
 	m_hp = kHP;			// HP
 	m_atk = kAtk;			// UŒ‚—Í

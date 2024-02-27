@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Game.h"
 
-Shot::Shot():
+Shot::Shot() :
 	Se(0),
 	x(0),
 	y(0),
@@ -26,7 +26,7 @@ void Shot::init()
 void Shot::Update()
 {
 	if (!m_isExist)	return;
-	
+
 	if (dir == kShotDirRight)
 	{
 		m_pos.x += kShotSpeed;
@@ -53,16 +53,16 @@ void Shot::Update()
 	}
 
 	// ìñÇΩÇËîªíËÇÃçXêV
-	m_colRect.SetCenter(m_pos.x + kPlayerWidth*0.5f,
-		m_pos.y + kPlayerHeight*0.5f,
-		kShotWidth*0.5f, kShotHeight*0.5f);
+	m_colRect.SetCenter(m_pos.x + kPlayerWidth * 0.5f,
+		m_pos.y + kPlayerHeight * 0.5f,
+		kShotWidth * 0.5f, kShotHeight * 0.5f);
 }
 
 void Shot::Draw()
 {
 	if (!m_isExist) return;		// ë∂ç›Ç∑ÇÈÇ©
 
-	m_colRect.Draw(GetColor(255, 255, 0),true);
+	m_colRect.Draw(GetColor(255, 255, 0), true);
 
 #ifdef _DEBUG
 	// ìñÇΩÇËîªíËÇÃï\é¶
@@ -79,5 +79,5 @@ void Shot::Start(Vec2 pos)
 
 void Shot::colShot()
 {
-    m_isExist = false;
+	m_isExist = false;
 }
