@@ -11,9 +11,9 @@ public:
 	void Draw(unsigned int color, bool isFill);
 
 	// 左上座標と幅高さを指定
-	void SetLT(float left, float top, float width, float height);
+	void SetLT(float left, float top, float m_width, float m_height);
 	// 中心座標と幅高さを指定
-	void SetCenter(float x, float y, float width, float height);
+	void SetCenter(float x, float y, float m_width, float m_height);
 
 	// ゲームによっては中心座標で指定したり足元の座標で指定できる
 	// set関数があった方が便利かもしれない

@@ -48,8 +48,8 @@ void SceneOption::Init()
 {
 	m_pSoundManager->BGMExplanation();
 	m_pSoundManager->Init();
-	BgGraph = LoadGraph("data/Map/patter.png");
-	PushA = LoadGraph("data/PushA.png");		// 「Aボタンで決定」グラフ読み込み
+	m_bgGraph = LoadGraph("data/Map/patter.png");
+	m_pushAGraph = LoadGraph("data/PushA.png");		// 「Aボタンで決定」グラフ読み込み
 	m_isSceneEnd = false;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
@@ -111,7 +111,7 @@ void SceneOption::Draw()
 	// 文字の点滅描画
 	if (m_fadeLetter < 60) {
 		DrawGraph(kSelectChirPosX, kSelectChirPosY,
-			PushA, true);
+			m_pushAGraph, true);
 	}
 
 	// フェードの描画
@@ -133,18 +133,18 @@ void SceneOption::End()
 void SceneOption::BackDraw()
 {
 	Size bg1Size;
-	GetGraphSize(BgGraph, &bg1Size.width, &bg1Size.height);
+	GetGraphSize(m_bgGraph, &bg1Size.m_width, &bg1Size.m_height);
 
 	// スクロール量を計算
-	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
+	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.m_width * kBgScale);
 
 	for (int index = 0; index < 4; index++)
 	{
-		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
-			kScreenHeight - bg1Size.height * kBgScale,
+		DrawRotaGraph2(-scrollBg + index * bg1Size.m_width * kBgScale,
+			kScreenHeight - bg1Size.m_height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,
-			BgGraph, true);
+			m_bgGraph, true);
 	}
 }
 

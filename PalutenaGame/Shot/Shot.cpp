@@ -4,9 +4,8 @@
 #include "Game.h"
 
 Shot::Shot() :
-	Se(0),
-	x(0),
-	y(0),
+	m_x(0),
+	m_y(0),
 	m_isExist(false)
 {
 }
@@ -17,17 +16,17 @@ Shot::~Shot()
 
 void Shot::init()
 {
-	x = m_pos.x;
-	y = m_pos.y;
+	m_x = m_pos.x;
+	m_y = m_pos.y;
 
-	dir = m_pPlayer->GetShotDir();
+	m_dir = m_pPlayer->GetShotDir();
 }
 
 void Shot::Update()
 {
 	if (!m_isExist)	return;
 
-	if (dir == kShotDirRight)
+	if (m_dir == kShotDirRight)
 	{
 		m_pos.x += kShotSpeed;
 		if (m_pos.x >= kScreenWidth)
@@ -35,7 +34,7 @@ void Shot::Update()
 			m_isExist = false;
 		}
 	}
-	else if (dir == kShotDirLeft)
+	else if (m_dir == kShotDirLeft)
 	{
 		m_pos.x -= kShotSpeed;
 		if (m_pos.x <= 0)
@@ -43,7 +42,7 @@ void Shot::Update()
 			m_isExist = false;
 		}
 	}
-	else if (dir == kShotDirUp)
+	else if (m_dir == kShotDirUp)
 	{
 		m_pos.y -= kShotSpeed;
 		if (m_pos.y <= 0)

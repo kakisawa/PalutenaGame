@@ -32,20 +32,20 @@ namespace
 
 MozueyeEnemy::MozueyeEnemy()
 {
-	EGraph= LoadGraph("data/Enemy/Mozueye.png");
+	m_graph= LoadGraph("data/Enemy/Mozueye.png");
 
 	m_hp = kHP;		// HP
 	m_atk = kAtk;	// 攻撃力
-	Score = 50;	// 倒した際に得られるスコア
+	m_score = 50;	// 倒した際に得られるスコア
 
 	m_gravity = 0.0f;				// 敵の初期重力
 	m_isTurn = false;				// 右を向いているのfalseを挿入
-	EnemyAnim = 0;				// 敵のアニメーションの初期化
+	m_enemyAnim = 0;				// 敵のアニメーションの初期化
 }
 
 MozueyeEnemy::~MozueyeEnemy()
 {
-	DeleteGraph(EGraph);
+	DeleteGraph(m_graph);
 }
 
 void MozueyeEnemy::Init(Player* pPlayer)
@@ -101,22 +101,22 @@ void MozueyeEnemy::Update()
 	}
 
 	// アニメーションフレーム
-	EnemyAnim++;
-	if (EnemyAnim >= DefFrameCycle)
+	m_enemyAnim++;
+	if (m_enemyAnim >= DefFrameCycle)
 	{
-		EnemyAnim = 0;
+		m_enemyAnim = 0;
 	}
 }
 
 void MozueyeEnemy::Draw()
 {
-	int EnemyFrame = EnemyAnim / DefAnimFrameNum;
+	int EnemyFrame = m_enemyAnim / DefAnimFrameNum;
 	int srcX = DefFrame[EnemyFrame] * SrcWidth;
 
 	// 存在しない敵は描画しない
 	if (!m_isExist) return;
 	// グラフィックが設定されていなければ止まる
-	assert(EGraph != -1);
+	assert(m_graph != -1);
 
 	if (m_damageFrame % 4 >= 2) return;
 
@@ -126,7 +126,7 @@ void MozueyeEnemy::Draw()
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 2, 29,
 			SrcWidth, SrcHeight,
-			EGraph, true);
+			m_graph, true);
 	}
 	else if (m_isTurn == true)
 	{
@@ -134,7 +134,7 @@ void MozueyeEnemy::Draw()
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 2, 0,
 			SrcWidth, SrcHeight,
-			EGraph, true);
+			m_graph, true);
 	}
 #ifdef _DEBUG
 	// 当たり判定の表示

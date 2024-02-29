@@ -11,13 +11,13 @@ namespace
 }
 
 EnemyBase::EnemyBase():
-	EGraph(-1),
+	m_graph(-1),
 	m_expGraph(-1),
 	m_w(0),
 	m_h(0),
 	m_hp(0),
 	m_atk(0), 
-	EnemyAnim(0),
+	m_enemyAnim(0),
 	m_gravity(0),
 	m_isTurn(false),		// エネミーの向きフラグ,右を向いているのfalseを挿入
 	m_isDeath(false),		// 死亡フラグ,死んでいないのfalseを挿入
@@ -61,7 +61,7 @@ void EnemyBase::OnDamage()
 
 void EnemyBase::Death()
 {  
-	m_pPlayer->AddScore(Score);
+	m_pPlayer->AddScore(m_score);
 
 
 	m_isDeath = true;		// 死亡フラグをオンにする

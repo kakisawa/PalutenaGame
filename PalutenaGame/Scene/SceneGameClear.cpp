@@ -53,7 +53,7 @@ SceneGameClear::SceneGameClear() :
 	m_scrollX(0),
 	m_fadeAlpha(255),
 	m_fadeLetter(0),
-	ResultScore(0),
+	m_resultScore(0),
 	m_selectPos(kSelectPosX, kSelectPosY)
 {
 	// SE・BGMメモリ確保
@@ -78,19 +78,19 @@ SceneGameClear::~SceneGameClear()
 void SceneGameClear::Init()
 {
 	m_graph = LoadGraph("data/Map/patter4.png");
-	TitleGraph = LoadGraph("data/GameClear.png");
-	ScoreGraph = LoadGraph("data/Score.png");
-	Cursor = LoadGraph("data/Cursor.png");
-	SelectUI = LoadGraph("data/SelectUI.png");
-	SelectUI2 = LoadGraph("data/SelectUI2.png");
-	PushA= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
+	m_titleGraph = LoadGraph("data/GameClear.png");
+	m_scoreGraph = LoadGraph("data/Score.png");
+	m_cursorGraph = LoadGraph("data/Cursor.png");
+	m_selectUIGraph = LoadGraph("data/SelectUI.png");
+	m_selectUIGraph2 = LoadGraph("data/SelectUI2.png");
+	m_pushAGraph= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
 
 	m_select = kScelectBackTitle;
 	m_isSceneEnd = false;
 	m_scrollX = 0;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
-	ResultScore = 0;
+	m_resultScore = 0;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
 
@@ -211,35 +211,35 @@ void SceneGameClear::StringDraw()
 	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "  ゲームを終わる",
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont());
 
-	ResultScore = SceneManager::s_ResultScore;
+	m_resultScore = SceneManager::s_ResultScore;
 	DrawFormatStringToHandle(kScorePosX+2, kScorePosY+2,
 		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
-		"%4d", ResultScore);
+		"%4d", m_resultScore);
 	DrawFormatStringToHandle(kScorePosX, kScorePosY,
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont3(),
-		"%4d", ResultScore);
+		"%4d", m_resultScore);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
 		DrawExtendGraph(kPushAX, kPushAY,
 			kPushAX + 560, kPushAY + 80,
-			PushA, true);
+			m_pushAGraph, true);
 	}
 }
 
 void SceneGameClear::BackDraw()
 {
 	Size bg1Size;
-	GetGraphSize(m_graph, &bg1Size.width, &bg1Size.height);
+	GetGraphSize(m_graph, &bg1Size.m_width, &bg1Size.m_height);
 
 	// スクロール量を計算
-	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
+	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.m_width * kBgScale);
 
 	for (int index = 0; index < 4; index++)
 	{
-		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
-			kScreenHeight - bg1Size.height * kBgScale,
+		DrawRotaGraph2(-scrollBg + index * bg1Size.m_width * kBgScale,
+			kScreenHeight - bg1Size.m_height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,
 			m_graph, true);
@@ -248,22 +248,22 @@ void SceneGameClear::BackDraw()
 
 void SceneGameClear::UIDraw()
 {
-	DrawGraph(kTitleGraphPosX, kTitleGraphPosY, TitleGraph, true);
-	DrawGraph(kScoreGraphPosX, kScoreGraphPosY, ScoreGraph, true);
+	DrawGraph(kTitleGraphPosX, kTitleGraphPosY, m_titleGraph, true);
+	DrawGraph(kScoreGraphPosX, kScoreGraphPosY, m_scoreGraph, true);
 
 	// タイトルに戻る・ゲームを終了するBOX
 	for (int i = 0; i < 2; i++) {
 		DrawGraph(kSelectPosX + (kCharInterval * i), kSelectPosY,
-			SelectUI, false);
+			m_selectUIGraph, false);
 	}
 
 	// 選択中の部分を四角で描画
 	DrawGraph(m_selectPos.x, m_selectPos.y,
-		SelectUI2, false);
+		m_selectUIGraph2, false);
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 20,
 		m_selectPos.y + kSelectSizeY + 20,
-		Cursor, true);
+		m_cursorGraph, true);
 }
 
 bool SceneGameClear::IsSceneEnd() const

@@ -41,11 +41,9 @@ namespace
 }
 
 SceneTitle::SceneTitle() :
-	x(0),
-	y(0),
 	m_isSceneEnd(false),
-	isToExplanation(false),
-	isToSelect(false),
+	m_isToExplanation(false),
+	m_isToSelect(false),
 	m_scrollX(0),
 	m_select(kSelectGameStart),
 	m_selectPos(kSelectPosX, kSelectPosY),
@@ -77,17 +75,17 @@ SceneTitle::~SceneTitle()
 void SceneTitle::Init()
 {
 	m_graph = LoadGraph("data/Map/patter.png");			// 背景読み込み
-	TitleGraph = LoadGraph("data/TitleGraph3.png");		// タイトルロゴ読み込み
-	Cursor = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
-	PushA= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
-	SelectUI= LoadGraph("data/SelectUI.png");
-	SelectUI2 = LoadGraph("data/SelectUI2.png");
+	m_titleGraph = LoadGraph("data/TitleGraph3.png");		// タイトルロゴ読み込み
+	m_cursorGraph = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
+	m_pushAGraph= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
+	m_selectUIGraph= LoadGraph("data/SelectUI.png");
+	m_selectUIGraph2 = LoadGraph("data/SelectUI2.png");
 
 	m_select = kSelectGameStart;
 
 	m_isSceneEnd = false;
-	isToExplanation = false;
-	isToSelect = false;
+	m_isToExplanation = false;
+	m_isToSelect = false;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
 	m_scrollX = 0;
@@ -144,11 +142,11 @@ void SceneTitle::Update()
 		{
 		case kSclectOperation:
 			m_isSceneEnd = true;
-			isToExplanation = true;
+			m_isToExplanation = true;
 			break;
 		case kSelectGameStart:
 			m_isSceneEnd = true;
-			isToSelect = true;
+			m_isToSelect = true;
 			break;
 		case kSclectEnd:
 			DxLib_End();
@@ -195,7 +193,7 @@ void SceneTitle::Draw()
 	BackDraw();
 	DrawExtendGraph(kLogoPosX, kLogoPosY, 
 		kLogoPosX + kLogoSizeX, kLogoPosY + kLogoSizeY,
-		TitleGraph, true);
+		m_titleGraph, true);
 
 	// 選択肢等の文字の描画用
 	StringDraw();
@@ -205,9 +203,9 @@ void SceneTitle::End()
 {
 	// 画像をメモリから削除
 	DeleteGraph(m_graph);
-	DeleteGraph(TitleGraph);
-	DeleteGraph(Cursor);
-	DeleteGraph(PushA);
+	DeleteGraph(m_titleGraph);
+	DeleteGraph(m_cursorGraph);
+	DeleteGraph(m_pushAGraph);
 
 	StopSoundMem(m_pSoundManager->m_bgmDefo);
 	m_pSoundManager->End();
@@ -217,14 +215,14 @@ void SceneTitle::StringDraw()
 {
 	for (int i = 0; i < 3; i++){
 		DrawGraph(m_selectPos.x, kSelectPosY + (kCharInterval * i),
-			SelectUI, false);
+			m_selectUIGraph, false);
 	}
 
-	DrawGraph(m_selectPos.x, m_selectPos.y, SelectUI2, true);
+	DrawGraph(m_selectPos.x, m_selectPos.y, m_selectUIGraph2, true);
 
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 30, m_selectPos.y + kSelectSizeY + 20, 
-		Cursor, true);
+		m_cursorGraph, true);
 
 	DrawStringToHandle(kSelectChirPosX+31, kSelectChirPosY,
 		"ゲームを始める", m_pColorManager->GetColorBlack(),
@@ -241,7 +239,7 @@ void SceneTitle::StringDraw()
 	{
 		DrawExtendGraph(kPushAX, kPushAY,
 			kPushAX + 560, kPushAY + 80,
-			PushA, true);
+			m_pushAGraph, true);
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
@@ -253,15 +251,15 @@ void SceneTitle::StringDraw()
 void SceneTitle::BackDraw()
 {
 	Size bg1Size;
-	GetGraphSize(m_graph, &bg1Size.width, &bg1Size.height);
+	GetGraphSize(m_graph, &bg1Size.m_width, &bg1Size.m_height);
 
 	// スクロール量を計算
-	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
+	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.m_width * kBgScale);
 
 	for (int index = 0; index < 4; index++)
 	{
-		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
-			kScreenHeight - bg1Size.height * kBgScale,
+		DrawRotaGraph2(-scrollBg + index * bg1Size.m_width * kBgScale,
+			kScreenHeight - bg1Size.m_height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,
 			m_graph, true);
@@ -275,10 +273,10 @@ bool SceneTitle::IsSceneEnd() const
 
 bool SceneTitle::ToStage() const
 {
-	return isToSelect;
+	return m_isToSelect;
 }
 
 bool SceneTitle::ToExplanation() const
 {
-	return isToExplanation;
+	return m_isToExplanation;
 }

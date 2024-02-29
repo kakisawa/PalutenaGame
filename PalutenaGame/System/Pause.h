@@ -14,13 +14,13 @@ public:
 	void Update();
 	void Draw();
 
-	bool GetPauseFlag() { return m_pause; }
+	bool GetPauseFlag() { return m_ispause; }
 
 private:
-	int MiniWindowTime;
-	int PauseCount;
+	float m_miniWindowTime;
+	float m_pauseCount;
 
-	bool m_pause;
+	bool m_ispause;
 
 	// BGMÅESE
 	SoundManager* m_pSoundManager;

@@ -13,9 +13,9 @@ namespace
 }
 
 Time::Time():
-	Count(0.0f),
-	Second(0.0f),
-	isTimeUp(false)		// 否定のfalseを挿入
+	m_count(0.0f),
+	m_second(0.0f),
+	m_isTimeUp(false)		// 否定のfalseを挿入
 {
 	// メモリ確保
 	m_pFontManager = new FontManager;
@@ -33,25 +33,25 @@ Time::~Time()
 
 void Time::Init()
 {
-	Second =1800.0f;
-	isTimeUp = false;
+	m_second =1800.0f;
+	m_isTimeUp = false;
 }
 
 void Time::Update()
 {
-	if (Second <= 0.0f)
+	if (m_second <= 0.0f)
 	{
-		isTimeUp = true;
+		m_isTimeUp = true;
 	}
-	Second--;
+	m_second--;
 }
 
 void Time::Draw()
 {
 	DrawFormatStringToHandle(kTimeX+2, kTimeY+2,
 		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
-		"残り時間:%.1f", Second / 60);
+		"残り時間:%.1f", m_second / 60);
 	DrawFormatStringToHandle(kTimeX, kTimeY,
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont3(),
-		"残り時間:%.1f", Second / 60);
+		"残り時間:%.1f", m_second / 60);
 }

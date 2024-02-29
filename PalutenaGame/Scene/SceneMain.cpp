@@ -25,7 +25,7 @@ namespace
 	constexpr float ExplanationY = static_cast<float>(kScreenHeight) * 0.07f;
 	// モズアイ出現位置
 	constexpr float MozuX = static_cast<float>(kScreenWidth) * 0.15f;
-	constexpr float MozuY = Ground + 9.0f;
+	constexpr float MozuY = kGround + 9.0f;
 	// 死出現位置
 	constexpr float DeathX = static_cast<float>(kScreenWidth) * 0.3f;
 	constexpr float DeathY = static_cast<float>(kScreenHeight) * 0.4f;
@@ -53,7 +53,8 @@ SceneMain::SceneMain() :
 	m_startCount(180),
 	m_doorCount(0),
 	m_isStartFlag(false),
-	m_isStartCountFlag(false)
+	m_isStartCountFlag(false),
+	m_pShot()
 {
 	// ゲーム画面描画先の生成
 	m_gameScreenHandle = MakeScreen(kScreenWidth, kScreenHeight, true);
@@ -658,7 +659,7 @@ void SceneMain::CreateEnemyMozu()
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init(m_pPlayer);
-			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.15f, Ground+9);
+			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.15f, kGround+9);
 			return;
 		}
 	}

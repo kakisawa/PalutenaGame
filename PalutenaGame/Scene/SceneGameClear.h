@@ -39,21 +39,21 @@ private:
         kSclectNum,         // 項目数
     };
 
-    int TitleGraph;     // タイトルグラフ
-    int ScoreGraph;     // スコアグラフ
+    int m_titleGraph;     // タイトルグラフ
+    int m_scoreGraph;     // スコアグラフ
     int m_select;       // 選択中のメニュー
-    int Cursor;         // カーソルグラフ
-    int SelectUI;       // UI
-    int SelectUI2;      // UI
-    int PushA;          // Aボタンを押すグラフ
+    int m_cursorGraph;  // カーソルグラフ
+    int m_selectUIGraph;       // UI
+    int m_selectUIGraph2;      // UI
+    int m_pushAGraph;          // Aボタンを押すグラフ
 
     float m_scrollX;    // スクロール移動量
-    int ResultScore;    // 獲得スコア
+    int m_resultScore;    // 獲得スコア
 
     struct Size         // 背景のサイズ
     {
-        int width;
-        int height;
+        int m_width;
+        int m_height;
     };
 
     int m_fadeLetter;   // 文字の点滅用カウンタ
@@ -69,7 +69,5 @@ private:
     FontManager* m_pFontManager;
     // 色
     ColorManager* m_pColorManager;
-
-    //Player* m_pPlayer;
 };
 

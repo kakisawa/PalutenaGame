@@ -17,9 +17,9 @@ namespace
 
 Pause::Pause(SoundManager* soundManager) :
 	m_pSoundManager(soundManager),
-	MiniWindowTime(0),
-	PauseCount(0),
-	m_pause(false)
+	m_miniWindowTime(0),
+	m_pauseCount(0),
+	m_ispause(false)
 {
 	// Fƒƒ‚ƒŠŠm•Û
 	m_pColorManager = new ColorManager;
@@ -34,31 +34,31 @@ Pause::~Pause()
 
 void Pause::Init()
 {
-	MiniWindowTime = 0;
-	PauseCount = 0;
-	m_pause = false;
+	m_miniWindowTime = 0;
+	m_pauseCount = 0;
+	m_ispause = false;
 }
 
 void Pause::Update()
 {
 	if (Pad::IsTrigger(PAD_INPUT_8))
 	{
-		m_pause = true;
-		PauseCount++;
+		m_ispause = true;
+		m_pauseCount++;
 	}
-	if (PauseCount == 2)
+	if (m_pauseCount == 2)
 	{
-		m_pause = false;
-		PauseCount = 0;
-		MiniWindowTime = 0;
+		m_ispause = false;
+		m_pauseCount = 0;
+		m_miniWindowTime = 0;
 	}
-	if (m_pause == true)
+	if (m_ispause == true)
 	{
-		if (MiniWindowTime >= PauseBoxHeight * 0.5f)
+		if (m_miniWindowTime >= PauseBoxHeight * 0.5f)
 		{
-			MiniWindowTime = PauseBoxHeight * 0.5f;
+			m_miniWindowTime = PauseBoxHeight * 0.5f;
 		}
-		MiniWindowTime += 15;
+		m_miniWindowTime += 15;
 
 		m_pSoundManager->ChangeSound();
 	}
@@ -66,16 +66,16 @@ void Pause::Update()
 
 void Pause::Draw()
 {
-	if (m_pause == true)
+	if (m_ispause == true)
 	{
-		DrawBox(PauseBoxX-3, PauseBoxY - MiniWindowTime-3,
-			PauseBoxX + PauseBoxWight+3, PauseBoxY + MiniWindowTime+3,
+		DrawBox(PauseBoxX-3, PauseBoxY - m_miniWindowTime-3,
+			PauseBoxX + PauseBoxWight+3, PauseBoxY + m_miniWindowTime+3,
 			m_pColorManager->GetColorWhite(), true);
-		DrawBox(PauseBoxX, PauseBoxY - MiniWindowTime,
-			PauseBoxX + PauseBoxWight, PauseBoxY + MiniWindowTime,
+		DrawBox(PauseBoxX, PauseBoxY - m_miniWindowTime,
+			PauseBoxX + PauseBoxWight, PauseBoxY + m_miniWindowTime,
 			m_pColorManager->GetColorBlack(), true);
 
-		if (MiniWindowTime >= PauseBoxHeight * 0.5f)
+		if (m_miniWindowTime >= PauseBoxHeight * 0.5f)
 		{
 			m_pSoundManager->Draw();
 		}

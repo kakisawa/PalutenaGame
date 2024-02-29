@@ -15,9 +15,7 @@ public:
     void Start(float x, float y);
 
 private:
-    // 基準規定 真右方向に移動する基準座標
-    // y成分にsinの値を足して上下に動くようにする
+    float m_sinRate;// sin()に与える引数
+
     Vec2 m_basePos;
-    // sin()に与える引数
-    float m_sinRate;
 };

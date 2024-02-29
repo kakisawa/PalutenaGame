@@ -26,8 +26,8 @@ public:
 	void SetHandle(int handle) { m_graph = handle; }
 
 private:
-	int BgGraph;
-	int PushA;          // 「Aボタンで決定」グラフ
+	int m_bgGraph;
+	int m_pushAGraph;          // 「Aボタンで決定」グラフ
 	float m_scrollX;    // スクロール移動量
 
 	int m_fadeAlpha;    // フェードイン、アウト
@@ -36,8 +36,8 @@ private:
 
 	struct Size         // 背景のサイズ
 	{
-		int width;
-		int height;
+		int m_width;
+		int m_height;
 	};
 
 	// SE/BGM

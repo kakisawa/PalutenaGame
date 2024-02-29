@@ -52,7 +52,7 @@ public:
 
 public:
 	void SetHandle(int handle) { m_graph = handle; }	// メンバー変数にアクセスする
-	void AddScore(int Score) { m_score += Score; }		// スコアを追加する
+	void AddScore(int m_score) { m_score += m_score; }		// スコアを追加する
 	// 敵の攻撃力を獲得する
 	void SetMozu(MozueyeEnemy* pMozu) { m_pMozueyeEnemy = pMozu; }
 	void SetDeath(DeathYourEnemy* pDeath) { m_pDeathYourEnemy = pDeath; }

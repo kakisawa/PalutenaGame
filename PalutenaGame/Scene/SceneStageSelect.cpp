@@ -38,9 +38,9 @@ namespace
 
 SceneStageSelect::SceneStageSelect() :
 	m_select(kStage1),
-	isStage1(false),
-	isStage2(false),
-	isBackTitle(false),
+	m_isStage1(false),
+	m_isStage2(false),
+	m_isBackTitle(false),
 	m_scrollX(0),
 	m_selectPos(kSelectPosX, kSelectPosY),
 	m_bgPos(0, 0),
@@ -69,17 +69,17 @@ SceneStageSelect::~SceneStageSelect()
 void SceneStageSelect::Init()
 {
 	m_graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
-	Cursor = LoadGraph("data/Cursor.png");		// カーソルロゴ読み込み
-	PushA = LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
-	ExplanationGraph = LoadGraph("data/Explanation.png");
-	SelectUI= LoadGraph("data/SelectUI.png");
-	SelectUI2=LoadGraph("data/SelectUI2.png");
+	m_cursorGraph = LoadGraph("data/Cursor.png");		// カーソルロゴ読み込み
+	m_pushAGraph = LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
+	m_explanationGraph = LoadGraph("data/Explanation.png");
+	m_selectUIGraph= LoadGraph("data/SelectUI.png");
+	m_selectUIGraph2=LoadGraph("data/SelectUI2.png");
 
 	m_select = kStage1;
 	m_isSceneEnd = false;
-	isStage1 = false;
-	isStage2 = false;
-	isBackTitle = false;
+	m_isStage1 = false;
+	m_isStage2 = false;
+	m_isBackTitle = false;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
 	m_scrollX = 0;
@@ -156,14 +156,14 @@ void SceneStageSelect::Update()
 		{
 		case kStage1:
  			m_isSceneEnd = true;
-			isStage1 = true;
+			m_isStage1 = true;
 			break;
 		case kStage2:
 			/*m_isSceneEnd = true;
 			isStage2 = true;
 			break;*/
 		case kBackTitle:
-			isBackTitle = true;
+			m_isBackTitle = true;
 			m_isSceneEnd = true;
 			break;
 		default:
@@ -211,8 +211,8 @@ void SceneStageSelect::End()
 {
 	// 画像をメモリから削除
 	DeleteGraph(m_graph);
-	DeleteGraph(Cursor);
-	DeleteGraph(ExplanationGraph);
+	DeleteGraph(m_cursorGraph);
+	DeleteGraph(m_explanationGraph);
 
 	m_pSoundManager->End();
 }
@@ -223,18 +223,18 @@ void SceneStageSelect::StringDraw()
 	for (int i = 0; i < 2; i++)
 	{
 		DrawGraph(kSelectPosX, kSelectPosY + (kCharInterval * i),
-			SelectUI, false);
+			m_selectUIGraph, false);
 		DrawGraph(kSelectBackChirPosX, kSelectBackChirPosY,
-			SelectUI, false);
+			m_selectUIGraph, false);
 	}
 
 	// 選択中のBox・カーソル描画
 	DrawGraph(m_selectPos.x, m_selectPos.y,
-		SelectUI2, false);
+		m_selectUIGraph2, false);
 	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 20,
 		m_selectPos.y + kSelectSizeY + 20,
-		Cursor, true);
+		m_cursorGraph, true);
 
 	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY,
 		"　   ステージ1", m_pColorManager->GetColorBlack(),
@@ -251,7 +251,7 @@ void SceneStageSelect::StringDraw()
 	{
 		DrawExtendGraph(kPushAX, kPushAY,
 			kPushAX + 590, kPushAY + 80,
-			PushA, true);
+			m_pushAGraph, true);
 	}
 
 	// フェードの描画
@@ -264,21 +264,21 @@ void SceneStageSelect::StringDraw()
 void SceneStageSelect::BackDraw()
 {
 	Size bg1Size;
-	GetGraphSize(m_graph, &bg1Size.width, &bg1Size.height);
+	GetGraphSize(m_graph, &bg1Size.m_width, &bg1Size.m_height);
 
 	// スクロール量を計算
-	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.width * kBgScale);
+	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(bg1Size.m_width * kBgScale);
 
 	for (int index = 0; index < 4; index++)
 	{
-		DrawRotaGraph2(-scrollBg + index * bg1Size.width * kBgScale,
-			kScreenHeight - bg1Size.height * kBgScale,
+		DrawRotaGraph2(-scrollBg + index * bg1Size.m_width * kBgScale,
+			kScreenHeight - bg1Size.m_height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,
 			m_graph, true);
 	}
 
-	DrawGraph(700, 100, ExplanationGraph, true);
+	DrawGraph(700, 100, m_explanationGraph, true);
 }
 
 bool SceneStageSelect::IsSceneEnd() const

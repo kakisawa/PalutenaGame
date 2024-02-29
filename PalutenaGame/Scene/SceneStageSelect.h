@@ -26,16 +26,16 @@ public:
     bool IsSceneEnd() const;
 
     // 次どのステージに行くか
-    bool ToStage1() const { return isStage1; }
-    bool ToStage2() const { return isStage2; }
-    bool ToBackTitke() const { return isBackTitle; }
+    bool ToStage1() const { return m_isStage1; }
+    bool ToStage2() const { return m_isStage2; }
+    bool ToBackTitke() const { return m_isBackTitle; }
 
 private:
-    int ExplanationGraph;   // 操作説明グラフ
-    int Cursor;             // カーソルグラフ
-    int PushA;              // 「Aボタンで決定」
-    int SelectUI;        // UI
-    int SelectUI2;       // UI
+    int m_explanationGraph;   // 操作説明グラフ
+    int m_cursorGraph;             // カーソルグラフ
+    int m_pushAGraph;              // 「Aボタンで決定」
+    int m_selectUIGraph;        // UI
+    int m_selectUIGraph2;       // UI
 
     enum Select
     {
@@ -53,14 +53,14 @@ private:
 
     struct Size         // 背景のサイズ
     {
-        int width;
-        int height;
+        int m_width;
+        int m_height;
     };
 
     // ステージ1へ行くか、ステージ２へ行くか、タイトル画面に戻るか
-    bool isStage1;
-    bool isStage2;
-    bool isBackTitle;
+    bool m_isStage1;
+    bool m_isStage2;
+    bool m_isBackTitle;
 
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;

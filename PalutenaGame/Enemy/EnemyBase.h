@@ -14,12 +14,14 @@ public:
 	virtual void Update();
 	virtual void Draw(){}
 
-	virtual void OnDamage();	// 敵がダメージを受けた時の処理
-	void Death();				// 死んだときの処理
-
-	Vec2 GetPos() const { return m_pos; }			// 位置の取得
-	Rect GetColRect() const { return m_colRect; }	// 当たり判定の矩形を取得する
-
+	// 敵がダメージを受けた時の処理
+	virtual void OnDamage();	
+	// 死んだときの処理
+	void Death();
+	// 位置の取得
+	Vec2 GetPos() const { return m_pos; }
+	// 当たり判定の矩形を取得する
+	Rect GetColRect() const { return m_colRect; }	
 	// 敵の攻撃力,HP,スコアを渡す
 	int GetEnemyAtk() const { return m_atk; }
 	int GetEnemyHP() const { return m_hp; }
@@ -29,24 +31,22 @@ public:
 	// 敵キャラクターをスタートさせる
 	virtual void Start(float x, float y) = 0;
 	
-protected:			// 派生クラスからアクセスできるように
-	int EGraph;		// 敵画像
-	int m_w, m_h;	// 敵画像サイズ
-	int m_hp;		// 敵HP
-	int m_atk;		// 敵攻撃力	
-	int Score;		// 敵を倒した際に得られるスコア
-	int m_isTurn;	// 左右どちらを向いているか
-	int m_expGraph;	// 敵死亡時爆破画像
+protected:	// 派生クラスからアクセスできるように
+	int m_graph;		// 敵画像
+	int m_expGraph;		// 敵死亡時爆破画像
+	int m_w, m_h;		// 敵画像サイズ
+	int m_hp;			// 敵HP
+	int m_atk;			// 敵攻撃力	
+	int m_score;		// 敵を倒した際に得られるスコア
+	int m_damageFrame;	// ダメージを受けてからのフレーム数
 
-	float EnemyAnim;		// 敵アニメーション
+	float m_enemyAnim;		// 敵アニメーション
 	float m_enemyDeathAnim;	// 敵死亡アニメーション
 	float m_gravity;		// 重力
-	int m_damageFrame;		// ダメージを受けてからのフレーム数
-								// 普段は0で、当たった時にフレーム数を設定して
-								// 以降毎フレーム減らしていく
-
+	
+	bool m_isTurn;		// 左右どちらを向いているか
 	bool m_isDeathAnim;	// 敵死亡アニメーションフラグ
-	bool isScore;		// スコア加算フラグ
+	bool m_isScore;		// スコア加算フラグ
 	bool m_isExist;		// 存在するかフラグ(使用中かどうか)
 	bool m_isDeath;		// 死亡フラグ
 

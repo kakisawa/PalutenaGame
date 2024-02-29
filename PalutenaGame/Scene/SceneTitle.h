@@ -42,20 +42,18 @@ private:
         kSclectBack,        // 戻る
     };
 
-    int TitleGraph;     // タイトルロゴグラフ
-    int Cursor;         // カーソルグラフ
-    int PushA;          // 「Aボタンで決定」グラフ
-    int SelectUI;       // UI
-    int SelectUI2;       // UI
+    int m_titleGraph;     // タイトルロゴグラフ
+    int m_cursorGraph;         // カーソルグラフ
+    int m_pushAGraph;          // 「Aボタンで決定」グラフ
+    int m_selectUIGraph;       // UI
+    int m_selectUIGraph2;       // UI
 
-
-    int x, y;           // タイトルロゴ座標
     float m_scrollX;    // スクロール移動量
 
     struct Size         // 背景のサイズ
     {
-        int width;
-        int height;
+        int m_width;
+        int m_height;
     };
 
     int m_select;       // 選択中のメニュー
@@ -63,8 +61,8 @@ private:
     int m_fadeAlpha;    // フェードイン、アウト
     bool m_isSceneEnd;	// シーン終了フラグ
 
-    bool isToSelect;        // ステージセレクト画面に行くか
-    bool isToExplanation;   // 説明シーンに行くか 
+    bool m_isToSelect;        // ステージセレクト画面に行くか
+    bool m_isToExplanation;   // 説明シーンに行くか 
 
     // 選択中メニュー四角表示位置
     Vec2 m_selectPos;

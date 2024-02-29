@@ -7,8 +7,18 @@
 #include "DxLib.h"
 #include <cassert>
 
-int ChangeBgm = InitBgmVolume;		// 変更後音量保存
-int ChangeSe = InitSeVolume;
+namespace {
+	// 音量の最大
+	constexpr int MaxVolume = 255;
+
+	// 初期音量
+	constexpr float InitBgmVolume = MaxVolume * 0.6f;
+	constexpr float InitSeVolume = MaxVolume * 0.6f;
+
+	// 変更後音量保存
+	float ChangeBgm = InitBgmVolume;		
+	float ChangeSe = InitSeVolume;
+}
 
 namespace
 {
@@ -16,43 +26,57 @@ namespace
 	constexpr int kSelectMoveY = 230;
 
 	// 下の箱
-	constexpr int UnderBoxX = (kScreenWidth * 0.1f) * 1.4f;
-	constexpr int UnderBoxY = (kScreenHeight * 0.5f) * 0.5f;
+	constexpr float UnderBoxX = (kScreenWidth * 0.1f) * 1.4f;
+	constexpr float UnderBoxY = (kScreenHeight * 0.5f) * 0.5f;
 	// 下の箱の長さ
-	constexpr int UnderBoxWidth = (kScreenWidth * 0.8f) * 0.897f;
-	constexpr int UnderBoxHeight = (kScreenHeight * 0.8f) * 0.1f;
+	constexpr float UnderBoxWidth = (kScreenWidth * 0.8f) * 0.897f;
+	constexpr float UnderBoxHeight = (kScreenHeight * 0.8f) * 0.1f;
 	// 上の箱
-	constexpr int UpBoxX = UnderBoxX;
-	constexpr int UpBoxY = UnderBoxY;
+	constexpr float UpBoxX = UnderBoxX;
+	constexpr float UpBoxY = UnderBoxY;
 	// 上の箱の長さ
-	constexpr int UpBoxWidth = UnderBoxWidth;
-	constexpr int UpBoxHeight = UnderBoxHeight;
+	constexpr float UpBoxWidth = UnderBoxWidth;
+	constexpr float UpBoxHeight = UnderBoxHeight;
 	
 	// タイトルに戻るBox位置
-	constexpr int BackBoxX = UnderBoxX * 2.3f;
-	constexpr int BackBoxY = UnderBoxY +(kSelectMoveY * 2);
+	constexpr float BackBoxX = UnderBoxX * 2.3f;
+	constexpr float BackBoxY = UnderBoxY +(kSelectMoveY * 2);
 
 	// 選択中の箱を表示する箱座標
-	constexpr int SelectBoxX = UnderBoxX - 2;
-	constexpr int SelectBoxY = UnderBoxY - 2;
+	constexpr float SelectBoxX = UnderBoxX - 2;
+	constexpr float SelectBoxY = UnderBoxY - 2;
 	// 選択中の箱を囲む箱のサイズ
-	constexpr int SelectSizeX = UnderBoxWidth + 4;
-	constexpr int SelectSizeY = UnderBoxHeight + 4;
+	constexpr float SelectSizeX = UnderBoxWidth + 4;
+	constexpr float SelectSizeY = UnderBoxHeight + 4;
 
 	// BGM文字位置
-	constexpr int BgmStringX = UnderBoxX;
-	constexpr int BgmStringY = UnderBoxY - 80;
+	constexpr float BgmStringX = UnderBoxX;
+	constexpr float BgmStringY = UnderBoxY - 80;
 	// SE文字位置
-	constexpr int SeStringX = UnderBoxX;
-	constexpr int SeStringY = BgmStringY + kSelectMoveY;
+	constexpr float SeStringX = UnderBoxX;
+	constexpr float SeStringY = BgmStringY + kSelectMoveY;
 	// タイトルに戻る文字位置
-	constexpr int BackStringX = BackBoxX+140;
-	constexpr int BackStringY= BackBoxY+10;
+	constexpr float BackStringX = BackBoxX+140;
+	constexpr float BackStringY= BackBoxY+10;
 }
 
 SoundManager::SoundManager() :
 	m_select(kBgmVolume),
-	m_selectPos(SelectBoxX, SelectBoxY)
+	m_selectPos(SelectBoxX, SelectBoxY),
+	m_bgmVolume(ChangeBgm),
+	m_seVolume(ChangeSe),
+	m_graph(-1),
+	m_isSceneEnd(false),
+	m_soundJump(0),
+	m_soundAttack(0),
+	m_soundButton(0),
+	m_soundDamage(0),
+	m_soundSelect(0),
+	m_bgmButtle(0),
+	m_bgmDefo(0),
+	m_bgmExplanation(0),
+	m_bgmGameClear(0),
+	m_bgmGameOver(0)
 {
 	m_pPause = new Pause(this);
 	// フォントのメモリ確保
@@ -87,25 +111,25 @@ void SoundManager::Init()
 	m_graph = LoadGraph("data/SelectUI2.png");
 	assert(m_graph != -1);
 
-	IsSceneEnd = false;
+	m_isSceneEnd = false;
 
 	m_select = kBgmVolume;
 	m_selectPos.x = SelectBoxX;
 	m_selectPos.y = SelectBoxY;
 
-	BgmVolume = ChangeBgm;
-	SeVolume = ChangeSe;
+	m_bgmVolume = ChangeBgm;
+	m_seVolume = ChangeSe;
 }
 
 void SoundManager::Draw()
 {
 	DrawBoxAA(UpBoxX, UpBoxY + (kSelectMoveY * 0),
-		UpBoxX + BgmVolume * 5.4, UpBoxY + UpBoxHeight + (kSelectMoveY * 0),
+		UpBoxX + m_bgmVolume * 5.4f, UpBoxY + UpBoxHeight + (kSelectMoveY * 0),
 		0x0095d9, true, 2.0f);
 	DrawBoxAA(UpBoxX, UpBoxY + (kSelectMoveY * 1),
-		UpBoxX + SeVolume * 5.4, UpBoxY + UpBoxHeight + (kSelectMoveY * 1),
+		UpBoxX + m_seVolume * 5.4f, UpBoxY + UpBoxHeight + (kSelectMoveY * 1),
 		0x0095d9, true, 2.0f);
-	DrawExtendGraph(BackBoxX, BackBoxY,
+	DrawExtendGraphF(BackBoxX, BackBoxY,
 		BackBoxX+ UnderBoxWidth*0.5f, BackBoxY + UpBoxHeight,
 		m_graph, false);
 	for (int i = 0; i < 2; i++)
@@ -127,11 +151,11 @@ void SoundManager::Draw()
 			0xff0000, false, 3.0f);
 	}
 
-	DrawFormatStringToHandle(BgmStringX, BgmStringY, m_pColorManager->GetColorWhite(),
+	DrawFormatStringFToHandle(BgmStringX, BgmStringY, m_pColorManager->GetColorWhite(),
 		m_pFontManager->GetFont(), "BGM");
-	DrawFormatStringToHandle(SeStringX, SeStringY, m_pColorManager->GetColorWhite(),
+	DrawFormatStringFToHandle(SeStringX, SeStringY, m_pColorManager->GetColorWhite(),
 		m_pFontManager->GetFont(), "SeVolume");
-	DrawStringToHandle(BackStringX, BackStringY,
+	DrawStringFToHandle(BackStringX, BackStringY,
 		"タイトルに戻る", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());
 }
@@ -238,54 +262,54 @@ void SoundManager::ChangeSound()
 	{
 		if (m_select == kSeVolume)
 		{
-			SeVolume += MaxVolume * 0.08f;
-			ChangeSEVolume(SeVolume);
+			m_seVolume += MaxVolume * 0.08f;
+			ChangeSEVolume(m_seVolume);
 			SetSeVolume();
 			SoundSelect();
-			if (SeVolume >= MaxVolume)
+			if (m_seVolume >= MaxVolume)
 			{
-				SeVolume = MaxVolume;
+				m_seVolume = MaxVolume;
 			}
-			ChangeSe = SeVolume;
+			ChangeSe = m_seVolume;
 		}
 		else if (m_select == kBgmVolume)
 		{
-			BgmVolume += MaxVolume * 0.08f;
-			ChangeBGMVolume(BgmVolume);
+			m_bgmVolume += MaxVolume * 0.08f;
+			ChangeBGMVolume(m_bgmVolume);
 			SetBgmVolume();
 			SoundSelect();
-			if (BgmVolume >= MaxVolume)
+			if (m_bgmVolume >= MaxVolume)
 			{
-				BgmVolume = MaxVolume;
+				m_bgmVolume = MaxVolume;
 			}
-			ChangeBgm = BgmVolume;
+			ChangeBgm = m_bgmVolume;
 		}
 	}
 	else if (Pad::IsTrigger(PAD_INPUT_LEFT))
 	{
 		if (m_select == kBgmVolume)
 		{
-			BgmVolume -= MaxVolume * 0.08f;
-			ChangeBGMVolume(BgmVolume);
+			m_bgmVolume -= MaxVolume * 0.08f;
+			ChangeBGMVolume(m_bgmVolume);
 			SetBgmVolume();
 			SoundSelect();
-			if (BgmVolume <= 0)
+			if (m_bgmVolume <= 0)
 			{
-				BgmVolume = 0;
+				m_bgmVolume = 0;
 			}
-			ChangeBgm = BgmVolume;
+			ChangeBgm = m_bgmVolume;
 		}
 		else if (m_select == kSeVolume)
 		{
-			SeVolume -= MaxVolume * 0.08f;
-			ChangeSEVolume(SeVolume);
+			m_seVolume -= MaxVolume * 0.08f;
+			ChangeSEVolume(m_seVolume);
 			SetSeVolume();
 			SoundSelect();
-			if (SeVolume <= 0)
+			if (m_seVolume <= 0)
 			{
-				SeVolume = 0;
+				m_seVolume = 0;
 			}
-			ChangeSe = SeVolume;
+			ChangeSe = m_seVolume;
 		}
 	}
 
@@ -293,36 +317,36 @@ void SoundManager::ChangeSound()
 	{
 		if (m_select == kBack)
 		{
-			IsSceneEnd = true;
+			m_isSceneEnd = true;
 			SoundButton();
 		}
 	}
 }
 
-void SoundManager::ChangeBGMVolume(int volume)
+void SoundManager::ChangeBGMVolume(float volume)
 {
-	BgmVolume = volume;
+	m_bgmVolume = volume;
 }
 
-void SoundManager::ChangeSEVolume(int volume)
+void SoundManager::ChangeSEVolume(float volume)
 {
-	SeVolume = volume;
+	m_seVolume = volume;
 }
 
 void SoundManager::SetBgmVolume()
 {
-	ChangeVolumeSoundMem(BgmVolume, m_bgmDefo);
-	ChangeVolumeSoundMem(BgmVolume, m_bgmButtle);
-	ChangeVolumeSoundMem(BgmVolume, m_bgmGameClear);
-	ChangeVolumeSoundMem(BgmVolume, m_bgmGameOver);
-	ChangeVolumeSoundMem(BgmVolume, m_bgmExplanation);
+	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmDefo);
+	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmButtle);
+	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmGameClear);
+	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmGameOver);
+	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmExplanation);
 }
 
 void SoundManager::SetSeVolume()
 {
-	ChangeVolumeSoundMem(SeVolume, m_soundSelect);
-	ChangeVolumeSoundMem(SeVolume, m_soundButton);
-	ChangeVolumeSoundMem(SeVolume, m_soundJump);
-	ChangeVolumeSoundMem(SeVolume, m_soundAttack);
-	ChangeVolumeSoundMem(SeVolume, m_soundDamage);
+	ChangeVolumeSoundMem(static_cast<int>(m_seVolume), m_soundSelect);
+	ChangeVolumeSoundMem(static_cast<int>(m_seVolume), m_soundButton);
+	ChangeVolumeSoundMem(static_cast<int>(m_seVolume), m_soundJump);
+	ChangeVolumeSoundMem(static_cast<int>(m_seVolume), m_soundAttack);
+	ChangeVolumeSoundMem(static_cast<int>(m_seVolume), m_soundDamage);
 }

@@ -34,22 +34,22 @@ namespace
 
 DeathYourEnemy::DeathYourEnemy()
 {
-	EGraph = LoadGraph("data/Enemy/DeathYourEnemy.png");
+	m_graph = LoadGraph("data/Enemy/DeathYourEnemy.png");
 
 	m_hp = kHP;			// HP
 	m_atk = kAtk;			// 攻撃力
-	Score = kScore;		// 倒した際に得られるスコア
+	m_score = kScore;		// 倒した際に得られるスコア
 
 	m_gravity = 0.0f;		// 敵の初期重力
 	m_isTurn = false;		// 右を向いているのfalseを挿入
-	angle = 0;			// 敵の移動角度
-	EnemyAnim = 0;		// 敵のアニメーションの初期化
+	m_angle = 0;			// 敵の移動角度
+	m_enemyAnim = 0;		// 敵のアニメーションの初期化
 	m_damageFrame = 0;
 }
 
 DeathYourEnemy::~DeathYourEnemy()
 {
-	DeleteGraph(EGraph);
+	DeleteGraph(m_graph);
 }
 
 void DeathYourEnemy::Init(Player* pPlayer)
@@ -80,17 +80,17 @@ void DeathYourEnemy::Update()
 	//敵移動
 	if (m_isTurn == false)
 	{
-		angle++;
-		float angle2 = angle * (DX_PI / 180);
-		m_pos.y = sin(angle2) * 200 + 550;
+		m_angle++;
+		float angle2 = m_angle * (DX_PI / 180.0f);
+		m_pos.y = sin(angle2) * 200.0f + 550.0f;
 		m_pos.x += kSpeed;
 
 	}
 	else if (m_isTurn == true)
 	{
-		angle++;
-		float angle2 = angle * (DX_PI / 180);
-		m_pos.y = sin(angle2) * 200 + 320;
+		m_angle++;
+		float angle2 = m_angle * (DX_PI / 180.0f);
+		m_pos.y = sin(angle2) * 200.0f + 320.0f;
 		m_pos.x -= kSpeed;
 	}
 	// エネミーが画面端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
@@ -106,22 +106,22 @@ void DeathYourEnemy::Update()
 	}
 
 	// アニメーションフレーム
-	EnemyAnim++;
-	if (EnemyAnim >= DefFrameCycle)
+	m_enemyAnim++;
+	if (m_enemyAnim >= DefFrameCycle)
 	{
-		EnemyAnim = 0;
+		m_enemyAnim = 0;
 	}
 }
 
 void DeathYourEnemy::Draw()
 {
-	int EnemyFrame = EnemyAnim / DefAnimFrameNum;
+	int EnemyFrame = m_enemyAnim / DefAnimFrameNum;
 	int srcX = DefFrame[EnemyFrame] * SrcWidth;
 
 	// 存在しない敵は描画しない
 	if (!m_isExist) return;
 	// グラフィックが設定されていなければ止まる
-	assert(EGraph != -1);
+	assert(m_graph != -1);
 
 	if (m_damageFrame % 4 >= 2) return;
 
@@ -131,7 +131,7 @@ void DeathYourEnemy::Draw()
 			m_pos.x, m_pos.y + kHeight,
 			srcX, 0,
 			SrcWidth, SrcHeight,
-			EGraph, true);
+			m_graph, true);
 	}
 	else if (m_isTurn == true)
 	{
@@ -139,7 +139,7 @@ void DeathYourEnemy::Draw()
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX , 0,
 			SrcWidth, SrcHeight,
-			EGraph, true);
+			m_graph, true);
 	}
 #ifdef _DEBUG
 	// 当たり判定の表示

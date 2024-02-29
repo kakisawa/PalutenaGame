@@ -43,12 +43,10 @@ public:
 	// プレイヤーの向いている方向を取得する為
 	void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
 private:
-	int Se;
+	int m_x;	// 弾の座標
+	int m_y;
 
-	int x;	// 弾の座標
-	int y;
-
-	int dir;	// 弾の方向
+	int m_dir;	// 弾の方向
 
 	bool m_isExist;	// 存在するかフラグ(使用中かどうか)
 

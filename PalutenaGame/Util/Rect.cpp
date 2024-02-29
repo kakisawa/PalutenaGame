@@ -21,20 +21,20 @@ void Rect::Draw(unsigned int color, bool isFill)
 		static_cast<int>(m_right), static_cast<int>(m_bottom), color, isFill);
 }
 
-void Rect::SetLT(float left, float top, float width, float height)
+void Rect::SetLT(float left, float top, float m_width, float m_height)
 {
 	m_left = left;				// 左上のX座標
 	m_top = top;				// 左上のY座標
-	m_right = left + width;		// 右下のX座標
-	m_bottom = top + height;	// 右下のY座標
+	m_right = left + m_width;		// 右下のX座標
+	m_bottom = top + m_height;	// 右下のY座標
 }
 
-void Rect::SetCenter(float x, float y, float width, float height)
+void Rect::SetCenter(float x, float y, float m_width, float m_height)
 {
-	m_left = x - width / 2;		// 左上のX座標
-	m_top = y - height / 2;		// 左上のY座標
-	m_right = x + width / 2;		// 右下のX座標
-	m_bottom = y + height / 2;		// 右下のY座標
+	m_left = x - m_width / 2;		// 左上のX座標
+	m_top = y - m_height / 2;		// 左上のY座標
+	m_right = x + m_width / 2;		// 右下のX座標
+	m_bottom = y + m_height / 2;		// 右下のY座標
 
 }
 

@@ -62,6 +62,7 @@ Player::Player() :
 	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
 	m_score(0),
 	m_damageFrame(0),
+	m_playerAnim(0),
 	m_dir(kDirFront),
 	m_shotDir(kShotDirRight),
 	m_jumpPower(0),
@@ -69,7 +70,17 @@ Player::Player() :
 	m_isTurn(false),
 	m_isJump(false),
 	m_isAttack(false),
-	m_isDeath(false)
+	m_isDeath(false),
+	m_pShot(nullptr),
+	m_pOption(nullptr),
+	m_pSoundManager(nullptr),
+	m_pColorManager(nullptr),
+	m_pFontManager(nullptr),
+	m_pDeathYourEnemy(nullptr),
+	m_pMozueyeEnemy(nullptr),
+	m_pPumpkinEnemy(nullptr),
+	m_pMain(nullptr),
+	m_pSecond(nullptr)
 {
 }
 
@@ -89,7 +100,11 @@ Player::Player(SceneMain* pMain) :
 	m_isTurn(false),
 	m_isJump(false),
 	m_isAttack(false),
-	m_isDeath(false)
+	m_isDeath(false),
+	m_playerAnim(0),
+	m_pShot(nullptr),
+	m_pOption(nullptr),
+	m_pSecond(nullptr)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
@@ -109,6 +124,7 @@ Player::Player(SceneSecond* pSceneSecond) :
 	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
 	m_score(0),
 	m_damageFrame(0),
+	m_playerAnim(0),
 	m_dir(kDirFront),
 	m_shotDir(kShotDirRight),
 	m_jumpPower(0),
@@ -116,7 +132,10 @@ Player::Player(SceneSecond* pSceneSecond) :
 	m_isTurn(false),
 	m_isJump(false),
 	m_isAttack(false),
-	m_isDeath(false)
+	m_isDeath(false),
+	m_pMain(nullptr),
+	m_pShot(nullptr),
+	m_pOption(nullptr)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
@@ -190,11 +209,11 @@ void Player::Update()
 	m_gravity += 0.3f;
 
 	// もし地面についていたら止まる
-	if (m_pos.y >= Ground)
+	if (m_pos.y >= kGround)
 	{
-		m_pos.y = Ground;
+		m_pos.y = kGround;
 
-		if (m_pos.y == Ground)
+		if (m_pos.y == kGround)
 		{
 			m_gravity = 0;
 			m_jumpPower = 0;
@@ -235,7 +254,7 @@ void Player::Update()
 			m_shotDir = kShotDirRight;
 		}
 		// ジャンプボタンを押していて、且つ地面についていたらジャンプ
-		if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == Ground)
+		if (Pad::IsTrigger(PAD_INPUT_1) && m_pos.y == kGround)
 		{
 			for (int i = 0; i < kJump; i++)
 			{

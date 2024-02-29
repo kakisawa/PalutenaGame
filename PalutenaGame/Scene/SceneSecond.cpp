@@ -504,7 +504,7 @@ void SceneSecond::CreateEnemyMozu()
 		{
 			m_pMozueyeEnemy[i] = new MozueyeEnemy;
 			m_pMozueyeEnemy[i]->Init(m_pPlayer);
-			m_pMozueyeEnemy[i]->Start(0, Ground - 32 * 0.5);
+			m_pMozueyeEnemy[i]->Start(0, kGround - 32 * 0.5);
 			return;
 		}
 	}
