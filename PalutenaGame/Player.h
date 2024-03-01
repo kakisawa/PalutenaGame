@@ -13,16 +13,6 @@ class SoundManager;
 class FontManager;
 class ColorManager;
 
-// プレイヤーが向いている方向
-enum Dir
-{
-	kDirFront,	// 正面
-	kDirDown,	// 下
-	kDirLeft,	// 左
-	kDirRight,	// 右
-	kDirUp,		// 上
-};
-
 // プレイヤーが弾を撃つ方向
 enum ShotDir
 {
@@ -49,6 +39,18 @@ public:
 	void OnDamage_Pump();	// プレイヤー被ダメ処理(敵_パンプキン)
 	void Death();			// プレイヤー死亡時処理
 	void HpDraw();			// プレイヤーのHP描画
+
+private:
+	enum Dir			// プレイヤーが向いている方向
+	{
+		kDirFront,	// 正面
+		kDirDown,	// 下
+		kDirLeft,	// 左
+		kDirRight,	// 右
+		kDirUp,		// 上
+	};
+
+
 
 public:
 	void SetHandle(int handle) { m_graph = handle; }	// メンバー変数にアクセスする

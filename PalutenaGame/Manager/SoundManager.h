@@ -30,11 +30,8 @@ public:
 
 	void ChangeSound();
 
-	// BGMの音量を調整するメソッド
-	void ChangeBGMVolume(float volume);
-	// SEの音量を調整するメソッド
-	void ChangeSEVolume(float volume);
-
+	void ChangeBGMVolume(float volume);// BGMの音量を調整するメソッド
+	void ChangeSEVolume(float volume);// SEの音量を調整するメソッド
 	// 調整した音量に変換する
 	void SetBgmVolume();
 	void SetSeVolume();
@@ -73,7 +70,6 @@ private:
 	
 	// 選択中メニュー四角表示位置
 	Vec2 m_selectPos;
-
 	Pause* m_pPause;
 	// フォントのポインタ
 	FontManager* m_pFontManager;

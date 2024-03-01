@@ -6,10 +6,8 @@ class SceneMain;
 class SceneSecond;
 class SceneGameOver;
 class SceneGameClear;
-
 class SoundManager;
 class Player;
-
 class SceneManager
 {
 public:
@@ -21,11 +19,10 @@ public:
 	void Draw();
 	void End();
 
-	static int s_ResultScore;
+	static int s_ResultScore;	// クリア画面/ゲームオーバー画面で表示する獲得スコアを入れる
 
 private:
-	// シーンの種類
-	enum SceneKind
+	enum SceneKind				// シーンの種類
 	{
 		kSceneKindTitle,		// タイトルシーン
 		kSceneKindOption,		// 設定シーン
@@ -38,7 +35,6 @@ private:
 
 	// 現在実行中のシーン
 	SceneKind   m_runScene;
-
 	// SceneManagerで管理する各シーン
 	SceneTitle*  m_pTitle;
 	SceneStageSelect* m_pStageSelect;
@@ -47,7 +43,6 @@ private:
 	SceneGameOver* m_pGameOver;
 	SceneGameClear* m_pGameClear;
 	SceneOption* m_pOption;
-
 	SoundManager* m_pSoundManager;
 	Player* m_pPlayer;
 };

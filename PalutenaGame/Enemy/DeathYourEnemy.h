@@ -1,8 +1,7 @@
 #pragma once
 #include "EnemyBase.h"
 
-class DeathYourEnemy :
-    public EnemyBase
+class DeathYourEnemy :public EnemyBase
 {
 public:
     DeathYourEnemy();
@@ -15,7 +14,6 @@ public:
     void Start(float x, float y);
 
 private:
-    float m_sinRate;    // sin()‚É—^‚¦‚éˆø”
     float m_angle;      // “G‚ÌˆÚ“®Šp“x
 
     Vec2 m_basePos;    

@@ -41,10 +41,6 @@ namespace
 }
 
 SceneMain::SceneMain() :
-	m_deathYourEnemyGraph(-1),
-	m_enemyHandle(-1),
-	m_mozueyeEnemy(-1),
-	m_pumpkinEnemyGraph(-1),
 	m_isSceneEnd(false),
 	m_isToGameClear(false),
 	m_isToGameOver(false),
@@ -60,22 +56,22 @@ SceneMain::SceneMain() :
 	m_gameScreenHandle = MakeScreen(kScreenWidth, kScreenHeight, true);
 
 	// グラフィックのロード
-	m_backHandle = LoadGraph("data/Map/Back1.png");
-	assert(m_backHandle != -1);
-	m_backGroundHandle = LoadGraph("data/Map/Ground.png");
-	assert(m_backGroundHandle != -1);
-	m_explanation = LoadGraph("data/explanation2.png");
-	assert(m_explanation != -1);
-	m_key_A = LoadGraph("data/pxkb_a.png");
-	assert(m_key_A != -1);
-	m_count1= LoadGraph("data/Count1.png");
-	assert(m_count1 != -1);
-	m_count2 = LoadGraph("data/Count2.png");
-	assert(m_count2 != -1);
-	m_count3 = LoadGraph("data/Count3.png");
-	assert(m_count3 != -1);
-	m_door = LoadGraph("data/01.png");
-	assert(m_door != -1);
+	m_backGraph = LoadGraph("data/Map/Back1.png");
+	assert(m_backGraph != -1);
+	m_backGroundGraph = LoadGraph("data/Map/Ground.png");
+	assert(m_backGroundGraph != -1);
+	m_explanationGraph = LoadGraph("data/explanation2.png");
+	assert(m_explanationGraph != -1);
+	m_keyAGraph = LoadGraph("data/pxkb_a.png");
+	assert(m_keyAGraph != -1);
+	m_count1Graph= LoadGraph("data/Count1.png");
+	assert(m_count1Graph != -1);
+	m_count2Graph = LoadGraph("data/Count2.png");
+	assert(m_count2Graph != -1);
+	m_count3Graph = LoadGraph("data/Count3.png");
+	assert(m_count3Graph != -1);
+	m_doorGraph = LoadGraph("data/01.png");
+	assert(m_doorGraph != -1);
 
 	// プレイヤーのメモリ確保
 	m_pPlayer = new Player{ this };
@@ -113,14 +109,13 @@ SceneMain::~SceneMain()
 	DeleteGraph(m_gameScreenHandle);
 
 	// メモリからグラフィックを削除
-	DeleteGraph(m_enemyHandle);
-	DeleteGraph(m_backGroundHandle);
-	DeleteGraph(m_backHandle);
-	DeleteGraph(m_count1);
-	DeleteGraph(m_count2);
-	DeleteGraph(m_count3);
-	DeleteGraph(m_explanation);
-	DeleteGraph(m_key_A);
+	DeleteGraph(m_backGroundGraph);
+	DeleteGraph(m_backGraph);
+	DeleteGraph(m_count1Graph);
+	DeleteGraph(m_count2Graph);
+	DeleteGraph(m_count3Graph);
+	DeleteGraph(m_explanationGraph);
+	DeleteGraph(m_keyAGraph);
 
 	// メモリの解放
 	delete m_pPlayer;
@@ -521,12 +516,12 @@ void SceneMain::StartDraw()
 		DrawExtendGraphF(ExplanationX, ExplanationY,
 			ExplanationX + static_cast<float>(kScreenWidth) * 0.85f,
 			ExplanationY + static_cast<float>(kScreenHeight) * 0.85f,
-			m_explanation, false);
+			m_explanationGraph, false);
 		DrawExtendGraphF((ExplanationX + static_cast<float>(kScreenWidth) * 0.8f - 65),
 			ExplanationY + static_cast<float>(kScreenHeight * 0.8f) - 75,
 			ExplanationX + static_cast<float>(kScreenWidth) * 0.83f,
 			ExplanationY + static_cast<float>(kScreenHeight) * 0.83f,
-			m_key_A, true);
+			m_keyAGraph, true);
 	}
 }
 
@@ -536,19 +531,19 @@ void SceneMain::CoundownDraw()
 	{
 		DrawExtendGraphF(CountDownX,CountDownY,
 			CountDownX + 106, CountDownY + 228,
-			m_count3, true);
+			m_count3Graph, true);
 	}
 	else if (m_startCount <= 120 && m_startCount >= 61)
 	{
 		DrawExtendGraphF(CountDownX, CountDownY,
 			CountDownX + 106, CountDownY + 228,
-			m_count2, true);
+			m_count2Graph, true);
 	}
 	else if (m_startCount <= 60 && m_startCount >= 1)
 	{
 		DrawExtendGraphF(CountDownX, CountDownY,
 			CountDownX + 106, CountDownY + 228,
-			m_count1, true);
+			m_count1Graph, true);
 	}
 }
 
@@ -560,30 +555,30 @@ void SceneMain::DrawDoor()
 		// モズアイ出現
 		DrawExtendGraphF(static_cast<float>(MozuX), static_cast<float>(MozuY),
 			MozuX+56, MozuY+60,
-			m_door, true);
+			m_doorGraph, true);
 
 		// 死出現位置
 		DrawExtendGraphF(static_cast<float>(DeathX), static_cast<float>(DeathY),
 			DeathX + 56, DeathY + 60,
-			m_door, true);
+			m_doorGraph, true);
 
 		// パンプキン出現
 		DrawExtendGraphF(static_cast<float>(PumpX_1), static_cast<float>(PumpY),
 			PumpX_1+56, PumpY+60,
-			m_door, true);
+			m_doorGraph, true);
 		DrawExtendGraphF(static_cast<float>(PumpX_2), static_cast<float>(PumpY),
 			PumpX_2 + 56, PumpY + 60,
-			m_door, true);
+			m_doorGraph, true);
 		DrawExtendGraphF(static_cast<float>(PumpX_3), static_cast<float>(PumpY),
 			PumpX_3 + 56, PumpY + 60,
-			m_door, true);
+			m_doorGraph, true);
 	}
 }
 
 void SceneMain::BgDraw()
 {
-	DrawGraphF(0, 0, m_backHandle, false);
-	DrawGraphF(BgGroundX, BgGroundY, m_backGroundHandle, true);
+	DrawGraphF(0, 0, m_backGraph, false);
+	DrawGraphF(BgGroundX, BgGroundY, m_backGroundGraph, true);
 }
 
 void SceneMain::Clear()

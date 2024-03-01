@@ -14,8 +14,6 @@ public:
     void Start(float x,float y);
 
 private:
-    float m_sinRate; // sin()‚É—^‚¦‚éˆø”
-    
     Vec2 m_basePos;    
 };
 

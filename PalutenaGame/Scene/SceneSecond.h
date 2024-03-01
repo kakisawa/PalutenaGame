@@ -27,7 +27,6 @@ class PumpkinEnemy;
 class Shot;
 class Time;
 class SoundManager;
-
 class SceneSecond
 {
 public:
@@ -64,22 +63,19 @@ private:
 
 	// グラフィックのハンドル
 	int m_gameScreenHandle;
-
 	int m_playerHandle;		// プレイヤー
 	int m_enemyHandle;		// 敵
-	int m_backHandle;		// 背景
+	int m_backGraph;		// 背景
 
 	// エネミー
 	int m_mozueyeEnemy;			// モズアイ
 	int m_deathYourEnemyGraph;	// お前たちの死
 	int m_pumpkinEnemyGraph;	// パンプキン君
-
 	int m_fadeAlpha;		// フェードイン、アウト
 	int m_enemyInterval;	// 敵の登場間隔
 
 	// シーン処理
 	bool m_isSceneEnd;		// シーンを終了する時trueにする
-
 	bool m_isToGameOver;		// ステージセレクト画面に行くか
 	bool m_isToGameClear;		// 説明シーンに行くか 
 

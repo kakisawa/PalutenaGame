@@ -1,8 +1,6 @@
 #pragma once
-
 class FontManager;
 class ColorManager;
-
 class Time
 {
 public:
@@ -12,9 +10,8 @@ public:
 	void Init();
 	void Update();
 	void Draw();
-
-	// 制限時間のフラグを返す
-	bool TimeUp() const { return m_isTimeUp; }
+	
+	bool TimeUp() const { return m_isTimeUp; }// 制限時間のフラグを返す
 
 private:
 	float m_second;		// 残りのゲーム秒数(制限時間)*60

@@ -2,8 +2,7 @@
 #include "EnemyBase.h"
 
 class SceneMain;
-class PumpkinEnemy :
-    public EnemyBase
+class PumpkinEnemy : public EnemyBase
 {
 public:
     PumpkinEnemy();
@@ -15,7 +14,5 @@ public:
     void Start(float x, float y);
 
 private:
-    float m_sinRate;// sin()‚É—^‚¦‚éˆø”
-
     Vec2 m_basePos;
 };

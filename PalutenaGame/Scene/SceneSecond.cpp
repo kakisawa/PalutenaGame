@@ -25,8 +25,8 @@ SceneSecond::SceneSecond() :
 	// グラフィックのロード
 	m_playerHandle = LoadGraph("data/Player.png");
 	assert(m_playerHandle != -1);
-	m_backHandle = LoadGraph("data/Map/Back1.png");
-	assert(m_backHandle != -1);
+	m_backGraph = LoadGraph("data/Map/Back1.png");
+	assert(m_backGraph != -1);
 
 	// プレイヤーのメモリ確保
 	m_pPlayer = new Player{this};
@@ -69,7 +69,7 @@ SceneSecond::~SceneSecond()
 	// メモリからグラフィックを削除
 	DeleteGraph(m_playerHandle);
 	DeleteGraph(m_enemyHandle);
-	DeleteGraph(m_backHandle);
+	DeleteGraph(m_backGraph);
 
 	// メモリの解放
 	delete m_pPlayer;
