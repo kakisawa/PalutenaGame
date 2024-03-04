@@ -10,5 +10,5 @@ namespace
 
 	// 地面の高さ
 	constexpr float kGround = kScreenHeight * 0.815f - 72;	// 地面とプレイヤーのサイズを
-														// 引いた結果が地面の高さ
+																// 引いた結果が地面の高さ
 }

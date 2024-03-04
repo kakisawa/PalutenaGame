@@ -23,6 +23,8 @@ namespace
 	constexpr int kAtk = 1;			// プレイヤーAtk初期値
 	constexpr float kSpeed = 3.0f;	// 移動速度
 	constexpr float kJump = 18.0f;	// ジャンプ距離
+	// ダメージ演出フレーム数
+	constexpr int kDamageFrame = 60;
 
 	// 基本キャラアニメーション
 	constexpr int DefFrame[] = { 0,1,2,3,4,5 };
@@ -527,6 +529,8 @@ void Player::OnDamage_Mozu()
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0)	return;
 
+	m_damageFrame = kDamageFrame;
+
 	// プレイヤーのHPを、敵の攻撃力分減らす
 	m_hp -= m_pMozueyeEnemy->GetEnemyAtk();
 
@@ -549,6 +553,8 @@ void Player::OnDamage_Death()
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0) return;
 
+	m_damageFrame = kDamageFrame;
+
 	// プレイヤーのHPを、敵の攻撃力分減らす
 	m_hp -= m_pDeathYourEnemy->GetEnemyAtk();
 
@@ -570,6 +576,8 @@ void Player::OnDamage_Pump()
 
 	// ダメージ演出中は再度食らわない
 	if (m_damageFrame > 0)	return;
+
+	m_damageFrame = kDamageFrame;
 
 	// プレイヤーのHPを、敵の攻撃力分減らす
 	m_hp -= m_pPumpkinEnemy->GetEnemyAtk();
