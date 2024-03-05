@@ -17,11 +17,16 @@ EnemyBase::EnemyBase():
 	m_h(0),
 	m_hp(0),
 	m_atk(0), 
+	m_score(0),
 	m_enemyAnim(0),
 	m_gravity(0),
+	m_enemyDeathAnim(0),
+	m_isScore(false),
 	m_isTurn(false),		// エネミーの向きフラグ,右を向いているのfalseを挿入
 	m_isDeath(false),		// 死亡フラグ,死んでいないのfalseを挿入
-	m_isExist(false), 
+	m_isExist(false),
+	m_isDeathAnim(false),
+	m_pPlayer(nullptr),
 	m_damageFrame(0)
 {
 }

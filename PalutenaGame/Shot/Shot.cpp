@@ -3,7 +3,25 @@
 #include "Player.h"
 #include "Game.h"
 
+namespace
+{
+	// プレイヤーのサイズ
+	constexpr int kPlayerWidth = 72;
+	constexpr int kPlayerHeight = 72;
+
+	// 弾のサイズ
+	constexpr int kShotWidth = 30;
+	constexpr int kShotHeight = 30;
+
+	// 弾の移動速度
+	constexpr float kShotSpeed = 8.0f;
+}
+
 Shot::Shot() :
+	m_pSecond(nullptr),
+	m_pPlayer(nullptr),
+	m_pMain(nullptr),
+	m_dir(0),
 	m_x(0),
 	m_y(0),
 	m_isExist(false)
@@ -16,8 +34,8 @@ Shot::~Shot()
 
 void Shot::init()
 {
-	m_x = m_pos.x;
-	m_y = m_pos.y;
+	m_x = static_cast<int>(m_pos.x);
+	m_y = static_cast<int>(m_pos.y);
 
 	m_dir = m_pPlayer->GetShotDir();
 }

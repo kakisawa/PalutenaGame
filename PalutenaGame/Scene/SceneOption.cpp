@@ -10,16 +10,19 @@
 namespace
 {
 	// •¶Žš‚Ì•\Ž¦ˆÊ’u
-	constexpr int kSelectChirPosX = kScreenWidth * 0.28f;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.83f;
+	constexpr float kSelectChirPosX = kScreenWidth * 0.28f;
+	constexpr float kSelectChirPosY = kScreenHeight * 0.83f;
 
 	// ƒXƒNƒ[ƒ‹ˆÚ“®—Ê
-	constexpr float backGround_scale = 1.2f;
+	constexpr float kBackGroundScale = 1.2f;
 	// ”wŒi‚ÌŠg‘å—¦
 	constexpr int kBgScale = 1;
 }
 
 SceneOption::SceneOption():
+	m_scrollX(0),
+	m_pushAGraph(-1),
+	m_bgGraph(-1),
 	m_isSceneEnd(false),
 	m_fadeAlpha(255),
 	m_fadeLetter(0)
@@ -62,13 +65,13 @@ void SceneOption::Update()
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
-	if (m_pSoundManager->GetSceneEnd())
+	if (m_pSoundManager->IsSceneEnd())
 	{
 		m_isSceneEnd = true;
 	}
 
 	// ”wŒiƒXƒNƒ[ƒ‹
-	m_scrollX += backGround_scale;
+	m_scrollX += kBackGroundScale;
 	// •¶Žš‚Ì“_–Å
 	m_fadeLetter++;
 	if (m_fadeLetter == 80)
@@ -99,10 +102,10 @@ void SceneOption::Draw()
 {
 	BackDraw();
 
-	DrawBox(kScreenWidth * 0.1f-3, kScreenHeight * 0.1f-3,
+	DrawBoxAA(kScreenWidth * 0.1f-3, kScreenHeight * 0.1f-3,
 		kScreenWidth * 0.9f+3, kScreenHeight * 0.8f+3,
 		m_pColorManager->GetColorWhite(), true);
-	DrawBox(kScreenWidth * 0.1f, kScreenHeight * 0.1f, 
+	DrawBoxAA(kScreenWidth * 0.1f, kScreenHeight * 0.1f, 
 		kScreenWidth * 0.9f, kScreenHeight * 0.8f, 
 		m_pColorManager->GetColorBlack(), true);
 
@@ -110,7 +113,7 @@ void SceneOption::Draw()
 
 	// •¶Žš‚Ì“_–Å•`‰æ
 	if (m_fadeLetter < 60) {
-		DrawGraph(kSelectChirPosX, kSelectChirPosY,
+		DrawGraphF(kSelectChirPosX, kSelectChirPosY,
 			m_pushAGraph, true);
 	}
 

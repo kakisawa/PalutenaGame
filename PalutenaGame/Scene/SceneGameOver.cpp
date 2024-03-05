@@ -10,27 +10,27 @@
 namespace
 {
 	// タイトル画像表示位置
-	constexpr int kTitleGraphPosX = kScreenWidth * 0.27;
-	constexpr int kTitleGraphPosY = kScreenHeight * 0.1f;
+	constexpr float kTitleGraphPosX = kScreenWidth * 0.27f;
+	constexpr float kTitleGraphPosY = kScreenHeight * 0.1f;
 	// スコア画像表示位置
-	constexpr int kScoreGraphPosX = kScreenWidth * 0.25f;
-	constexpr int kScoreGraphPosY = kScreenHeight * 0.55f;
+	constexpr float kScoreGraphPosX = kScreenWidth * 0.25f;
+	constexpr float kScoreGraphPosY = kScreenHeight * 0.55f;
 	// PushAキー画像表示位置
-	constexpr int kPushAX = kScreenWidth * 0.398f;
-	constexpr int kPushAY = kScreenHeight * 0.901f;
+	constexpr float kPushAX = kScreenWidth * 0.398f;
+	constexpr float kPushAY = kScreenHeight * 0.901f;
 
 	// スコア数値表示位置
-	constexpr int kScorePosX = kScreenWidth * 0.55f;
-	constexpr int kScorePosY = kScoreGraphPosY;
+	constexpr float kScorePosX = kScreenWidth * 0.55f;
+	constexpr float kScorePosY = kScoreGraphPosY;
 
 	// 選択肢四角内の文字表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.2;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.8f;
+	constexpr float kSelectChirPosX = kScreenWidth * 0.2f;
+	constexpr float kSelectChirPosY = kScreenHeight * 0.8f;
 	// 選択肢四角内の文字表示幅
 	constexpr int kCharInterval = 770;
 	// 選択肢四角の初期位置
-	constexpr int kSelectPosX = kSelectChirPosX - 2;
-	constexpr int kSelectPosY = kSelectChirPosY - 2;
+	constexpr float kSelectPosX = kSelectChirPosX - 2;
+	constexpr float kSelectPosY = kSelectChirPosY - 2;
 	// 選択肢四角の移動量
 	constexpr int kSelectMoveX = kCharInterval;
 	// 選択肢四角のサイズ
@@ -39,7 +39,7 @@ namespace
 
 
 	// スクロール移動量
-	constexpr float backGround_scale = 1.2f;
+	constexpr float kBackGroundScale = 1.2f;
 	// 背景の拡大率
 	constexpr int kBgScale = 1;
 }
@@ -147,7 +147,7 @@ void SceneGameOver::Update()
 	}
 
 	// 背景スクロール
-	m_scrollX += backGround_scale;
+	m_scrollX += kBackGroundScale;
 
 	// 文字の点滅
 	m_fadeLetter++;
@@ -185,7 +185,7 @@ void SceneGameOver::Draw()
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, m_pColorManager->GetColorBlack(), true);
+	DrawBoxAA(0, 0, kScreenWidth, kScreenHeight, m_pColorManager->GetColorBlack(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
 
@@ -198,23 +198,23 @@ void SceneGameOver::End()
 
 void SceneGameOver::StringDraw()
 {
-	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY, "  タイトルに戻る",
+	DrawStringFToHandle(kSelectChirPosX, kSelectChirPosY, "  タイトルに戻る",
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont());
-	DrawStringToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "  ゲームを終わる",
+	DrawStringFToHandle(kSelectChirPosX + kCharInterval, kSelectChirPosY, "  ゲームを終わる",
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont());
 
 	m_resultScore = SceneManager::s_ResultScore;
-	DrawFormatStringToHandle(kScorePosX+2, kScorePosY+2,
+	DrawFormatStringFToHandle(kScorePosX+2, kScorePosY+2,
 		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
 		"%4d", m_resultScore);
-	DrawFormatStringToHandle(kScorePosX, kScorePosY,
+	DrawFormatStringFToHandle(kScorePosX, kScorePosY,
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont3(),
 		"%4d", m_resultScore);
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
-		DrawExtendGraph(kPushAX, kPushAY,
+		DrawExtendGraphF(kPushAX, kPushAY,
 			kPushAX + 560, kPushAY + 80,
 			m_pushAGraph, true);
 	}
@@ -240,20 +240,20 @@ void SceneGameOver::BackDraw()
 
 void SceneGameOver::UIDraw()
 {
-	DrawGraph(kTitleGraphPosX, kTitleGraphPosY, m_titleGraph, true);
-	DrawGraph(kScoreGraphPosX, kScoreGraphPosY, m_scoreGraph, true);
+	DrawGraphF(kTitleGraphPosX, kTitleGraphPosY, m_titleGraph, true);
+	DrawGraphF(kScoreGraphPosX, kScoreGraphPosY, m_scoreGraph, true);
 
 	// タイトルに戻る・ゲームを終了するBOX
 	for (int i = 0; i < 2; i++) 
 	{
-		DrawGraph(kSelectPosX + (kCharInterval * i), kSelectPosY,
+		DrawGraphF(kSelectPosX + (kCharInterval * i), kSelectPosY,
 			m_selectUIGraph, false);
 	}
 
 	// 選択中の部分を四角で描画
-	DrawGraph(m_selectPos.x, m_selectPos.y,
+	DrawGraphF(m_selectPos.x, m_selectPos.y,
 		m_selectUIGraph2, false);
-	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
+	DrawExtendGraphF(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 20,
 		m_selectPos.y + kSelectSizeY + 20,
 		m_cursorGraph, true);

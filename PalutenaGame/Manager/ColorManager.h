@@ -10,10 +10,10 @@ public:
 	void Draw(){}
 
 public:
-	int GetColorBlack() { return m_colorHandle; }
-	int GetColorWhite() { return m_colorHandle2; }
-	int GetColorRed() { return m_colorHandle3; }
-	int GetColorBlue() { return m_colorHandle4; }
+	int GetColorBlack() { return m_colorHandle; }	// çï
+	int GetColorWhite() { return m_colorHandle2; }	// îí
+	int GetColorRed() { return m_colorHandle3; }	// ê‘
+	int GetColorBlue() { return m_colorHandle4; }	// ê¬
 
 private:
 	int m_colorHandle;

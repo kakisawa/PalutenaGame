@@ -29,12 +29,12 @@ public:
 
 private:
     int m_explanationGraph;   // 操作説明グラフ
-    int m_cursorGraph;             // カーソルグラフ
-    int m_pushAGraph;              // 「Aボタンで決定」
-    int m_selectUIGraph;        // UI
-    int m_selectUIGraph2;       // UI
-    int m_select;       // 選択中のメニュー
-    int m_fadeAlpha;    // フェードイン、アウト
+    int m_cursorGraph;        // カーソルグラフ
+    int m_pushAGraph;         // 「Aボタンで決定」
+    int m_selectUIGraph;      // UI
+    int m_selectUIGraph2;     // UI
+    int m_select;             // 選択中のメニュー
+    int m_fadeAlpha;        // フェードイン、アウト
     int m_fadeLetter;   // 文字の点滅用カウンタ
     
     float m_scrollX;    // スクロール移動量グラフ

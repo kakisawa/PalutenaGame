@@ -2,6 +2,14 @@
 #include "Vec2.h"
 #include "Rect.h"
 
+// プレイヤーが弾を撃つ方向(Shotからも参照するので)
+enum ShotDir
+{
+	kShotDirLeft,	// 左
+	kShotDirRight,	// 右
+	kShotDirUp,		// 上
+};
+
 class SceneExplanation;
 class SceneMain;
 class SceneSecond;
@@ -12,15 +20,6 @@ class Shot;
 class SoundManager;
 class FontManager;
 class ColorManager;
-
-// プレイヤーが弾を撃つ方向
-enum ShotDir
-{
-	kShotDirLeft,	// 左
-	kShotDirRight,	// 右
-	kShotDirUp,		// 上
-};
-
 class Player
 {
 public:
@@ -41,7 +40,8 @@ public:
 	void HpDraw();			// プレイヤーのHP描画
 
 private:
-	enum Dir			// プレイヤーが向いている方向
+	// プレイヤーが向いている方向
+	enum Dir
 	{
 		kDirFront,	// 正面
 		kDirDown,	// 下

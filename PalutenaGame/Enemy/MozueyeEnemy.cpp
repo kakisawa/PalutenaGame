@@ -23,11 +23,11 @@ namespace
 	constexpr int kAtk = 10;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
-	constexpr int DefFrame[] = { 0,1,2,3,4 };
+	constexpr int kDefFrame[] = { 0,1,2,3,4 };
 	// 基本キャラアニメーションの1コマのフレーム数
-	constexpr int DefAnimFrameNum = 10;
+	constexpr int kDefAnimFrameNum = 10;
 	// 基本キャラアニメーション1サイクルのフレーム数
-	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
+	constexpr int kDefFrameCycle = _countof(kDefFrame) * kDefAnimFrameNum;
 }
 
 MozueyeEnemy::MozueyeEnemy()
@@ -102,7 +102,7 @@ void MozueyeEnemy::Update()
 
 	// アニメーションフレーム
 	m_enemyAnim++;
-	if (m_enemyAnim >= DefFrameCycle)
+	if (m_enemyAnim >= kDefFrameCycle)
 	{
 		m_enemyAnim = 0;
 	}
@@ -110,8 +110,8 @@ void MozueyeEnemy::Update()
 
 void MozueyeEnemy::Draw()
 {
-	int EnemyFrame = m_enemyAnim / DefAnimFrameNum;
-	int srcX = DefFrame[EnemyFrame] * SrcWidth;
+	int EnemyFrame = m_enemyAnim / kDefAnimFrameNum;
+	int srcX = kDefFrame[EnemyFrame] * SrcWidth;
 
 	// 存在しない敵は描画しない
 	if (!m_isExist) return;
@@ -122,7 +122,7 @@ void MozueyeEnemy::Draw()
 
 	if (m_isTurn == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
+		DrawRectExtendGraphF(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 2, 29,
 			SrcWidth, SrcHeight,
@@ -130,7 +130,7 @@ void MozueyeEnemy::Draw()
 	}
 	else if (m_isTurn == true)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
+		DrawRectExtendGraphF(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX + 2, 0,
 			SrcWidth, SrcHeight,

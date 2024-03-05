@@ -10,7 +10,6 @@ public:
 	void Init();
 	void Update();
 	void Draw();
-	
 	bool TimeUp() const { return m_isTimeUp; }// §ŒÀŠÔ‚Ìƒtƒ‰ƒO‚ğ•Ô‚·
 
 private:

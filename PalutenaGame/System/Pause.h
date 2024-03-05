@@ -12,13 +12,12 @@ public:
 	void Init();
 	void Update();
 	void Draw();
-	bool GetPauseFlag() { return m_ispause; }
+	bool GetPauseFlag() { return m_isPause; }
 
 private:
 	int m_pauseCount;			// ポーズを何回押したかカウント
 	float m_miniWindowTime;		// ポーズウィンドウを表示する際のカウント
-	
-	bool m_ispause;				
+	bool m_isPause;				
 
 	// BGM・SE
 	SoundManager* m_pSoundManager;

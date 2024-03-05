@@ -20,7 +20,6 @@ namespace
 
 // クラス宣言
 class Player;
-class Back;
 class MozueyeEnemy;
 class DeathYourEnemy;
 class PumpkinEnemy;
@@ -39,20 +38,16 @@ public:
 	void End();
 
 	void CharactorDraw();
-
 	void Clear();	// クリア時の処理
 	void Death();	// 死亡時の処理
 
 	// シーンを終了させたいか
 	bool IsSceneEnd() const;
-
 	// 次どのステージに行くか
 	bool IsToGameOver() const;
 	bool IsToGameClear() const;
 
 	// ショットを追加する
-	// 登録できなかった場合はfalseを返す
-	// 登録できなかった場合は内部でpShot解放する
 	bool AddShot(Shot* pShot);
 
 private:
@@ -64,13 +59,8 @@ private:
 	// グラフィックのハンドル
 	int m_gameScreenHandle;
 	int m_playerHandle;		// プレイヤー
-	int m_enemyHandle;		// 敵
 	int m_backGraph;		// 背景
 
-	// エネミー
-	int m_mozueyeEnemy;			// モズアイ
-	int m_deathYourEnemyGraph;	// お前たちの死
-	int m_pumpkinEnemyGraph;	// パンプキン君
 	int m_fadeAlpha;		// フェードイン、アウト
 	int m_enemyInterval;	// 敵の登場間隔
 
@@ -83,8 +73,6 @@ private:
 	Player* m_pPlayer;
 	// 弾
 	Shot* m_pShot[kShotSecondMax];
-	// 背景
-	Back* m_pBack;
 	// 制限時間
 	Time* m_pTime;
 	// SE/BGM

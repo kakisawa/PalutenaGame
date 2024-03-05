@@ -9,29 +9,29 @@
 namespace
 {
 	// 文字の表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.08f;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.25f;
-	constexpr int kSelectBackChirPosX = kScreenWidth * 0.39f;
-	constexpr int kSelectBackChirPosY = kScreenHeight * 0.85f;
-	constexpr int kPushAX = kScreenWidth * 0.04f;
-	constexpr int kPushAY = kScreenHeight * 0.8f;
+	constexpr float kSelectChirPosX = kScreenWidth * 0.08f;
+	constexpr float kSelectChirPosY = kScreenHeight * 0.25f;
+	constexpr float kSelectBackChirPosX = kScreenWidth * 0.39f;
+	constexpr float kSelectBackChirPosY = kScreenHeight * 0.85f;
+	constexpr float kPushAX = kScreenWidth * 0.04f;
+	constexpr float kPushAY = kScreenHeight * 0.8f;
 
 	// 文字の表示幅
 	constexpr int kCharInterval = 300;
 
 	// 文字を囲む四角の初期位置
-	constexpr int kSelectPosX = kSelectChirPosX - 2;
-	constexpr int kSelectPosY = kSelectChirPosY - 2;
+	constexpr float kSelectPosX = kSelectChirPosX - 2;
+	constexpr float kSelectPosY = kSelectChirPosY - 2;
 
 	// 文字を囲む四角の移動量
 	constexpr int kSelectMoveY = 300;
 
 	// 文字を囲む四角のサイズ
-	constexpr int kSelectSizeX = kScreenWidth*0.245;
-	constexpr int kSelectSizeY = kScreenHeight * 0.07f;
+	constexpr float kSelectSizeX = kScreenWidth*0.245f;
+	constexpr float kSelectSizeY = kScreenHeight * 0.07f;
 
 	// スクロール移動量
-	constexpr float backGround_scale = 1.2f;
+	constexpr float kBackGroundScale = 1.2f;
 	// 背景の拡大率
 	constexpr int kBgScale = 1;
 }
@@ -41,6 +41,11 @@ SceneStageSelect::SceneStageSelect() :
 	m_isStage1(false),
 	m_isStage2(false),
 	m_isBackTitle(false),
+	m_selectUIGraph(-1),
+	m_selectUIGraph2(-1),
+	m_pushAGraph(-1),
+	m_explanationGraph(-1),
+	m_cursorGraph(-1),
 	m_scrollX(0),
 	m_selectPos(kSelectPosX, kSelectPosY),
 	m_bgPos(0, 0),
@@ -172,7 +177,7 @@ void SceneStageSelect::Update()
 	}
 
 	// 背景スクロール
-	m_scrollX += backGround_scale;
+	m_scrollX += kBackGroundScale;
 
 	// 文字の点滅
 	m_fadeLetter++;
@@ -222,41 +227,41 @@ void SceneStageSelect::StringDraw()
 	// ステージセレクト・タイトルに戻るBox
 	for (int i = 0; i < 2; i++)
 	{
-		DrawGraph(kSelectPosX, kSelectPosY + (kCharInterval * i),
+		DrawGraphF(kSelectPosX, kSelectPosY + (kCharInterval * i),
 			m_selectUIGraph, false);
-		DrawGraph(kSelectBackChirPosX, kSelectBackChirPosY,
+		DrawGraphF(kSelectBackChirPosX, kSelectBackChirPosY,
 			m_selectUIGraph, false);
 	}
 
 	// 選択中のBox・カーソル描画
-	DrawGraph(m_selectPos.x, m_selectPos.y,
+	DrawGraphF(m_selectPos.x, m_selectPos.y,
 		m_selectUIGraph2, false);
-	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
+	DrawExtendGraphF(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 20,
 		m_selectPos.y + kSelectSizeY + 20,
 		m_cursorGraph, true);
 
-	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY,
+	DrawStringFToHandle(kSelectChirPosX, kSelectChirPosY,
 		"　   ステージ1", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());
-	DrawStringToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval,
+	DrawStringFToHandle(kSelectChirPosX, kSelectChirPosY + kCharInterval,
 		"   ComingSoon", m_pColorManager->GetColorBlack(), 
 		m_pFontManager->GetFont());
-	DrawStringToHandle(kSelectBackChirPosX, kSelectBackChirPosY, 
+	DrawStringFToHandle(kSelectBackChirPosX, kSelectBackChirPosY, 
 		"  タイトルに戻る", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
-		DrawExtendGraph(kPushAX, kPushAY,
+		DrawExtendGraphF(kPushAX, kPushAY,
 			kPushAX + 590, kPushAY + 80,
 			m_pushAGraph, true);
 	}
 
 	// フェードの描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, 
+	DrawBoxAA(0, 0, kScreenWidth, kScreenHeight, 
 		m_pColorManager->GetColorBlack(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }

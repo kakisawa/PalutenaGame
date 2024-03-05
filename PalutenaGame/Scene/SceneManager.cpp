@@ -13,6 +13,7 @@
 int SceneManager::s_ResultScore = 0;	// ゲーム画面内に出したスコアを他のシーンでも出す用
 
 SceneManager::SceneManager() :
+	m_pPlayer(nullptr),
 	m_runScene(kSceneKindTitle),
 	m_pTitle(),			// クラスの初期化時は()の中にコンストラクタの引数を書く
 	m_pStageSelect(),

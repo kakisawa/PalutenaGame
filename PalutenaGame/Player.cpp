@@ -27,17 +27,17 @@ namespace
 	constexpr int kDamageFrame = 60;
 
 	// 基本キャラアニメーション
-	constexpr int DefFrame[] = { 0,1,2,3,4,5 };
+	constexpr int kDefFrame[] = { 0,1,2,3,4,5 };
 	// 基本キャラアニメーションの1コマのフレーム数
-	constexpr int DefAnimFrameNum = 8;
+	constexpr int kDefAnimFrameNum = 8;
 	// 基本キャラアニメーション1サイクルのフレーム数
-	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
+	constexpr int kDefFrameCycle = _countof(kDefFrame) * kDefAnimFrameNum;
 	// 攻撃時キャラアニメーション		
-	constexpr int AttackFrame[] = { 1,0,2,3,4,5 };
+	constexpr int kAttackFrame[] = { 1,0,2,3,4,5 };
 	// 攻撃時キャラアニメーション1コマのフレーム数
-	constexpr int AttackAnimFrameNum = 8;
+	constexpr int kAttackAnimFrameNum = 8;
 	// 攻撃時キャラアニメーション1サイクルのフレーム数
-	constexpr int AttackFrameCycle = _countof(AttackFrame) * AttackAnimFrameNum;
+	constexpr int kAttackFrameCycle = _countof(kAttackFrame) * kAttackAnimFrameNum;
 
 	// 獲得スコア描画位置
 	constexpr float kScoreX = kScreenWidth * 0.4f;
@@ -312,7 +312,7 @@ void Player::Update()
 		if (m_isMove == false)							// 待機状態アニメーション
 		{
 			m_playerAnim++;
-			if (m_playerAnim >= DefFrameCycle)
+			if (m_playerAnim >= kDefFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
@@ -320,7 +320,7 @@ void Player::Update()
 		else if (m_isMove == true)						// 左右移動アニメーション
 		{
 			m_playerAnim++;
-			if (m_playerAnim >= DefFrameCycle)
+			if (m_playerAnim >= kDefFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
@@ -328,7 +328,7 @@ void Player::Update()
 		else if (m_isMove == true && m_dir == kDirDown)	// しゃがみアニメーション
 		{
 			m_playerAnim++;
-			if (m_playerAnim >= DefFrameCycle)
+			if (m_playerAnim >= kDefFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
@@ -336,7 +336,7 @@ void Player::Update()
 		else if (m_isJump == true)						// ジャンプアニメーション
 		{
 			m_playerAnim++;
-			if (m_playerAnim >= DefFrameCycle)
+			if (m_playerAnim >= kDefFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
@@ -344,7 +344,7 @@ void Player::Update()
 		else if (m_isAttack == true)					// 攻撃アニメーション
 		{
 			m_playerAnim++;
-			if (m_playerAnim >= AttackFrameCycle)
+			if (m_playerAnim >= kAttackFrameCycle)
 			{
 				m_playerAnim = 0;
 			}
@@ -368,10 +368,10 @@ void Player::Draw()
 		if (m_damageFrame % 4 >= 2) return;
 
 		// プレイヤーアニメーション
-		int DefPlayerFrame = m_playerAnim / DefAnimFrameNum;
-		int AttackPlayerFrame = m_playerAnim / AttackAnimFrameNum;
-		int srcX = DefFrame[DefPlayerFrame] * 16;
-		int srcX2 = AttackFrame[AttackPlayerFrame] * 32;
+		int DefPlayerFrame = m_playerAnim / kDefAnimFrameNum;
+		int AttackPlayerFrame = m_playerAnim / kAttackAnimFrameNum;
+		int srcX = kDefFrame[DefPlayerFrame] * 16;
+		int srcX2 = kAttackFrame[AttackPlayerFrame] * 32;
 
 		// プレイヤーの通常立ち絵(画像の中から切り抜いて拡大する)
 		if (m_isMove == false && m_dir == kDirFront || m_dir == kDirUp && m_isJump == false && m_isAttack == false && m_isDeath == false)

@@ -6,12 +6,10 @@ class SoundManager;
 class FontManager;
 class Player;
 class ColorManager;
-
 class SceneGameClear :
     public SceneBase
 {
 public:
-
 	SceneGameClear();
 	~SceneGameClear();
 
@@ -24,10 +22,9 @@ public:
     void BackDraw();    // 背景の描画
     void UIDraw();      // UI等の描画
 
-	// シーンを終了させたいか
-	bool IsSceneEnd() const;
-	void SetHandle(int handle) { m_graph = handle; }
-   
+    void SetHandle(int handle) { m_graph = handle; }
+	bool IsSceneEnd() const;    // シーンを終了させたいか
+	
 private:
     int m_titleGraph;       // タイトルグラフ
     int m_scoreGraph;       // スコアグラフ

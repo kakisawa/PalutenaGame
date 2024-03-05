@@ -25,11 +25,11 @@ namespace
 	constexpr int kScore = 100;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
-	constexpr int DefFrame[] = { 0,1,2,3,4,5,6 };
+	constexpr int kDefFrame[] = { 0,1,2,3,4,5,6 };
 	// 基本キャラアニメーションの1コマのフレーム数
-	constexpr int DefAnimFrameNum = 7;
+	constexpr int kDefAnimFrameNum = 7;
 	// 基本キャラアニメーション1サイクルのフレーム数
-	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
+	constexpr int kDefFrameCycle = _countof(kDefFrame) * kDefAnimFrameNum;
 }
 
 DeathYourEnemy::DeathYourEnemy()
@@ -42,7 +42,7 @@ DeathYourEnemy::DeathYourEnemy()
 
 	m_gravity = 0.0f;		// 敵の初期重力
 	m_isTurn = false;		// 右を向いているのfalseを挿入
-	m_angle = 0;			// 敵の移動角度
+	m_angle = 0.0f;			// 敵の移動角度
 	m_enemyAnim = 0;		// 敵のアニメーションの初期化
 	m_damageFrame = 0;
 }
@@ -81,16 +81,16 @@ void DeathYourEnemy::Update()
 	if (m_isTurn == false)
 	{
 		m_angle++;
-		float angle2 = m_angle * (DX_PI / 180.0f);
-		m_pos.y = sin(angle2) * 200.0f + 550.0f;
+		float angle2 = m_angle * (DX_PI_F / 180.0f);
+		m_pos.y = static_cast<float>(sin(angle2)) * 200.0f + 550.0f;
 		m_pos.x += kSpeed;
 
 	}
 	else if (m_isTurn == true)
 	{
 		m_angle++;
-		float angle2 = m_angle * (DX_PI / 180.0f);
-		m_pos.y = sin(angle2) * 200.0f + 320.0f;
+		float angle2 = m_angle * (DX_PI_F / 180.0f);
+		m_pos.y = static_cast<float>(sin(angle2)) * 200.0f + 320.0f;
 		m_pos.x -= kSpeed;
 	}
 	// エネミーが画面端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
@@ -107,7 +107,7 @@ void DeathYourEnemy::Update()
 
 	// アニメーションフレーム
 	m_enemyAnim++;
-	if (m_enemyAnim >= DefFrameCycle)
+	if (m_enemyAnim >= kDefFrameCycle)
 	{
 		m_enemyAnim = 0;
 	}
@@ -115,8 +115,8 @@ void DeathYourEnemy::Update()
 
 void DeathYourEnemy::Draw()
 {
-	int EnemyFrame = m_enemyAnim / DefAnimFrameNum;
-	int srcX = DefFrame[EnemyFrame] * SrcWidth;
+	int EnemyFrame = m_enemyAnim / kDefAnimFrameNum;
+	int srcX = kDefFrame[EnemyFrame] * SrcWidth;
 
 	// 存在しない敵は描画しない
 	if (!m_isExist) return;
@@ -127,7 +127,7 @@ void DeathYourEnemy::Draw()
 
 	if (m_isTurn == false)
 	{
-			DrawRectExtendGraph(m_pos.x + kWidth, m_pos.y,
+			DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
 			m_pos.x, m_pos.y + kHeight,
 			srcX, 0,
 			SrcWidth, SrcHeight,
@@ -135,7 +135,7 @@ void DeathYourEnemy::Draw()
 	}
 	else if (m_isTurn == true)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
+		DrawRectExtendGraphF(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX , 0,
 			SrcWidth, SrcHeight,

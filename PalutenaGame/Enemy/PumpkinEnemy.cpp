@@ -2,7 +2,6 @@
 #include "DxLib.h"
 #include "Game.h"
 #include "Player.h"
-
 #include <cassert>
 
 namespace
@@ -30,11 +29,11 @@ namespace
 	constexpr int kScore = 100;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
-	constexpr int DefFrame[] = { 0,1,2,3,4,5,6,7 };
+	constexpr int kDefFrame[] = { 0,1,2,3,4,5,6,7 };
 	// 基本キャラアニメーションの1コマのフレーム数
-	constexpr int DefAnimFrameNum = 8;
+	constexpr int kDefAnimFrameNum = 8;
 	// 基本キャラアニメーション1サイクルのフレーム数
-	constexpr int DefFrameCycle = _countof(DefFrame) * DefAnimFrameNum;
+	constexpr int kDefFrameCycle = _countof(kDefFrame) * kDefAnimFrameNum;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
 	constexpr int DeathFrame[] = { 0,1,2,3,4,5,6,7,8 };
@@ -95,7 +94,7 @@ void PumpkinEnemy::Update()
 
 	// アニメーションフレーム
 	m_enemyAnim++;
-	if (m_enemyAnim >= DefFrameCycle)
+	if (m_enemyAnim >= kDefFrameCycle)
 	{
 		m_enemyAnim = 0;
 	}
@@ -113,8 +112,8 @@ void PumpkinEnemy::Update()
 
 void PumpkinEnemy::Draw()
 {
-	int EnemyFrame = m_enemyAnim / DefAnimFrameNum;
-	int srcX = DefFrame[EnemyFrame] * SrcWidth;
+	int EnemyFrame = m_enemyAnim / kDefAnimFrameNum;
+	int srcX = kDefFrame[EnemyFrame] * SrcWidth;
 
 	int DeathExpFrame = m_enemyDeathAnim / DeathAnimFrameNum;
 	int DeathX = DeathFrame[DeathExpFrame] * ExpWidth;
@@ -128,7 +127,7 @@ void PumpkinEnemy::Draw()
 
 	if (m_isTurn == false)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
+		DrawRectExtendGraphF(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX-1, 25,
 			SrcWidth, SrcHeight,
@@ -136,7 +135,7 @@ void PumpkinEnemy::Draw()
 	}
 	else if (m_isTurn == true)
 	{
-		DrawRectExtendGraph(m_pos.x, m_pos.y,
+		DrawRectExtendGraphF(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
 			srcX - 1, 0,
 			SrcWidth, SrcHeight,

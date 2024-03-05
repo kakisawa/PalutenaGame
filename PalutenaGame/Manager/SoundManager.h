@@ -4,7 +4,6 @@
 class Pause;
 class FontManager;
 class ColorManager;
-
 class SoundManager
 {
 public:
@@ -30,13 +29,14 @@ public:
 
 	void ChangeSound();
 
-	void ChangeBGMVolume(float volume);// BGMの音量を調整するメソッド
-	void ChangeSEVolume(float volume);// SEの音量を調整するメソッド
+	// 音量を調整するメソッド
+	void ChangeBGMVolume(float volume);
+	void ChangeSEVolume(float volume);
 	// 調整した音量に変換する
 	void SetBgmVolume();
 	void SetSeVolume();
 
-	bool GetSceneEnd() { return m_isSceneEnd; }
+	bool IsSceneEnd() { return m_isSceneEnd; }
 
 	int m_soundJump;
 	int m_soundAttack;

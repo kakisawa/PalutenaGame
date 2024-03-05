@@ -15,8 +15,11 @@
 
 SceneSecond::SceneSecond() :
 	m_isSceneEnd(false),
+	m_isToGameClear(false),
+	m_isToGameOver(false),
 	m_fadeAlpha(255),		// 不透明で初期化
-	m_enemyInterval(0)
+	m_enemyInterval(0),
+	m_pShot()
 {
 	// ゲーム画面描画先の生成
 	// 画面サイズと同じ大きさのグラフィックデータを作成する
@@ -65,18 +68,13 @@ SceneSecond::~SceneSecond()
 {
 	// MakeScreenで作成したらグラフィックを削除する
 	DeleteGraph(m_gameScreenHandle);
-
 	// メモリからグラフィックを削除
 	DeleteGraph(m_playerHandle);
-	DeleteGraph(m_enemyHandle);
 	DeleteGraph(m_backGraph);
 
 	// メモリの解放
 	delete m_pPlayer;
 	m_pPlayer = nullptr;
-
-	delete m_pBack;
-	m_pBack = nullptr;
 
 	delete m_pTime;
 	m_pTime = nullptr;
@@ -368,9 +366,9 @@ void SceneSecond::Clear()
 	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 100);
 
 	SetFontSize(64);
-	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
+	DrawStringF(kScreenWidth * 0.5f - 100, kScreenHeight * 0.5f - 100, "ゲームクリア！！！", GetColor(255, 255, 255));
 	SetFontSize(32);
-	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
+	DrawStringF(kScreenWidth * 0.5f - 80, kScreenHeight * 0.5f - 150, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 void SceneSecond::Death()
@@ -378,9 +376,9 @@ void SceneSecond::Death()
 	SetDrawBlendMode(DX_BLENDMODE_PMA_ALPHA, 100);
 
 	SetFontSize(32);
-	DrawString(kScreenWidth * 0.5 - 100, kScreenHeight * 0.5 - 100, "死んじゃった...", GetColor(255, 255, 255));
+	DrawStringF(kScreenWidth * 0.5f - 100, kScreenHeight * 0.5f - 100, "死んじゃった...", GetColor(255, 255, 255));
 	SetFontSize(16);
-	DrawString(kScreenWidth * 0.5 - 80, kScreenHeight * 0.5 - 150, "Aキーを押してください", GetColor(255, 255, 255));
+	DrawStringF(kScreenWidth * 0.5f - 80, kScreenHeight * 0.5f - 150, "Aキーを押してください", GetColor(255, 255, 255));
 }
 
 void SceneSecond::End()
@@ -534,7 +532,7 @@ void SceneSecond::CreateEnemyPump()
 			m_pPumpkinEnemy[i] = new PumpkinEnemy;
 			m_pPumpkinEnemy[i]->Init(m_pPlayer);
 
-			int EnemyX = 0;
+			float EnemyX = 0.0f;
 
 			switch (GetRand(2))
 			{

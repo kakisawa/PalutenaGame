@@ -9,14 +9,14 @@
 namespace
 {
 	// 文字の表示位置
-	constexpr int kSelectChirPosX = kScreenWidth * 0.38f;
-	constexpr int kSelectChirPosY = kScreenHeight * 0.61f;
+	constexpr float kSelectChirPosX = kScreenWidth * 0.38f;
+	constexpr float kSelectChirPosY = kScreenHeight * 0.61f;
 	// 文字の表示幅
 	constexpr int kCharInterval = 110;
 
 	// 文字を囲む四角の初期位置
-	constexpr int kSelectPosX = kSelectChirPosX - 2;
-	constexpr int kSelectPosY = kSelectChirPosY - 2;
+	constexpr float kSelectPosX = kSelectChirPosX - 2;
+	constexpr float kSelectPosY = kSelectChirPosY - 2;
 	// 文字を囲む四角の移動量
 	constexpr int kSelectMoveY = 110;
 	// 文字を囲む四角のサイズ
@@ -24,26 +24,31 @@ namespace
 	constexpr int kSelectSizeY = 80;
 
 	// タイトルロゴ表示位置
-	constexpr int kLogoPosX = kScreenWidth * 0.08;
-	constexpr int kLogoPosY = kScreenHeight * (-0.17f);
+	constexpr float kLogoPosX = kScreenWidth * 0.08f;
+	constexpr float kLogoPosY = kScreenHeight * (-0.17f);
 	// タイトルロゴサイズ
 	constexpr int kLogoSizeX = 1637;
 	constexpr int kLogoSizeY = 1089;
 
 	// PushAキー表示位置
-	constexpr int kPushAX = kScreenWidth * 0.354f;
-	constexpr int kPushAY = kScreenHeight * 0.895;
+	constexpr float kPushAX = kScreenWidth * 0.354f;
+	constexpr float kPushAY = kScreenHeight * 0.895f;
 
 	// スクロール移動量
-	constexpr float backGround_scale = 1.2f;
+	constexpr float kBackGroundScale = 1.2f;
 	// 背景の拡大率
-	constexpr int kBgScale = 1;
+	constexpr float kBgScale = 1.0f;
 }
 
 SceneTitle::SceneTitle() :
 	m_isSceneEnd(false),
 	m_isToExplanation(false),
 	m_isToSelect(false),
+	m_titleGraph(-1),
+	m_selectUIGraph(-1),
+	m_selectUIGraph2(-1),
+	m_pushAGraph(-1),
+	m_cursorGraph(-1),
 	m_scrollX(0),
 	m_select(kSelectGameStart),
 	m_selectPos(kSelectPosX, kSelectPosY),
@@ -160,7 +165,7 @@ void SceneTitle::Update()
 	}
 
 	// 背景スクロール
-	m_scrollX += backGround_scale;
+	m_scrollX += kBackGroundScale;
 
 	// 文字の点滅
 	m_fadeLetter++;
@@ -191,7 +196,7 @@ void SceneTitle::Draw()
 {
 	// 背景・タイトルの描画
 	BackDraw();
-	DrawExtendGraph(kLogoPosX, kLogoPosY, 
+	DrawExtendGraphF(kLogoPosX, kLogoPosY, 
 		kLogoPosX + kLogoSizeX, kLogoPosY + kLogoSizeY,
 		m_titleGraph, true);
 
@@ -214,36 +219,36 @@ void SceneTitle::End()
 void SceneTitle::StringDraw()
 {
 	for (int i = 0; i < 3; i++){
-		DrawGraph(m_selectPos.x, kSelectPosY + (kCharInterval * i),
+		DrawGraphF(m_selectPos.x, kSelectPosY + (kCharInterval * i),
 			m_selectUIGraph, false);
 	}
 
-	DrawGraph(m_selectPos.x, m_selectPos.y, m_selectUIGraph2, true);
+	DrawGraphF(m_selectPos.x, m_selectPos.y, m_selectUIGraph2, true);
 
-	DrawExtendGraph(m_selectPos.x - 20, m_selectPos.y - 20,
+	DrawExtendGraphF(m_selectPos.x - 20, m_selectPos.y - 20,
 		m_selectPos.x + kSelectSizeX + 30, m_selectPos.y + kSelectSizeY + 20, 
 		m_cursorGraph, true);
 
-	DrawStringToHandle(kSelectChirPosX+31, kSelectChirPosY,
+	DrawStringFToHandle(kSelectChirPosX+31, kSelectChirPosY,
 		"ゲームを始める", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());
-	DrawStringToHandle(kSelectChirPosX + 100, kSelectChirPosY + kCharInterval,
+	DrawStringFToHandle(kSelectChirPosX + 100, kSelectChirPosY + kCharInterval,
 		"オプション", m_pColorManager->GetColorBlack(), 
 		m_pFontManager->GetFont());
-	DrawStringToHandle(kSelectChirPosX + 31, kSelectChirPosY + kCharInterval * 2,
+	DrawStringFToHandle(kSelectChirPosX + 31, kSelectChirPosY + kCharInterval * 2,
 		"ゲームを終わる", m_pColorManager->GetColorBlack(), 
 		m_pFontManager->GetFont());
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60)
 	{
-		DrawExtendGraph(kPushAX, kPushAY,
+		DrawExtendGraphF(kPushAX, kPushAY,
 			kPushAX + 560, kPushAY + 80,
 			m_pushAGraph, true);
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBox(0, 0, kScreenWidth, kScreenHeight, 
+	DrawBoxAA(0, 0, kScreenWidth, kScreenHeight, 
 		m_pColorManager->GetColorBlack(), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }
@@ -258,7 +263,7 @@ void SceneTitle::BackDraw()
 
 	for (int index = 0; index < 4; index++)
 	{
-		DrawRotaGraph2(-scrollBg + index * bg1Size.m_width * kBgScale,
+		DrawRotaGraph2F(-scrollBg + index * bg1Size.m_width * kBgScale,
 			kScreenHeight - bg1Size.m_height * kBgScale,
 			0, 0,
 			kBgScale, 0.0f,

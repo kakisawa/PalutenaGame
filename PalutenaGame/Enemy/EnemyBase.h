@@ -40,8 +40,8 @@ protected:	// 派生クラスからアクセスできるように
 	int m_score;		// 敵所持スコア
 	int m_damageFrame;	// ダメージを受けてからのフレーム数
 
-	float m_enemyAnim;		// 敵アニメーション
-	float m_enemyDeathAnim;	// 敵死亡アニメーション
+	int m_enemyAnim;		// 敵アニメーション
+	int m_enemyDeathAnim;	// 敵死亡アニメーション
 	float m_gravity;		// 重力
 	
 	bool m_isExist;		// 存在するかフラグ(使用中かどうか)

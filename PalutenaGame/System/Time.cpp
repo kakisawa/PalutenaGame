@@ -8,8 +8,8 @@
 namespace
 {
 	// 残り時間描画位置
-	constexpr int kTimeX = kScreenWidth * 0.33f;
-	constexpr int kTimeY = kScreenHeight * 0.2f;
+	constexpr float kTimeX = kScreenWidth * 0.33f;
+	constexpr float kTimeY = kScreenHeight * 0.2f;
 }
 
 Time::Time():
@@ -48,10 +48,10 @@ void Time::Update()
 
 void Time::Draw()
 {
-	DrawFormatStringToHandle(kTimeX+2, kTimeY+2,
+	DrawFormatStringFToHandle(kTimeX+2, kTimeY+2,
 		m_pColorManager->GetColorWhite(), m_pFontManager->GetFont3(),
 		"残り時間:%.1f", m_second / 60);
-	DrawFormatStringToHandle(kTimeX, kTimeY,
+	DrawFormatStringFToHandle(kTimeX, kTimeY,
 		m_pColorManager->GetColorBlack(), m_pFontManager->GetFont3(),
 		"残り時間:%.1f", m_second / 60);
 }

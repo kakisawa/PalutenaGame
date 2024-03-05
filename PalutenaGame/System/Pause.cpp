@@ -8,18 +8,18 @@
 namespace 
 {
 	// ポーズ初期位置
-	constexpr int PauseBoxX = kScreenWidth * 0.1f;
-	constexpr int PauseBoxY = kScreenHeight * 0.5f;
+	constexpr float kPauseBoxX = kScreenWidth * 0.1f;
+	constexpr float kPauseBoxY = kScreenHeight * 0.5f;
 	// ポーズの最大長さ
-	constexpr int PauseBoxWight = kScreenWidth * 0.8f;
-	constexpr int PauseBoxHeight = kScreenHeight * 0.8f;
+	constexpr float kPauseBoxWight = kScreenWidth * 0.8f;
+	constexpr float kPauseBoxHeight = kScreenHeight * 0.8f;
 }
 
 Pause::Pause(SoundManager* soundManager) :
 	m_pSoundManager(soundManager),
 	m_miniWindowTime(0),
 	m_pauseCount(0),
-	m_ispause(false)
+	m_isPause(false)
 {
 	// 色メモリ確保
 	m_pColorManager = new ColorManager;
@@ -36,27 +36,27 @@ void Pause::Init()
 {
 	m_miniWindowTime = 0;
 	m_pauseCount = 0;
-	m_ispause = false;
+	m_isPause = false;
 }
 
 void Pause::Update()
 {
 	if (Pad::IsTrigger(PAD_INPUT_8))
 	{
-		m_ispause = true;
+		m_isPause = true;
 		m_pauseCount++;
 	}
 	if (m_pauseCount == 2)
 	{
-		m_ispause = false;
+		m_isPause = false;
 		m_pauseCount = 0;
 		m_miniWindowTime = 0;
 	}
-	if (m_ispause == true)
+	if (m_isPause == true)
 	{
-		if (m_miniWindowTime >= PauseBoxHeight * 0.5f)
+		if (m_miniWindowTime >= kPauseBoxHeight * 0.5f)
 		{
-			m_miniWindowTime = PauseBoxHeight * 0.5f;
+			m_miniWindowTime = kPauseBoxHeight * 0.5f;
 		}
 		m_miniWindowTime += 15;
 
@@ -66,16 +66,16 @@ void Pause::Update()
 
 void Pause::Draw()
 {
-	if (m_ispause == true)
+	if (m_isPause == true)
 	{
-		DrawBox(PauseBoxX-3, PauseBoxY - m_miniWindowTime-3,
-			PauseBoxX + PauseBoxWight+3, PauseBoxY + m_miniWindowTime+3,
+		DrawBoxAA(kPauseBoxX-3, kPauseBoxY - m_miniWindowTime-3,
+			kPauseBoxX + kPauseBoxWight+3, kPauseBoxY + m_miniWindowTime+3,
 			m_pColorManager->GetColorWhite(), true);
-		DrawBox(PauseBoxX, PauseBoxY - m_miniWindowTime,
-			PauseBoxX + PauseBoxWight, PauseBoxY + m_miniWindowTime,
+		DrawBoxAA(kPauseBoxX, kPauseBoxY - m_miniWindowTime,
+			kPauseBoxX + kPauseBoxWight, kPauseBoxY + m_miniWindowTime,
 			m_pColorManager->GetColorBlack(), true);
 
-		if (m_miniWindowTime >= PauseBoxHeight * 0.5f)
+		if (m_miniWindowTime >= kPauseBoxHeight * 0.5f)
 		{
 			m_pSoundManager->Draw();
 		}

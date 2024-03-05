@@ -11,7 +11,7 @@ public:
     virtual void Update() override;
     virtual void Draw() override;
 
-    void Start(float x, float y);
+    void Start(float x, float y);   // “GoŒ»ˆÊ’uİ’è
 
 private:
     float m_angle;      // “G‚ÌˆÚ“®Šp“x

@@ -19,8 +19,8 @@ public:
 	void End();
 
 	void BackDraw();
-	bool IsSceneEnd() const;	// シーンを終了させたいか
 	void SetHandle(int handle) { m_graph = handle; }
+	bool IsSceneEnd() const;	// シーンを終了させたいか
 
 private:
 	int m_bgGraph;

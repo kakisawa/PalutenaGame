@@ -1,7 +1,8 @@
 #include "FontManager.h"
 #include "DxLib.h"
 
-FontManager::FontManager()
+FontManager::FontManager():
+    m_fontStaging(0)
 {
     //フォント/
     // ファイルのロード
