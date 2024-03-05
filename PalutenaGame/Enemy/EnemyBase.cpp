@@ -73,8 +73,3 @@ void EnemyBase::Death()
 	m_isDeathAnim = true;
 	m_isExist = false;
 }
-
-void EnemyBase::Start(float x, float y)
-{
-	m_isExist = true;
-}

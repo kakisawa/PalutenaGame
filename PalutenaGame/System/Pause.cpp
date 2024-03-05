@@ -15,21 +15,17 @@ namespace
 	constexpr float kPauseBoxHeight = kScreenHeight * 0.8f;
 }
 
-Pause::Pause(SoundManager* soundManager) :
+Pause::Pause(SoundManager* soundManager, ColorManager* colorManager) :
 	m_pSoundManager(soundManager),
+	m_pColorManager(colorManager),
 	m_miniWindowTime(0),
 	m_pauseCount(0),
 	m_isPause(false)
 {
-	// Fƒƒ‚ƒŠŠm•Û
-	m_pColorManager = new ColorManager;
 }
 
 Pause::~Pause()
 {
-	// Fƒƒ‚ƒŠ‰ğ•ú
-	delete m_pColorManager;
-	m_pColorManager = nullptr;
 }
 
 void Pause::Init()

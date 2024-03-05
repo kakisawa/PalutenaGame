@@ -78,7 +78,6 @@ SoundManager::SoundManager() :
 	m_bgmGameClear(0),
 	m_bgmGameOver(0)
 {
-	m_pPause = new Pause(this);
 	// フォントのメモリ確保
 	m_pFontManager = new FontManager;
 	// 色メモリ確保

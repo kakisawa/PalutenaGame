@@ -6,7 +6,7 @@ class ColorManager;
 class Pause
 {
 public:
-	Pause(SoundManager* soundManager);
+	Pause(SoundManager* soundManager,ColorManager* colorManager);
 	~Pause();
 
 	void Init();

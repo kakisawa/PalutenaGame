@@ -19,9 +19,8 @@ public:
 
     void StringDraw();      // 文字の描画
     void BackDraw();        // 背景のスクロール描画
-    void SetHandle(int handle) { m_graph = handle; }    // 画像の読み込み
-
     bool IsSceneEnd() const;     // ゲームセレクトシーンへ向かうか
+
     // 次どのステージに行くか
     bool ToStage() const;
     bool ToExplanation() const;
@@ -42,20 +41,18 @@ private:
     bool m_isToSelect;      // ステージセレクト画面に行くか
     bool m_isToExplanation; // 説明シーンに行くか 
 
-    struct Size         // 背景のサイズ
+    struct Size             // 背景のサイズ
     {
-        int m_width;
-        int m_height;
+        int m_width;        // 横
+        int m_height;       // 縦
     };
 
-    enum Select
+    enum Select             // セレクト選択肢
     {
         kSelectGameStart,   // ゲームスタート
         kSclectOperation,   // 操作方法
         kSclectEnd,         // ゲームを終わる
-
         kSclectNum,         // 項目数
-        kSclectBack,        // 戻る
     };
 
     // 選択中メニュー四角表示位置

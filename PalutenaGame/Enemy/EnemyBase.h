@@ -14,22 +14,15 @@ public:
 	virtual void Update();
 	virtual void Draw(){}
 
-	// 敵がダメージを受けた時の処理
-	virtual void OnDamage();	
-	// 死んだときの処理
-	void Death();
-	// 位置の取得
-	Vec2 GetPos() const { return m_pos; }
-	// 当たり判定の矩形を取得する
-	Rect GetColRect() const { return m_colRect; }	
-	// 敵の攻撃力,HP,スコアを渡す
-	int GetEnemyAtk() const { return m_atk; }
-	int GetEnemyHP() const { return m_hp; }
-	// 敵が存在するかどうかのフラグを渡す
-	bool isExist() const { return m_isExist; }
-
-	// 敵キャラクターをスタートさせる
-	virtual void Start(float x, float y) = 0;
+	virtual void OnDamage();						// ダメージを受けた時の処理
+	void Death();			// 死んだときの処理
+	
+	Vec2 GetPos() const { return m_pos; }			// 位置の取得
+	Rect GetColRect() const { return m_colRect; }	// 当たり判定の矩形を取得する
+	// 攻撃力,HPを渡す
+	int GetEnemyAtk() const { return m_atk; }		// 攻撃力
+	int GetEnemyHP() const { return m_hp; }			// HP
+	bool GetIsExist() const { return m_isExist; }	// 存在するか取得する
 	
 protected:	// 派生クラスからアクセスできるように
 	int m_graph;		// 敵画像
@@ -44,7 +37,7 @@ protected:	// 派生クラスからアクセスできるように
 	int m_enemyDeathAnim;	// 敵死亡アニメーション
 	float m_gravity;		// 重力
 	
-	bool m_isExist;		// 存在するかフラグ(使用中かどうか)
+	bool m_isExist;		// 存在するかフラグ
 	bool m_isTurn;		// 左右どちらを向いているか
 	bool m_isDeathAnim;	// 敵死亡アニメーションフラグ
 	bool m_isDeath;		// 死亡フラグ

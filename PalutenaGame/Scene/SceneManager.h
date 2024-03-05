@@ -19,7 +19,7 @@ public:
 	void Draw();
 	void End();
 
-	static int s_ResultScore;	// クリア画面/ゲームオーバー画面で表示する獲得スコアを入れる
+	static int s_ResultScore;	// クリア画面・ゲームオーバー画面で表示する獲得スコアを入れる
 
 private:
 	enum SceneKind				// シーンの種類

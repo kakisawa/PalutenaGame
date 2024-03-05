@@ -211,7 +211,7 @@ void SceneSecond::Update()
 				m_pPlayer->SetMozu(m_pMozueyeEnemy[i]);
 
 				// 存在している敵とプレイヤーの当たり判定
-				if (m_pMozueyeEnemy[i]->isExist()) {
+				if (m_pMozueyeEnemy[i]->GetIsExist()) {
 					Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
 					if (playerRect.IsCollsion(enemyRect))
 					{
@@ -247,7 +247,7 @@ void SceneSecond::Update()
 				m_pPlayer->SetDeath(m_pDeathYourEnemy[i]);
 
 				// 存在している敵とプレイヤーの当たり判定
-				if (m_pDeathYourEnemy[i]->isExist()) {
+				if (m_pDeathYourEnemy[i]->GetIsExist()) {
 					Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
 					if (playerRect.IsCollsion(enemyRect))
 					{
@@ -285,7 +285,7 @@ void SceneSecond::Update()
 				m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
 
 				// 存在している敵とプレイヤーの当たり判定
-				if (m_pPumpkinEnemy[i]->isExist()) {
+				if (m_pPumpkinEnemy[i]->GetIsExist()) {
 					Rect enemyRect = m_pPumpkinEnemy[i]->GetColRect();
 					if (playerRect.IsCollsion(enemyRect))
 					{

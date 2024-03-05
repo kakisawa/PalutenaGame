@@ -11,6 +11,6 @@ public:
 	virtual void Draw() {}
 
 protected:
-	int m_graph;	// 背景グラフ
+	int m_graph;		// 背景画像
 	bool m_isSceneEnd;	// シーン終了フラグ
 };

@@ -52,7 +52,6 @@ SceneStageSelect::SceneStageSelect() :
 	m_fadeLetter(0),
 	m_fadeAlpha(255)
 {
-	// SE/BGMメモリ確保
 	m_pSoundManager = new SoundManager;
 	// フォントメモリ確保
 	m_pFontManager = new FontManager;

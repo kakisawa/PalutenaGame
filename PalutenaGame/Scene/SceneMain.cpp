@@ -82,7 +82,7 @@ SceneMain::SceneMain() :
 	// 色メモリ確保
 	m_pColorManager = new ColorManager;
 	// ポーズ
-	m_pPause = new Pause(m_pSoundManager);
+	m_pPause = new Pause(m_pSoundManager,m_pColorManager);
 
 	m_pMozueyeEnemy.resize(MozuMax);
 	m_pDeathYourEnemy.resize(DeathMax);
@@ -253,7 +253,7 @@ void SceneMain::Update()
 						m_pPlayer->SetMozu(m_pMozueyeEnemy[i]);
 
 						// 使用済みの敵を削除
-						if (!m_pMozueyeEnemy[i]->isExist())
+						if (!m_pMozueyeEnemy[i]->GetIsExist())
 						{
 							delete m_pMozueyeEnemy[i];
 							m_pMozueyeEnemy[i] = nullptr;
@@ -293,7 +293,7 @@ void SceneMain::Update()
 						m_pPlayer->SetDeath(m_pDeathYourEnemy[i]);
 
 						// 使用済みの敵を削除
-						if (!m_pDeathYourEnemy[i]->isExist())
+						if (!m_pDeathYourEnemy[i]->GetIsExist())
 						{
 							delete m_pDeathYourEnemy[i];
 							m_pDeathYourEnemy[i] = nullptr;
@@ -335,7 +335,7 @@ void SceneMain::Update()
 						m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
 
 						// 使用済みの敵を削除
-						if (!m_pPumpkinEnemy[i]->isExist())
+						if (!m_pPumpkinEnemy[i]->GetIsExist())
 						{
 							delete m_pPumpkinEnemy[i];
 							m_pPumpkinEnemy[i] = nullptr;
