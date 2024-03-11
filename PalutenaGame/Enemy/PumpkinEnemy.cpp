@@ -10,7 +10,7 @@ namespace
 	constexpr int kWidth = 48;
 	constexpr int kHeight = 66;
 	// エネミーの画像元サイズ
-	constexpr float SrcWidth = 15.8f;
+	constexpr int SrcWidth = 16;
 	constexpr int SrcHeight = 23;
 	// 敵死亡時爆破の画像元サイズ
 	constexpr int ExpWidth = 32;
@@ -130,17 +130,17 @@ void PumpkinEnemy::Draw()
 
 	if (m_isTurn == false)
 	{
-		DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
+		DrawRectExtendGraphF2(m_pos.x + kWidth, m_pos.y,
 			m_pos.x, m_pos.y + kHeight,
-			srcX+2, 3,
+			static_cast<float>(srcX), 0,
 			SrcWidth, SrcHeight,
 			m_graph, true);
 	}
 	else if (m_isTurn == true)
 	{
-		DrawRectExtendGraphF(m_pos.x, m_pos.y,
+		DrawRectExtendGraphF2(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX +2, 0,
+			static_cast<float>(srcX +2), 3,
 			SrcWidth, SrcHeight,
 			m_graph, true);
 	}

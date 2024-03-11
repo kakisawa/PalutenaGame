@@ -25,7 +25,6 @@ public:
 	Rect GetColRect() const { return m_colRect; }			// 当たり判定の矩形を取得する
 
 private:
-	int m_x, m_y;	// 弾の座標
 	int m_dir;		// 弾の方向
 	bool m_isExist;	// シーンフラグ
 

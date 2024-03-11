@@ -15,17 +15,14 @@ namespace
 	constexpr float kSelectBackChirPosY = kScreenHeight * 0.85f;
 	constexpr float kPushAX = kScreenWidth * 0.04f;
 	constexpr float kPushAY = kScreenHeight * 0.8f;
-
 	// 文字の表示幅
 	constexpr int kCharInterval = 300;
 
 	// 文字を囲む四角の初期位置
 	constexpr float kSelectPosX = kSelectChirPosX - 2;
 	constexpr float kSelectPosY = kSelectChirPosY - 2;
-
 	// 文字を囲む四角の移動量
 	constexpr int kSelectMoveY = 300;
-
 	// 文字を囲む四角のサイズ
 	constexpr float kSelectSizeX = kScreenWidth*0.245f;
 	constexpr float kSelectSizeY = kScreenHeight * 0.07f;
@@ -37,68 +34,69 @@ namespace
 }
 
 SceneStageSelect::SceneStageSelect() :
-	m_select(kStage1),
-	m_isStage1(false),
-	m_isStage2(false),
-	m_isBackTitle(false),
-	m_selectUIGraph(-1),
-	m_selectUIGraph2(-1),
-	m_pushAGraph(-1),
-	m_explanationGraph(-1),
-	m_cursorGraph(-1),
-	m_scrollX(0),
-	m_selectPos(kSelectPosX, kSelectPosY),
-	m_bgPos(0, 0),
-	m_fadeLetter(0),
-	m_fadeAlpha(255)
+	m_selectUIGraph		(-1),
+	m_selectUIGraph2	(-1),
+	m_pushAGraph		(-1),
+	m_explanationGraph	(-1),
+	m_cursorGraph		(-1),
+	m_bgPos				(0, 0),
+	m_scrollX			(0),
+	m_fadeLetter		(0),
+	m_fadeAlpha			(255),
+	m_selectPos			(kSelectPosX, kSelectPosY),
+	m_select			(kStage1),
+	m_isStage1			(false),
+	m_isStage2			(false),
+	m_isBackTitle		(false)	
 {
-	m_pSoundManager = new SoundManager;
-	// フォントメモリ確保
-	m_pFontManager = new FontManager;
-	// 色メモリ確保
-	m_pColorManager = new ColorManager;
+	// メモリ確保
+	m_pSoundManager = new SoundManager;	// サウンド
+	m_pFontManager = new FontManager;	// フォント
+	m_pColorManager = new ColorManager;	// 色
 }
 
 SceneStageSelect::~SceneStageSelect()
 {
 	// メモリ解放
-	delete m_pSoundManager;
+	delete m_pSoundManager;		// サウンド
 	m_pSoundManager = nullptr;
-	delete m_pFontManager;
+	delete m_pFontManager;		// フォント
 	m_pFontManager = nullptr;
-	delete m_pColorManager;
+	delete m_pColorManager;		// 色
 	m_pColorManager = nullptr;
 }
 
 void SceneStageSelect::Init()
 {
-	m_graph = LoadGraph("data/Map/patter.png");	// 背景読み込み
-	m_cursorGraph = LoadGraph("data/Cursor.png");		// カーソルロゴ読み込み
-	m_pushAGraph = LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
+	m_graph = LoadGraph("data/Map/patter.png");				
+	m_cursorGraph = LoadGraph("data/Cursor.png");			
+	m_pushAGraph = LoadGraph("data/PushA.png");	
 	m_explanationGraph = LoadGraph("data/Explanation.png");
 	m_selectUIGraph= LoadGraph("data/SelectUI.png");
 	m_selectUIGraph2=LoadGraph("data/SelectUI2.png");
 
-	m_select = kStage1;
-	m_isSceneEnd = false;
-	m_isStage1 = false;
-	m_isStage2 = false;
-	m_isBackTitle = false;
-	m_selectPos.x = kSelectPosX;
-	m_selectPos.y = kSelectPosY;
 	m_scrollX = 0;
 	m_bgPos.x = 0;
 	m_bgPos.y = 0;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
-
+	m_selectPos.x = kSelectPosX;
+	m_selectPos.y = kSelectPosY;
+	m_select = kStage1;
+	m_isSceneEnd = false;
+	m_isStage1 = false;
+	m_isStage2 = false;
+	m_isBackTitle = false;
+	
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
-	m_pSoundManager->BGMDefo();
+
+	m_pSoundManager->BGMDefo();		// デフォルトBGMを流す
 }
 
 void SceneStageSelect::Update()
 {
+	// SE・BGM調整後音量に変更
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 

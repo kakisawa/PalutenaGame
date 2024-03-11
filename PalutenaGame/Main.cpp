@@ -9,7 +9,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetWindowIconID(IDI_ICON1);
 
 	// 画面モード変更(解像度・ビット数)
-
 	ChangeWindowMode(true);
 	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
 	SetWindowText(_T("ミラージュ・ビット"));

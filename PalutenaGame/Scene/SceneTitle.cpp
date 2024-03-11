@@ -41,71 +41,67 @@ namespace
 }
 
 SceneTitle::SceneTitle() :
-	m_isSceneEnd(false),
-	m_isToOption(false),
-	m_isToSelect(false),
-	m_titleGraph(-1),
-	m_selectUIGraph(-1),
+	m_titleGraph	(-1),
+	m_selectUIGraph	(-1),
 	m_selectUIGraph2(-1),
-	m_pushAGraph(-1),
-	m_cursorGraph(-1),
-	m_scrollX(0),
-	m_select(kSelectGameStart),
-	m_selectPos(kSelectPosX, kSelectPosY),
-	m_bgPos(0, 0),
-	m_fadeAlpha(255),
-	m_fadeLetter(0)
+	m_pushAGraph	(-1),
+	m_cursorGraph	(-1),
+	m_scrollX		(0),
+	m_fadeLetter	(0),
+	m_fadeAlpha		(255),
+	m_bgPos			(0, 0),
+	m_select		(kSelectGameStart),
+	m_selectPos		(kSelectPosX, kSelectPosY),
+	m_isSceneEnd	(false),
+	m_isToOption	(false),
+	m_isToSelect	(false)	
 {
-	// フォントのメモリ確保
-	m_pFontManager = new FontManager;
-	// SE/BGMメモリ確保
-	m_pSoundManager = new SoundManager;
-	// 色メモリ確保
-	m_pColorManager = new ColorManager;
+	// メモリ確保
+	m_pFontManager = new FontManager;	// フォント
+	m_pSoundManager = new SoundManager;	// サウンド
+	m_pColorManager = new ColorManager;	// 色
 }
 
 SceneTitle::~SceneTitle()
-{
-	// フォントメモリの解放
-	delete m_pFontManager;
+{	
+	// メモリの解放
+	delete m_pFontManager;		// フォント
 	m_pFontManager = nullptr;
-	// サウンドメモリ解放
-	delete m_pSoundManager;
+	delete m_pSoundManager;		// サウンド
 	m_pSoundManager = nullptr;
-	// 色メモリ解放
-	delete m_pColorManager;
+	delete m_pColorManager;		// 色
 	m_pColorManager = nullptr;
 }
 
 void SceneTitle::Init()
 {
-	m_graph = LoadGraph("data/Map/patter.png");			// 背景読み込み
-	m_titleGraph = LoadGraph("data/TitleGraph3.png");		// タイトルロゴ読み込み
-	m_cursorGraph = LoadGraph("data/Cursor.png");				// カーソルロゴ読み込み
-	m_pushAGraph= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
+	m_graph = LoadGraph("data/Map/patter.png");
+	m_titleGraph = LoadGraph("data/TitleGraph3.png");
+	m_cursorGraph = LoadGraph("data/Cursor.png");
+	m_pushAGraph= LoadGraph("data/PushA.png");
 	m_selectUIGraph= LoadGraph("data/SelectUI.png");
 	m_selectUIGraph2 = LoadGraph("data/SelectUI2.png");
 
-	m_select = kSelectGameStart;
-
-	m_isSceneEnd = false;
-	m_isToOption = false;
-	m_isToSelect = false;
-	m_selectPos.x = kSelectPosX;
-	m_selectPos.y = kSelectPosY;
 	m_scrollX = 0;
 	m_bgPos.x = 0;
 	m_bgPos.y = 0;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
-
+	m_selectPos.x = kSelectPosX;
+	m_selectPos.y = kSelectPosY;
+	m_select = kSelectGameStart;
+	m_isSceneEnd = false;
+	m_isToOption = false;
+	m_isToSelect = false;
+	
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
-	m_pSoundManager->BGMDefo();
+	m_pSoundManager->BGMDefo();	// デフォBGMを流す
 }
 
 void SceneTitle::Update()
 {
+	// SE・BGM調整後音量に変更
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
@@ -218,6 +214,7 @@ void SceneTitle::End()
 
 void SceneTitle::StringDraw()
 {
+	// UI描画
 	for (int i = 0; i < 3; i++){
 		DrawGraphF(m_selectPos.x, kSelectPosY + (kCharInterval * i),
 			m_selectUIGraph, false);
@@ -229,6 +226,7 @@ void SceneTitle::StringDraw()
 		m_selectPos.x + kSelectSizeX + 30, m_selectPos.y + kSelectSizeY + 20, 
 		m_cursorGraph, true);
 
+	// UI上文字描画
 	DrawStringFToHandle(kSelectChirPosX+31, kSelectChirPosY,
 		"ゲームを始める", m_pColorManager->GetColorBlack(),
 		m_pFontManager->GetFont());

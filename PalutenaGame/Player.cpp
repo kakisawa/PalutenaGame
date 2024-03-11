@@ -19,12 +19,11 @@ namespace
 	constexpr int kWidth = 72;
 	constexpr int kHeight = 72;
 
-	constexpr int kHP = 100;		// プレイヤーHP初期値
-	constexpr int kAtk = 1;			// プレイヤーAtk初期値
-	constexpr float kSpeed = 3.0f;	// 移動速度
-	constexpr float kJump = 18.0f;	// ジャンプ距離
-	// ダメージ演出フレーム数
-	constexpr int kDamageFrame = 60;
+	constexpr int kHP = 100;			// プレイヤーHP初期値
+	constexpr int kAtk = 1;				// プレイヤーAtk初期値
+	constexpr float kSpeed = 3.0f;		// 移動速度
+	constexpr float kJump = 18.0f;		// ジャンプ距離
+	constexpr int kDamageFrame = 60;	// ダメージ演出フレーム数
 
 	// 基本キャラアニメーション
 	constexpr int kDefFrame[] = { 0,1,2,3,4,5 };
@@ -57,17 +56,48 @@ namespace
 }
 
 Player::Player() :
+	m_graph				(-1),
+	m_hp				(kHP),
+	m_atk				(kAtk),
+	m_gravity			(0),
+	m_score				(0),
+	m_damageFrame		(0),
+	m_playerAnim		(0),
+	m_jumpPower			(0),
+	m_dir				(kDirFront),
+	m_shotDir			(kShotDirRight),
+	m_pos				(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
+	m_isMove			(false),
+	m_isTurn			(false),
+	m_isJump			(false),
+	m_isAttack			(false),
+	m_isDeath			(false),
+	m_pShot				(nullptr),
+	m_pOption			(nullptr),
+	m_pSoundManager		(nullptr),
+	m_pColorManager		(nullptr),
+	m_pFontManager		(nullptr),
+	m_pDeathYourEnemy	(nullptr),
+	m_pMozueyeEnemy		(nullptr),
+	m_pPumpkinEnemy		(nullptr),
+	m_pMain				(nullptr),
+	m_pSecond			(nullptr)
+{
+}
+
+Player::Player(SceneMain* pMain) :
+	m_pMain(pMain),
 	m_graph(-1),
 	m_hp(kHP),
 	m_atk(kAtk),
 	m_gravity(0),
-	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
 	m_score(0),
 	m_damageFrame(0),
 	m_playerAnim(0),
+	m_jumpPower(0),
 	m_dir(kDirFront),
 	m_shotDir(kShotDirRight),
-	m_jumpPower(0),
+	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
 	m_isMove(false),
 	m_isTurn(false),
 	m_isJump(false),
@@ -81,31 +111,6 @@ Player::Player() :
 	m_pDeathYourEnemy(nullptr),
 	m_pMozueyeEnemy(nullptr),
 	m_pPumpkinEnemy(nullptr),
-	m_pMain(nullptr),
-	m_pSecond(nullptr)
-{
-}
-
-Player::Player(SceneMain* pMain) :
-	m_pMain(pMain),
-	m_graph(-1),
-	m_hp(kHP),
-	m_atk(kAtk),
-	m_gravity(0),
-	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
-	m_score(0),
-	m_damageFrame(0),
-	m_dir(kDirFront),
-	m_shotDir(kShotDirRight),
-	m_jumpPower(0),
-	m_isMove(false),
-	m_isTurn(false),
-	m_isJump(false),
-	m_isAttack(false),
-	m_isDeath(false),
-	m_playerAnim(0),
-	m_pShot(nullptr),
-	m_pOption(nullptr),
 	m_pSecond(nullptr)
 {
 	// メモリ確保
@@ -123,21 +128,27 @@ Player::Player(SceneSecond* pSceneSecond) :
 	m_hp(kHP),
 	m_atk(kAtk),
 	m_gravity(0),
-	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
 	m_score(0),
 	m_damageFrame(0),
 	m_playerAnim(0),
+	m_jumpPower(0),
 	m_dir(kDirFront),
 	m_shotDir(kShotDirRight),
-	m_jumpPower(0),
+	m_pos(kScreenWidth * 0.5f, kScreenHeight * 0.7f),
 	m_isMove(false),
 	m_isTurn(false),
 	m_isJump(false),
 	m_isAttack(false),
 	m_isDeath(false),
-	m_pMain(nullptr),
 	m_pShot(nullptr),
-	m_pOption(nullptr)
+	m_pOption(nullptr),
+	m_pSoundManager(nullptr),
+	m_pColorManager(nullptr),
+	m_pFontManager(nullptr),
+	m_pDeathYourEnemy(nullptr),
+	m_pMozueyeEnemy(nullptr),
+	m_pPumpkinEnemy(nullptr),
+	m_pMain(nullptr)
 {
 	// メモリ確保
 	m_pSoundManager = new SoundManager;
@@ -182,8 +193,7 @@ void Player::Init()
 	m_isJump = false;				// ジャンプフラグ(否定のfalse)
 	m_isAttack = false;				// 攻撃フラグ(否定のfalse)
 	m_isDeath = false;				// 死亡フラグ(否定のfalse)
-	m_damageFrame = 0;
-	
+	m_damageFrame = 0;				// ダメージフレーム
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
@@ -191,6 +201,7 @@ void Player::Init()
 
 void Player::Update()
 {
+	// SE・BGM調整後音量に変更
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
