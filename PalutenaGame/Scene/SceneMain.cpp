@@ -75,7 +75,7 @@ SceneMain::SceneMain() :
 	// メモリ確保
 	m_pPlayer = new Player{ this };							// プレイヤー
 	m_pTime = new Time;										// 制限時間
-	m_pSoundManager = new SoundManager;						// SE・BGM
+	m_pSoundManager = new SoundManager;						// サウンド
 	m_pColorManager = new ColorManager;						// 色
 	m_pPause = new Pause(m_pSoundManager,m_pColorManager);	// ポーズ
 
@@ -153,21 +153,23 @@ void SceneMain::Init()
 {
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
-	m_fadeAlpha = 255;
 	m_enemyInterval = 0;
-	m_startCount = 180;
 	m_doorCount = 0;
+	m_startCount = 180;
+	m_fadeAlpha = 255;
 	m_isToGameClear = false;
 	m_isToGameOver = false;
 	m_isSceneEnd = false;
 	m_isStartFlag = false;
 	m_isStartCountFlag = false;
 
-	m_pPlayer->Init();
-	m_pTime->Init();
-	m_pPause->Init();
-	m_pSoundManager->Init();
-	m_pSoundManager->BGMButtle();
+	// 初期化
+	m_pPlayer->Init();				// プレイヤー
+	m_pTime->Init();				// 制限時間
+	m_pPause->Init();				// ポーズ画面
+	m_pSoundManager->Init();		// SE・BGM
+
+	m_pSoundManager->BGMButtle();	// 戦闘用BGMを流す
 }
 
 void SceneMain::Update()
@@ -175,7 +177,7 @@ void SceneMain::Update()
 	// ポーズ
 	m_pPause->Update();
 
-	// SE・BGM音量調整
+	// SE・BGM調整後音量に変更
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
@@ -424,7 +426,7 @@ void SceneMain::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight,
 		m_pColorManager->GetColorBlack(), true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			// 不透明に戻しておく
 }
 
 void SceneMain::End()
@@ -640,7 +642,6 @@ bool SceneMain::AddShot(Shot* pShot)
 
 		// ここに来たということはm_pShot[i] == nullptr
 		m_pShot[i] = pShot;
-		// 登録したら終了
 		return true;
 	}
 
@@ -651,14 +652,13 @@ bool SceneMain::AddShot(Shot* pShot)
 
 void SceneMain::CreateEnemyMozu()
 {
-	// 敵のメモリ確保
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
 	{
 		if (!m_pMozueyeEnemy[i])	// nullptrであることをチェック
 		{
-			m_pMozueyeEnemy[i] = new MozueyeEnemy;
+			m_pMozueyeEnemy[i] = new MozueyeEnemy;	// 敵のメモリ確保
 			m_pMozueyeEnemy[i]->Init(m_pPlayer);
-			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.15f, kGround+9);
+			m_pMozueyeEnemy[i]->Start(kScreenWidth * 0.15f, kGround+9);	// モズアイを出現させる
 			return;
 		}
 	}
@@ -670,9 +670,9 @@ void SceneMain::CreateEnemyDeath()
 	{
 		if (!m_pDeathYourEnemy[i])	// nullptrであることをチェック
 		{
-			m_pDeathYourEnemy[i] = new DeathYourEnemy;
+			m_pDeathYourEnemy[i] = new DeathYourEnemy;	// 敵のメモリ確保
 			m_pDeathYourEnemy[i]->Init(m_pPlayer);
-			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.3f, kScreenHeight * 0.4f);
+			m_pDeathYourEnemy[i]->Start(kScreenWidth * 0.3f, kScreenHeight * 0.4f);	// 死を出現させる
 			return;
 		}
 	}
@@ -682,13 +682,12 @@ void SceneMain::CreateEnemyPump()
 {
 	for (int i = 0; i < m_pPumpkinEnemy.size(); i++)
 	{
-		if (!m_pPumpkinEnemy[i])
+		if (!m_pPumpkinEnemy[i])	// nullptrであることをチェック
 		{
-			m_pPumpkinEnemy[i] = new PumpkinEnemy;
+			m_pPumpkinEnemy[i] = new PumpkinEnemy;	// 敵のメモリ確保
 			m_pPumpkinEnemy[i]->Init(m_pPlayer);
-
 			float EnemyX = kScreenWidth * 0.3f;
-			switch (GetRand(2))
+			switch (GetRand(2))					// 3カ所からランダムで出現させる
 			{
 			case 0:
 				EnemyX = kScreenWidth * 0.4f;

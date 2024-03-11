@@ -13,12 +13,12 @@
 int SceneManager::s_ResultScore = 0;	// ゲーム画面内に出したスコアを他のシーンでも出す用
 
 SceneManager::SceneManager() :
-	m_pPlayer(nullptr),
-	m_runScene(kSceneKindTitle),
-	m_pTitle(),			// クラスの初期化時は()の中にコンストラクタの引数を書く
-	m_pStageSelect(),
-	m_pMain(),
-	m_pGameOver()
+	m_runScene		(kSceneKindTitle),
+	m_pPlayer		(nullptr),
+	m_pTitle		(nullptr),			// クラスの初期化時は()の中にコンストラクタの引数を書く
+	m_pStageSelect	(nullptr),
+	m_pMain			(nullptr),
+	m_pGameOver		(nullptr)
 {
 	// メモリ確保
 	m_pTitle = new SceneTitle;
@@ -28,7 +28,6 @@ SceneManager::SceneManager() :
 	m_pGameOver = new SceneGameOver;
 	m_pGameClear = new SceneGameClear;
 	m_pOption = new SceneOption;
-
 	m_pSoundManager = new SoundManager;
 }
 
@@ -49,7 +48,6 @@ SceneManager::~SceneManager()
 	m_pGameClear = nullptr;
 	delete m_pOption;
 	m_pOption = nullptr;
-
 	delete m_pSoundManager;
 	m_pSoundManager = nullptr;
 }
@@ -63,7 +61,7 @@ void SceneManager::Init()
 		m_pTitle->Init();			// タイトル画面の初期化
 		break;
 	case kSceneKindOption:
-		m_pOption->Init();		// 操作説明画面の初期化
+		m_pOption->Init();			// 操作説明画面の初期化
 		break;
 	case kSceneKindStageSelect:
 		m_pStageSelect->Init();		// ステージセレクト画面の初期化
@@ -81,8 +79,7 @@ void SceneManager::Init()
 		m_pGameClear->Init();		// ゲームクリア画面の初期化
 		break;
 	}
-
-	m_pSoundManager->Init();
+	m_pSoundManager->Init();		// サウンドマネージャーの初期化
 }
 
 void SceneManager::Update()
@@ -97,7 +94,7 @@ void SceneManager::Update()
 			m_pTitle->End();						// タイトル画面の終了処理
 
 			if (m_pTitle->ToExplanation()) {
-				m_runScene = kSceneKindOption;	// 説明画面へ行く
+				m_runScene = kSceneKindOption;		// 説明画面へ行く
 				m_pOption->Init();
 			}
 			else if (m_pTitle->ToStage()) {
@@ -107,7 +104,7 @@ void SceneManager::Update()
 		}
 		break;
 	case kSceneKindOption:
-		if (m_pOption->IsSceneEnd())			// 操作説明画面の終了処理
+		if (m_pOption->IsSceneEnd())				// 操作説明画面の終了処理
 		{
 			m_pOption->End();
 			m_runScene = kSceneKindTitle;			// タイトル画面に戻る
@@ -153,9 +150,9 @@ void SceneManager::Update()
 		}
 		break;
 	case kSceneKindSecond:
-		if (m_pSecond->IsSceneEnd())
+		if (m_pSecond->IsSceneEnd())				// ステージ2画面の終了をチェック
 		{
-			m_pSecond->End();
+			m_pSecond->End();						// ステージ2画面の終了処理
 
 			if (m_pSecond->IsToGameOver())
 			{
@@ -180,7 +177,7 @@ void SceneManager::Update()
 	case kSceneKindGameClear:
 		if (m_pGameClear->IsSceneEnd())
 		{
-			m_pGameClear->End();
+			m_pGameClear->End();				// ゲームクリア画面の終了処理
 			m_runScene = kSceneKindTitle;		// タイトル画面へ行く
 			m_pTitle->Init();
 		}
@@ -193,7 +190,7 @@ void SceneManager::Update()
 		m_pTitle->Update();			// タイトル画面の更新
 		break;
 	case kSceneKindOption:
-		m_pOption->Update();	// 操作説明画面の更新
+		m_pOption->Update();		// 操作説明画面の更新
 		break;
 	case kSceneKindStageSelect:
 		m_pStageSelect->Update();	// ステージセレクト画面の更新
@@ -221,7 +218,7 @@ void SceneManager::Draw()
 		m_pTitle->Draw();			// タイトル画面の描画
 		break;
 	case kSceneKindOption:
-		m_pOption->Draw();		// 操作説明画面の描画
+		m_pOption->Draw();			// 操作説明画面の描画
 		break;
 	case kSceneKindStageSelect:
 		m_pStageSelect->Draw();		// ステージセレクト画面の描画
@@ -251,7 +248,7 @@ void SceneManager::End()
 		m_pTitle->End();			// タイトル画面の終了
 		break;
 	case kSceneKindOption:
-		m_pOption->End();		// 操作説明画面の終了
+		m_pOption->End();			// 操作説明画面の終了
 		break;
 	case kSceneKindStageSelect:
 		m_pStageSelect->End();		// ステージセレクト画面の終了

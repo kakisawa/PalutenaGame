@@ -14,11 +14,11 @@
 #include <cassert>
 
 SceneSecond::SceneSecond() :
-	m_isSceneEnd(false),
-	m_isToGameClear(false),
-	m_isToGameOver(false),
-	m_fadeAlpha(255),		// 不透明で初期化
-	m_enemyInterval(0),
+	m_enemyInterval	(0),
+	m_fadeAlpha		(255),
+	m_isSceneEnd	(false),
+	m_isToGameClear	(false),
+	m_isToGameOver	(false),
 	m_pShot()
 {
 	// ゲーム画面描画先の生成
@@ -31,19 +31,11 @@ SceneSecond::SceneSecond() :
 	m_backGraph = LoadGraph("data/Map/Back1.png");
 	assert(m_backGraph != -1);
 
-	// プレイヤーのメモリ確保
-	m_pPlayer = new Player{this};
+	// メモリ確保
+	m_pPlayer = new Player{this};			// プレイヤー
 	m_pPlayer->SetHandle(m_playerHandle);	// Playerにグラフィックのハンドルを渡す
-
-	// 背景のメモリ確保
-	//m_pBack = new Back;
-	//m_pBack->SetHandle(m_backHandle);
-
-	// 制限時間のメモリ確保
-	m_pTime = new Time;
-
-	// SE/BGMメモリ確保
-	m_pSoundManager = new SoundManager;
+	m_pTime = new Time;						// 制限時間
+	m_pSoundManager = new SoundManager;		// サウンド
 
 	m_pMozueyeEnemy.resize(kMozuSecondMax);
 	m_pDeathYourEnemy.resize(kDeathSecondMax);
@@ -73,13 +65,11 @@ SceneSecond::~SceneSecond()
 	DeleteGraph(m_backGraph);
 
 	// メモリの解放
-	delete m_pPlayer;
+	delete m_pPlayer;			// プレイヤー
 	m_pPlayer = nullptr;
-
-	delete m_pTime;
+	delete m_pTime;				// 制限時間
 	m_pTime = nullptr;
-
-	delete m_pSoundManager;
+	delete m_pSoundManager;		// SE・BGM
 	m_pSoundManager = nullptr;
 
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
@@ -112,33 +102,27 @@ void SceneSecond::Init()
 {
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
+	m_enemyInterval = 0;
+	m_fadeAlpha = 255;
 	m_isSceneEnd = false;
 
-	m_pPlayer->Init();
-	//m_pBack->Init();
-	m_pTime->Init();
-	m_pSoundManager->Init();
+	m_pPlayer->Init();				// プレイヤー
+	m_pTime->Init();				// 制限時間
+	m_pSoundManager->Init();		// SE・BGM
+	m_pSoundManager->BGMButtle();	// 戦闘用BGMを流す
 
 	CreateEnemyDeath();
 	CreateEnemyPump();
 	CreateEnemyMozu();
-
-	m_fadeAlpha = 255;
-	m_enemyInterval = 0;
-
-	m_pSoundManager->BGMButtle();
 }
 
 void SceneSecond::Update()
 {
-	//m_pBack->Update();
-
 	// プレイヤーが死亡したら(ゲームオーバー)
 	if (m_pPlayer->GetPlayerDeath())
 	{
 		Death();
 		m_pPlayer->Death();
-		//m_pPlayer->Update();
 
 		// Aボタンが押されたらゲームオーバー画面へ遷移する
 		if (Pad::IsTrigger(PAD_INPUT_4))	  // Aボタンが押された
@@ -341,8 +325,6 @@ void SceneSecond::Draw()
 
 	// 描画先スクリーンをクリアする
 	ClearDrawScreen();
-
-	//m_pBack->Draw();
 	m_pTime->Draw();
 
 	// プレイヤー・エネミー描画

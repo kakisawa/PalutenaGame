@@ -19,6 +19,7 @@ public:
 	void End();
 
 	void BackDraw();			// 背景の描画(スクロール)
+	void BoxDraw();				// 音量調整下地Box描画
 	bool IsSceneEnd() const;	// シーンを終了させたいか
 
 private:

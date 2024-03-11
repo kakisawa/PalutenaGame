@@ -53,9 +53,9 @@ SceneGameClear::SceneGameClear() :
 	m_pushAGraph	(-1),
 	m_cursorGraph	(-1),
 	m_scrollX		(0),
-	m_fadeAlpha		(255),
 	m_fadeLetter	(0),
 	m_resultScore	(0),
+	m_fadeAlpha		(255),
 	m_select		(kScelectBackTitle),
 	m_selectPos		(kSelectPosX, kSelectPosY),
 	m_isSceneEnd	(false)

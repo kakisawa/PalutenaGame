@@ -12,7 +12,6 @@ namespace
 	// 文字の表示位置
 	constexpr float kSelectChirPosX = kScreenWidth * 0.28f;
 	constexpr float kSelectChirPosY = kScreenHeight * 0.83f;
-
 	// スクロール移動量
 	constexpr float kBackGroundScale = 1.2f;
 	// 背景の拡大率
@@ -20,48 +19,47 @@ namespace
 }
 
 SceneOption::SceneOption():
-	m_scrollX(0),
 	m_pushAGraph(-1),
-	m_bgGraph(-1),
-	m_isSceneEnd(false),
-	m_fadeAlpha(255),
-	m_fadeLetter(0)
+	m_bgGraph	(-1), 
+	m_scrollX	(0),
+	m_fadeLetter(0),
+	m_fadeAlpha	(255),
+	m_isSceneEnd(false)
 {
 	// メモリ確保
-	m_pSoundManager = new SoundManager;
-	// 色メモリ確保
-	m_pColorManager = new ColorManager;
-	// フォントメモリ
-	m_pFontManager = new FontManager;
+	m_pSoundManager = new SoundManager;		// サウンド
+	m_pColorManager = new ColorManager;		// 色
+	m_pFontManager = new FontManager;		// フォント
+
+	m_bgGraph = LoadGraph("data/Map/patter.png");
+	m_pushAGraph = LoadGraph("data/PushA.png");
 }
 
 SceneOption::~SceneOption()
 {
-	// サウンドメモリ解放
-	delete m_pSoundManager;
+	// メモリ解放
+	delete m_pSoundManager;			// サウンド
 	m_pSoundManager = nullptr;
-	// 色メモリ解放
-	delete m_pColorManager;
+	delete m_pColorManager;			// 色
 	m_pColorManager = nullptr;
-	delete m_pFontManager;
+	delete m_pFontManager;			// フォント
 	m_pFontManager = nullptr;
 }
 
 void SceneOption::Init()
 {
-	m_pSoundManager->BGMExplanation();
-	m_pSoundManager->Init();
-	m_bgGraph = LoadGraph("data/Map/patter.png");
-	m_pushAGraph = LoadGraph("data/PushA.png");		// 「Aボタンで決定」グラフ読み込み
-	m_isSceneEnd = false;
-	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
+	m_fadeAlpha = 255;
+	m_isSceneEnd = false;
+	m_pSoundManager->Init();
+	m_pSoundManager->BGMExplanation();		// 設定画面BGMを流す
 }
 
 void SceneOption::Update()
 {
-	m_pSoundManager->ChangeSound();
-
+	// SE・BGM音量調整画面
+	m_pSoundManager->ChangeSound();		
+	// 調整後音量に変更
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
@@ -79,7 +77,7 @@ void SceneOption::Update()
 		m_fadeLetter = 0;
 	}
 
-	// フェードイン
+	// フェードイン・アウト
 	if (m_isSceneEnd)
 	{
 		m_fadeAlpha += 8;
@@ -100,16 +98,10 @@ void SceneOption::Update()
 
 void SceneOption::Draw()
 {
-	BackDraw();
+	BackDraw();			// 背景描画
+	BoxDraw();			// Box描画
 
-	DrawBoxAA(kScreenWidth * 0.1f-3, kScreenHeight * 0.1f-3,
-		kScreenWidth * 0.9f+3, kScreenHeight * 0.8f+3,
-		m_pColorManager->GetColorWhite(), true);
-	DrawBoxAA(kScreenWidth * 0.1f, kScreenHeight * 0.1f, 
-		kScreenWidth * 0.9f, kScreenHeight * 0.8f, 
-		m_pColorManager->GetColorBlack(), true);
-
-	m_pSoundManager->Draw();
+	m_pSoundManager->Draw();	// 音量調整画面描画
 
 	// 文字の点滅描画
 	if (m_fadeLetter < 60) {
@@ -149,6 +141,17 @@ void SceneOption::BackDraw()
 			kBgScale, 0.0f,
 			m_bgGraph, true);
 	}
+}
+
+void SceneOption::BoxDraw()
+{
+	// Box描画
+	DrawBoxAA(kScreenWidth * 0.1f - 3, kScreenHeight * 0.1f - 3,
+		kScreenWidth * 0.9f + 3, kScreenHeight * 0.8f + 3,
+		m_pColorManager->GetColorWhite(), true);
+	DrawBoxAA(kScreenWidth * 0.1f, kScreenHeight * 0.1f,
+		kScreenWidth * 0.9f, kScreenHeight * 0.8f,
+		m_pColorManager->GetColorBlack(), true);
 }
 
 bool SceneOption::IsSceneEnd() const
