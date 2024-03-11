@@ -17,7 +17,7 @@ public:
 private:
 	int m_pauseCount;			// ポーズを何回押したかカウント
 	float m_miniWindowTime;		// ポーズウィンドウを表示する際のカウント
-	bool m_isPause;				
+	bool m_isPause;				// ポーズフラグ
 
 	// BGM・SE
 	SoundManager* m_pSoundManager;

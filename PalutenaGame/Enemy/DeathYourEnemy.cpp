@@ -1,7 +1,6 @@
 #include "DeathYourEnemy.h"
 #include "DxLib.h"
 #include "Game.h"
-
 #include <cassert>
 
 namespace
@@ -9,10 +8,9 @@ namespace
 	// エネミーのサイズ
 	constexpr int kWidth = 63;
 	constexpr float kHeight = 103.5f;
-
 	// エネミーの画像元サイズ
 	constexpr int SrcWidth = 28;
-	constexpr int SrcHeight = 46;
+	constexpr int SrcHeight = 45;
 
 	// 移動速度
 	constexpr float kSpeed = 3.0f;
@@ -20,7 +18,6 @@ namespace
 	constexpr int kHP = 1;
 	// プレイヤーAtk初期値
 	constexpr int kAtk = 10;
-
 	// 所持スコア
 	constexpr int kScore = 100;
 
@@ -34,17 +31,14 @@ namespace
 
 DeathYourEnemy::DeathYourEnemy()
 {
-	m_graph = LoadGraph("data/Enemy/DeathYourEnemy.png");
-
-	m_hp = kHP;			// HP
+	m_graph = LoadGraph("data/Enemy/DeathYourEnemy.png");	// 敵画像読み込み
+	m_hp = kHP;				// HP
 	m_atk = kAtk;			// 攻撃力
 	m_score = kScore;		// 倒した際に得られるスコア
-
-	m_gravity = 0.0f;		// 敵の初期重力
-	m_isTurn = false;		// 右を向いているのfalseを挿入
 	m_angle = 0.0f;			// 敵の移動角度
 	m_enemyAnim = 0;		// 敵のアニメーションの初期化
-	m_damageFrame = 0;
+	m_damageFrame = 0;		// 敵の被ダメアニメーションフレーム
+	m_isTurn = false;		// 向いている方向_右を向いているのfalseを挿入
 }
 
 DeathYourEnemy::~DeathYourEnemy()
@@ -59,9 +53,6 @@ void DeathYourEnemy::Init(Player* pPlayer)
 
 void DeathYourEnemy::Update()
 {
-	//m_basePos += m_vec;
-	//m_pos += m_basePos;
-
 	// ダメージ演出の進行
 	m_damageFrame--;
 	if (m_damageFrame < 0)	m_damageFrame = 0;
@@ -84,7 +75,6 @@ void DeathYourEnemy::Update()
 		float angle2 = m_angle * (DX_PI_F / 180.0f);
 		m_pos.y = static_cast<float>(sin(angle2)) * 200.0f + 550.0f;
 		m_pos.x += kSpeed;
-
 	}
 	else if (m_isTurn == true)
 	{
@@ -93,7 +83,8 @@ void DeathYourEnemy::Update()
 		m_pos.y = static_cast<float>(sin(angle2)) * 200.0f + 320.0f;
 		m_pos.x -= kSpeed;
 	}
-	// エネミーが画面端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
+
+	// 敵が画面端から出そうな場合、画面内の座標に戻し移動する方向も反転する
 	if (m_pos.x > kScreenWidth - kWidth)
 	{
 		m_pos.x = kScreenWidth - kWidth;
@@ -125,9 +116,10 @@ void DeathYourEnemy::Draw()
 
 	if (m_damageFrame % 4 >= 2) return;
 
+	// 描画
 	if (m_isTurn == false)
 	{
-			DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
+		DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
 			m_pos.x, m_pos.y + kHeight,
 			srcX, 0,
 			SrcWidth, SrcHeight,
@@ -137,7 +129,7 @@ void DeathYourEnemy::Draw()
 	{
 		DrawRectExtendGraphF(m_pos.x, m_pos.y,
 			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX , 0,
+			srcX, 0,
 			SrcWidth, SrcHeight,
 			m_graph, true);
 	}
@@ -149,8 +141,9 @@ void DeathYourEnemy::Draw()
 
 void DeathYourEnemy::Start(float x, float y)
 {
-	m_isExist = true;
+	m_isExist = true;	// 敵を出現させる
 
-	m_pos.x =  x;
+	// 敵の座標をセットする
+	m_pos.x = x;
 	m_pos.y = y;
 }

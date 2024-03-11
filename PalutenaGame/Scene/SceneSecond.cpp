@@ -45,9 +45,9 @@ SceneSecond::SceneSecond() :
 	// SE/BGMƒƒ‚ƒŠŠm•Û
 	m_pSoundManager = new SoundManager;
 
-	m_pMozueyeEnemy.resize(MozuSecondMax);
-	m_pDeathYourEnemy.resize(DeathSecondMax);
-	m_pPumpkinEnemy.resize(PumpSecondMax);
+	m_pMozueyeEnemy.resize(kMozuSecondMax);
+	m_pDeathYourEnemy.resize(kDeathSecondMax);
+	m_pPumpkinEnemy.resize(kPumpSecondMax);
 
 	// –¢g—pó‘Ô‚É‚·‚é nullptr‚ğ“ü‚ê‚Ä‚¨‚­
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)

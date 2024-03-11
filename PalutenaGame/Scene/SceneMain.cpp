@@ -41,20 +41,19 @@ namespace
 }
 
 SceneMain::SceneMain() :
-	m_isSceneEnd(false),
-	m_isToGameClear(false),
-	m_isToGameOver(false),
-	m_fadeAlpha(255),		// 不透明で初期化
-	m_enemyInterval(0),
-	m_startCount(180),
-	m_doorCount(0),
-	m_isStartFlag(false),
-	m_isStartCountFlag(false),
+	m_fadeAlpha			(255),
+	m_enemyInterval		(0),
+	m_startCount		(180),
+	m_doorCount			(0),
+	m_isSceneEnd		(false),
+	m_isToGameClear		(false),
+	m_isToGameOver		(false),
+	m_isStartFlag		(false),
+	m_isStartCountFlag	(false),
 	m_pShot()
 {
 	// ゲーム画面描画先の生成
 	m_gameScreenHandle = MakeScreen(kScreenWidth, kScreenHeight, true);
-
 	// グラフィックのロード
 	m_backGraph = LoadGraph("data/Map/Back1.png");
 	assert(m_backGraph != -1);
@@ -73,20 +72,16 @@ SceneMain::SceneMain() :
 	m_doorGraph = LoadGraph("data/01.png");
 	assert(m_doorGraph != -1);
 
-	// プレイヤーのメモリ確保
-	m_pPlayer = new Player{ this };
-	// 制限時間のメモリ確保
-	m_pTime = new Time;
-	// SE/BGMメモリ確保
-	m_pSoundManager = new SoundManager;
-	// 色メモリ確保
-	m_pColorManager = new ColorManager;
-	// ポーズ
-	m_pPause = new Pause(m_pSoundManager,m_pColorManager);
+	// メモリ確保
+	m_pPlayer = new Player{ this };							// プレイヤー
+	m_pTime = new Time;										// 制限時間
+	m_pSoundManager = new SoundManager;						// SE・BGM
+	m_pColorManager = new ColorManager;						// 色
+	m_pPause = new Pause(m_pSoundManager,m_pColorManager);	// ポーズ
 
-	m_pMozueyeEnemy.resize(MozuMax);
-	m_pDeathYourEnemy.resize(DeathMax);
-	m_pPumpkinEnemy.resize(PumpMax);
+	m_pMozueyeEnemy.resize(kMozuMax);
+	m_pDeathYourEnemy.resize(kDeathMax);
+	m_pPumpkinEnemy.resize(kPumpMax);
 
 	// 未使用状態にする nullptrを入れておく
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
@@ -107,7 +102,6 @@ SceneMain::~SceneMain()
 {
 	// MakeScreenで作成したらグラフィックを削除する
 	DeleteGraph(m_gameScreenHandle);
-
 	// メモリからグラフィックを削除
 	DeleteGraph(m_backGroundGraph);
 	DeleteGraph(m_backGraph);
@@ -118,15 +112,15 @@ SceneMain::~SceneMain()
 	DeleteGraph(m_keyAGraph);
 
 	// メモリの解放
-	delete m_pPlayer;
+	delete m_pPlayer;			// プレイヤー
 	m_pPlayer = nullptr;
-	delete m_pTime;
+	delete m_pTime;				// 制限時間
 	m_pTime = nullptr;
-	delete m_pSoundManager;
+	delete m_pSoundManager;		// SE・BGM
 	m_pSoundManager = nullptr;
-	delete m_pColorManager;
+	delete m_pColorManager;		// 色
 	m_pColorManager = nullptr;
-	delete m_pPause;
+	delete m_pPause;			// ポーズ
 	m_pPause = nullptr;
 
 	for (int i = 0; i < m_pMozueyeEnemy.size(); i++)
@@ -159,6 +153,10 @@ void SceneMain::Init()
 {
 	assert(m_pPlayer);	// m_pPlayer == nullptr	の場合止まる
 
+	m_fadeAlpha = 255;
+	m_enemyInterval = 0;
+	m_startCount = 180;
+	m_doorCount = 0;
 	m_isToGameClear = false;
 	m_isToGameOver = false;
 	m_isSceneEnd = false;
@@ -167,20 +165,17 @@ void SceneMain::Init()
 
 	m_pPlayer->Init();
 	m_pTime->Init();
-	m_pSoundManager->Init();
-
-	m_fadeAlpha = 255;
-	m_enemyInterval = 0;
-	m_startCount = 180;
-	m_doorCount = 0;
-
-	m_pSoundManager->BGMButtle();
 	m_pPause->Init();
+	m_pSoundManager->Init();
+	m_pSoundManager->BGMButtle();
 }
 
 void SceneMain::Update()
 {
+	// ポーズ
 	m_pPause->Update();
+
+	// SE・BGM音量調整
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
@@ -191,6 +186,7 @@ void SceneMain::Update()
 		m_fadeAlpha = 0;
 	}
 
+	// ゲーム開始時の説明
 	if (m_isStartFlag == true)
 	{
 		if (m_startCount <= 0)
@@ -211,6 +207,7 @@ void SceneMain::Update()
 	}
 	else if (m_isStartCountFlag)
 	{
+		// ポーズが呼ばれていないときは画面を動かす
 		if (!m_pPause->GetPauseFlag())
 		{
 			// プレイヤーが死亡したら(ゲームオーバー)
@@ -258,7 +255,7 @@ void SceneMain::Update()
 							delete m_pMozueyeEnemy[i];
 							m_pMozueyeEnemy[i] = nullptr;
 						}
-						else {			// 存在している敵とプレイヤーの当たり判定
+						else {	// 存在している敵とプレイヤーの当たり判定
 							Rect enemyRect = m_pMozueyeEnemy[i]->GetColRect();
 							if (playerRect.IsCollsion(enemyRect))
 							{
@@ -298,7 +295,7 @@ void SceneMain::Update()
 							delete m_pDeathYourEnemy[i];
 							m_pDeathYourEnemy[i] = nullptr;
 						}
-						else {			// 存在している敵とプレイヤーの当たり判定
+						else {	// 存在している敵とプレイヤーの当たり判定
 							Rect enemyRect = m_pDeathYourEnemy[i]->GetColRect();
 							if (playerRect.IsCollsion(enemyRect))
 							{
@@ -330,7 +327,6 @@ void SceneMain::Update()
 
 					if (m_pPumpkinEnemy[i])
 					{
-						//m_pPumpkinEnemy[i]->SetPlayer(m_pPlayer);
 						m_pPumpkinEnemy[i]->Update();
 						m_pPlayer->SetPump(m_pPumpkinEnemy[i]);
 
@@ -403,6 +399,7 @@ void SceneMain::Update()
 
 void SceneMain::Draw()
 {
+	// ゲーム画面サイズのグラフィックデータ作成
 	DrawGraph(0, 0, m_gameScreenHandle, true);
 
 	// 描画先スクリーンをクリアする
@@ -511,6 +508,7 @@ void SceneMain::CharactorDraw()
 
 void SceneMain::StartDraw()
 {
+	// ゲーム開始前の説明描画
 	if (m_isStartFlag == false)
 	{
 		DrawExtendGraphF(ExplanationX, ExplanationY,
@@ -527,6 +525,7 @@ void SceneMain::StartDraw()
 
 void SceneMain::CoundownDraw()
 {
+	// ゲーム開始前カウントダウン描画
 	if (m_startCount >= 121)
 	{
 		DrawExtendGraphF(CountDownX,CountDownY,
@@ -577,12 +576,14 @@ void SceneMain::DrawDoor()
 
 void SceneMain::BgDraw()
 {
+	// 背景描画
 	DrawGraphF(0, 0, m_backGraph, false);
 	DrawGraphF(BgGroundX, BgGroundY, m_backGroundGraph, true);
 }
 
 void SceneMain::Clear()
 {
+	// BGM止める
 	StopSoundMem(m_pSoundManager->m_bgmButtle);
 
 	m_isSceneEnd = true;
@@ -598,6 +599,9 @@ void SceneMain::Clear()
 
 void SceneMain::Death()
 {
+	// BGM止める
+	StopSoundMem(m_pSoundManager->m_bgmButtle);
+
 	m_isSceneEnd = true;
 	m_isToGameOver = true;
 

@@ -42,7 +42,7 @@ namespace
 
 SceneTitle::SceneTitle() :
 	m_isSceneEnd(false),
-	m_isToExplanation(false),
+	m_isToOption(false),
 	m_isToSelect(false),
 	m_titleGraph(-1),
 	m_selectUIGraph(-1),
@@ -89,7 +89,7 @@ void SceneTitle::Init()
 	m_select = kSelectGameStart;
 
 	m_isSceneEnd = false;
-	m_isToExplanation = false;
+	m_isToOption = false;
 	m_isToSelect = false;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
@@ -145,9 +145,9 @@ void SceneTitle::Update()
 	{
 		switch (m_select)
 		{
-		case kSclectOperation:
+		case kSclectOption:
 			m_isSceneEnd = true;
-			m_isToExplanation = true;
+			m_isToOption = true;
 			break;
 		case kSelectGameStart:
 			m_isSceneEnd = true;
@@ -283,5 +283,5 @@ bool SceneTitle::ToStage() const
 
 bool SceneTitle::ToExplanation() const
 {
-	return m_isToExplanation;
+	return m_isToOption;
 }

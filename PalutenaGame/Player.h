@@ -2,8 +2,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 
-// プレイヤーが弾を撃つ方向(Shotからも参照するので)
-enum ShotDir
+enum ShotDir		// プレイヤーが弾を撃つ方向(Shotからも参照するので)
 {
 	kShotDirLeft,	// 左
 	kShotDirRight,	// 右
@@ -40,8 +39,7 @@ public:
 	void HpDraw();			// プレイヤーのHP描画
 
 private:
-	// プレイヤーが向いている方向
-	enum Dir
+	enum Dir		// プレイヤーが向いている方向
 	{
 		kDirFront,	// 正面
 		kDirDown,	// 下
@@ -59,7 +57,7 @@ public:
 	void SetPump(PumpkinEnemy* pPump) { m_pPumpkinEnemy = pPump; }
 	int GetAtk() const { return m_atk; }				// プレイヤーの攻撃力を取得する
 	int GetScore() const { return m_score; }			// スコアを取得する
-	bool GetPlayerDeath() const { return m_isDeath; }		// プレイヤーの生死状態を取得する
+	bool GetPlayerDeath() const { return m_isDeath; }	// プレイヤーの生死状態を取得する
 	Rect GetColRect() const { return m_colRect; }		// プレイヤーの当たり判定を取得する
 	Vec2 GetPos() const { return m_pos; }				// プレイヤーの座標を取得する 	
 	ShotDir GetShotDir() const { return m_shotDir; }	// プレイヤーがどの方向を向いているかを取得する
@@ -76,15 +74,14 @@ private:
 	FontManager* m_pFontManager;
 	ColorManager* m_pColorManager;
 
-	int m_hp;			// プレイヤーの体力
-	int m_atk;			// プレイヤーの攻撃力
-	int m_score;		// プレイヤーの獲得スコア
-	int m_graph;		// プレイヤーの画像
+	int m_hp;			// プレイヤー体力
+	int m_atk;			// プレイヤー攻撃力
+	int m_score;		// プレイヤー獲得スコア
+	int m_graph;		// プレイヤー画像
 	int m_damageFrame;	// ダメージを受けてからのフレーム数
 	int m_playerAnim;	// プレイヤーアニメーション
-	float m_gravity;	// プレイヤーの重力
-	float m_jumpPower;	// プレイヤーのジャンプ移動量
-	
+	float m_gravity;	// プレイヤー重力
+	float m_jumpPower;	// プレイヤージャンプ移動量
 	bool m_isMove;		// プレイヤーが移動中かどうかのフラグ
 	bool m_isTurn;		// プレイヤーの左右反転状況についてのフラグ
 	bool m_isJump;		// プレイヤーがジャンプ中かどうかのフラグ

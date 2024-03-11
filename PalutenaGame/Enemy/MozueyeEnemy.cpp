@@ -2,7 +2,6 @@
 #include "MozueyeEnemy.h"
 #include "Player.h"
 #include "Game.h"
-
 #include <cassert>
 
 namespace
@@ -10,7 +9,6 @@ namespace
 	// エネミーのサイズ
 	constexpr float kWidth = 93.6f;
 	constexpr int kHeight = 65;
-
 	// エネミーの画像元サイズ
 	constexpr int SrcWidth = 46;
 	constexpr int SrcHeight = 32;
@@ -21,6 +19,8 @@ namespace
 	constexpr int kHP = 1;
 	// プレイヤーAtk初期値
 	constexpr int kAtk = 10;
+	// 所持スコア
+	constexpr int kScore = 50;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
 	constexpr int kDefFrame[] = { 0,1,2,3,4 };
@@ -34,13 +34,11 @@ MozueyeEnemy::MozueyeEnemy()
 {
 	m_graph= LoadGraph("data/Enemy/Mozueye.png");
 
-	m_hp = kHP;		// HP
-	m_atk = kAtk;	// 攻撃力
-	m_score = 50;	// 倒した際に得られるスコア
-
-	m_gravity = 0.0f;				// 敵の初期重力
-	m_isTurn = false;				// 右を向いているのfalseを挿入
-	m_enemyAnim = 0;				// 敵のアニメーションの初期化
+	m_hp = kHP;			// HP
+	m_atk = kAtk;		// 攻撃力
+	m_score = kScore;	// 倒した際に得られるスコア
+	m_enemyAnim = 0;	// 敵のアニメーションの初期化
+	m_isTurn = false;	// 右を向いているのfalseを挿入
 }
 
 MozueyeEnemy::~MozueyeEnemy()
@@ -51,7 +49,6 @@ MozueyeEnemy::~MozueyeEnemy()
 void MozueyeEnemy::Init(Player* pPlayer)
 {
 	m_pPlayer = pPlayer;
-
 }
 
 void MozueyeEnemy::Update()
@@ -88,7 +85,7 @@ void MozueyeEnemy::Update()
 		m_pos.x -= kSpeed;
 	}
 
-	// エネミーが画面端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
+	// 敵が画面端から出そうな場合、画面内の座標に戻し移動する方向も反転する
 	if (m_pos.x > kScreenWidth - kWidth)
 	{
 		m_pos.x = kScreenWidth - kWidth;
@@ -120,11 +117,12 @@ void MozueyeEnemy::Draw()
 
 	if (m_damageFrame % 4 >= 2) return;
 
+	// 描画
 	if (m_isTurn == false)
 	{
-		DrawRectExtendGraphF(m_pos.x, m_pos.y,
-			m_pos.x + kWidth, m_pos.y + kHeight,
-			srcX + 2, 29,
+		DrawRectExtendGraphF(m_pos.x + kWidth, m_pos.y,
+			m_pos.x, m_pos.y + kHeight,
+			srcX + 2, 0,
 			SrcWidth, SrcHeight,
 			m_graph, true);
 	}
@@ -144,8 +142,9 @@ void MozueyeEnemy::Draw()
 
 void MozueyeEnemy::Start(float x, float y)
 {
+	m_isExist = true;	// 敵を出現させる
+
+	// 敵の座標をセットする
 	m_pos.x = x;
 	m_pos.y = y;
-
-	m_isExist = true;
 }

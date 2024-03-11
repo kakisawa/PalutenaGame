@@ -129,7 +129,7 @@ void SceneOption::End()
 	// ”wŒi‚ğƒƒ‚ƒŠ‚©‚çíœ
 	DeleteGraph(m_graph);
 
-	StopSoundMem(m_pSoundManager->m_bgmExplanation);
+	StopSoundMem(m_pSoundManager->m_bgmOption);
 	m_pSoundManager->End();
 }
 

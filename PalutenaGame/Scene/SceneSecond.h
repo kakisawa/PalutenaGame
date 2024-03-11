@@ -4,21 +4,13 @@
 
 namespace
 {
-	// モズアイ出現数
-	constexpr int MozuSecondMax = 5;	// 17
-	// 死出現数
-	constexpr int DeathSecondMax = 2;	// 3
-	// かぼちゃ出現数
-	constexpr int PumpSecondMax = 3;	// 10仮、覚えてない
-
-	// 画面内に同時に出せる弾の数
-	constexpr int kShotSecondMax = 30;
-
-	// 何フレームおきに敵が登場するか
-	constexpr int kEnemySecondInterval = 60;
+	constexpr int kMozuSecondMax = 5;		// モズアイ同時最大出現数
+	constexpr int kDeathSecondMax = 2;		// 死同時最大出現数
+	constexpr int kPumpSecondMax = 3;		// かぼちゃ同時最大出現数
+	constexpr int kShotSecondMax = 30;		// 同時最大弾数
+	constexpr int kEnemySecondInterval = 60;// 何フレームおきに敵が登場するか
 }
 
-// クラス宣言
 class Player;
 class MozueyeEnemy;
 class DeathYourEnemy;
@@ -38,36 +30,27 @@ public:
 	void End();
 
 	void CharactorDraw();
-	void Clear();	// クリア時の処理
-	void Death();	// 死亡時の処理
-
-	// シーンを終了させたいか
-	bool IsSceneEnd() const;
-	// 次どのステージに行くか
-	bool IsToGameOver() const;
-	bool IsToGameClear() const;
-
-	// ショットを追加する
-	bool AddShot(Shot* pShot);
+	void Clear();				// クリア時の処理
+	void Death();				// 死亡時の処理
+	bool AddShot(Shot* pShot);	// ショットを追加する
+	bool IsSceneEnd() const;	// シーンを終了させるか
+	bool IsToGameOver() const;	//ゲーム終了時ゲームオーバーシーンに向かう
+	bool IsToGameClear() const;	// ゲームクリア時ゲームクリアシーンに向かう
 
 private:
 	// 敵キャラクターの生成
-	void CreateEnemyMozu();
-	void CreateEnemyDeath();
-	void CreateEnemyPump();
+	void CreateEnemyMozu();		// モズアイ
+	void CreateEnemyDeath();	// 死
+	void CreateEnemyPump();		// パンプキン
 
-	// グラフィックのハンドル
-	int m_gameScreenHandle;
-	int m_playerHandle;		// プレイヤー
-	int m_backGraph;		// 背景
-
+	int m_gameScreenHandle;	// ゲーム画面サイズのグラフィックデータ
+	int m_playerHandle;		// プレイヤー画像
+	int m_backGraph;		// 背景画像
 	int m_fadeAlpha;		// フェードイン、アウト
 	int m_enemyInterval;	// 敵の登場間隔
-
-	// シーン処理
-	bool m_isSceneEnd;		// シーンを終了する時trueにする
-	bool m_isToGameOver;		// ステージセレクト画面に行くか
-	bool m_isToGameClear;		// 説明シーンに行くか 
+	bool m_isSceneEnd;		// シーンフラグ
+	bool m_isToGameOver;	// ゲームオーバー画面に行くフラグ
+	bool m_isToGameClear;	// ゲームクリア画面に行くフラグ
 
 	// プレイヤー
 	Player* m_pPlayer;

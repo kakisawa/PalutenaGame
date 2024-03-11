@@ -33,8 +33,8 @@ private:
 		kSceneKindGameClear,	// ゲームクリアシーン
 	};
 
-	// 現在実行中のシーン
-	SceneKind   m_runScene;
+	SceneKind   m_runScene;		// 現在実行中のシーン
+
 	// SceneManagerで管理する各シーン
 	SceneTitle*  m_pTitle;
 	SceneStageSelect* m_pStageSelect;

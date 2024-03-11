@@ -14,7 +14,5 @@ public:
     void Start(float x, float y);   // “GoŒ»ˆÊ’uİ’è
 
 private:
-    float m_angle;      // “G‚ÌˆÚ“®Šp“x
-
-    Vec2 m_basePos;    
+    float m_angle;      // “G‚ÌˆÚ“®Šp“x  
 };

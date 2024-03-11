@@ -12,7 +12,4 @@ public:
     void Draw() override;
 
     void Start(float x, float y); // “GoŒ»ˆÊ’uİ’è
-
-private:
-    Vec2 m_basePos;
 };

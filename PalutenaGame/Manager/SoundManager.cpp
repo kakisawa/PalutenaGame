@@ -74,7 +74,7 @@ SoundManager::SoundManager() :
 	m_soundSelect(0),
 	m_bgmButtle(0),
 	m_bgmDefo(0),
-	m_bgmExplanation(0),
+	m_bgmOption(0),
 	m_bgmGameClear(0),
 	m_bgmGameOver(0)
 {
@@ -171,7 +171,7 @@ void SoundManager::End()
 	DeleteSoundMem(m_bgmButtle);
 	DeleteSoundMem(m_bgmGameClear);
 	DeleteSoundMem(m_bgmGameOver);
-	DeleteSoundMem(m_bgmExplanation);
+	DeleteSoundMem(m_bgmOption);
 }
 
 void SoundManager::SoundSelect()
@@ -225,8 +225,8 @@ void SoundManager::BGMGameOver()
 
 void SoundManager::BGMExplanation()
 {
-	m_bgmExplanation = LoadSoundMem("data/Sound/BGM/BGM_Explanation.mp3");// ëÄçÏê‡ñæâÊñ BGM
-	PlaySoundMem(m_bgmExplanation, DX_PLAYTYPE_LOOP, true);
+	m_bgmOption = LoadSoundMem("data/Sound/BGM/BGM_Explanation.mp3");// ëÄçÏê‡ñæâÊñ BGM
+	PlaySoundMem(m_bgmOption, DX_PLAYTYPE_LOOP, true);
 }
 
 void SoundManager::ChangeSound()
@@ -338,7 +338,7 @@ void SoundManager::SetBgmVolume()
 	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmButtle);
 	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmGameClear);
 	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmGameOver);
-	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmExplanation);
+	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgmOption);
 }
 
 void SoundManager::SetSeVolume()

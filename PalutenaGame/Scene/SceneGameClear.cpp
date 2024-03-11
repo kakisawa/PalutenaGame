@@ -21,7 +21,6 @@ namespace
 	// PushAキー画像表示位置
 	constexpr float kPushAX = kScreenWidth * 0.398f;
 	constexpr float kPushAY = kScreenHeight * 0.901f;
-
 	// スコア数値表示位置
 	constexpr float kScorePosX = kScoreGraphPosX * 2.2f;
 	constexpr float kScorePosY = kScoreGraphPosY;
@@ -47,73 +46,73 @@ namespace
 }
 
 SceneGameClear::SceneGameClear() :
-	m_isSceneEnd(false),
-	m_select(kScelectBackTitle),
-	m_titleGraph(-1),
-	m_selectUIGraph(-1),
+	m_titleGraph	(-1),
+	m_selectUIGraph	(-1),
 	m_selectUIGraph2(-1),
-	m_scoreGraph(-1),
-	m_pushAGraph(-1),
-	m_cursorGraph(-1),
-	m_scrollX(0),
-	m_fadeAlpha(255),
-	m_fadeLetter(0),
-	m_resultScore(0),
-	m_selectPos(kSelectPosX, kSelectPosY)
+	m_scoreGraph	(-1),
+	m_pushAGraph	(-1),
+	m_cursorGraph	(-1),
+	m_scrollX		(0),
+	m_fadeAlpha		(255),
+	m_fadeLetter	(0),
+	m_resultScore	(0),
+	m_select		(kScelectBackTitle),
+	m_selectPos		(kSelectPosX, kSelectPosY),
+	m_isSceneEnd	(false)
 {
-	// SE・BGMメモリ確保
-	m_pSoundManager = new SoundManager;
-	// フォントメモリ
-	m_pFontManager = new FontManager;
-	// 色メモリ確保
-	m_pColorManager = new ColorManager;
+	// メモリ確保
+	m_pSoundManager = new SoundManager;	// サウンド
+	m_pFontManager = new FontManager;	// フォント
+	m_pColorManager = new ColorManager;	// 色
 }
 
 SceneGameClear::~SceneGameClear()
 {
 	// メモリ解放
-	delete m_pSoundManager;
+	delete m_pSoundManager;		// サウンド
 	m_pSoundManager = nullptr;
-	delete m_pFontManager;
+	delete m_pFontManager;		// フォント
 	m_pFontManager = nullptr;
-	delete m_pColorManager;
+	delete m_pColorManager;		// 色
 	m_pColorManager = nullptr;
 }
 
 void SceneGameClear::Init()
 {
+	// 画像読み込み
 	m_graph = LoadGraph("data/Map/patter4.png");
 	m_titleGraph = LoadGraph("data/GameClear.png");
 	m_scoreGraph = LoadGraph("data/Score.png");
 	m_cursorGraph = LoadGraph("data/Cursor.png");
 	m_selectUIGraph = LoadGraph("data/SelectUI.png");
 	m_selectUIGraph2 = LoadGraph("data/SelectUI2.png");
-	m_pushAGraph= LoadGraph("data/PushA.png");				// 「Aボタンで決定」グラフ読み込み
+	m_pushAGraph= LoadGraph("data/PushA.png");
 
-	m_select = kScelectBackTitle;
-	m_isSceneEnd = false;
 	m_scrollX = 0;
 	m_fadeAlpha = 255;
 	m_fadeLetter = 0;
 	m_resultScore = 0;
 	m_selectPos.x = kSelectPosX;
 	m_selectPos.y = kSelectPosY;
+	m_select = kScelectBackTitle;
+	m_isSceneEnd = false;
 
 	//サウンドマネージャーの初期化
 	m_pSoundManager->Init();
-
+	// ゲームクリア時のBGMを流す
 	m_pSoundManager->BGMGameClear();
 }
 
 void SceneGameClear::Update()
 {
+	// BGM・SE音量調整
 	m_pSoundManager->SetBgmVolume();
 	m_pSoundManager->SetSeVolume();
 
 	// 右キーを押したら選択状態を右に移す
 	if (Pad::IsTrigger(PAD_INPUT_RIGHT))
 	{
-		// SE
+		// SEを鳴らす
 		m_pSoundManager->SoundSelect();
 
 		m_select = (m_select + 1) % kSclectNum;
@@ -128,7 +127,7 @@ void SceneGameClear::Update()
 	// 左キーを押したら選択状態を左に移す
 	else if (Pad::IsTrigger(PAD_INPUT_LEFT))
 	{
-		// SE
+		// SEを鳴らす
 		m_pSoundManager->SoundSelect();
 
 		m_select = (m_select - 1) % kSclectNum;
@@ -146,17 +145,17 @@ void SceneGameClear::Update()
 	{
 		switch (m_select)
 		{
-		case kScelectBackTitle:
+		case kScelectBackTitle:		// タイトル画面へ行く
 			m_isSceneEnd = true;
 			break;
-		case kScelectEnd:
+		case kScelectEnd:			// ゲームを終了する
 			DxLib_End();
 			break;
 		default:
 			break;
 		}
 
-		// SE
+		// SEを鳴らす
 		m_pSoundManager->SoundButton();
 	}
 

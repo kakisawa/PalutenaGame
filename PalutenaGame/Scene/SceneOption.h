@@ -35,7 +35,7 @@ private:
 		int m_height;	// c
 	};
 
-	// SE/BGM
+	// SEEBGM
 	SoundManager* m_pSoundManager;
 	// F
 	ColorManager* m_pColorManager;

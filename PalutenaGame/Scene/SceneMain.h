@@ -4,10 +4,10 @@
 
 namespace
 {
-	constexpr int MozuMax = 4;			// モズアイ最大出現数
-	constexpr int DeathMax = 10;		// 死最大出現数
-	constexpr int PumpMax = 3;			// かぼちゃ最大出現数
-	constexpr int kShotMax = 30;		// 画面内に同時に出せる弾の数
+	constexpr int kMozuMax = 4;			// モズアイ同時最大出現数
+	constexpr int kDeathMax = 10;		// 死同時最大出現数
+	constexpr int kPumpMax = 3;			// かぼちゃ同時最大出現数
+	constexpr int kShotMax = 30;		// 同時最大弾数
 	constexpr int kEnemyInterval = 50;	// 何フレームおきに敵が登場するか
 }
 
@@ -41,8 +41,8 @@ public:
 	bool AddShot(Shot* pShot);	// ショットを追加する
 
 	bool IsSceneEnd() const;	// シーンを終了させるか
-	bool IsToGameOver() const;	// ゲーム終了時ゲームオーバーシーンに向かう
-	bool IsToGameClear() const;	// ゲームクリア時ゲームクリアシーンに向かう
+	bool IsToGameOver() const;	// ゲームオーバー時ゲームオーバーシーンへ向かう
+	bool IsToGameClear() const;	// ゲームクリア時ゲームクリアシーンへ向かう
 
 private:
 	// 敵キャラクターの生成
@@ -59,17 +59,15 @@ private:
 	int m_count1Graph;			// カウント1画像
 	int m_count2Graph;			// カウント2画像
 	int m_count3Graph;			// カウント3画像
-
 	int m_fadeAlpha;			// フェードイン、アウト
 	int m_enemyInterval;		// 敵の登場間隔
 	int m_startCount;			// ゲームスタートカウント
 	int m_doorCount;			// 敵出現扉の描画カウント
-
 	bool m_isStartFlag;			// ゲームが始まる前の説明フラグ
 	bool m_isStartCountFlag;	// 説明後ゲーム開始カウントフラグ
 	bool m_isSceneEnd;			// シーンフラグ
-	bool m_isToGameOver;		// ゲームオーバー画面に行くかのフラグ
-	bool m_isToGameClear;		// ゲームクリア画面に行くかのフラグ
+	bool m_isToGameOver;		// ゲームオーバー画面に行くフラグ
+	bool m_isToGameClear;		// ゲームクリア画面に行くフラグ
 
 	// プレイヤー
 	Player* m_pPlayer;
