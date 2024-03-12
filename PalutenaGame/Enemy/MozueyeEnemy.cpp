@@ -14,13 +14,17 @@ namespace
 	constexpr int SrcHeight = 32;
 
 	// 移動速度
-	float kSpeed = 3.0f;
+	constexpr int kSpeed = 3;
 	// プレイヤーHP初期値
 	constexpr int kHP = 1;
 	// プレイヤーAtk初期値
 	constexpr int kAtk = 10;
 	// 所持スコア
 	constexpr int kScore = 50;
+	// 移動速度加速値
+	constexpr int kAddSpeed = 5;
+	// 移動最大速度
+	constexpr int kMaxSpeed = 40;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
 	constexpr int kDefFrame[] = { 0,1,2,3,4 };
@@ -36,6 +40,7 @@ MozueyeEnemy::MozueyeEnemy()
 
 	m_hp = kHP;			// HP
 	m_atk = kAtk;		// 攻撃力
+	m_speed = kSpeed;	// 移動速度
 	m_score = kScore;	// 倒した際に得られるスコア
 	m_enemyAnim = 0;	// 敵のアニメーションの初期化
 	m_isTurn = false;	// 右を向いているのfalseを挿入
@@ -72,17 +77,17 @@ void MozueyeEnemy::Update()
 	//敵移動
 	if (m_isTurn == false)
 	{
-		if (kSpeed <= 40.0f)
+		if (m_speed <= kMaxSpeed)
 		{
-			kSpeed = 3.0f;
+			m_speed = kSpeed;
 		}
 
-		kSpeed += 5.0f;
-		m_pos.x += kSpeed;
+		m_speed += kAddSpeed;
+		m_pos.x += m_speed;
 	}
 	else if (m_isTurn == true)
 	{
-		m_pos.x -= kSpeed;
+		m_pos.x -= m_speed;
 	}
 
 	// 敵が画面端から出そうな場合、画面内の座標に戻し移動する方向も反転する

@@ -11,23 +11,23 @@ namespace
 }
 
 EnemyBase::EnemyBase():
-	m_graph		(-1),
-	m_expGraph	(-1),
-	m_w			(0),
-	m_h			(0),
-	m_hp		(0),
-	m_atk		(0), 
-	m_score		(0),
-	m_gravity	(0),
-	m_enemyAnim	(0),
-	m_damageFrame(0),
+	m_graph			(-1),
+	m_expGraph		(-1),
+	m_w				(0),
+	m_h				(0),
+	m_hp			(0),
+	m_atk			(0), 
+	m_score			(0),
+	m_gravity		(0),
+	m_enemyAnim		(0),
+	m_damageFrame	(0),
 	m_enemyDeathAnim(0),
-	m_isScore	(false),
-	m_isTurn	(false),
-	m_isDeath	(false),
-	m_isExist	(false),
-	m_isDeathAnim(false),
-	m_pPlayer(nullptr)
+	m_isScore		(false),
+	m_isTurn		(false),
+	m_isDeath		(false),
+	m_isExist		(false),
+	m_isDeathAnim	(false),
+	m_pPlayer		(nullptr)
 {
 }
 

@@ -12,5 +12,8 @@ public:
     void Draw() override;
 
     void Start(float x,float y);     // “GoŒ»ˆÊ’uİ’è
+
+private:
+    int m_speed;                   // “G‚ÌˆÚ“®‘¬“x
  };
 

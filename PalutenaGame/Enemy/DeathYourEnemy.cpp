@@ -20,6 +20,9 @@ namespace
 	constexpr int kAtk = 10;
 	// 所持スコア
 	constexpr int kScore = 100;
+	// 角度計算用
+	constexpr float kRad = 200.0f;
+	constexpr float kRadAdd = 550.0f;
 
 	// 基本キャラアニメーション		// モーションのフレームごとに作り直す
 	constexpr int kDefFrame[] = { 0,1,2,3,4,5,6 };
@@ -73,14 +76,14 @@ void DeathYourEnemy::Update()
 	{
 		m_angle++;
 		float angle2 = m_angle * (DX_PI_F / 180.0f);
-		m_pos.y = static_cast<float>(sin(angle2)) * 200.0f + 550.0f;
+		m_pos.y = static_cast<float>(sin(angle2)) * kRad + kRadAdd;
 		m_pos.x += kSpeed;
 	}
 	else if (m_isTurn == true)
 	{
 		m_angle++;
 		float angle2 = m_angle * (DX_PI_F / 180.0f);
-		m_pos.y = static_cast<float>(sin(angle2)) * 200.0f + 320.0f;
+		m_pos.y = static_cast<float>(sin(angle2)) * kRad + kRadAdd;
 		m_pos.x -= kSpeed;
 	}
 
