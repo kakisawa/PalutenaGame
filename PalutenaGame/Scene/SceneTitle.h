@@ -47,6 +47,7 @@ private:
         kSelectGameStart,   // ゲームスタート
         kSclectOption,      // 操作方法
         kSclectEnd,         // ゲームを終わる
+
         kSclectNum,         // 項目数
     };
 

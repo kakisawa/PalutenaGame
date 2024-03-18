@@ -110,7 +110,6 @@ void SceneStageSelect::Update()
 		// ‘I‘ð’†‚ÌŽlŠp‚ªˆê”Ô‰º‚¾‚Á‚½‚çŽlŠp‚ðˆê”Ôã‚É–ß‚·
 		if (m_selectPos.y >= kSelectBackChirPosY){
 			m_selectPos.x = kSelectPosX;
-			m_selectPos.y = kSelectPosY;
 			return;
 		}
 		if (m_selectPos.y == kSelectPosY) {
@@ -132,7 +131,6 @@ void SceneStageSelect::Update()
 		if (m_selectPos.y == kSelectPosY)
 		{
 			m_selectPos.x = kSelectBackChirPosX;
-			m_selectPos.y = kSelectBackChirPosY;
 			m_select = kBackTitle;
 			return;
 		}

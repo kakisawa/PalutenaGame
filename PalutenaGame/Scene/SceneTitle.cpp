@@ -141,13 +141,13 @@ void SceneTitle::Update()
 	{
 		switch (m_select)
 		{
-		case kSclectOption:
-			m_isSceneEnd = true;
-			m_isToOption = true;
-			break;
 		case kSelectGameStart:
 			m_isSceneEnd = true;
 			m_isToSelect = true;
+			break;
+		case kSclectOption:
+			m_isSceneEnd = true;
+			m_isToOption = true;
 			break;
 		case kSclectEnd:
 			DxLib_End();
