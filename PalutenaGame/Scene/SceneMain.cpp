@@ -55,8 +55,8 @@ SceneMain::SceneMain() :
 	// ゲーム画面描画先の生成
 	m_gameScreenHandle = MakeScreen(kScreenWidth, kScreenHeight, true);
 	// グラフィックのロード
-	m_backGraph = LoadGraph("data/Map/Basck1.png");
-	assert(m_backGraph = -1);
+	m_backGraph = LoadGraph("data/Map/Back1.png");
+	assert(m_backGraph != -1);
 	m_backGroundGraph = LoadGraph("data/Map/Ground.png");
 	assert(m_backGroundGraph != -1);
 	m_explanationGraph = LoadGraph("data/explanation2.png");
